@@ -1,0 +1,42 @@
+[
+    {
+        "areaName": "CAREER",
+        "displayName": "Career",
+        "areaDescription": "Your job, business and aspirations"
+    },
+    {
+        "areaName": "FINANCES",
+        "displayName": "Finances",
+        "areaDescription": "Your relationship with money"
+    },
+    {
+        "areaName": "HEALTH",
+        "displayName": "Health",
+        "areaDescription": "Your body, sickness and wellness"
+    },
+    {
+        "areaName": "FAMILY_AND_FRIENDS",
+        "displayName": "Family and Friends",
+        "areaDescription": "Relationships in your life"
+    },
+    {
+        "areaName": "ROMANCE",
+        "displayName": "Romance",
+        "areaDescription": "Romantic love and partnership"
+    },
+    {
+        "areaName": "PERSONAL_GROWTH",
+        "displayName": "Personal Growth",
+        "areaDescription": "Aims, goals and aspirations"
+    },
+    {
+        "areaName": "FUN_AND_RECREATION",
+        "displayName": "Fun and Recreation",
+        "areaDescription": "Entertainment and leisure"
+    },
+    {
+        "areaName": "PHYSICAL_ENVIRONMENT",
+        "displayName": "Physical Environment",
+        "areaDescription": "Your surroundings"
+    }
+]

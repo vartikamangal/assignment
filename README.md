@@ -1,16 +1,75 @@
-# app1
+android ![Tatsam Logo](https://tatsam.in/assets/images/image01.png?v=70098e8e)
 
-A new Flutter application.
 
-## Getting Started
+# Welcome to Tatsam Experimental
 
-This project is a starting point for a Flutter application.
+[![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 
-A few resources to get you started if this is your first Flutter project:
+This Project is an early experimental version of **Tatsam** and consists of the Status & Next Checkpoint of the project.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+## Next Checkpoint
+
+ 1. Completing the questionnaire feature
+ 2. Completing usecases of path domain
+ 3. Rapport Building Screen-3 Usecase finalization.
+ 4. An overall walkthrough of Hub.
+ 5. Write GitHub-Actions config file for quick glanced test results
+ 6. There should be changeLocal() server side too per user??
+ 7. We can make a responsiveScaledWrapper() widget which will make achieving       responsivesness easier in near future.
+ 
+
+
+## DOMAIN
+
+ - [ ] Onboarding Screen
+ - [ ] Interactive Introduction
+ - [x] Rapport Building (Time Part Left)
+ - [ ] Intial_Hub
+ - [ ] Final_Hub
+ - [ ] Tracks (WOL, Focus & Questions)
+ - [ ] Paths
+ - [ ] SignUp
+ - [ ] SignIn
+ - [ ] Profile
+ - [ ] Homepage
+ - [ ] User Info PC
+
+
+## DATA
+
+ - [ ] Onboarding Screen
+ - [ ] Interactive Introduction
+ - [ ] Rapport Building
+ - [ ] Initial_Hub
+ - [ ] Final_Hub
+ - [ ] Tracks (WOL, Focus & Questions)
+ - [ ] Paths
+ - [ ] SignUp
+ - [ ] SignIn
+ - [ ] Profile
+ - [ ] Homepage
+ - [ ] User Info PC
+
+
+## PRESENTATION
+
+ - [ ] Onboarding Screen
+ - [ ] Interactive Introduction
+ - [ ] Rapport Building
+ - [ ] Initial_Hub
+ - [ ] Final_Hub
+ - [ ] Tracks (WOL, Focus & Questions)
+ - [ ] Paths
+ - [ ] SignUp
+ - [ ] SignIn
+ - [ ] Profile
+ - [ ] Homepage
+ - [ ] User Info PC
+
+
+## Current Domain Mapping
+
+![Domain_Map](https://raw.githubusercontent.com/Tatsam-Wellness/clean-architecture-sessions/55906eb1680cd65059040db681859600b0245b4e/draggable_gravity/domain.svg?token=AIVGBNRXMOYIOJAVXO4X4STAKHT5G)

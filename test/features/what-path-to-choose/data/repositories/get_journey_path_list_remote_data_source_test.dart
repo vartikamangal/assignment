@@ -1,0 +1,91 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/get_journey_path_list_remote_data_source.dart';
+import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/repositories/get_journey_path_list_repository_impl.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
+import 'package:tatsam_app_experimental/core/image/image.dart';
+import 'package:tatsam_app_experimental/core/error/exceptions.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
+
+
+class MockGetJourneyPathListRemoteDataSource extends Mock
+    implements GetJourneyPathListRemoteDataSource {}
+
+class MockNetworkInfo extends Mock implements NetworkInfo {}
+
+void main(){
+  MockGetJourneyPathListRemoteDataSource remoteDataSource;
+  MockNetworkInfo networkInfo;
+  GetJourneyPathListRpositoryImpl repositoryImpl;
+
+  setUp(() {
+    remoteDataSource = MockGetJourneyPathListRemoteDataSource();
+    networkInfo = MockNetworkInfo();
+    repositoryImpl = GetJourneyPathListRpositoryImpl(
+      remoteDataSource: remoteDataSource,
+      networkInfo: networkInfo,
+    );
+  });
+
+  const tJourneyModel=<JourneyModel>[
+    JourneyModel(
+      id: 1,
+      title: "Small Wins Path",
+      subtitle: "Weekly focus areas. Choose your own experiences.",
+      description: "Only one area of focus per week, Daily small wins at your own pace",
+      icon: ImageProp(
+        urlLarge: '',
+        urlMedium: '',
+        urlShort: '',
+      ),
+      pathName: "SMALL_WINS")];
+
+  void runTestOnline(Callback body) {
+    setUp(() {
+      when(networkInfo.isConnected).thenAnswer((_) async => true);
+    });
+    group('DEVICE ONLINE : GetAllIssues', body);
+  }
+
+  //! Actual tests go here
+  runTestOnline(() {
+    test('should check if the device is online', () async {
+      //act
+      await repositoryImpl.getJourneyPaths();
+      //assert
+      verify(networkInfo.isConnected);
+    });
+    test(
+        'should return a List<IssueModel> when call to remote data source is successfull',
+            () async {
+          //arrange
+          when(remoteDataSource.getJourneys()).thenAnswer((_) async => tJourneyModel);
+          //act
+          final result = await repositoryImpl.getJourneyPaths();
+          //assert
+          verify(remoteDataSource.getJourneys());
+          expect(result, const Right(tJourneyModel));
+        });
+    test(
+        'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
+            () async {
+          //arrange
+          when(remoteDataSource.getJourneys()).thenThrow(ServerException());
+          //act
+          final result = await repositoryImpl.getJourneyPaths();
+          //assert
+          expect(result, Left(ServerFailure()));
+        });
+  });
+  test('DEVICE OFFLINE : GetJourneyPaths should return DeviceOfflineFailure',
+          () async {
+        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        //act
+        final result = await repositoryImpl.getJourneyPaths();
+        //assert
+        expect(result, Left(DeviceOfflineFailure()));
+      });
+}

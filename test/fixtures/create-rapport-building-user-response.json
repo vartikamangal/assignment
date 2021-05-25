@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "subjectId": {
+        "id": "5a58e827-7c69-4bcc-b40d-5e5c12c5e956"
+    },
+    "userId": "f43d2341-e0c9-4219-bb6d-252ddd3be26b",
+    "name": null,
+    "nickName": "Test User",
+    "gender": null,
+    "deviceIdentifier": "THIS_IS_A_RANDOM_DEVICE_IDENTIFIER"
+}

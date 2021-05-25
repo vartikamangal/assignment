@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "moodName": "VERY_BAD",
+        "moodDescription": "Very sad",
+        "icon": null
+    },
+    {
+        "id": 2,
+        "moodName": "BAD",
+        "moodDescription": "Sad",
+        "icon": null
+    },
+    {
+        "id": 3,
+        "moodName": "NEUTRAL",
+        "moodDescription": "Neutral",
+        "icon": null
+    },
+    {
+        "id": 4,
+        "moodName": "GOOD",
+        "moodDescription": "Happy",
+        "icon": null
+    },
+    {
+        "id": 5,
+        "moodName": "VERY_GOOD",
+        "moodDescription": "Very Happy",
+        "icon": null
+    }
+]

@@ -1,0 +1,50 @@
+{
+    "CAREER": {
+    "ratingValue": 2,
+    "ratingScaleName": "WOL_SATISFACTION_RATING",
+    "minValue": 1,
+    "maxValue": 5
+},
+"ROMANCE": {
+    "ratingValue": 2,
+    "ratingScaleName": "WOL_SATISFACTION_RATING",
+    "minValue": 1,
+    "maxValue": 5
+},
+"PERSONAL_GROWTH": {
+    "ratingValue": 2,
+    "ratingScaleName": "WOL_SATISFACTION_RATING",
+    "minValue": 1,
+    "maxValue": 5
+},
+"FINANCES": {
+    "ratingValue": 2,
+    "ratingScaleName": "WOL_SATISFACTION_RATING",
+    "minValue": 1,
+    "maxValue": 5
+},
+"HEALTH": {
+    "ratingValue": 2,
+    "ratingScaleName": "WOL_SATISFACTION_RATING",
+    "minValue": 1,
+    "maxValue": 5
+},
+"FAMILY_AND_FRIENDS": {
+    "ratingValue": 2,
+    "ratingScaleName": "WOL_SATISFACTION_RATING",
+    "minValue": 1,
+    "maxValue": 5
+},
+"FUN_AND_RECREATION": {
+    "ratingValue": 2,
+    "ratingScaleName": "WOL_SATISFACTION_RATING",
+    "minValue": 1,
+    "maxValue": 5
+},
+"PHYSICAL_ENVIRONMENT": {
+    "ratingValue": 2,
+    "ratingScaleName": "WOL_SATISFACTION_RATING",
+    "minValue": 1,
+    "maxValue": 5
+}
+}

@@ -1,0 +1,92 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:tatsam_app_experimental/core/error/exceptions.dart';
+import 'package:tatsam_app_experimental/core/permission-manager/permission-manager.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/recording-started-status.dart';
+
+abstract class StartRecordingVoiceNoteLocalService {
+  Future<RecordingStarted> startRecording({
+    @required String filePath,
+    @required Codec codec,
+  });
+}
+
+class StartRecordingVoiceNoteLocalServiceImpl
+    implements StartRecordingVoiceNoteLocalService {
+  final FlutterSoundRecorder recorder;
+  final PermissionManager permissionManager;
+
+  StartRecordingVoiceNoteLocalServiceImpl({
+    @required this.recorder,
+    @required this.permissionManager,
+  });
+  @override
+  Future<RecordingStarted> startRecording({
+    String filePath,
+    Codec codec,
+  }) async {
+    if (await permissionManager.requestPermission(
+      permission: Permission.microphone,
+    )) {
+      if (recorder.isRecording) {
+        return const RecordingStarted(
+          recordingStatus: 'Already recording',
+        );
+      } else {
+        // If platform is android ask for different permission than that of iOS
+        if (Platform.isAndroid) {
+          if (await permissionManager.requestPermission(
+            permission: Permission.storage,
+          )) {
+            return _startRecording(
+              recorder,
+              filePath,
+              codec,
+            );
+          } else {
+            throw NotPermittedActionException();
+          }
+        } else {
+          final isiOSPermitted = await permissionManager.requestPermission(
+            permission: Permission.photos,
+          );
+          if (isiOSPermitted) {
+            return _startRecording(
+              recorder,
+              filePath,
+              codec,
+            );
+          } else {
+            throw NotPermittedActionException();
+          }
+        }
+      }
+    } else {
+      throw NotPermittedActionException();
+    }
+  }
+
+  // For better code re-use
+  Future<RecordingStarted> _startRecording(
+    FlutterSoundRecorder recorder,
+    String filePath,
+    Codec codec,
+  ) async {
+    try {
+      await recorder.startRecorder(
+        toFile: filePath,
+        codec: codec,
+      );
+      return const RecordingStarted(
+        recordingStatus: 'Started Rceording',
+      );
+    } catch (e) {
+      log(e.toString());
+      throw VoiceNoteExceptionOperationException();
+    }
+  }
+}
