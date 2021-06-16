@@ -1,18 +1,25 @@
+// Dart imports:
 import 'dart:developer';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
-import 'package:tatsam_app_experimental/core/utils/snackbars/snackbars.dart';
-import 'package:tatsam_app_experimental/features/hub/presentation/controller/hub-controller.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/questionnaire-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/usecases/attempt-questions.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/usecases/get-questionnaire-by-id.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+
+// Project imports:
+import '../../../../core/routes/app-routes/app-routes.dart';
+import '../../../../core/utils/snackbars/snackbars.dart';
+import '../../../hub/presentation/controller/hub-controller.dart';
+import '../../data/models/question-model.dart';
+import '../../data/models/question-option-model.dart';
+import '../../data/models/questionnaire-model.dart';
+import '../../domain/entities/question-option.dart';
+import '../../domain/entities/question.dart';
+import '../../domain/entities/questionnaire.dart';
+import '../../domain/usecases/attempt-questions.dart';
+import '../../domain/usecases/get-questionnaire-by-id.dart';
 
 class QuestionnaireConroller extends GetxController {
   ///////// Usecases /////////////
@@ -46,10 +53,7 @@ class QuestionnaireConroller extends GetxController {
     );
     questionnaireOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Something went wrong!',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedQuestionnaire) {
         questionnaire.value = fetchedQuestionnaire;
@@ -60,7 +64,8 @@ class QuestionnaireConroller extends GetxController {
             questionToAnswerMap.addIf(
               question.questionType == 'RATING_SCALE',
               question as QuestionModel,
-              1.0,
+              //to set average value
+              3.0,
             );
             questionToScaleMap.addIf(
               question.questionType == 'RATING_SCALE',
@@ -98,17 +103,12 @@ class QuestionnaireConroller extends GetxController {
     toggleProcessor();
     questionAttemptedOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Something went wrong!',
-        );
+        ErrorInfo.show(failure);
       },
       (attemptStatus) async {
         log('successfully attempted questions!');
         await Get.find<HubController>().fetchHubStatusFinal().then(
-              (value) => Get.offNamed(
-                RouteName.hubScreen,
-              ),
+              (value) => Navigator.of(Get.context).pop(),
             );
       },
     );
@@ -121,6 +121,7 @@ class QuestionnaireConroller extends GetxController {
   RxBool toShowBottomBtn = RxBool(false);
   RxBool isLoading = RxBool(false);
   RxBool isProcessing = RxBool(false);
+  RxBool isAllQuestionAnswered = RxBool(false);
 
   void toggleBottomButtonVisibility({
     double position,
@@ -168,6 +169,7 @@ class QuestionnaireConroller extends GetxController {
     @required dynamic option,
   }) {
     questionToAnswerMap[question] = option;
+    isAllQuestionAnswered.value = true;
   }
 
   @override

@@ -1,8 +1,12 @@
+// Dart imports:
 import 'dart:developer';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/features/focus/data/models/issue-model.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/target-focus-list.dart';
+
+// Project imports:
+import '../../../focus/data/models/issue-model.dart';
+import '../../domain/entities/target-focus-list.dart';
 
 class TargetFocusListModel extends TargetFocusList {
   const TargetFocusListModel({

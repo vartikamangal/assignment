@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 
 // Figma design mockup width

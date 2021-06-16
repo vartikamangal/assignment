@@ -1,28 +1,42 @@
+// Dart imports:
 import 'dart:developer';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/core/utils/snackbars/snackbars.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/Presentation/widgets/rapport1.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/Presentation/widgets/rapport2.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/Presentation/widgets/rapport3.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/Presentation/widgets/rapport4.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/models/feeling-duration-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-information-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/feeling-duration.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/rapport-building-steps.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-information.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-all-moods.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-available-feeling-duration.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-rapport-building-steps.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/set-subject-feeling.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/set-subject-mood.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/set-subject-name.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/track-subject-mood.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/data/models/cached-mood-model.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/cache-mood.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
+
+// Project imports:
+import '../../../../core/cache-manager/domain/usecases/save-feedback.dart';
+import '../../../../core/persistence-consts.dart';
+import '../../../../core/session-manager/session-manager.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../../../core/utils/snackbars/snackbars.dart';
+import '../../data/models/feeling-duration-model.dart';
+import '../../data/models/mood-tracking-model.dart';
+import '../../data/models/subject-information-model.dart';
+import '../../domain/entities/feeling-duration.dart';
+import '../../domain/entities/mood-tracking.dart';
+import '../../domain/entities/mood.dart';
+import '../../domain/entities/rapport-building-steps.dart';
+import '../../domain/entities/subject-information.dart';
+import '../../domain/usecases/get-all-moods.dart';
+import '../../domain/usecases/get-available-feeling-duration.dart';
+import '../../domain/usecases/get-rapport-building-steps.dart';
+import '../../domain/usecases/set-subject-mood.dart';
+import '../../domain/usecases/set-subject-name.dart';
+import '../../domain/usecases/track-subject-mood.dart';
+import '../widgets/rapport1.dart';
+import '../widgets/rapport2.dart';
+import '../widgets/rapport3.dart';
+import '../widgets/rapport4.dart';
+
 // Remeber to make different controllers in for screenSet and a root controller for each main screen
 
 class RapportBuildingController extends GetxController {
@@ -30,16 +44,21 @@ class RapportBuildingController extends GetxController {
   final SetSubjectName setSubjectName;
   final GetAllMoods getAllMoods;
   final SetSubjectMood setSubjectMood;
-  final SetSubjectFeeling setSubjectFeeling;
+  final SaveFeedback saveFeedback;
   final GetRapportBuildingSteps getRapportBuildingSteps;
   final GetAvailableFeelingDuration getAvailableFeelingDuration;
   final TrackSubjectMood trackSubjectMood;
-  final TextEditingController textEditingController=TextEditingController();
+  final CacheMood cacheMood;
+  final TextEditingController textEditingController = TextEditingController();
 
   RxBool isLoadComplete = false.obs;
   RxBool isProcessing = RxBool(false);
   final String activityTypeForRapportSection = "ONBOARDING";
   RxList<Mood> moods = RxList([]);
+  final VoiceNoteController _voiceNoteController = Get.find();
+
+  /// This will give us basic userInfo like subjectInfo
+  /// Which is to be used in common-feedback persistence
   Rx<SubjectInformation> subjectInfo = Rx<SubjectInformationModel>();
   Rx<RapportBuildingSteps> rapportBuildingSteps = Rx<RapportBuildingSteps>();
   RxList<FeelingDuration> availableDurations = RxList<FeelingDurationModel>([]);
@@ -50,10 +69,11 @@ class RapportBuildingController extends GetxController {
     @required this.setSubjectName,
     @required this.getAllMoods,
     @required this.setSubjectMood,
-    @required this.setSubjectFeeling,
+    @required this.saveFeedback,
     @required this.getRapportBuildingSteps,
     @required this.getAvailableFeelingDuration,
     @required this.trackSubjectMood,
+    @required this.cacheMood,
   });
 
   // ignore: type_annotate_public_apis
@@ -73,6 +93,9 @@ class RapportBuildingController extends GetxController {
 
   Future<void> changeNickNameAndMoveOnwards() async {
     toggleProcessor();
+    await SessionManager.persistUsername(
+      name: userName.value,
+    );
     final userNameSetOrFailure = await setSubjectName(
       SetSubjectNameParams(
         name: userName.value,
@@ -80,10 +103,9 @@ class RapportBuildingController extends GetxController {
     );
     toggleProcessor();
     userNameSetOrFailure.fold(
-      (failure) => ShowSnackbar.rawSnackBar(
-        title: 'Oops!',
-        message: 'Some error occured',
-      ),
+      (failure) {
+        ErrorInfo.show(failure);
+      },
       (fetchedSubjectInfo) {
         subjectInfo.value = fetchedSubjectInfo;
         currentOnBoardPageCounter.value += 1;
@@ -97,10 +119,9 @@ class RapportBuildingController extends GetxController {
   Future<void> getAllAvailableMoods() async {
     final moodsOrFailure = await getAllMoods(NoParams());
     moodsOrFailure.fold(
-      (failure) => ShowSnackbar.rawSnackBar(
-        title: 'Oops!',
-        message: 'Error occured while fetching emojis!',
-      ),
+      (failure) {
+        ErrorInfo.show(failure);
+      },
       (moodsFetched) {
         moods.assignAll(moodsFetched);
       },
@@ -117,10 +138,8 @@ class RapportBuildingController extends GetxController {
   //   toggleProcessor();
   //   rapportStepsOrFailure.fold(
   //     (failure) {
-  //       ShowSnackbar.rawSnackBar(
-  //         title: 'Oops!',
-  //         message: 'Some error occured',
-  //       );
+  //    {
+  // ErrorInfo.show(failure);},
   //     },
   //     (nextSteps) {
   //       log('got the next steps');
@@ -143,20 +162,27 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     setMoodOrFailure.fold(
       (failure) {
-        log(failure.toString());
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedUserMoodStatus) async {
-        userMoodStatus.value = fetchedUserMoodStatus;
-        // await fetchRapportBuildingSteps();
-        currentOnBoardPageCounter.value += 1;
-        currentSelectedPage.value = MidPageContentC(
-          selectedEmotion: selectedEmotion.value,
-          controller: this,
-        );
+        //TODO Currently we are only caching the moodName
+        //TODO Change selectedEmotion to selectedMood for enhanced caching
+        await cacheUserMood(
+          mood: MoodModel(
+            id: 1,
+            moodName: selectedEmotion.value,
+            moodDescription: '',
+            icon: null,
+          ),
+        ).then((value) {
+          userMoodStatus.value = fetchedUserMoodStatus;
+          // await fetchRapportBuildingSteps();
+          currentOnBoardPageCounter.value += 1;
+          currentSelectedPage.value = MidPageContentC(
+            selectedEmotion: selectedEmotion.value,
+            controller: this,
+          );
+        });
       },
     );
   }
@@ -166,10 +192,7 @@ class RapportBuildingController extends GetxController {
         await getAvailableFeelingDuration(NoParams());
     availableDurationsOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: "Some error occured",
-          message: '$failure',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedDurationList) {
         log('available durations fetched');
@@ -200,10 +223,7 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     moodTrackingStatusOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: "Some error occured",
-          message: '$failure',
-        );
+        ErrorInfo.show(failure);
       },
       (moodTrackStatus) {
         log('mood duration set successfully!');
@@ -214,21 +234,50 @@ class RapportBuildingController extends GetxController {
 
   Future<void> persistSubjectFeeing({@required String feeling}) async {
     toggleProcessor();
-    final persistStatus = await setSubjectFeeling(
-      SetSubjectFeelingParams(
-        feeling: feeling,
+    final persistStatus = await saveFeedback(
+      SaveFeedbackParams(
+        subjetcId: subjectInfo.value.subjectId.id,
+        activityType: 'ONBOARDING',
+        textFeedback: feeling,
+        voiceNote: _voiceNoteController.currentVoiceNotePath.value,
+        timeOfCreation: DateTime.now().toString(),
+        boxKey: PersistenceConst.RAPPORT_FEELING_BOX,
       ),
     );
     toggleProcessor();
     persistStatus.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: "Some error occured",
-          message: '$failure',
-        );
+        ErrorInfo.show(failure);
       },
       (persistenceMessage) async {
         log('feeling persisted');
+      },
+    );
+  }
+
+  Future<void> cacheUserMood({
+    @required MoodModel mood,
+  }) async {
+    //TODO Replace the Mood model and enitiy being used here in core with the CcaheMoodModel and entity
+    //TODO For sake of cleaner code
+    toggleProcessor();
+    final statusOrFailure = await cacheMood(
+      CacheMoodParams(
+        mood: CachedMoodModel(
+          moodId: mood.moodId,
+          moodName: mood.moodName,
+          moodDescription: mood.moodDescription,
+          moodIcon: mood.moodIcon,
+        ),
+      ),
+    );
+    toggleProcessor();
+    statusOrFailure.fold(
+      (failure) {
+        ErrorInfo.show(failure);
+      },
+      (persistenceMessage) async {
+        log('mood cached');
       },
     );
   }
@@ -258,6 +307,11 @@ class RapportBuildingController extends GetxController {
   RxInt validName = 0.obs;
   // For storing rapport last step feeling
   RxString feeling = RxString('');
+  //TO CHECK Navigation is pressed or not
+  RxBool isNavigateBackPressed = RxBool(false);
+  //to use in name validation feature
+  RxBool isWantToMoveFromNameScreen = RxBool(false);
+  RxBool switchButtonStatus = RxBool(false);
 
   // for setting a emotion
   // ignore: avoid_setters_without_getters
@@ -340,6 +394,7 @@ class RapportBuildingController extends GetxController {
   void navigateBack() {
     if (currentOnBoardPageCounter.value == 0) {
     } else {
+      isNavigateBackPressed.value = true;
       currentOnBoardPageCounter.value--;
       navigateBackHelper();
     }

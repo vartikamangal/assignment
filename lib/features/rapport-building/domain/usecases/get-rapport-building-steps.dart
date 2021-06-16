@@ -1,11 +1,16 @@
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+
+// Project imports:
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../entities/mood.dart';
 import '../entities/rapport-building-steps.dart';
 import '../repositories/get-rapport-building-steps-repository.dart';
-import 'package:flutter/foundation.dart';
 
 // returns new steps based on this mood
 class GetRapportBuildingSteps

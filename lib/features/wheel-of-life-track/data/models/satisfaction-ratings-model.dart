@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Project imports:
 import '../../domain/entities/satisfaction-rating-map-for-time-provision-scale.dart';
 import '../../domain/entities/satisfaction-ratings.dart';
 

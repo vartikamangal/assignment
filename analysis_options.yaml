@@ -5,3 +5,4 @@ linter:
     avoid_classes_with_only_static_members : false
     non_constant_identifier_names : false
     constant_identifier_names : false
+    avoid_function_literals_in_foreach_calls : false

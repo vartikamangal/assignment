@@ -1,7 +1,10 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 
-import '../../../../core/platform/instant.dart';
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'subject-id.dart';
 
 class MoodTracking extends Equatable {
@@ -10,7 +13,7 @@ class MoodTracking extends Equatable {
   String moodDuration;
   final String activityType;
   final String mood;
-  final Instant createdWhen;
+  final DateTime createdWhen;
   MoodTracking({
     @required this.activityType,
     @required this.createdWhen,
@@ -29,23 +32,5 @@ class MoodTracking extends Equatable {
       mood,
       createdWhen,
     ];
-  }
-
-  MoodTracking copyWith({
-    SubjectId subjectId,
-    int id,
-    String moodDuration,
-    String activityType,
-    String mood,
-    Instant createdWhen,
-  }) {
-    return MoodTracking(
-      subjectId: subjectId ?? this.subjectId,
-      id: id ?? this.id,
-      moodDuration: moodDuration ?? this.moodDuration,
-      activityType: activityType ?? this.activityType,
-      mood: mood ?? this.mood,
-      createdWhen: createdWhen ?? this.createdWhen,
-    );
   }
 }

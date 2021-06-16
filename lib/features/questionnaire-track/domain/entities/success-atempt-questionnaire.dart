@@ -1,4 +1,5 @@
-import 'package:tatsam_app_experimental/core/success/success-interface.dart';
+// Project imports:
+import '../../../../core/success/success-interface.dart';
 
 class SuccessAtemptQuestionnaire extends Success {
   const SuccessAtemptQuestionnaire()

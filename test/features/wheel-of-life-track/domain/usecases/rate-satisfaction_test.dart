@@ -1,13 +1,16 @@
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/rating-scale-model.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rated-satisfaction-success.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/satisfaction-rating-map-for-time-provision-scale.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/satisfaction-ratings.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/rate-satisfaction-service.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/usecases/rate-satisfaction.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rated-satisfaction-success.dart';
 
 class MockRateSatisfactionService extends Mock
     implements RateSatisfactionService {}

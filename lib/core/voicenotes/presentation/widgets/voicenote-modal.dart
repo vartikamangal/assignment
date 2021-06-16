@@ -13,6 +13,12 @@ class VoiceNoteModal extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Voice Notes Test'),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          _controller.fetchRecorderStats();
+        },
+        child: const Icon(Icons.play_arrow),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(
           top: 2,
@@ -33,7 +39,7 @@ class VoiceNoteModal extends StatelessWidget {
             Obx(
               () => _TestCard(
                 title: _controller.isRecording.value
-                    ? 'Recording...'
+                    ? _controller.elapsedDuration.value.toString()
                     : 'Start Recording',
                 subTitle: _controller.isRecording.value
                     ? 'Recording your voice note, Keep telling your feelings.'

@@ -1,5 +1,10 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
 import '../../data/models/life-area-model.dart';
 import '../../data/models/rating-scale-model.dart';
 

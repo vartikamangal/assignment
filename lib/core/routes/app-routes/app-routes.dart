@@ -1,52 +1,67 @@
-import 'package:flutter/material.dart';
+// Flutter imports:
+// Package imports:
 
+import 'package:animations/animations.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:tatsam_app_experimental/features/profile-screen/presentation/screen/profile-screen.dart';
+
+// Project imports:
+import '../../../core/activity-management/presentation/widget/guided_path-plan-inside.dart';
+import '../../../core/activity-management/presentation/widget/path-guided-plan.dart';
+import '../../../core/activity-management/presentation/widget/path-info-section2.dart';
+import '../../../core/activity-management/presentation/widget/path-info-section3.dart';
+import '../../../core/activity-management/presentation/widget/path-play-section1.dart';
+import '../../../core/activity-management/presentation/widget/path-play-section2.dart';
+import '../../../core/activity-management/presentation/widget/path-self-driven-plan-inside.dart';
+import '../../../core/activity-management/presentation/widget/path-self-driven-plan.dart';
+import '../../../core/activity-management/presentation/widget/self-path-info-section1.dart';
 import '../../../features/focus/presentation/screen/focus-screen.dart';
+import '../../../features/focus/presentation/widgets/issue-detail.dart';
 import '../../../features/focus/presentation/widgets/selected-issue-details.dart';
+import '../../../features/home-management/presentation/screens/onboarding-incomplete.dart';
 import '../../../features/hub/presentation/screen/hub-screen.dart';
+import '../../../features/instant-relief/presentation/screens/instant-recommendations.dart';
 import '../../../features/instant-relief/presentation/screens/instant-relief-screen.dart';
 import '../../../features/opening-screen/presentation/screens/opening_screen.dart';
-import '../../../features/path/presentation/widget/guided_path-plan-inside.dart';
-import '../../../features/path/presentation/widget/onboarding-incomplete.dart';
-import '../../../features/path/presentation/widget/path-guided-plan.dart';
-import '../../../features/path/presentation/widget/path-info-section2.dart';
-import '../../../features/path/presentation/widget/path-info-section3.dart';
-import '../../../features/path/presentation/widget/path-play-section1.dart';
-import '../../../features/path/presentation/widget/path-play-section2.dart';
-import '../../../features/path/presentation/widget/path-self-driven-plan-inside.dart';
-import '../../../features/path/presentation/widget/path-self-driven-plan.dart';
-import '../../../features/path/presentation/widget/self-path-info-section1.dart';
 import '../../../features/questionnaire-track/presentation/screen/questions-track-screen.dart';
 import '../../../features/rapport-building/presentation/screens/rapport_building.dart';
+import '../../../features/root/presentation/screen/root-view.dart';
 import '../../../features/sign-up/presentation/screen/sign-up-screen.dart';
 import '../../../features/what-path-to-choose/presentation/screen/choose-path-screen.dart';
 import '../../../features/wheel-of-life-track/presentation/screens/wheel-of-life-screen.dart';
-import '../../utils/animations/slide-route-animation-(-y)-axis.dart';
-import '../../utils/animations/slide-route-animation-y-axis.dart';
-import '../../utils/animations/slide_route_animation-x-axis.dart';
+import '../../auth/presentation/screens/auth-screen-test.dart';
 
 abstract class RouteName {
   static const origin = '/';
-  static const rapportPages = '/RapportScreen';
-  static const wheelOfLifeScreen = '/wheel_of_life_screen';
-  static const focusScreen = '/focus_screen';
-  static const hubScreen = '/hub_life_screen';
-  static const questionTrackScreen = '/question_track_screen';
-  static const whatPathChooseScreen = "/what_path_choose_screen";
-  static const instantRelief = "/instant_relief";
-  static const selectedIssueDetail = '/selected_issue_detail';
-  static const signUpScreen = '/sign_up_screen';
+  static const rootView = '/root';
+  static const authview = '/authview';
+  static const rapportPages = '/rapport';
+  static const wheelOfLifeScreen = '/wheel-of-life';
+  static const focusScreen = '/focus';
+  static const issueDetail = '/issue';
+  static const hubScreen = '/hub';
+  static const questionTrackScreen = '/questions';
+  static const whatPathChooseScreen = "/what-path-choose-screen";
+  static const instantRelief = "/instant-relief";
+  static const instantRecommendations = "/instant-recommendations";
+  static const selectedIssueDetail = '/selected-issue-detail';
+  static const signUpScreen = '/sign-up-screen';
   //guided screens
-  static const pathGuidedPlan = '/path_guided_plan';
-  static const guidedPathPlanInside = '/guided_path_plan_inside';
+  static const pathGuidedPlan = '/guided-plan';
+  static const guidedPathPlanInside = '/guided-plan-details';
   //self driven path screens
-  static const pathSelfDrivenPlan = '/self_guided_path1';
-  static const pathSelfDrivenPlanInside = '/self_guided_path2';
-  static const selfPathInfoSection1 = "/self_path_info_section1";
-  static const pathInfoSection2 = '/path_info_section2';
-  static const pathInfoSection3 = "/path-info-section3";
-  static const playSection1 = '/play-section1';
+  static const pathSelfDrivenPlan = '/self-driven-plan';
+  static const pathSelfDrivenPlanInside = '/self-driven-plan-details';
+  static const selfPathInfoSection1 = "/path-info-a";
+  static const pathInfoSection2 = '/path-info-b';
+  static const pathInfoSection3 = "/path-info-c";
+  static const playSection1 = '/path-complete-outro';
   static const pathPlaySection2 = '/path-play-section2';
-  static const onBoardingIncomplete = '/self_guided_path6';
+  static const onBoardingIncomplete = '/onboarding-screen';
+
+  static const profileScreen = '/profile_screen';
 
   RouteName._();
 }
@@ -58,77 +73,280 @@ class GenerateRoute {
     if (route == RouteName.origin) {
       return MaterialPageRoute(builder: (_) => OpeningScreen());
     }
+    if (route == RouteName.rootView) {
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) => RootView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.authview) {
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) => AuthScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.instantRecommendations) {
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            InstantRecommendationsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SharedAxisTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.scaled,
+          child: child,
+        ),
+      );
+    }
     if (route == RouteName.rapportPages) {
-      return SlideRouteXAxisAnimation(builder: (_) => RapportScreen());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            RapportScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.hubScreen) {
-      return SlideRouteXAxisAnimation(builder: (_) => HubScreen());
+      return CupertinoPageRoute(
+        builder: (context) => HubScreen(),
+      );
     }
     if (route == RouteName.wheelOfLifeScreen) {
-      return SlideRouteYAxisAnimation(builder: (_) => WheelOfLifeScreen());
+      return PageTransition(
+        child: WheelOfLifeScreen(),
+        type: PageTransitionType.bottomToTop,
+      );
     }
     if (route == RouteName.focusScreen) {
-      return MaterialPageRoute(builder: (_) => FocusScreen());
+      return PageTransition(
+        child: FocusScreen(),
+        type: PageTransitionType.fade,
+      );
+    }
+    if (route == RouteName.issueDetail) {
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) => IssueDetail(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.selectedIssueDetail) {
-      return SlideRouteXAxisAnimation(builder: (_) => SelectedIssueDetails());
+      return MaterialPageRoute(builder: (_) => SelectedIssueDetails());
     }
     if (route == RouteName.questionTrackScreen) {
-      return SlideRouteXAxisAnimation(builder: (_) => QuestionsTrackScreen());
+      return CupertinoPageRoute(
+        builder: (context) => QuestionsTrackScreen(),
+      );
     }
     if (route == RouteName.whatPathChooseScreen) {
-      return SlideRouteNegativeYAxisAnimation(
-          builder: (_) => ChoosePathScreen());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 500),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ChoosePathScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
     }
-    //self guided path screens
 
     if (route == RouteName.pathSelfDrivenPlan) {
-      return SlideRouteXAxisAnimation(builder: (_) => PathSelfDrivenPlan());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            PathSelfDrivenPlan(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.pathSelfDrivenPlanInside) {
-      return SlideRouteXAxisAnimation(
-          builder: (_) => PathSelfDrivenPlanInside());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            PathSelfDrivenPlanInside(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.selfPathInfoSection1) {
-      return MaterialPageRoute(builder: (_) => SelfPathSection1());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 400),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            SelfPathInfoSection1(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.pathInfoSection2) {
-      return MaterialPageRoute(
-          builder: (_) => PathInfoSection2());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 20),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            PathInfoSection2(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.pathInfoSection3) {
-      return MaterialPageRoute(
-          builder: (_) => PathInfoSection3());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 50),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            PathInfoSection3(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.playSection1) {
-      return SlideRouteNegativeYAxisAnimation(builder: (_) => PlaySection1());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(
+          milliseconds: 500,
+        ),
+        pageBuilder: (context, animation, secondaryAnimation) => PlaySection1(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SharedAxisTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.scaled,
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.pathPlaySection2) {
-      return MaterialPageRoute(
-          builder: (_) => PathPlaySection2());
+      return MaterialPageRoute(builder: (_) => PathPlaySection2());
     }
     if (route == RouteName.onBoardingIncomplete) {
-      return SlideRouteXAxisAnimation(
-          builder: (_) => OnBoardingIncomplete());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            OnBoardingIncomplete(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
     }
     //guided screen
     if (route == RouteName.pathGuidedPlan) {
-      return SlideRouteXAxisAnimation(builder: (_) => PathGuidedPlan());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            PathGuidedPlan(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.guidedPathPlanInside) {
-      return SlideRouteXAxisAnimation(builder: (_) => GuidedPathPlanInside());
-    }
-
-    if (route == RouteName.signUpScreen) {
-      return SlideRouteNegativeYAxisAnimation(builder: (_) => SignUpScreen());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            GuidedPathPlanInside(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
+      // return SlideRouteXAxisAnimation(builder: (_) => GuidedPathPlanInside());
     }
 
     if (route == RouteName.instantRelief) {
-      //TODO  Use a fadeIn Animation here
-      return SlideRouteXAxisAnimation(builder: (_) => InstantReliefScreen());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            InstantReliefScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
     }
     if (route == RouteName.signUpScreen) {
-      return SlideRouteXAxisAnimation(builder: (_) => SignUpScreen());
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) => SignUpScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.profileScreen) {
+      return CupertinoPageRoute(
+        builder: (context) => ProfileScreen(),
+      );
     }
   }
 }

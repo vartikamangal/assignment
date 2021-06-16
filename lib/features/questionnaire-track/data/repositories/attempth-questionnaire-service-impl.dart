@@ -1,24 +1,27 @@
-import 'package:dartz/dartz.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/platform/network_info.dart';
-import 'package:tatsam_app_experimental/core/success/success-interface.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/sources/attempt-questionnaire-remote-service.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/repositories/attempt-questionnaire-service.dart';
+// Package imports:
+import 'package:dartz/dartz.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../../../core/success/success-interface.dart';
+import '../../domain/entities/question-option.dart';
+import '../../domain/entities/question.dart';
+import '../../domain/entities/questionnaire.dart';
+import '../../domain/repositories/attempt-questionnaire-service.dart';
+import '../sources/attempt-questionnaire-remote-service.dart';
 
 class AttemptQuestionnaireServiceImpl implements AtemptQuestionnaireService {
   final AttemptQuestionnaireRemoteService remoteService;
-  final NetworkInfo networkInfo;
+  final BaseRepository baseRepository;
 
   AttemptQuestionnaireServiceImpl({
     @required this.remoteService,
-    @required this.networkInfo,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, Success>> attempQuestionnaire({
@@ -26,19 +29,12 @@ class AttemptQuestionnaireServiceImpl implements AtemptQuestionnaireService {
     Questionnaire questionnaire,
     RxMap<Question, QuestionOption> questionToScaleMap,
   }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final attemptResult = await remoteService.attemptQuestionnaire(
-          questionToAnswerMap: questionToAnswerMap,
-          questionToScaleMap: questionToScaleMap,
-          questionnaire: questionnaire,
-        );
-        return Right(attemptResult);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => remoteService.attemptQuestionnaire(
+        questionToAnswerMap: questionToAnswerMap,
+        questionToScaleMap: questionToScaleMap,
+        questionnaire: questionnaire,
+      ),
+    );
   }
 }

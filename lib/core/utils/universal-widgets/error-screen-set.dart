@@ -1,5 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart' hide Router;
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../responsive/scale-manager.dart';
 
 class ErrorScreenState extends StatelessWidget {
   final String errorMessage;

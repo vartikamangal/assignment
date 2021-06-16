@@ -1,9 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
+
+// Project imports:
 import '../../../../core/utils/animations/fade-animation-y-axis.dart.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/color-pallete.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:get/get.dart';
 
 class SignUpScreenA extends StatelessWidget {
   @override

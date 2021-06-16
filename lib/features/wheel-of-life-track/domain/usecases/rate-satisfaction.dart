@@ -1,13 +1,18 @@
+// Flutter imports:
+import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../../../core/success/success-interface.dart';
+import '../../../../core/usecase/usecase.dart';
 import '../entities/life-area.dart';
 import '../entities/rating-scale.dart';
 import '../entities/satisfaction-rating-map-for-time-provision-scale.dart';
 import '../entities/satisfaction-ratings.dart';
-import '../../../../core/error/failures.dart';
-import '../../../../core/success/success-interface.dart';
-import '../../../../core/usecase/usecase.dart';
 import '../repositories/rate-satisfaction-service.dart';
 
 class RateSatisfaction extends Usecase<Success, RateSatisfactionParams> {

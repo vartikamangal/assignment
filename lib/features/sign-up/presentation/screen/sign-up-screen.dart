@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
+// Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
+
+// Project imports:
 import '../../../../core/utils/animations/fade-animation-y-axis.dart.dart';
 import '../../../../core/utils/buttons/bottom-middle-button.dart';
 import '../controller/Sign-Up-Controller.dart';

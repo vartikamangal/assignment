@@ -1,8 +1,12 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-id.dart';
 
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
+import 'question-id.dart';
+import 'question-option.dart';
 
 class Answer extends Equatable {
   final QuestionId question;

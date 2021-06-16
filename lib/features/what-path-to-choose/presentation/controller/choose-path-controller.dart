@@ -1,8 +1,18 @@
+// Dart imports:
 import 'dart:developer';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/features/path/presentation/controller/path-controller.dart';
+
+// Project imports:
+import 'package:tatsam_app_experimental/core/activity-management/presentation/controller/path-controller.dart';
+import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
+import 'package:tatsam_app_experimental/core/auth/domain/usecases/request-login.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/snackbars/snackbars.dart';
@@ -15,10 +25,14 @@ class ChoosePathController extends GetxController {
   // Usecases
   final GetJourneyPathList getJourneyPathList;
   final StartJourney startJourney;
+  final RequestLogin requestLogin;
+  final CheckIfAlreadyLoggedIn checkIfAlreadyLoggedIn;
 
   ChoosePathController({
     @required this.getJourneyPathList,
     @required this.startJourney,
+    @required this.requestLogin,
+    @required this.checkIfAlreadyLoggedIn,
   });
   //////////                                      //////////////
   ////////// Dynamic Data Holders {For Usecases} ///////////////
@@ -33,10 +47,7 @@ class ChoosePathController extends GetxController {
     final fetchedJourneysOrFailure = await getJourneyPathList(NoParams());
     fetchedJourneysOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedJourneys) {
         availableJournies.assignAll(fetchedJourneys);
@@ -55,10 +66,7 @@ class ChoosePathController extends GetxController {
     toggleProcessor();
     journeyStartedOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (journeyStatus) {
         log('${selectedJourney.value.title} started');

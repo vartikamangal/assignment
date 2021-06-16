@@ -1,9 +1,13 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+// Project imports:
+import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 
@@ -83,8 +87,12 @@ class RadialBoxForPathSelection extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: ScaleManager.spaceScale(spaceing: -20).value,
-              top: ScaleManager.spaceScale(spaceing: -5).value,
+              left: ScaleManager.spaceScale(
+                spaceing: -20,
+              ).value,
+              top: ScaleManager.spaceScale(
+                spaceing: -5,
+              ).value,
               child: Container(
                 height: ScaleManager.spaceScale(
                   spaceing: 91,

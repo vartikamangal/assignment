@@ -1,5 +1,9 @@
+// Flutter imports:
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 
@@ -16,6 +20,9 @@ class WheelOfLifeAreaHolder extends StatelessWidget {
   Widget build(BuildContext context) {
     final textScale = ScaleManager.textScale.value;
     return Container(
+      height: ScaleManager.spaceScale(
+        spaceing: 55,
+      ).value,
       padding: EdgeInsets.only(
         left: ScaleManager.spaceScale(
           spaceing: 28,
@@ -23,12 +30,7 @@ class WheelOfLifeAreaHolder extends StatelessWidget {
         right: ScaleManager.spaceScale(
           spaceing: 30,
         ).value,
-        bottom: ScaleManager.spaceScale(
-          spaceing: 6,
-        ).value,
-        top: ScaleManager.spaceScale(
-          spaceing: 6,
-        ).value,
+
       ),
       margin: EdgeInsets.only(
         bottom: ScaleManager.spaceScale(
@@ -36,7 +38,7 @@ class WheelOfLifeAreaHolder extends StatelessWidget {
         ).value,
       ),
       decoration: BoxDecoration(
-        border: Border.all(color: greyboxshade),
+        border: Border.all(color: hintshade),
         borderRadius: BorderRadius.all(
           Radius.circular(
             ScaleManager.spaceScale(
@@ -47,20 +49,17 @@ class WheelOfLifeAreaHolder extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             title,
             style: AppTextStyle.suggestionononwol,
             textScaleFactor: textScale,
           ),
-          SizedBox(
-            height: ScaleManager.spaceScale(
-              spaceing: 4,
-            ).value,
-          ),
+
           Text(
             subtitle,
-            style: AppTextStyle.greyTapText,
+            style: AppTextStyle.greyTapText.copyWith(color: hintshade),
             textScaleFactor: textScale,
           ),
         ],

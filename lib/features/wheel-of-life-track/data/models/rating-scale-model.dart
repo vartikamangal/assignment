@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Project imports:
 import '../../domain/entities/rating-scale.dart';
 
 class RatingScaleModel extends RatingScale {

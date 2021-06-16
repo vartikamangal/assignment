@@ -1,8 +1,13 @@
-import '../../../../core/error/failures.dart';
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../entities/instant-relief-area.dart';
-import 'package:flutter/foundation.dart';
 import '../repositories/get-instant-relief-areas-repository.dart';
 
 class GetInstantReliefAreas

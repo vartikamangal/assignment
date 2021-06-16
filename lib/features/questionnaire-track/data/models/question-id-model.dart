@@ -1,5 +1,8 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-id.dart';
+
+// Project imports:
+import '../../domain/entities/question-id.dart';
 
 class QuestionIdModel extends QuestionId {
   const QuestionIdModel({

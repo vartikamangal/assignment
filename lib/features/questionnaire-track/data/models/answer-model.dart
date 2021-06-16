@@ -1,7 +1,10 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-id-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/answer.dart';
+
+// Project imports:
+import '../../domain/entities/answer.dart';
+import 'question-id-model.dart';
+import 'question-option-model.dart';
 
 class AnswerModel extends Answer {
   const AnswerModel({

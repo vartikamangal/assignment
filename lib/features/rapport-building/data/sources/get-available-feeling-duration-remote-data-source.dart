@@ -1,11 +1,19 @@
+// Dart imports:
 import 'dart:convert';
 
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
+// Project imports:
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../models/feeling-duration-model.dart';
-import 'package:http/http.dart' as http;
 
 abstract class GetAvailableFeelingDurationRemoteDataSource {
   Future<List<FeelingDurationModel>> getAvailableDurations();
@@ -13,28 +21,25 @@ abstract class GetAvailableFeelingDurationRemoteDataSource {
 
 class GetAvailableFeelingDurationRemoteDataSourceImpl
     implements GetAvailableFeelingDurationRemoteDataSource {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetAvailableFeelingDurationRemoteDataSourceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<FeelingDurationModel>> getAvailableDurations() async {
-    final header = await SessionManager.getHeader();
     final response = await client.get(
-      Uri.parse(APIRoute.getDurationOptions),
-      headers: header as Map<String, String>,
+      uri: APIRoute.getDurationOptions,
     );
-    if (response.statusCode == 200) {
-      final rawDurationList = jsonDecode(response.body) as List;
-      return rawDurationList
-          .map(
-            (rawDuration) => FeelingDurationModel.fromJson(
-                rawDuration as Map<String, dynamic>),
-          )
-          .toList();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final rawDurationList = jsonDecode(response.body) as List;
+    return rawDurationList
+        .map(
+          (rawDuration) => FeelingDurationModel.fromJson(
+              rawDuration as Map<String, dynamic>),
+        )
+        .toList();
   }
 }

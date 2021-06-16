@@ -1,7 +1,11 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 
-import 'package:tatsam_app_experimental/core/image/image.dart';
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
+import '../../../../core/image/image.dart';
 
 class DefaultRatingScale extends Equatable {
   final int id;

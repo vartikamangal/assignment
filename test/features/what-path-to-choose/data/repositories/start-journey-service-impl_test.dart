@@ -1,16 +1,18 @@
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/start-journey-remote-service.dart';
-import 'package:tatsam_app_experimental/core/platform/network_info.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/repositories/start-journey-service-impl.dart';
-import 'package:tatsam_app_experimental/core/image/image.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
-
+import 'package:tatsam_app_experimental/core/image/image.dart';
+import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/repositories/start-journey-service-impl.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/start-journey-remote-service.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
 
 class MockStartJourneyRemoteService extends Mock
     implements StartJourneyRemoteService {}

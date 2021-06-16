@@ -1,8 +1,11 @@
-import 'package:matcher/matcher.dart';
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/persistence-consts.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/set-subject-feeling-local-service.dart';

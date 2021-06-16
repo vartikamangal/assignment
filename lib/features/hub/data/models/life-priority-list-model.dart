@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:developer';
 
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/life-priority-list.dart';
+
+// Project imports:
+import '../../domain/entities/life-priority-list.dart';
 
 class LifePrioritiesModel extends LifePriorities {
   const LifePrioritiesModel({

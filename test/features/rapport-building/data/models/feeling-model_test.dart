@@ -1,8 +1,12 @@
+// Dart imports:
 import 'dart:convert';
+
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/feeling-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/feeling.dart';
-
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {

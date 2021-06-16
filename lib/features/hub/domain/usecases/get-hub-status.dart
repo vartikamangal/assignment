@@ -1,9 +1,14 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/hub-status.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/repository/get-hub-status-repository.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/hub-status.dart';
+import '../repository/get-hub-status-repository.dart';
 
 class GetHubStatus implements Usecase<HubStatus, NoParams> {
   final GetHubStatusRepository repository;

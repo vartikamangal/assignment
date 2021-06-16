@@ -1,6 +1,9 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/image/image.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/default-rating-scale.dart';
+
+// Project imports:
+import '../../../../core/image/image.dart';
+import '../../domain/entities/default-rating-scale.dart';
 
 class DefaultRatingScaleModel extends DefaultRatingScale {
   const DefaultRatingScaleModel({

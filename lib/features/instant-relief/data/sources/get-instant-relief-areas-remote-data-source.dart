@@ -1,45 +1,67 @@
+// Dart imports:
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
+// Project imports:
 import '../../../../core/error/exceptions.dart';
-import '../../../../core/persistence-consts.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../models/instant-relief-area-model.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 
 abstract class GetInstantReliefAreasRemoteDataSource {
   Future<List<InstantReliefAreaModel>> getReliefAreas();
+  Future<List<ActivityRecommendationModel>> getRecommendations({
+    @required String instantLifeArea,
+  });
 }
 
 class GetInstantReliefAreasRemoteDataSourceImpl
     implements GetInstantReliefAreasRemoteDataSource {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetInstantReliefAreasRemoteDataSourceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<InstantReliefAreaModel>> getReliefAreas() async {
-    final headers = await SessionManager.getHeader();
     final response = await client.get(
-      Uri.parse(APIRoute.getInstantReliefAreas),
-      headers: headers,
+      uri: APIRoute.getInstantReliefAreas,
     );
-    SessionManager.setHeader(
-      header: response.headers,
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final instantReliefAreasRaw = jsonDecode(response.body) as List;
+    return instantReliefAreasRaw
+        .map(
+          (instantReliefArea) => InstantReliefAreaModel.fromJson(
+              instantReliefArea as Map<String, dynamic>),
+        )
+        .toList();
+  }
+
+  @override
+  Future<List<ActivityRecommendationModel>> getRecommendations({
+    @required String instantLifeArea,
+  }) async {
+    final response = await client.post(
+      uri: "${APIRoute.GET_INSTANT_RECOMMENDATIONS}${"/$instantLifeArea"}",
     );
-    if (response.statusCode == 200) {
-      final instantReliefAreasRaw = jsonDecode(response.body) as List;
-      return instantReliefAreasRaw
-          .map(
-            (instantReliefArea) => InstantReliefAreaModel.fromJson(
-                instantReliefArea as Map<String, dynamic>),
-          )
-          .toList();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final rawRecommendations = jsonDecode(response.body) as List;
+    return rawRecommendations
+        .map(
+          (rawRecommendation) => ActivityRecommendationModel.fromJson(
+            rawRecommendation as Map<String, dynamic>,
+          ),
+        )
+        .toList();
   }
 }

@@ -1,8 +1,12 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 
-import 'package:tatsam_app_experimental/features/hub/domain/entities/individual-satisfaction-rating-result.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
+import '../../../rapport-building/domain/entities/subject-id.dart';
+import 'individual-satisfaction-rating-result.dart';
 
 class LifeRatingResult extends Equatable {
   final int id;

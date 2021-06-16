@@ -1,6 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 
+// Project imports:
+import '../../responsive/scale-manager.dart';
 import '../color-pallete.dart';
 
 Widget DividedImageComponent({@required String imgUrl}) {

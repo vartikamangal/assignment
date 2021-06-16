@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:shimmer/shimmer.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../responsive/scale-manager.dart';
 
 class Loader extends StatelessWidget {
   @override
@@ -8,7 +13,7 @@ class Loader extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return SizedBox(
       width: ScaleManager.spaceScale(
-        spaceing: size.width * 0.7,
+        spaceing: size.width * 0.6,
       ).value,
       child: Shimmer.fromColors(
         baseColor: const Color.fromRGBO(230, 230, 230, 1),

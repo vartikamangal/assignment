@@ -1,5 +1,10 @@
+// Package imports:
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/get-instant-recommendations.dart';
+
+// Project imports:
 import '../features/instant-relief/data/repositories/get-instant-relief-areas-repository-impl.dart';
 import '../features/instant-relief/data/repositories/list-emergency-numbers-repository-impl.dart';
 import '../features/instant-relief/data/sources/get-instant-relief-areas-remote-data-source.dart';
@@ -18,6 +23,9 @@ Future<void> initInstantReliefDependencies() async {
     () => InstantReliefController(
       getInstantReliefAreas: sl_instant_relief(),
       listEmergencyNumbers: sl_instant_relief(),
+      getInstantRecommendations: sl_instant_relief(),
+      requestLogin: sl_instant_relief(),
+      checkIfAlreadyLoggedIn: sl_instant_relief(),
     ),
   );
 
@@ -32,18 +40,22 @@ Future<void> initInstantReliefDependencies() async {
       repository: sl_instant_relief(),
     ),
   );
-
+  sl_instant_relief.registerLazySingleton(
+    () => GetInstantRecommendations(
+      repository: sl_instant_relief(),
+    ),
+  );
   // Services/Repos
   sl_instant_relief.registerLazySingleton<GetInstantReliefAreasRepository>(
     () => GetInstantReliefAreasRepositoryImpl(
       remoteDataSource: sl_instant_relief(),
-      networkInfo: sl_instant_relief(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_instant_relief.registerLazySingleton<ListEmergencyNumbersRepository>(
     () => ListEmergencyNumbersRepositoryImpl(
       remoteDataSource: sl_instant_relief(),
-      networkInfo: sl_instant_relief(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
 
@@ -51,13 +63,15 @@ Future<void> initInstantReliefDependencies() async {
   sl_instant_relief
       .registerLazySingleton<GetInstantReliefAreasRemoteDataSource>(
     () => GetInstantReliefAreasRemoteDataSourceImpl(
-      client: sl_instant_relief(),
+      client: sl_core_dependencies(),
+      throwExceptionIfResponseError: sl_core_dependencies(),
     ),
   );
 
   sl_instant_relief.registerLazySingleton<ListEmergencyNumberRemoteDataSource>(
     () => ListEmergencyNumberRemoteDataSourceImpl(
-      client: sl_instant_relief(),
+      client: sl_core_dependencies(),
+      throwExceptionIfResponseError: sl_core_dependencies(),
     ),
   );
 }

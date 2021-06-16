@@ -1,10 +1,13 @@
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/repositories/start_journey_service.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/usecases/start_journey.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/repositories/start_journey_service.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/usecases/start_journey.dart';
 
 class MockStartJourneyService extends Mock implements StartJourneyService {}
 

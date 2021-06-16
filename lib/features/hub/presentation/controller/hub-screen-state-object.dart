@@ -1,10 +1,15 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
-import 'package:tatsam_app_experimental/features/hub/presentation/controller/hub-controller.dart';
+
+// Project imports:
+import '../../../../core/asset-image-path/image-path.dart';
+import '../../../../core/routes/app-routes/app-routes.dart';
+import 'hub-controller.dart';
 
 class HubScreenStateObject extends Equatable {
   final String heroImageUrl;
@@ -32,7 +37,7 @@ Map<HubAnswerStatus, HubScreenStateObject> kHubScreenStateObjectMap = {
     subtitle:
         'Let’s build a picture of your current self. This will help us design your plan and provide recommendations that work best for you.',
     onImageTap: () {
-      Get.offNamed(RouteName.wheelOfLifeScreen);
+      Get.toNamed(RouteName.wheelOfLifeScreen);
     },
   ),
   HubAnswerStatus.wheelOfLifeAnswered: HubScreenStateObject(
@@ -41,7 +46,7 @@ Map<HubAnswerStatus, HubScreenStateObject> kHubScreenStateObjectMap = {
     subtitle:
         'Your path is unique and individual. Once we understand your context and environment we’ll support you through the process',
     onImageTap: () {
-      Get.offNamed(RouteName.focusScreen);
+      Get.toNamed(RouteName.focusScreen);
     },
   ),
   HubAnswerStatus.targetAnswered: HubScreenStateObject(
@@ -50,7 +55,7 @@ Map<HubAnswerStatus, HubScreenStateObject> kHubScreenStateObjectMap = {
     subtitle:
         'Helping us understand you will help you understand yourself and will help us create your customised journey to positive change…',
     onImageTap: () async {
-      Get.offNamed(RouteName.questionTrackScreen);
+      Get.toNamed(RouteName.questionTrackScreen);
     },
   ),
   HubAnswerStatus.allAnswered: HubScreenStateObject(
@@ -59,7 +64,7 @@ Map<HubAnswerStatus, HubScreenStateObject> kHubScreenStateObjectMap = {
     subtitle:
         'Amazing! We now have a complete understanding of where you are currently in your journey. Now, lets start from here and take you to growth in all dimensions',
     onImageTap: () async {
-      await Get.find<HubController>().createNewTravellerAndMoveAhead();
+      await Get.find<HubController>().checkForLoginAndProceed();
     },
   ),
 };

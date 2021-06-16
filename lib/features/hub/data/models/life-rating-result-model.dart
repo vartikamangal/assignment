@@ -1,7 +1,10 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/hub/data/models/individual-satisfaction-rating-result-model.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/life-rating-result.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
+
+// Project imports:
+import '../../../rapport-building/data/models/subject-id-model.dart';
+import '../../domain/entities/life-rating-result.dart';
+import 'individual-satisfaction-rating-result-model.dart';
 
 class LifeRatingResultModel extends LifeRatingResult {
   const LifeRatingResultModel({

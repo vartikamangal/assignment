@@ -1,38 +1,41 @@
+// Dart imports:
 import 'dart:convert';
-import 'dart:developer';
 
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
-import 'package:tatsam_app_experimental/core/session-manager/session-manager.dart';
-import 'package:tatsam_app_experimental/features/hub/data/models/hub-status-model.dart';
+
+// Package imports:
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
+// Project imports:
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/routes/api-routes/api-routes.dart';
+import '../../../../core/session-manager/session-manager.dart';
+import '../models/hub-status-model.dart';
 
 abstract class GetHubStatusRemoteDataSource {
   Future<HubStatusModel> getHubStatus();
 }
 
 class GetHubStatusRemoteDataSourceImpl implements GetHubStatusRemoteDataSource {
-  final http.Client remoteClient;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetHubStatusRemoteDataSourceImpl({
-    @required this.remoteClient,
+    @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<HubStatusModel> getHubStatus() async {
-    final header = await SessionManager.getHeader();
-    final response = await remoteClient.get(
-      Uri.parse(APIRoute.getHubUserStatus),
-      headers: header,
+    final response = await client.get(
+      uri: APIRoute.getHubUserStatus,
     );
-    await SessionManager.setHeader(header: response.headers);
-    if (response.statusCode == 200) {
-      final jsonMap = jsonDecode(response.body) as Map;
-      return HubStatusModel.fromJson(
-        jsonMap as Map<String, dynamic>,
-      );
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final jsonMap = jsonDecode(response.body) as Map;
+    return HubStatusModel.fromJson(
+      jsonMap as Map<String, dynamic>,
+    );
   }
 }

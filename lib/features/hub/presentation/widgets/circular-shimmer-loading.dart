@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:shimmer/shimmer.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../../../core/responsive/scale-manager.dart';
 
 class CircularShimmerLoader extends StatelessWidget {
   @override
@@ -10,10 +15,10 @@ class CircularShimmerLoader extends StatelessWidget {
       highlightColor: const Color.fromRGBO(242, 245, 245, 1),
       child: Container(
         width: ScaleManager.spaceScale(
-          spaceing: 360,
+          spaceing: 330,
         ).value,
         height: ScaleManager.spaceScale(
-          spaceing: 360,
+          spaceing: 330,
         ).value,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,

@@ -1,7 +1,10 @@
+// Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'rapport-step-model.dart';
+
+// Project imports:
 import '../../domain/entities/rapport-building-steps.dart';
 import '../../domain/entities/rapport-step.dart';
+import 'rapport-step-model.dart';
 
 class RapportBuildingStepsModel extends RapportBuildingSteps {
   const RapportBuildingStepsModel({

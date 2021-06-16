@@ -1,6 +1,9 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'life-area-model.dart';
+
+// Project imports:
 import '../../domain/entities/life-areas-for-prioritization.dart';
+import 'life-area-model.dart';
 
 class LifeAreaModelForPrioritization extends LifeAreaForPrioritization {
   const LifeAreaModelForPrioritization({

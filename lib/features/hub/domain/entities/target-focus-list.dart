@@ -1,7 +1,11 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
-import 'package:tatsam_app_experimental/features/focus/domain/entities/issue.dart';
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
+import '../../../focus/domain/entities/issue.dart';
 
 class TargetFocusList extends Equatable {
   final int id;

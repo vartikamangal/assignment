@@ -1,10 +1,13 @@
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
+// Project imports:
+import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/instant-relief-area.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/get-instant-relief-areas-repository.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/get-instant-relief-areas.dart';
-import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/instant-relief-area.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
 class MockGetInstantReliefAreasRepository extends Mock implements GetInstantReliefAreasRepository {}
 

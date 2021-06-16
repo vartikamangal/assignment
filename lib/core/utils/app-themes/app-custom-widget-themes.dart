@@ -1,5 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../responsive/scale-manager.dart';
 import '../color-pallete.dart';
 
 class CustomWidgetThemes {
@@ -7,13 +10,14 @@ class CustomWidgetThemes {
     showValueIndicator: ShowValueIndicator.always,
     trackShape: const RectangularSliderTrackShape(),
     trackHeight: 2.0,
-    activeTickMarkColor: Colors.transparent,
+    activeTickMarkColor: greyDarkShade,
     inactiveTickMarkColor: greyDarkShade,
+    activeTrackColor: Colors.white,
     inactiveTrackColor: Colors.transparent,
     thumbColor: blueDarkShade,
     thumbShape: RoundSliderThumbShape(
       enabledThumbRadius: ScaleManager.spaceScale(
-        spaceing: 12.0,
+        spaceing: 8.0,
       ).value,
     ),
     overlayShape: RoundSliderOverlayShape(

@@ -1,5 +1,7 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
+// Project imports:
 import '../../domain/entities/subject-information.dart';
 import 'subject-id-model.dart';
 

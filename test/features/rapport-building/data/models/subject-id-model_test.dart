@@ -1,9 +1,12 @@
+// Dart imports:
 import 'dart:convert';
 
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
-
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {

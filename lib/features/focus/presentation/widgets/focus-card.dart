@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 
 class FocusCard extends StatelessWidget {
@@ -19,19 +24,20 @@ class FocusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
     final imageScaleFactor = ScaleManager.imageScale.value;
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: onTap,
-            child: SizedBox(
-              height: ScaleManager.spaceScale(
-                spaceing: 100,
-              ).value,
-              width: ScaleManager.spaceScale(
-                spaceing: 106,
-              ).value,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: SizedBox(
+            height: ScaleManager.spaceScale(
+              spaceing: 100,
+            ).value,
+            width: ScaleManager.spaceScale(
+              spaceing: 106,
+            ).value,
+            child: Hero(
+              tag: imageAddress,
               child: Image.asset(
                 imageAddress,
                 height: 100,
@@ -39,18 +45,18 @@ class FocusCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            height: ScaleManager.spaceScale(
-              spaceing: 8,
-            ).value,
-          ),
-          Text(
-            title,
-            style: AppTextStyle.greysmall,
-            textScaleFactor: textScaleFactor,
-          ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: ScaleManager.spaceScale(
+            spaceing: 8,
+          ).value,
+        ),
+        Text(
+          title,
+          style: AppTextStyle.greysmall,
+          textScaleFactor: textScaleFactor,
+        ),
+      ],
     );
   }
 }

@@ -1,7 +1,12 @@
+// Dart imports:
 import 'dart:convert';
+
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
 void main(){

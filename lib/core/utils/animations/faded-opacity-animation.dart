@@ -1,5 +1,8 @@
-import 'package:animator/animator.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:animator/animator.dart';
 
 class FadedOpacityAnimation extends StatelessWidget {
   final Duration duration;

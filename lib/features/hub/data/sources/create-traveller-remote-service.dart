@@ -1,32 +1,34 @@
+// Flutter imports:
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
-import 'package:tatsam_app_experimental/core/session-manager/session-manager.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/success-create-traveller.dart';
-import 'package:http/http.dart' as http;
+
+// Package imports:
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
+// Project imports:
+import '../../../../core/routes/api-routes/api-routes.dart';
+import '../../domain/entities/success-create-traveller.dart';
 
 abstract class CreateTravellerRemoteService {
   Future<SuccessCreatedTraveller> createTraveller();
 }
 
 class CreateTravellerRemoteServiceImpl implements CreateTravellerRemoteService {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   CreateTravellerRemoteServiceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<SuccessCreatedTraveller> createTraveller() async {
-    final header = await SessionManager.getHeader();
     final response = await client.get(
-      Uri.parse(APIRoute.createNewTraveller),
-      headers: header,
+      uri: APIRoute.createNewTraveller,
     );
-    SessionManager.setHeader(header: response.headers);
-    if (response.statusCode == 200) {
-      return const SuccessCreatedTraveller();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    return const SuccessCreatedTraveller();
   }
 }

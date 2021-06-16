@@ -1,6 +1,9 @@
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entities/issue.dart';
-import 'package:flutter/foundation.dart';
 
 class IssueModel extends Issue {
   const IssueModel({

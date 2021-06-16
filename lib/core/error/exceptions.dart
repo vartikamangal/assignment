@@ -7,3 +7,5 @@ class DeviceOfflineException implements Exception {}
 class VoiceNoteExceptionOperationException implements Exception {}
 
 class NotPermittedActionException implements Exception {}
+
+class AuthException implements Exception {}

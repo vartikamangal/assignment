@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../responsive/scale-manager.dart';
 
 class GridLoaderScreen extends StatelessWidget {
   const GridLoaderScreen({

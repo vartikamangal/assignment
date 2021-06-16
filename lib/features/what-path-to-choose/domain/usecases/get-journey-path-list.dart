@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import '../../../../core/error/failures.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../entites/journey.dart';
 import '../repositories/get_journey_path_list_repository.dart';

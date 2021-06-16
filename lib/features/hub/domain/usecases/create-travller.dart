@@ -1,9 +1,14 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/success/success-interface.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/repository/create-traveller-service.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../../../core/success/success-interface.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../repository/create-traveller-service.dart';
 
 class CreateTraveller implements Usecase<Success, NoParams> {
   final CreateTravellerService service;

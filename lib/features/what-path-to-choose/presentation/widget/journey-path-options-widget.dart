@@ -1,8 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+
+// Project imports:
 import '../../../../core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/universal-widgets/text-title-box.dart';
 import '../controller/choose-path-controller.dart';
@@ -29,10 +34,10 @@ class WhatPathToChoose extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(
             right: ScaleManager.spaceScale(
-              spaceing: 16,
+              spaceing: 26,
             ).value,
             left: ScaleManager.spaceScale(
-              spaceing: 17,
+              spaceing: 26,
             ).value,
             top: ScaleManager.spaceScale(
               spaceing: 64,
@@ -76,25 +81,37 @@ class _AvailablePathsWidget extends StatelessWidget {
         spaceing: 197,
       ).value,
       left: Get.width * 0.09,
-      child: Column(
-        children: [
-          for (var path in _controller.availableJournies)
-            Container(
-              margin: EdgeInsets.only(
-                bottom: ScaleManager.spaceScale(
-                  spaceing: 42,
-                ).value,
-              ),
-              child: RadialBoxForPathSelection(
-                title: path.title,
-                imgUrl: "assets/choose-path-screen/${path.pathName}.png",
-                subtitle: path.subtitle,
-                onPressed: () {
-                  _controller.selectJourney(journey: path);
-                },
-              ),
-            )
-        ],
+      child: Container(
+        margin: EdgeInsets.only(
+          right: ScaleManager.spaceScale(
+            spaceing: 26,
+          ).value,
+          left: ScaleManager.spaceScale(
+            spaceing: 20,
+          ).value,
+        ),
+        child: Column(
+          children: [
+            for (var path in _controller.availableJournies)
+              Container(
+                margin: EdgeInsets.only(
+                  bottom: ScaleManager.spaceScale(
+                    spaceing: 42,
+                  ).value,
+                ),
+                child: RadialBoxForPathSelection(
+                  title: path.title,
+                  imgUrl: "assets/choose-path-screen/${path.pathName}.png",
+                  subtitle: path.subtitle,
+                  onPressed: () {
+                    _controller.selectJourney(
+                      journey: path,
+                    );
+                  },
+                ),
+              )
+          ],
+        ),
       ),
     );
   }

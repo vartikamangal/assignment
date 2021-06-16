@@ -1,17 +1,25 @@
+// Dart imports:
 import 'dart:convert';
 
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
-import 'package:tatsam_app_experimental/core/session-manager/session-manager.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/success-atempt-questionnaire.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/rating-scale-model.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
+// Project imports:
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/routes/api-routes/api-routes.dart';
+import '../../../../core/session-manager/session-manager.dart';
+import '../../../wheel-of-life-track/data/models/rating-scale-model.dart';
+import '../../domain/entities/question-option.dart';
+import '../../domain/entities/question.dart';
+import '../../domain/entities/questionnaire.dart';
+import '../../domain/entities/success-atempt-questionnaire.dart';
+import '../models/question-option-model.dart';
 
 abstract class AttemptQuestionnaireRemoteService {
   Future<SuccessAtemptQuestionnaire> attemptQuestionnaire({
@@ -23,10 +31,12 @@ abstract class AttemptQuestionnaireRemoteService {
 
 class AttemptQuestionnaireRemoteServiceImpl
     implements AttemptQuestionnaireRemoteService {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   AttemptQuestionnaireRemoteServiceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<SuccessAtemptQuestionnaire> attemptQuestionnaire({
@@ -34,27 +44,20 @@ class AttemptQuestionnaireRemoteServiceImpl
     RxMap<Question, dynamic> questionToAnswerMap,
     RxMap<Question, QuestionOption> questionToScaleMap,
   }) async {
-    final header = await SessionManager.getHeader();
     final requestBody = _buildRequestBody(
       questionnaire,
       questionToAnswerMap,
       questionToScaleMap,
     );
     final response = await client.post(
-      Uri.parse(APIRoute.attemptQuestions),
-      headers: header,
+      uri: APIRoute.attemptQuestions,
       body: requestBody,
     );
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
-    if (response.statusCode == 200) {
-      return const SuccessAtemptQuestionnaire();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    return const SuccessAtemptQuestionnaire();
   }
 
+  /// Helper function for generating the requestBody from passed in model & data
   String _buildRequestBody(
     Questionnaire questionnaire,
     RxMap<Question, dynamic> questionToAnswerMap,

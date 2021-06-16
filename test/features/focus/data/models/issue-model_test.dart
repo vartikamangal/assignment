@@ -1,12 +1,16 @@
+// Dart imports:
 import 'dart:convert';
 
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue.dart';
-
-// ignore: avoid_relative_lib_imports
 import '../../../../../lib/features/focus/data/models/issue-model.dart';
 import '../../../../fixtures/fixture-reader.dart';
+
+// ignore: avoid_relative_lib_imports
 
 void main(){
   const tIssueModel =

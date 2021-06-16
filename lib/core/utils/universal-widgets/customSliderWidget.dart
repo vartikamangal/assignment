@@ -1,7 +1,11 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide Router;
+
+// Package imports:
 import 'package:get/get.dart';
 
+// Project imports:
 import '../app-text-style-components/app-text-styles.dart';
 import '../app-themes/app-custom-widget-themes.dart';
 import '../helper_functions/getSliderEmotionImage.dart';

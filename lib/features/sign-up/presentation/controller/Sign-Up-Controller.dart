@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:get/get.dart';
+
+// Project imports:
 import '../widget/sign-up-screenA.dart';
 import '../widget/sign-up-screenB.dart';
 import '../widget/sign-up-screenC.dart';

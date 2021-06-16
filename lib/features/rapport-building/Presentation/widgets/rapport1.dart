@@ -1,13 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/responsive/responsive-builder.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/validation/name-validation.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 
-import '../../../../core/utils/animations/fade-animation-x-axis.dart';
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
+
+// Project imports:
+import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
+import '../../../../core/responsive/responsive-builder.dart';
+import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
+import '../../../../core/validation/name-validation.dart';
 
 class MidPageContentA extends StatelessWidget {
   final RapportBuildingController controller;
@@ -35,10 +39,9 @@ class MidPageContentA extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: Get.height * 0.23,
+                height: Get.height * 0.25,
               ),
-              FadeAnimationXAxis(
-                0.4,
+
                 SizedBox(
                   width: Get.width * 0.75,
                   child: Text(
@@ -47,23 +50,25 @@ class MidPageContentA extends StatelessWidget {
                     style: AppTextStyle.titleL,
                   ),
                 ),
-              ),
+
               SizedBox(
                 height: ScaleManager.spaceScale(
                   spaceing: 20,
                 ).value,
               ),
-              FadeAnimationXAxis(
-                0.5,
                 Obx(
                   () => ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxWidth: Get.width * 0.85,
+                      maxWidth: ScaleManager.spaceScale(
+                        spaceing: 320,
+                      ).value,
                     ),
                     child: Responsive(
                       mobile: _TextFormFieldComponent(
                         controller: controller,
-                        fontSize: 18,
+                        fontSize: ScaleManager.spaceScale(
+                          spaceing: 18,
+                        ).value,
                         paddingFactor: EdgeInsets.only(
                           left: ScaleManager.spaceScale(
                             spaceing: 3,
@@ -75,7 +80,9 @@ class MidPageContentA extends StatelessWidget {
                       ),
                       tablet: _TextFormFieldComponent(
                         controller: controller,
-                        fontSize: 35,
+                        fontSize:  ScaleManager.spaceScale(
+                          spaceing: 35,
+                        ).value,
                         paddingFactor: EdgeInsets.only(
                           left: ScaleManager.spaceScale(
                             spaceing: 6,
@@ -87,7 +94,9 @@ class MidPageContentA extends StatelessWidget {
                       ),
                       desktop: _TextFormFieldComponent(
                         controller: controller,
-                        fontSize: 18,
+                        fontSize:  ScaleManager.spaceScale(
+                          spaceing: 18,
+                        ).value,
                         paddingFactor: EdgeInsets.only(
                           left: ScaleManager.spaceScale(
                             spaceing: 3,
@@ -100,7 +109,6 @@ class MidPageContentA extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -129,25 +137,28 @@ class _TextFormFieldComponent extends StatelessWidget {
       autovalidateMode: AutovalidateMode.always,
       style: AppTextStyle.hintStyleDarkerForTextInputs.copyWith(
         //entered text style
-        color: Colors.black,
-        fontSize: fontSize,
+        color: blueDarkShade,
+        fontWeight:  FontWeight.w500,
+        fontSize: ScaleManager.spaceScale(
+          spaceing: 24,
+        ).value,
       ),
       controller: controller.textEditingController,
       decoration: InputDecoration(
         contentPadding: paddingFactor,
         hintText: tr('ask name field'),
-        errorStyle: AppTextStyle.hintStyle.copyWith(
-          fontSize: fontSize,
-          color: Colors.redAccent,
-        ),
         hintStyle: AppTextStyle.hintStyle.copyWith(
           fontSize: fontSize,
         ),
       ),
       onChanged: (name) => controller.nickName = name,
-      validator: (name) => nameValidation(
-        value: name,
-      ),
+      validator: (name) => nameValidation(value: name, controller: controller),
     );
   }
 }
+/*
+else if (name.isEmpty ) {
+          controller.switchButtonStatus.value=false;
+          return 'Please enter name';
+        }
+ */

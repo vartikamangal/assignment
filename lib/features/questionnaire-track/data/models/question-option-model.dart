@@ -1,6 +1,11 @@
+// Flutter imports:
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/rating-scale-model.dart';
+
+// Project imports:
+import '../../../wheel-of-life-track/data/models/rating-scale-model.dart';
+import '../../domain/entities/question-option.dart';
 
 class QuestionOptionModel extends QuestionOption {
   const QuestionOptionModel({
@@ -16,20 +21,39 @@ class QuestionOptionModel extends QuestionOption {
         );
 
   factory QuestionOptionModel.fromJson(Map<String, dynamic> jsonMap) {
-    return QuestionOptionModel(
-      id: jsonMap['id'] as String,
-      optionText: jsonMap['optionText'] as String,
-      optionCategory: jsonMap['optionCategory'] as String,
-      additionalInformation: jsonMap['additionalInformation'] == null
-          ? null
-          : (jsonMap['additionalInformation'] as List)
-              .map(
-                (addnInfo) => RatingScaleModel.fromJson(
-                  addnInfo['RatingScale'] as Map<String, dynamic>,
-                ),
-              )
-              .toList(),
-    );
+    //! Below mess is because of the differences between responses of questionLogs on profile & questionnaire screen
+    // This case works for Profile screen
+    try {
+      final additionalInfo = jsonMap['additionalInformation'] != null
+          ? jsonDecode(jsonMap['additionalInformation'] as String) as List
+          : [];
+      return QuestionOptionModel(
+        id: jsonMap['id'] as String,
+        optionText: jsonMap['optionText'] as String,
+        optionCategory: jsonMap['optionCategory'] as String,
+        additionalInformation: additionalInfo
+            .map(
+              (addnInfo) => RatingScaleModel.fromJson(
+                addnInfo['RatingScale'] as Map<String, dynamic>,
+              ),
+            )
+            .toList(),
+      );
+    } catch (e) {
+      // This case works for Questionnaire screen
+      return QuestionOptionModel(
+        id: jsonMap['id'] as String,
+        optionText: jsonMap['optionText'] as String,
+        optionCategory: jsonMap['optionCategory'] as String,
+        additionalInformation: (jsonMap['additionalInformation'] as List)
+            .map(
+              (addnInfo) => RatingScaleModel.fromJson(
+                addnInfo['RatingScale'] as Map<String, dynamic>,
+              ),
+            )
+            .toList(),
+      );
+    }
   }
 
   Map<String, dynamic> toJson() {

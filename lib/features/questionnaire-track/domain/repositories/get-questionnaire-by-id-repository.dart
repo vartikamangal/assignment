@@ -1,7 +1,12 @@
-import 'package:dartz/dartz.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
+
+// Package imports:
+import 'package:dartz/dartz.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../entities/questionnaire.dart';
 
 abstract class GetQuestionnaireByIdRepository {
   Future<Either<Failure, Questionnaire>> getQuestionniare({

@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:permission_handler/permission_handler.dart';
 
 abstract class PermissionManager {

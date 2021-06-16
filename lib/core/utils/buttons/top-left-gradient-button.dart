@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:meta/meta.dart';
+
+// Project imports:
 import '../color-pallete.dart';
 
 class TopLeftGradientButton extends StatelessWidget {

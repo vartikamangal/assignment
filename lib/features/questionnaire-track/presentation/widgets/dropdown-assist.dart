@@ -1,13 +1,18 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
-import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/presentation/controller/question-controller.dart';
+
+// Project imports:
+import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
+import '../../../../core/utils/color-pallete.dart';
+import '../../../../core/utils/universal-widgets/empty-space.dart';
+import '../../data/models/question-model.dart';
+import '../../data/models/question-option-model.dart';
+import '../controller/question-controller.dart';
 
 Widget dropDownAssistor({
   String label,

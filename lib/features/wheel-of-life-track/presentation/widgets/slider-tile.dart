@@ -1,6 +1,12 @@
+// Flutter imports:
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/app-themes/app-custom-widget-themes.dart';
 import '../../../../core/utils/helper_functions/getSliderEmotionImage.dart';
@@ -30,67 +36,85 @@ class SliderTile extends StatelessWidget {
     final imageScale = ScaleManager.imageScale.value;
     final textScale = ScaleManager.textScale.value;
     return Container(
+      height: ScaleManager.spaceScale(
+        spaceing: 80,
+      ).value,
       margin: EdgeInsets.only(
         bottom: ScaleManager.spaceScale(
           spaceing: 27,
         ).value,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                label,
-                style: AppTextStyle.titleMDark,
-                textScaleFactor: textScale,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    label,
+                    style: AppTextStyle.titleMDark,
+                    textScaleFactor: textScale,
+                  ),
+                  Image.asset(
+                    getSliderEmotion(
+                      value: emotionValue,
+                      lowerLimit: min,
+                      upperLimit: max,
+                    ),
+                    height: ScaleManager.spaceScale(
+                      spaceing: 21,
+                    ).value,
+                    scale: imageScale,
+                  ),
+                ],
               ),
-              Image.asset(
-                getSliderEmotion(
-                  value: emotionValue,
-                  lowerLimit: min,
-                  upperLimit: max,
+              SizedBox(
+                height: Get.height * 0.004,
+              ),
+              SliderTheme(
+                data: CustomWidgetThemes.sliderTheme,
+                child: Slider(
+                  min: min,
+                  max: max,
+                  value: value,
+                  divisions: 60,
+                  onChanged: onChanged,
                 ),
-                height: ScaleManager.spaceScale(
-                  spaceing: 21,
-                ).value,
-                scale: imageScale,
+              ),
+              Row(
+                children: [
+                  Text(
+                    '${min.toInt()}',
+                    style: AppTextStyle.sliderValue,
+                    textScaleFactor: textScale,
+                  ),
+                  SizedBox(
+                    width: ScaleManager.spaceScale(
+                          spaceing: 310,
+                        ).value *
+                        ((value - min) / (max - min)),
+                  ),
+                  if (value <= min.round() + 0.2 || value >= max - 0.2)
+                    Container()
+                  else
+                    Text(
+                      '${value.round()}',
+                      style: AppTextStyle.sliderValue,
+                      textScaleFactor: textScale,
+                    ),
+                ],
               ),
             ],
           ),
-          SizedBox(
-            height: Get.height * 0.004,
-          ),
-          SliderTheme(
-            data: CustomWidgetThemes.sliderTheme,
-            child: Slider(
-              min: min,
-              max: max,
-              value: value,
-              divisions: 40,
-              onChanged: onChanged,
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Text(
+              '${max.round()}',
+              style: AppTextStyle.sliderValue,
+              textScaleFactor: textScale,
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${min.toInt()}',
-                style: AppTextStyle.sliderValue,
-                textScaleFactor: textScale,
-              ),
-              Text(
-                '${value.toInt()}',
-                style: AppTextStyle.sliderValue,
-                textScaleFactor: textScale,
-              ),
-              Text(
-                '${max.toInt()}',
-                style: AppTextStyle.sliderValue,
-                textScaleFactor: textScale,
-              ),
-            ],
           )
         ],
       ),

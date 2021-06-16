@@ -1,14 +1,17 @@
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+
+// Project imports:
+import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/get_journey_path_list_remote_data_source.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
 class MockHttpClient extends Mock implements http.Client {}

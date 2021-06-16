@@ -1,33 +1,29 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import '../../../../core/error/exceptions.dart';
-import '../../../../core/platform/network_info.dart';
-import '../sources/get-available-feeling-duration-remote-data-source.dart';
-import '../../domain/entities/feeling-duration.dart';
-import '../../../../core/error/failures.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../domain/entities/feeling-duration.dart';
 import '../../domain/repositories/get-available-feeling-duration-repository.dart';
+import '../sources/get-available-feeling-duration-remote-data-source.dart';
 
 class GetAvailableFeelingDurationRepositoryImpl
     implements GetAvailableFeelingDurationRepository {
-  final NetworkInfo networkInfo;
   final GetAvailableFeelingDurationRemoteDataSource remoteDataSource;
+  final BaseRepository baseRepository;
 
   GetAvailableFeelingDurationRepositoryImpl({
-    @required this.networkInfo,
     @required this.remoteDataSource,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, List<FeelingDuration>>> getAvailableDurations() async {
-    if (await networkInfo.isConnected) {
-      try {
-        final availableDurations =
-            await remoteDataSource.getAvailableDurations();
-        return Right(availableDurations);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => remoteDataSource.getAvailableDurations(),
+    );
   }
 }

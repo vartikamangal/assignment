@@ -1,10 +1,16 @@
+// Dart imports:
 import 'dart:developer';
 
-import 'package:dartz/dartz.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+
+// Project imports:
+import '../error/failures.dart';
 
 enum FileSaveStatus { SUCCESS, FAILED, UNKNOWN }
 const String kVoiceNoteExtension = '.aac';

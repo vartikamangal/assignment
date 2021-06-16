@@ -1,5 +1,9 @@
+// Package imports:
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
+
+// Project imports:
 import '../features/focus/data/repositories/add-issue-service-impl.dart';
 import '../features/focus/data/repositories/get-issues-repository-impl.dart';
 import '../features/focus/data/sources/add-issue-remote-service.dart';
@@ -35,24 +39,26 @@ Future<void> initFocusDependencies() async {
   sl_focus.registerLazySingleton<GetIssuesRepository>(
     () => GetIssuesRepositoryImpl(
       remoteDataSource: sl_focus(),
-      networkInfo: sl_focus(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_focus.registerLazySingleton<AddIssueService>(
     () => AddIssueServiceImpl(
       remoteService: sl_focus(),
-      networkInfo: sl_focus(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
   // Remote/Local Sources
   sl_focus.registerLazySingleton<GetIssueRemoteDataSource>(
     () => GetIssueRemoteDataSourceImpl(
       client: sl_focus(),
+      throwExceptionIfResponseError: sl_core_dependencies(),
     ),
   );
   sl_focus.registerLazySingleton<AddIssueRemoteService>(
     () => AddIssueRemoteServiceImpl(
       client: sl_focus(),
+      throwExceptionIfResponseError: sl_core_dependencies(),
     ),
   );
 }

@@ -1,11 +1,15 @@
+// Flutter imports:
+import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
 
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/repositories/get-questionnaire-by-id-repository.dart';
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/questionnaire.dart';
+import '../repositories/get-questionnaire-by-id-repository.dart';
 
 class GetQuestionnaireById
     implements Usecase<Questionnaire, GetQuestionnaireByIdParams> {

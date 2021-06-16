@@ -1,9 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
+import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
-import '../controllers/rapport-building-controller.dart.dart';
 import 'emotion_selector.dart';
 
 class MidPageContentB extends StatelessWidget {
@@ -16,9 +21,6 @@ class MidPageContentB extends StatelessWidget {
     final textScale = ScaleManager.textScale.value;
     return Container(
       padding: EdgeInsets.only(
-          left: ScaleManager.spaceScale(
-            spaceing: 32,
-          ).value,
           right: ScaleManager.spaceScale(
             spaceing: 1,
           ).value),
@@ -27,7 +29,7 @@ class MidPageContentB extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: Get.height * 0.23,
+            height: Get.height * 0.27,
           ),
           Obx(
             () => Padding(
@@ -35,6 +37,9 @@ class MidPageContentB extends StatelessWidget {
                 right: ScaleManager.spaceScale(
                   spaceing: 96,
                 ).value,
+                  left: ScaleManager.spaceScale(
+                    spaceing: 32,
+                  ).value
               ),
               child: Text(
                 tr(
@@ -55,10 +60,17 @@ class MidPageContentB extends StatelessWidget {
           ),
           SizedBox(
             width: Get.width * 0.75,
-            child: Text(
-              tr('ask feeling title'),
-              style: AppTextStyle.titleL,
-              textScaleFactor: textScale,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: ScaleManager.spaceScale(
+                    spaceing: 32,
+                  ).value
+              ),
+              child: Text(
+                tr('ask feeling title'),
+                style: AppTextStyle.titleL,
+                textScaleFactor: textScale,
+              ),
             ),
           ),
           SizedBox(
@@ -71,21 +83,31 @@ class MidPageContentB extends StatelessWidget {
               maxWidth: Get.width,
             ),
             child: Obx(
-              () => Row(
-                // ignore: invalid_use_of_protected_member
-                children: onBoardingController.moods.value
-                    .map(
-                      (mood) => emotionSelector(
-                        mood.moodName.toLowerCase(),
-                        () {
-                          onBoardingController.setEmotion(
-                            mood.moodName.toLowerCase(),
-                            mood,
-                          );
-                        },
-                      ),
-                    )
-                    .toList(),
+              () => Padding(
+                padding: EdgeInsets.only(
+                    left: ScaleManager.spaceScale(
+                      spaceing: 22,
+                    ).value
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: onBoardingController.moods.value
+                      .map(
+                        (mood) => emotionSelector(
+                          mood.moodName.toLowerCase(),
+                          () {
+                            !onBoardingController.isProcessing.value?
+                            onBoardingController.setEmotion(
+                              mood.moodName.toLowerCase(),
+                              mood,
+                            ): Container();
+                          },
+                          height: 48,
+                          width: 48.32,
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
             ),
           ),

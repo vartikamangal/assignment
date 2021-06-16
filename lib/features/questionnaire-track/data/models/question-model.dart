@@ -1,9 +1,10 @@
-import 'dart:developer';
-
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/path/data/models/tag-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
+
+// Project imports:
+import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
+import '../../domain/entities/question.dart';
+import 'question-option-model.dart';
 
 class QuestionModel extends Question {
   const QuestionModel({
@@ -45,13 +46,22 @@ class QuestionModel extends Question {
             ),
           )
           .toList(),
-      questionOptionVO: (jsonMap['questionOptionVO'] as List)
-          .map(
-            (quesOption) => QuestionOptionModel.fromJson(
-              quesOption as Map<String, dynamic>,
-            ),
-          )
-          .toList(),
+      //TODO mess due to inequality in varNames in API response
+      questionOptionVO: jsonMap['questionOptionVO'] != null
+          ? (jsonMap['questionOptionVO'] as List)
+              .map(
+                (quesOption) => QuestionOptionModel.fromJson(
+                  quesOption as Map<String, dynamic>,
+                ),
+              )
+              .toList()
+          : (jsonMap['questionOptions'] as List)
+              .map(
+                (quesOption) => QuestionOptionModel.fromJson(
+                  quesOption as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
       questionText: jsonMap['questionText'] as String,
       questionExplanation: jsonMap['questionExplanation'] as String,
       creationTime: jsonMap['creationTime'] as String,

@@ -1,6 +1,10 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'subject-id.dart';
 
 // ignore: constant_identifier_names

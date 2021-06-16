@@ -1,10 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:meta/meta.dart';
-import '../color-pallete.dart';
 
+// Project imports:
 import '../app-text-style-components/app-text-styles.dart';
+import '../color-pallete.dart';
 
 class TopLeftGradientButtonExtended extends StatelessWidget {
   final Callback onPressed;

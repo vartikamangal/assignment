@@ -1,33 +1,28 @@
-import '../../../../core/error/exceptions.dart';
-import '../../../../core/platform/network_info.dart';
-import '../sources/get-issues-remote-data-source.dart';
-import '../../domain/entities/issue.dart';
-import '../../../../core/error/failures.dart';
-import 'package:dartz/dartz.dart';
-import '../../domain/repositories/get-issues-repository.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../domain/entities/issue.dart';
+import '../../domain/repositories/get-issues-repository.dart';
+import '../sources/get-issues-remote-data-source.dart';
 
 class GetIssuesRepositoryImpl implements GetIssuesRepository {
   final GetIssueRemoteDataSource remoteDataSource;
-  final NetworkInfo networkInfo;
+  final BaseRepository baseRepository;
 
   GetIssuesRepositoryImpl({
     @required this.remoteDataSource,
-    @required this.networkInfo,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, List<Issue>>> getIssues() async {
-    if (await networkInfo.isConnected) {
-      try {
-        final issues = await remoteDataSource.getIssues();
-        return Right(issues);
-      } on ServerException {
-        return Left(
-          ServerFailure(),
-        );
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => remoteDataSource.getIssues(),
+    );
   }
 }

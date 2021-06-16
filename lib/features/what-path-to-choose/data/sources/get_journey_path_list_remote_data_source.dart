@@ -1,8 +1,16 @@
+// Dart imports:
 import 'dart:convert';
+import 'dart:developer';
 
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 
+// Package imports:
+import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
+// Project imports:
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
@@ -14,32 +22,25 @@ abstract class GetJourneyPathListRemoteDataSource {
 
 class GetJourneyPathListRemoteDataSourceImpl
     implements GetJourneyPathListRemoteDataSource {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetJourneyPathListRemoteDataSourceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<JourneyModel>> getJourneys() async {
-    final header = await SessionManager.getHeader();
-
     final response = await client.get(
-      Uri.parse(APIRoute.getJourneyPathList),
-      headers: header,
+      uri: APIRoute.getJourneyPathList,
     );
-    SessionManager.setHeader(
-      header: response.headers,
-    );
-    if (response.statusCode == 200) {
-      final rawJourneys = jsonDecode(response.body) as List;
-      return rawJourneys
-          .map(
-            (rawJourney) =>
-                JourneyModel.fromJson(rawJourney as Map<String, dynamic>),
-          )
-          .toList();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final rawJourneys = jsonDecode(response.body) as List;
+    return rawJourneys
+        .map(
+          (rawJourney) =>
+              JourneyModel.fromJson(rawJourney as Map<String, dynamic>),
+        )
+        .toList();
   }
 }

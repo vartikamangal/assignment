@@ -1,8 +1,10 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'rating-scale-model.dart';
-import '../../domain/entities/satisfaction-rating-map-for-time-provision-scale.dart';
 
+// Project imports:
+import '../../domain/entities/satisfaction-rating-map-for-time-provision-scale.dart';
 import 'life-area-model.dart';
+import 'rating-scale-model.dart';
 
 class SatisfactionRatingMapForTimeProvisionModel
     extends SatisfactionRatingMapForTimeProvision {

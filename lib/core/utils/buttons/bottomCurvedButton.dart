@@ -1,7 +1,9 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import '../app-text-style-components/app-text-styles.dart';
 
+// Project imports:
+import '../../responsive/scale-manager.dart';
+import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 
 // ignore: camel_case_types

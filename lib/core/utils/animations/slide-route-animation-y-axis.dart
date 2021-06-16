@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:simple_animations/simple_animations.dart';
 
 class SlideRouteYAxisAnimation extends MaterialPageRoute {
@@ -10,9 +13,9 @@ class SlideRouteYAxisAnimation extends MaterialPageRoute {
       Animation<double> secondaryAnimation, Widget child) {
     final custom = MultiTrackTween([
       Track('opacity')
-          .add(const Duration(milliseconds: 300), Tween(begin: 0.0, end: 1.0)),
+          .add(const Duration(milliseconds: 100), Tween(begin: 1.0, end: 1.0)),
       Track('translateY').add(
-          const Duration(milliseconds: 300), Tween(begin: 100.0, end: 0),
+          const Duration(milliseconds: 400), Tween(begin: 100.0, end: 0),
           curve: Curves.easeOut)
     ]);
     return ControlledAnimation(

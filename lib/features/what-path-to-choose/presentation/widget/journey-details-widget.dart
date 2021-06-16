@@ -1,8 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
+
+// Project imports:
+import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/animations/fade-animation-x-axis.dart';
 import '../../../../core/utils/buttons/bottom-right-text-button.dart';
 import '../../../../core/utils/universal-widgets/divided-image-component.dart';
@@ -52,7 +56,7 @@ class JourneyDetails extends StatelessWidget {
                     imgUrl: journeyIconUrl,
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: TextDescriptionBox(
                       title: journey.title,
                       description: journey.subtitle,
@@ -85,7 +89,7 @@ class JourneyDetails extends StatelessWidget {
           ),
           Positioned(
             top: ScaleManager.spaceScale(
-              spaceing: 61,
+              spaceing: 31,
             ).value,
             left: ScaleManager.spaceScale(
               spaceing: 68,

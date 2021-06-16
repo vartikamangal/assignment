@@ -1,6 +1,9 @@
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entities/rapport-step.dart';
-import 'package:flutter/foundation.dart';
 
 class RapportStepModel extends RapportStep {
   const RapportStepModel({

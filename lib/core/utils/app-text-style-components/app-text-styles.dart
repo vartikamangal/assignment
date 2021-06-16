@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:google_fonts/google_fonts.dart';
+
+// Project imports:
 import '../color-pallete.dart';
 
 class AppTextStyle {

@@ -1,5 +1,10 @@
-import 'package:dartz/dartz.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:dartz/dartz.dart';
+
+// Project imports:
 import '../../../../core/error/failures.dart';
 import '../entities/mood.dart';
 import '../entities/rapport-building-steps.dart';

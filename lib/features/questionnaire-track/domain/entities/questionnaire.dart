@@ -1,6 +1,11 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
+import 'question.dart';
 
 class Questionnaire extends Equatable {
   final String id;

@@ -1,17 +1,24 @@
+// Dart imports:
 import 'dart:developer';
 
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/get.dart';
+
+// Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+
+// Project imports:
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/snackbars/snackbars.dart';
+import '../../../hub/presentation/controller/hub-controller.dart';
 import '../../data/models/issue-model.dart';
 import '../../domain/entities/issue.dart';
 import '../../domain/usecases/add-issue.dart';
 import '../../domain/usecases/get-issues.dart';
-import '../../../hub/presentation/controller/hub-controller.dart';
 
 class FocusController extends GetxController {
   // usecases
@@ -35,10 +42,7 @@ class FocusController extends GetxController {
     final gottenIssueOrFailure = await getIssues(NoParams());
     gottenIssueOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Something went wrong!',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedIssues) {
         log('Fetched all focus areas');
@@ -57,20 +61,20 @@ class FocusController extends GetxController {
     toggleProcessor();
     issueAddedOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Something went wrong!',
-        );
+        ErrorInfo.show(failure);
       },
       (issueSaved) {
         log("Saved user's current focus");
         Get.offNamed(
           RouteName.selectedIssueDetail,
         );
-        Future.delayed(const Duration(milliseconds: 1000), () {
+        Future.delayed(const Duration(milliseconds: 1500), () async {
           // For refreshing the status of HubScreen
-          Get.find<HubController>().fetchHubStatus();
-          Get.offAllNamed(RouteName.hubScreen);
+          await Get.find<HubController>().fetchHubStatus().then((value) {
+            // coz. two pages back Hub screen is present and currenlty popUntill is breaking
+            Get.back();
+            Get.back();
+          });
         });
       },
     );
@@ -90,6 +94,8 @@ class FocusController extends GetxController {
   List<String> cart = [];
   bool optionSelected = false;
   Rx<Issue> selectedIssue = Rx<IssueModel>();
+  RxInt count=0.obs;
+  RxList<Issue> removedItem=RxList<IssueModel>([]);
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;
@@ -97,6 +103,12 @@ class FocusController extends GetxController {
 
   void toggleLoader() {
     isLoading.value = !isLoading.value;
+  }
+  void removeIssue(Issue issue){
+    count++;
+    issues.removeWhere((element) => element.focusName==issue.focusName);
+    count>1?issues.add(removedItem.value[removedItem.length-1]):print("");
+    removedItem.add(selectedIssue.value);
   }
 
   void getDescription(String image, Issue issue) {
@@ -108,6 +120,9 @@ class FocusController extends GetxController {
 
   // Custom navigator
   void navigateBack() {
+    count.value=0;
+    issues.add(selectedIssue.value);
+    issues.toSet();
     topExpandedContainer.value = 0.0;
   }
 

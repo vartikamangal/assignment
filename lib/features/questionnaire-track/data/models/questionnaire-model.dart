@@ -1,6 +1,9 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
+
+// Project imports:
+import '../../domain/entities/questionnaire.dart';
+import 'question-model.dart';
 
 class QuestionnaireModel extends Questionnaire {
   const QuestionnaireModel({

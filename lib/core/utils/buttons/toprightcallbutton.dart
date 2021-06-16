@@ -1,9 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
 import '../../asset-image-path/image-path.dart';
+import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 

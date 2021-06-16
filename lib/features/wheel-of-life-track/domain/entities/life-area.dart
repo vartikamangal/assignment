@@ -1,5 +1,8 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
 
 class LifeArea extends Equatable {
   final String areaCode;

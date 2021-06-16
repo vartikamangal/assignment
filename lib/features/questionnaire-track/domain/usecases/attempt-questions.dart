@@ -1,15 +1,19 @@
+// Flutter imports:
+import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/success/success-interface.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/repositories/attempt-questionnaire-service.dart';
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../../../core/success/success-interface.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/question-option.dart';
+import '../entities/question.dart';
+import '../entities/questionnaire.dart';
+import '../repositories/attempt-questionnaire-service.dart';
 
 class AtemptQuestions implements Usecase<Success, AttemptQuestionnaireParams> {
   final AtemptQuestionnaireService service;

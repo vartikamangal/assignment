@@ -1,6 +1,10 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'rapport-step.dart';
 
 class RapportBuildingSteps extends Equatable {

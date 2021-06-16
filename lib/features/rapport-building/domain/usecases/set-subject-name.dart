@@ -1,7 +1,11 @@
-import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/widgets.dart';
 
+// Package imports:
+import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
+
+// Project imports:
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../entities/subject-information.dart';

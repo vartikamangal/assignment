@@ -1,10 +1,15 @@
+// Dart imports:
 import 'dart:developer';
+
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/hub/data/models/life-priority-list-model.dart';
-import 'package:tatsam_app_experimental/features/hub/data/models/life-rating-result-model.dart';
-import 'package:tatsam_app_experimental/features/hub/data/models/target-focus-list-model.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/hub-status.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-information-model.dart';
+
+// Project imports:
+import '../../../rapport-building/data/models/subject-information-model.dart';
+import '../../domain/entities/hub-status.dart';
+import 'life-priority-list-model.dart';
+import 'life-rating-result-model.dart';
+import 'target-focus-list-model.dart';
 
 class HubStatusModel extends HubStatus {
   const HubStatusModel({

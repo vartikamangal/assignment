@@ -1,6 +1,9 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flavor/flavor.dart';
-import 'package:flutter/material.dart';
 
 class TestScreen extends StatelessWidget {
   final bannerColor = Flavor.I.color;

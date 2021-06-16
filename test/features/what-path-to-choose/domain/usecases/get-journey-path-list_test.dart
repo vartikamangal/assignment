@@ -1,11 +1,13 @@
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
+// Project imports:
+import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/repositories/get_journey_path_list_repository.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/usecases/get-journey-path-list.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-
 
 class MockGetIssuesRepository extends Mock implements GetJounreyPathListRepository {}
 

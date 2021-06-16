@@ -50,5 +50,16 @@
 	<string>This app needs access to Photos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Record audio for saving voicenotes</string>
+	<key>CFBundleURLTypes</key>
+   <array>
+      <dict>
+         <key>CFBundleTypeRole</key>
+         <string>Editor</string>
+         <key>CFBundleURLSchemes</key>
+         <array>
+            <string>com.example.tatsamappexperimental</string>
+         </array>
+      </dict>
+   </array>
 </dict>
 </plist>

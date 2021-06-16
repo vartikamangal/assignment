@@ -1,7 +1,9 @@
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entites/journey.dart';
-
-import 'package:flutter/foundation.dart';
 
 class JourneyModel extends Journey {
   const JourneyModel({

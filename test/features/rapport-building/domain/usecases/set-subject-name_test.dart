@@ -1,6 +1,9 @@
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-information.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/set-subject-name-service.dart';

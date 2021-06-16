@@ -1,6 +1,10 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
 import '../../../../core/platform/instant.dart';
 import 'mood.dart';
 import 'subject-id.dart';

@@ -1,7 +1,11 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 
-import 'package:tatsam_app_experimental/features/hub/domain/entities/default-rating-scale.dart';
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
+import 'default-rating-scale.dart';
 
 class IndividualSatisfactionRating extends Equatable {
   final int id;

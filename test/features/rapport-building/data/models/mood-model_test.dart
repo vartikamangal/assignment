@@ -1,5 +1,10 @@
+// Dart imports:
 import 'dart:convert';
+
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
+
+// Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood.dart';

@@ -1,6 +1,11 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rating-scale.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
+import '../../../wheel-of-life-track/domain/entities/rating-scale.dart';
 
 class QuestionOption extends Equatable {
   final String id;

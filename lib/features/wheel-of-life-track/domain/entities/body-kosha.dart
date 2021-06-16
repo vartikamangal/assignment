@@ -1,5 +1,8 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
 
 class BodyKosha extends Equatable {
   final String koshaCode;

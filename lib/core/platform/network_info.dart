@@ -1,3 +1,4 @@
+// Package imports:
 import 'package:cross_connectivity/cross_connectivity.dart';
 
 abstract class NetworkInfo {

@@ -1,8 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+
+// Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+
+// Project imports:
+import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 

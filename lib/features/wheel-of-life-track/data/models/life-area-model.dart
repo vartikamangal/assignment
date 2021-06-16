@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Project imports:
 import '../../domain/entities/life-area.dart';
 
 class LifeAreaModel extends LifeArea {

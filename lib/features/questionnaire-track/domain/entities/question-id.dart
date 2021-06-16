@@ -1,5 +1,8 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
 
 class QuestionId extends Equatable {
   final String id;

@@ -1,11 +1,16 @@
-import 'package:dartz/dartz.dart';
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/success/success-interface.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
+
+// Project imports:
+import '../../../../core/error/failures.dart';
+import '../../../../core/success/success-interface.dart';
+import '../entities/question-option.dart';
+import '../entities/question.dart';
+import '../entities/questionnaire.dart';
 
 abstract class AtemptQuestionnaireService {
   Future<Either<Failure, Success>> attempQuestionnaire({

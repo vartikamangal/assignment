@@ -1,4 +1,8 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+// Package imports:
 import 'package:simple_animations/simple_animations.dart';
 
 class FadeAnimationXAxis extends StatelessWidget {
@@ -11,9 +15,9 @@ class FadeAnimationXAxis extends StatelessWidget {
   Widget build(BuildContext context) {
     final tween = MultiTrackTween([
       Track('opacity')
-          .add(const Duration(milliseconds: 500), Tween(begin: 0.0, end: 1.0)),
+          .add(const Duration(milliseconds: 100), Tween(begin: 1.0, end: 1.0)),
       Track('translateX').add(
-          const Duration(milliseconds: 500), Tween(begin: 120.0, end: 0.0),
+          const Duration(milliseconds: 300), Tween(begin: Get.width*0.90, end: 0.0),
           curve: Curves.easeOut)
     ]);
     return ControlledAnimation(

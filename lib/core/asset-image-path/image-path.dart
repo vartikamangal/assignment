@@ -1,3 +1,4 @@
+// Project imports:
 import 'asset-path-maker.dart';
 
 class ImagePath {
@@ -60,4 +61,11 @@ class ImagePath {
       "/onboarding-incomplete/image.png".makePath();
   static final String cornerImage =
       "/onboarding-incomplete/corner-image.png".makePath();
+  //Profile screen
+  static final String userImage="/profile-icon/user-image.png".makePath();
+  static final String settingsIcon="/profile-icon/setting-icon.png".makePath();
+  static final String happyEmoji="/profile-icon/happy.png".makePath();
+  static final String sadEmoji="/profile-icon/sad.png".makePath();
+  static final String lockImage="/profile-icon/lock-image.png".makePath();
+  static final String chartLock="/profile-icon/chart-lock.png".makePath();
 }

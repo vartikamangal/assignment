@@ -1,5 +1,8 @@
-import '../../domain/entities/emergency-number.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Project imports:
+import '../../domain/entities/emergency-number.dart';
 
 class EmergencyNumberModel extends EmergencyNumber {
   const EmergencyNumberModel({

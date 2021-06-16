@@ -1,4 +1,6 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class Failure extends Equatable {
   // ignore: avoid_unused_constructor_parameters
@@ -33,4 +35,19 @@ class VoiceNoteFailure extends Failure {
 class NotPermittedActionFailure extends Failure {
   @override
   List<Object> get props => [];
+}
+
+class AuthFailure extends Failure {
+  final String title;
+  final String details;
+
+  const AuthFailure({
+    @required this.title,
+    @required this.details,
+  });
+  @override
+  List<Object> get props => [
+        title,
+        details,
+      ];
 }

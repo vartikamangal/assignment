@@ -1,9 +1,14 @@
+// Flutter imports:
+import 'package:flutter/cupertino.dart';
+
+// Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import '../entities/mood-tracking.dart';
+
+// Project imports:
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
+import '../entities/mood-tracking.dart';
 import '../repositories/set-subject-mood-service.dart';
 
 class SetSubjectMood implements Usecase<MoodTracking, SetSubjectMoodParams> {

@@ -1,9 +1,17 @@
+// Dart imports:
 import 'dart:developer';
 
-import 'package:flip_card/flip_card.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flip_card/flip_card.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+
+// Project imports:
 import '../../../../core/routes/app-routes/app-routes.dart';
+import '../../../../core/session-manager/session-manager.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../../hub/presentation/controller/hub-controller.dart';
@@ -46,10 +54,10 @@ class WheelOfLifeController extends GetxController {
   final RxList<LifeArea> lifeAreas = RxList<LifeAreaModel>([]);
   final Rx<RatingScale> ratingScale = Rx<RatingScaleModel>();
   final Rx<LifeAreaForPrioritization> lifeAreasForPrioritization =
-  Rx<LifeAreaModelForPrioritization>();
+      Rx<LifeAreaModelForPrioritization>();
   // Will help in constructing the final Ratings to be POSTED on API
   final RxList<SatisfactionRatingMapForTimeProvision> listForTimeProvision =
-  RxList<SatisfactionRatingMapForTimeProvisionModel>([]);
+      RxList<SatisfactionRatingMapForTimeProvisionModel>([]);
   //Helps in state-management and UI - utility purposes
   RxMap<LifeArea, double> uiHelperListForTimeProvision = RxMap({});
 
@@ -59,14 +67,12 @@ class WheelOfLifeController extends GetxController {
   Future<void> fetchLifeAreas() async {
     final lifeAreasOrFailure = await getLifeAreas(NoParams());
     lifeAreasOrFailure.fold(
-          (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Something went wrong!',
-        );
+      (failure) {
+        ErrorInfo.show(failure);
       },
-          (fetchedLifeAreas) {
+      (fetchedLifeAreas) {
         lifeAreas.assignAll(fetchedLifeAreas);
+        _populateCardListWithGlobalState();
       },
     );
   }
@@ -74,18 +80,21 @@ class WheelOfLifeController extends GetxController {
   Future<void> fetchRatingScale() async {
     final ratingScaleOrFailure = await getRatingScale(NoParams());
     ratingScaleOrFailure.fold(
-          (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Something went wrong!',
-        );
+      (failure) {
+        ErrorInfo.show(failure);
       },
-          (fetchedRatingScale) {
+      (fetchedRatingScale) {
         ratingScale.value = fetchedRatingScale;
+        //to display average value
+        ratingScale.value.ratingValue =
+            ((ratingScale.value.max) / 2 + (ratingScale.value.min) / 2).round();
+
         // Below condition makes sure that all the initial ratings are aligned to the possible minimum ratings
+        /*
         if (ratingScale.value.min != ratingScale.value.ratingValue) {
           ratingScale.value.ratingValue = ratingScale.value.min;
         }
+         */
       },
     );
   }
@@ -96,19 +105,16 @@ class WheelOfLifeController extends GetxController {
       PrioritizeParams(
         priorities: LifeAreaModelForPrioritization(
           lifeaAreas:
-          lifeAreas.map((lifeArea) => lifeArea as LifeAreaModel).toList(),
+              lifeAreas.map((lifeArea) => lifeArea as LifeAreaModel).toList(),
         ),
       ),
     );
     toggleProcessor();
     prioritizeSuccessOrFailure.fold(
-          (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Something went wrong!',
-        );
+      (failure) {
+        ErrorInfo.show(failure);
       },
-          (prioritizeSuccess) {
+      (prioritizeSuccess) {
         currentSelectedPage.value = WheelOfLifeBodyD(controller: this);
       },
     );
@@ -117,7 +123,7 @@ class WheelOfLifeController extends GetxController {
   Future<void> setupTimeProvisionInitialScales() async {
     // ignore: avoid_function_literals_in_foreach_calls
     lifeAreas.forEach(
-          (lifeArea) {
+      (lifeArea) {
         uiHelperListForTimeProvision.addIf(
           true,
           lifeArea,
@@ -134,17 +140,14 @@ class WheelOfLifeController extends GetxController {
     );
     toggleProcessor();
     ratedSatisfactionOrFailure.fold(
-          (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Something went wrong!',
-        );
+      (failure) {
+        ErrorInfo.show(failure);
       },
-          (prioritizeSuccess) {
+      (prioritizeSuccess) {
         log('Succesfully rated satisfactions');
         // For refreshing the status of HubScreen
         Get.find<HubController>().fetchHubStatus();
-        Get.offAndToNamed(RouteName.hubScreen);
+        Get.back();
       },
     );
   }
@@ -153,7 +156,7 @@ class WheelOfLifeController extends GetxController {
   //TODO Refactor it into RateSatisfactionParams file
   RateSatisfactionParams _getRatingParams() {
     uiHelperListForTimeProvision.keys.toList().forEach(
-          (lifeRating) {
+      (lifeRating) {
         listForTimeProvision.add(
           SatisfactionRatingMapForTimeProvisionModel(
             lifeArea: lifeRating as LifeAreaModel,
@@ -179,7 +182,6 @@ class WheelOfLifeController extends GetxController {
   ///////////////// UI-RELATED METHODS ///////////////////////
   ////////////////                      ////////////////////////
   // For scollPostion relaed utitlities
-  final ScrollController scrollController = ScrollController();
 
   // For getting the intro-page wherever user is
   RxInt currentOnBoardPageCounter = 0.obs;
@@ -190,7 +192,8 @@ class WheelOfLifeController extends GetxController {
   // For making global widget changes as per the selected index
   Rx<Widget> currentSelectedPage = Rx<Widget>();
   RxBool showBottomButton = RxBool(false);
-
+  //for scroll controller
+  final ScrollController scrollController = ScrollController();
   // For uninteruppted ui-flows
   RxBool isProcessing = false.obs;
   // for showing skeleton full-screen-initially
@@ -198,12 +201,22 @@ class WheelOfLifeController extends GetxController {
   String text1 = "success";
   RxDouble emotionvalue = 1.0.obs;
   RxBool isClickedOnInformation = false.obs;
-  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+  RxString userName = RxString('');
+  RxBool isInformationButtontoggled = false.obs;
 
+  /// will hold the state for the bottom Done button
+  GlobalKey<FlipCardState> bottomBtnAnimState = GlobalKey<FlipCardState>();
 
-  void toggleInformation(){
-    cardKey.currentState.toggleCard();
+  /// will hold the state for various life areas for flip animation
+  RxList<GlobalKey<FlipCardState>> cardsElementsState = RxList([]);
+
+  void toggleAnimatableCard() {
+    cardsElementsState.forEach((element) {
+      element.currentState.toggleCard();
+    });
+    bottomBtnAnimState.currentState.toggleCard();
   }
+
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;
   }
@@ -220,10 +233,22 @@ class WheelOfLifeController extends GetxController {
     }
   }
 
+  /// Adds List of [GlobalKeu] into the animatableCardsStateList equal to the number of
+  /// lifeareas
+  void _populateCardListWithGlobalState() {
+    lifeAreas.forEach(
+      (element) {
+        cardsElementsState.add(
+          GlobalKey<FlipCardState>(),
+        );
+      },
+    );
+  }
+
   // ignore: use_setters_to_change_properties
   void settSlidervalue(double newval, int index) {
     final areaToBeModified = uiHelperListForTimeProvision.keys.toList()[index];
-    uiHelperListForTimeProvision[areaToBeModified] = newval;
+    uiHelperListForTimeProvision[areaToBeModified] = newval.round().toDouble();
   }
 
   // For making stateless changes on the onboarding screen
@@ -232,10 +257,10 @@ class WheelOfLifeController extends GetxController {
         ? currentOnBoardPageCounter.value
         : currentOnBoardPageCounter.value++;
     switch (currentOnBoardPageCounter.value) {
-    // case - not needed coz. setup does it
-    // case 0:
-    //   currentSelectedPage.value = WheelOfLifeBodyA(controller: this);
-    //   break;
+      // case - not needed coz. setup does it
+      // case 0:
+      //   currentSelectedPage.value = WheelOfLifeBodyA(controller: this);
+      //   break;
       case 1:
         currentSelectedPage.value = WheelOfLifeBodyB(controller: this);
         break;
@@ -278,6 +303,7 @@ class WheelOfLifeController extends GetxController {
   Future<void> setup() async {
     toggleLoader();
     currentSelectedPage.value = WheelOfLifeBodyA(controller: this);
+    userName.value = await SessionManager.getPersistedUsername();
     await fetchLifeAreas();
     await fetchRatingScale();
     await setupTimeProvisionInitialScales();
@@ -288,17 +314,17 @@ class WheelOfLifeController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     await setup();
+    /*
     scrollController.addListener(() {
       toggleBottomButtonVisibility(
         position: scrollController.position.pixels,
         maxPageLimit: scrollController.position.maxScrollExtent,
       );
-    });
+    });*/
   }
 
   @override
   void onClose() {
-    scrollController.dispose();
     super.onClose();
   }
 }

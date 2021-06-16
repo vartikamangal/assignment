@@ -1,10 +1,14 @@
-import 'package:equatable/equatable.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 
-import 'package:tatsam_app_experimental/features/hub/domain/entities/life-priority-list.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/life-rating-result.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/target-focus-list.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-information-model.dart';
+// Package imports:
+import 'package:equatable/equatable.dart';
+
+// Project imports:
+import '../../../rapport-building/data/models/subject-information-model.dart';
+import 'life-priority-list.dart';
+import 'life-rating-result.dart';
+import 'target-focus-list.dart';
 
 //! This is the main entity connecting all the other hub entities
 class HubStatus extends Equatable {

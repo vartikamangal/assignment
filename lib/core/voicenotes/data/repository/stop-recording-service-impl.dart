@@ -26,4 +26,22 @@ class StopRecordingServiceImpl implements StopRecordingService {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> cancelRecording({
+    String partialRecordingFileToDelete,
+  }) async {
+    try {
+      final result = await localService.cancelRecording(
+        partialRecordingFileToDelete: partialRecordingFileToDelete,
+      );
+      return Right(
+        result,
+      );
+    } on VoiceNoteExceptionOperationException {
+      return Left(
+        VoiceNoteFailure(),
+      );
+    }
+  }
 }

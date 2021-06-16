@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:responsive_builder/responsive_builder.dart';
 
 class Responsive extends StatelessWidget {

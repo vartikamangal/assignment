@@ -1,4 +1,6 @@
 //! User class to be modified
+
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
 abstract class User {

@@ -1,6 +1,9 @@
+// Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/features/hub/data/models/default-rating-scale-model.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/individual-satisfaction-rating-result.dart';
+
+// Project imports:
+import '../../domain/entities/individual-satisfaction-rating-result.dart';
+import 'default-rating-scale-model.dart';
 
 class IndividualSatisfactionRatingResultModel
     extends IndividualSatisfactionRating {

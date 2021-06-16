@@ -1,10 +1,12 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
 
-import '../../../../core/platform/instant.dart';
+// Project imports:
 import '../../domain/entities/mood-tracking.dart';
 import '../../domain/entities/subject-id.dart';
 import 'subject-id-model.dart';
 
+// ignore: must_be_immutable
 class MoodTrackingModel extends MoodTracking {
   MoodTrackingModel({
     @required SubjectId subjectId,
@@ -12,7 +14,7 @@ class MoodTrackingModel extends MoodTracking {
     @required String moodDuration,
     @required String activityType,
     @required String mood,
-    @required Instant createdWhen,
+    @required DateTime createdWhen,
   }) : super(
           subjectId: subjectId,
           moodDuration: moodDuration,
@@ -31,8 +33,8 @@ class MoodTrackingModel extends MoodTracking {
       moodDuration: jsonMap['moodDuration'] as String,
       activityType: jsonMap['activityType'] as String,
       mood: jsonMap['mood'] as String,
-      createdWhen: Instant(
-        time: DateTime.parse(jsonMap['createdWhen'] as String),
+      createdWhen: DateTime.parse(
+        jsonMap['createdWhen'] as String,
       ),
     );
   }
@@ -43,7 +45,6 @@ class MoodTrackingModel extends MoodTracking {
       "id": id,
       "activityType": activityType,
       "moodDuration": moodDuration,
-      "createdWhen": createdWhen.time.toString(),
       "mood": mood
     };
   }
