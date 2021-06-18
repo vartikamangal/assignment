@@ -1,16 +1,18 @@
 // Dart imports:
 import 'dart:convert';
+import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 
 // Package imports:
+import 'package:http/http.dart' as http;
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
+import '../../../../core/session-manager/session-manager.dart';
 
 abstract class GetRecommendationsByActionTimeRemoteDataSource {
   Future<List<ActivityRecommendationModel>> getRecommendations({
@@ -20,28 +22,38 @@ abstract class GetRecommendationsByActionTimeRemoteDataSource {
 
 class GetRecommendationsByActionTimeRemoteDataSourceImpl
     implements GetRecommendationsByActionTimeRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client remoteClient;
 
   GetRecommendationsByActionTimeRemoteDataSourceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    @required this.remoteClient,
   });
   @override
   Future<List<ActivityRecommendationModel>> getRecommendations({
     String actionTime,
   }) async {
-    final response = await client.get(
-      uri: "${APIRoute.getRecommendationByActionTime}${"/$actionTime"}",
+    final _uri = Uri.parse(
+      "${APIRoute.getRecommendationByActionTime}${"/$actionTime"}",
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    final rawActivities = jsonDecode(response.body) as List;
-    return rawActivities
-        .map(
-          (rawActivity) => ActivityRecommendationModel.fromJson(
-            rawActivity as Map<String, dynamic>,
-          ),
-        )
-        .toList();
+    final headers = await SessionManager.getHeader();
+    final response = await remoteClient.get(
+      _uri,
+      headers: headers,
+    );
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
+    if (response.statusCode == 200) {
+      final rawActivities = jsonDecode(response.body) as List;
+      return rawActivities
+          .map(
+            (rawActivity) => ActivityRecommendationModel.fromJson(
+              rawActivity as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+    } else {
+      log(response.body);
+      throw ServerException();
+    }
   }
 }

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
 import '../../../../core/auth/domain/usecases/check-if-already-logged-in.dart';
 import '../../../../core/cache-manager/domain/usecases/log-app-start-time.dart';
@@ -46,7 +45,10 @@ class RootController extends GetxController {
     );
     onBoardingStatusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Unable to load initial data',
+        );
       },
       (status) async {
         if (status == 'COMPLETE') {
@@ -70,9 +72,10 @@ class RootController extends GetxController {
       NoParams(),
     );
     isLoggedInStatusOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
+      (failure) => ShowSnackbar.rawSnackBar(
+        title: '$failure',
+        message: 'Error fetching login status',
+      ),
       (loginStatus) {
         log(
           'Login status: ${loginStatus.toString()}',
@@ -109,7 +112,10 @@ class RootController extends GetxController {
     );
     onBoardingStatusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Unable to load initial data',
+        );
       },
       (status) {
         log('isFirstTime variable updated successfully');
@@ -146,7 +152,10 @@ class RootController extends GetxController {
     );
     failureOrResult.fold(
       (f) {
-        ErrorInfo.show(f);
+        ShowSnackbar.rawSnackBar(
+          title: f.toString(),
+          message: 'Unable to load initial data',
+        );
       },
       (r) {
         log('sucessfully logged app start time');

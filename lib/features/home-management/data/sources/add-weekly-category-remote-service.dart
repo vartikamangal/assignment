@@ -3,8 +3,6 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
 import 'package:http/http.dart' as http;
 import '../../../../core/error/exceptions.dart';
@@ -24,25 +22,34 @@ abstract class AddWeeklyCategoryRemoteService {
 
 class AddWeeklyCategoryRemoteServiceImpl
     implements AddWeeklyCategoryRemoteService {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   AddWeeklyCategoryRemoteServiceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<Unit> addWeeklyCategory({
     int weekNumber,
     RecommendationCategoryModel category,
   }) async {
-    final body = jsonEncode(category.toJson());
+    final uri = Uri.parse('${APIRoute.addWeeklyCategory}${'$weekNumber'}');
+    final headers = await SessionManager.getHeader();
+    final body = jsonEncode(
+      category.toJson(),
+    );
     final response = await client.post(
-      uri: '${APIRoute.addWeeklyCategory}${'$weekNumber'}',
+      uri,
+      headers: headers,
       body: body,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    return unit;
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
+    if (response.statusCode == 200) {
+      return unit;
+    } else {
+      throw ServerException();
+    }
   }
 
   @override
@@ -50,10 +57,22 @@ class AddWeeklyCategoryRemoteServiceImpl
     String category,
     String recomendationId,
   }) async {
+    final uri = Uri.parse(
+        '${APIRoute.addWeeklyActivity}${'/$category/$recomendationId'}');
+    log(uri.toString());
+    final headers = await SessionManager.getHeader();
     final response = await client.post(
-      uri: '${APIRoute.addWeeklyActivity}${'/$category/$recomendationId'}',
+      uri,
+      headers: headers,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    return unit;
+    log(response.body);
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
+    if (response.statusCode == 200) {
+      return unit;
+    } else {
+      throw ServerException();
+    }
   }
 }

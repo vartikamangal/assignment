@@ -8,7 +8,6 @@ class PostOnboardingActionModel extends PostOnboardingAction {
     @required String actionStatus,
     @required String title,
     @required String subtitle,
-    @required String feedbackMood,
     @required int durationInMinutes,
   }) : super(
           actionId: actionId,
@@ -17,14 +16,12 @@ class PostOnboardingActionModel extends PostOnboardingAction {
           title: title,
           subtitle: subtitle,
           durationInMinutes: durationInMinutes,
-          feedbackMood: feedbackMood,
         );
 
   factory PostOnboardingActionModel.fromJson(Map<String, dynamic> jsonMap) {
     return PostOnboardingActionModel(
       actionId: jsonMap['actionId'] as int,
       journeyId: jsonMap['journeyId'] as String,
-      feedbackMood: jsonMap['feedbackMood'] as String,
       actionStatus: jsonMap['actionStatus'] as String,
       title: jsonMap['recommendationVO']['title'] as String,
       subtitle: jsonMap['recommendationVO']['subtitle'] as String,
@@ -39,7 +36,6 @@ class PostOnboardingActionModel extends PostOnboardingAction {
       'journeyId': journeyId,
       'actionStatus': actionStatus,
       'title': title,
-      'feedbackMood': feedbackMood,
       'subtitle': subtitle,
       'durationInMinutes': durationInMinutes,
     };

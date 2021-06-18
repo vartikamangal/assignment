@@ -6,8 +6,6 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -21,26 +19,34 @@ abstract class GetAllRecommendationCategoriesRemoteDataSource {
 
 class GetAllRecommendationCategoriesRemoteDataSourceImpl
     implements GetAllRecommendationCategoriesRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   GetAllRecommendationCategoriesRemoteDataSourceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<RecommendationCategoryModel>> getAllCategories() async {
+    final header = await SessionManager.getHeader();
     final response = await client.get(
-      uri: APIRoute.getAllRecommendationCategories,
+      Uri.parse(
+        APIRoute.getAllRecommendationCategories,
+      ),
+      headers: header,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    final rawCategories = jsonDecode(response.body) as List;
-    return rawCategories
-        .map(
-          (rawCategory) => RecommendationCategoryModel.fromJson(
-            rawCategory as Map<String, dynamic>,
-          ),
-        )
-        .toList();
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
+    if (response.statusCode == 200) {
+      final rawCategories = jsonDecode(response.body) as List;
+      return rawCategories
+          .map(
+            (rawCategory) => RecommendationCategoryModel.fromJson(
+              rawCategory as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+    } else {
+      throw ServerException();
+    }
   }
 }

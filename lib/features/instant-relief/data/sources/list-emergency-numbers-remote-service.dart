@@ -7,8 +7,6 @@ import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -23,25 +21,31 @@ abstract class ListEmergencyNumberRemoteDataSource {
 
 class ListEmergencyNumberRemoteDataSourceImpl
     implements ListEmergencyNumberRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   ListEmergencyNumberRemoteDataSourceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<EmergencyNumberModel>> fetchEmergencyNumbers() async {
+    final headers = await SessionManager.getHeader();
     final response = await client.get(
-      uri: APIRoute.listEmergencyNumbers,
+      Uri.parse(APIRoute.listEmergencyNumbers),
+      headers: headers,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    final emergencyContactsRaw = jsonDecode(response.body) as List;
-    return emergencyContactsRaw
-        .map(
-          (emergencyContact) => EmergencyNumberModel.fromJson(
-              emergencyContact as Map<String, dynamic>),
-        )
-        .toList();
+    SessionManager.setHeader(
+      header: response.headers,
+    );
+    if (response.statusCode == 200) {
+      final emergencyContactsRaw = jsonDecode(response.body) as List;
+      return emergencyContactsRaw
+          .map(
+            (emergencyContact) => EmergencyNumberModel.fromJson(
+                emergencyContact as Map<String, dynamic>),
+          )
+          .toList();
+    } else {
+      throw ServerException();
+    }
   }
 }

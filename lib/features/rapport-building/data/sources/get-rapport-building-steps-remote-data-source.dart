@@ -6,8 +6,6 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -24,27 +22,31 @@ abstract class GetRapportBuildingStepsRemoteDataSource {
 
 class GetRapportBuildingStepsRemoteDataSourceImpl
     implements GetRapportBuildingStepsRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client remoteClient;
 
   GetRapportBuildingStepsRemoteDataSourceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    @required this.remoteClient,
   });
   @override
   Future<RapportBuildingStepsModel> getRapportBuildingSteps({
     @required MoodModel mood,
   }) async {
-    final response = await client.post(
-      uri: APIRoute.getRapportBuildingSteps,
+    final header = await SessionManager.getHeader();
+    final response = await remoteClient.post(
+      Uri.parse(APIRoute.getRapportBuildingSteps),
+      headers: header,
       body: jsonEncode(
         mood.toJson(),
       ),
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    final jsonMap = jsonDecode(response.body) as Map;
-    return RapportBuildingStepsModel.fromJson(
-      jsonMap as Map<String, dynamic>,
-    );
+    await SessionManager.setHeader(header: response.headers);
+    if (response.statusCode == 200) {
+      final jsonMap = jsonDecode(response.body) as Map;
+      return RapportBuildingStepsModel.fromJson(
+        jsonMap as Map<String, dynamic>,
+      );
+    } else {
+      throw ServerException();
+    }
   }
 }

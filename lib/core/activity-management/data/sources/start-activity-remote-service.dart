@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -24,12 +22,10 @@ abstract class StartActivityRemoteService {
 }
 
 class StartActivityRemoteServiceImpl implements StartActivityRemoteService {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   StartActivityRemoteServiceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<ActivityStatusModel> startActivity({
@@ -39,17 +35,23 @@ class StartActivityRemoteServiceImpl implements StartActivityRemoteService {
     final uri = isInstantActivity
         ? "${APIRoute.startInstantActivity}/$recommendationId/start"
         : "${APIRoute.getRecommendationById}/$recommendationId/start";
+    final header = await SessionManager.getHeader();
     final response = await client.get(
-      uri: uri,
+      Uri.parse(uri),
+      headers: header,
     );
-    log(response.statusCode.toString());
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
     log(response.body);
-    throwExceptionIfResponseError(
-      statusCode: response.statusCode,
-    );
-    final rawActivityStatus = jsonDecode(response.body) as Map;
-    return ActivityStatusModel.fromJson(
-      rawActivityStatus as Map<String, dynamic>,
-    );
+    log(response.headers.toString());
+    if (response.statusCode == 200) {
+      final rawActivityStatus = jsonDecode(response.body) as Map;
+      return ActivityStatusModel.fromJson(
+        rawActivityStatus as Map<String, dynamic>,
+      );
+    } else {
+      throw ServerException();
+    }
   }
 }

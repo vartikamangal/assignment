@@ -3,26 +3,37 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/platform/network_info.dart';
 import '../../../../core/success/success-interface.dart';
+import '../../domain/entities/success-create-traveller.dart';
 import '../../domain/repository/create-traveller-service.dart';
 import '../sources/create-traveller-remote-service.dart';
 
 class CreateTravellerServiceImpl implements CreateTravellerService {
   final CreateTravellerRemoteService remoteService;
-  final BaseRepository baseRepository;
+  final NetworkInfo networkInfo;
 
   CreateTravellerServiceImpl({
     @required this.remoteService,
-    @required this.baseRepository,
+    @required this.networkInfo,
   });
   @override
   Future<Either<Failure, Success>> createTraveller() async {
-    return baseRepository(
-      () => remoteService.createTraveller(),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        await remoteService.createTraveller();
+        return const Right(SuccessCreatedTraveller());
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(
+        ServerFailure(),
+      );
+    }
   }
 }

@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cached-mood-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/cache-mood.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
 
@@ -103,9 +102,10 @@ class RapportBuildingController extends GetxController {
     );
     toggleProcessor();
     userNameSetOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
+      (failure) => ShowSnackbar.rawSnackBar(
+        title: 'Oops!',
+        message: 'Some error occured',
+      ),
       (fetchedSubjectInfo) {
         subjectInfo.value = fetchedSubjectInfo;
         currentOnBoardPageCounter.value += 1;
@@ -119,9 +119,10 @@ class RapportBuildingController extends GetxController {
   Future<void> getAllAvailableMoods() async {
     final moodsOrFailure = await getAllMoods(NoParams());
     moodsOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
+      (failure) => ShowSnackbar.rawSnackBar(
+        title: 'Oops!',
+        message: 'Error occured while fetching emojis!',
+      ),
       (moodsFetched) {
         moods.assignAll(moodsFetched);
       },
@@ -138,8 +139,10 @@ class RapportBuildingController extends GetxController {
   //   toggleProcessor();
   //   rapportStepsOrFailure.fold(
   //     (failure) {
-  //    {
-  // ErrorInfo.show(failure);},
+  //       ShowSnackbar.rawSnackBar(
+  //         title: 'Oops!',
+  //         message: 'Some error occured',
+  //       );
   //     },
   //     (nextSteps) {
   //       log('got the next steps');
@@ -162,7 +165,11 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     setMoodOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        log(failure.toString());
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (fetchedUserMoodStatus) async {
         //TODO Currently we are only caching the moodName
@@ -192,7 +199,10 @@ class RapportBuildingController extends GetxController {
         await getAvailableFeelingDuration(NoParams());
     availableDurationsOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: "Some error occured",
+          message: '$failure',
+        );
       },
       (fetchedDurationList) {
         log('available durations fetched');
@@ -223,7 +233,10 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     moodTrackingStatusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: "Some error occured",
+          message: '$failure',
+        );
       },
       (moodTrackStatus) {
         log('mood duration set successfully!');
@@ -247,7 +260,10 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     persistStatus.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: "Some error occured",
+          message: '$failure',
+        );
       },
       (persistenceMessage) async {
         log('feeling persisted');
@@ -274,7 +290,10 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     statusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: "Some error occured",
+          message: '$failure',
+        );
       },
       (persistenceMessage) async {
         log('mood cached');

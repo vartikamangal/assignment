@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -25,22 +23,28 @@ abstract class PrioritizeRemoteService {
 }
 
 class PrioritizeRemoteServiceImpl implements PrioritizeRemoteService {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
+  final Box sessionClient;
 
   PrioritizeRemoteServiceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
+    @required this.sessionClient,
   });
   @override
   Future<SuccessPrioritize> prioritize({
     @required LifeAreaModelForPrioritization lifeAreas,
   }) async {
+    final header = await SessionManager.getHeader();
     final response = await client.post(
-      uri: APIRoute.prioritizeAreas,
+      Uri.parse(APIRoute.prioritizeAreas),
+      headers: header as Map<String, String>,
       body: jsonEncode(lifeAreas.toJson()),
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    return SuccessPrioritize();
+    await SessionManager.setHeader(header: response.headers);
+    if (response.statusCode == 200) {
+      return SuccessPrioritize();
+    } else {
+      throw ServerException();
+    }
   }
 }

@@ -3,8 +3,6 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
@@ -18,28 +16,39 @@ abstract class GetActionWithActionStatusRemoteDataSource {
 
 class GetActionWithActionStatusRemoteDataSourceImpl
     implements GetActionWithActionStatusRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   GetActionWithActionStatusRemoteDataSourceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<PostOnboardingActionModel>> getAction({
     String actionStatus,
   }) async {
-    final response = await client.get(
-      uri: "${APIRoute.getActionWithActionStatus}${"/$actionStatus"}",
+    final _uri = Uri.parse(
+      "${APIRoute.getActionWithActionStatus}${"/$actionStatus"}",
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    final actionsRaw = jsonDecode(response.body) as List;
-    return actionsRaw
-        .map(
-          (actionRaw) => PostOnboardingActionModel.fromJson(
-            actionRaw as Map<String, dynamic>,
-          ),
-        )
-        .toList();
+    final _headers = await SessionManager.getHeader();
+    final response = await client.get(
+      _uri,
+      headers: _headers,
+    );
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
+    if (response.statusCode == 200) {
+      final actionsRaw = jsonDecode(response.body) as List;
+      return actionsRaw
+          .map(
+            (actionRaw) => PostOnboardingActionModel.fromJson(
+              actionRaw as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+    } else {
+      log('problem in fetching actions with action-status');
+      log(response.body);
+      throw ServerException();
+    }
   }
 }

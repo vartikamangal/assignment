@@ -1,8 +1,6 @@
 // Flutter imports:
 // Package imports:
-
 import 'package:animations/animations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/screen/profile-screen.dart';
@@ -17,6 +15,7 @@ import '../../../core/activity-management/presentation/widget/path-play-section2
 import '../../../core/activity-management/presentation/widget/path-self-driven-plan-inside.dart';
 import '../../../core/activity-management/presentation/widget/path-self-driven-plan.dart';
 import '../../../core/activity-management/presentation/widget/self-path-info-section1.dart';
+import '../../auth/presentation/screens/auth-screen-test.dart';
 import '../../../features/focus/presentation/screen/focus-screen.dart';
 import '../../../features/focus/presentation/widgets/issue-detail.dart';
 import '../../../features/focus/presentation/widgets/selected-issue-details.dart';
@@ -31,7 +30,6 @@ import '../../../features/root/presentation/screen/root-view.dart';
 import '../../../features/sign-up/presentation/screen/sign-up-screen.dart';
 import '../../../features/what-path-to-choose/presentation/screen/choose-path-screen.dart';
 import '../../../features/wheel-of-life-track/presentation/screens/wheel-of-life-screen.dart';
-import '../../auth/presentation/screens/auth-screen-test.dart';
 
 abstract class RouteName {
   static const origin = '/';
@@ -127,8 +125,9 @@ class GenerateRoute {
       );
     }
     if (route == RouteName.hubScreen) {
-      return CupertinoPageRoute(
-        builder: (context) => HubScreen(),
+      return PageTransition(
+        child: HubScreen(),
+        type: PageTransitionType.rightToLeft,
       );
     }
     if (route == RouteName.wheelOfLifeScreen) {
@@ -161,8 +160,9 @@ class GenerateRoute {
       return MaterialPageRoute(builder: (_) => SelectedIssueDetails());
     }
     if (route == RouteName.questionTrackScreen) {
-      return CupertinoPageRoute(
-        builder: (context) => QuestionsTrackScreen(),
+      return PageTransition(
+        child: QuestionsTrackScreen(),
+        type: PageTransitionType.rightToLeft,
       );
     }
     if (route == RouteName.whatPathChooseScreen) {
@@ -344,8 +344,18 @@ class GenerateRoute {
       );
     }
     if (route == RouteName.profileScreen) {
-      return CupertinoPageRoute(
-        builder: (context) => ProfileScreen(),
+      return PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 350),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ProfileScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            SlideTransition(
+              position:  Tween<Offset>(
+                begin: const Offset(1, 0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            ),
       );
     }
   }

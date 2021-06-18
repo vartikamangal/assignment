@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -23,21 +21,27 @@ abstract class GetRatingScaleRemoteDataSource {
 
 class GetRatingScaleRemoteDataSourceImpl
     implements GetRatingScaleRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   GetRatingScaleRemoteDataSourceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<RatingScaleModel> getRatingScale() async {
+    final header = await SessionManager.getHeader();
+
     final response = await client.get(
-      uri: APIRoute.getRatingScale,
+      Uri.parse(APIRoute.getRatingScale),
+      headers: header as Map<String, String>,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    return RatingScaleModel.fromJson(
-      jsonDecode(response.body) as Map<String, dynamic>,
-    );
+    print(response.headers);
+    await SessionManager.setHeader(header: response.headers);
+    if (response.statusCode == 200) {
+      return RatingScaleModel.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>,
+      );
+    } else {
+      throw ServerException();
+    }
   }
 }

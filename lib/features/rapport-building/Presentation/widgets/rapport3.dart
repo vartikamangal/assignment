@@ -160,6 +160,34 @@ class MidPageContentC extends StatelessWidget {
             ],
           ),
         ),
+        FadedDiagonalEndAnimation(
+            0.4,
+            0.0,
+            Align(
+                alignment: Alignment.bottomRight,
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  color: blueDarkShade,
+                  size: ScaleManager.spaceScale(
+                    spaceing: 24,
+                  ).value,
+                )),
+            -Get.width * 0.5,
+            -Get.height * 0.5,
+            400),
+        FadedDiagonalEndAnimation(
+            0.4,
+            0.0,
+            Align(
+                alignment: Alignment.bottomLeft,
+                child: SizedBox(
+                    height: 30,
+                    child: Image.asset(
+                        '${ImagePath.lightBlueEmoji}${'$selectedEmotion.png'}',
+                        scale: 0.2))),
+            Get.width * 0.5,
+            -Get.height * 0.5,
+            400),
       ],
     );
   }

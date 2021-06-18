@@ -41,8 +41,8 @@ class AuthController extends GetxController {
       (failure) {
         final fNew = failure as AuthFailure;
         ShowSnackbar.rawSnackBar(
-          title: fNew.title,
-          message: fNew.details,
+          title: fNew.smallMessage,
+          message: fNew.reason,
         );
       },
       (loginStatus) async {

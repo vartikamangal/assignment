@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/error/exceptions.dart';
+import 'package:tatsam_app_experimental/core/error/generic-error-message.dart';
+import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/data/sources/profile-details-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/question-log.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/profile-data.dart';
@@ -11,37 +13,89 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/entitie
 
 class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository {
   final ProfileDetailsRemoteDataSource remoteDataSource;
-  final BaseRepository baseRepository;
+  final NetworkInfo networkInfo;
 
   ProfileDetailsRepositoryImpl({
     @required this.remoteDataSource,
-    @required this.baseRepository,
+    @required this.networkInfo,
   });
   @override
   Future<Either<Failure, ProfileData>> getBasicProfileDetails() async {
-    return baseRepository(
-      () => remoteDataSource.getBasicProfileDetails(),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getBasicProfileDetails();
+        return Right(result);
+      } on AuthException {
+        return const Left(
+          GenericErrorMessage.authFailure,
+        );
+      } on ServerException {
+        return Left(
+          ServerFailure(),
+        );
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 
   @override
   Future<Either<Failure, List<MoodTracking>>> getMoodLogs() async {
-    return baseRepository(
-      () => remoteDataSource.getMoodLogs(),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getMoodLogs();
+        return Right(result);
+      } on AuthException {
+        return const Left(
+          GenericErrorMessage.authFailure,
+        );
+      } on ServerException {
+        return Left(
+          ServerFailure(),
+        );
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 
   @override
   Future<Either<Failure, List<QuestionLog>>> getProfileQuestions() async {
-    return baseRepository(
-      () => remoteDataSource.getProfileQuestions(),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getProfileQuestions();
+        return Right(result);
+      } on AuthException {
+        return const Left(
+          GenericErrorMessage.authFailure,
+        );
+      } on ServerException {
+        return Left(
+          ServerFailure(),
+        );
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 
   @override
   Future<Either<Failure, HubStatus>> getProfileWheelOfLifeData() async {
-    return baseRepository(
-      () => remoteDataSource.getProfileWheelOfLifeData(),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getProfileWheelOfLifeData();
+        return Right(result);
+      } on AuthException {
+        return const Left(
+          GenericErrorMessage.authFailure,
+        );
+      } on ServerException {
+        return Left(
+          ServerFailure(),
+        );
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 }

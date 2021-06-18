@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/file-manager/file-manager.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/core/utils/snackbars/snackbars.dart';
@@ -35,9 +34,10 @@ class VoiceNoteController extends GetxController {
   Future<void> getFilePathToRecord() async {
     final pathToRecordOrFailure = await fileUtils.getNewFileNameName();
     pathToRecordOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
+      (failure) => ShowSnackbar.rawSnackBar(
+        title: failure.toString(),
+        message: 'Unable to fetch filePath',
+      ),
       (filePath) async {
         currentVoiceNotePath.value = filePath;
       },
@@ -53,9 +53,10 @@ class VoiceNoteController extends GetxController {
         ),
       );
       startedRecordingVoiceNoteOrFailure.fold(
-        (failure) {
-          ErrorInfo.show(failure);
-        },
+        (failure) => ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Unable to start recording',
+        ),
         (status) {
           isRecording.value = soundRecorder.isRecording;
           fetchRecorderStats();
@@ -73,7 +74,10 @@ class VoiceNoteController extends GetxController {
     isWaiting.value = false;
     failureOrResult.fold(
       (f) {
-        ErrorInfo.show(f);
+        ShowSnackbar.rawSnackBar(
+          title: f.toString(),
+          message: 'Unable to start recording',
+        );
       },
       (r) {
         r.listen((event) {
@@ -88,9 +92,10 @@ class VoiceNoteController extends GetxController {
       NoParams(),
     );
     stoppedRecordingOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
+      (failure) => ShowSnackbar.rawSnackBar(
+        title: failure.toString(),
+        message: 'Unable to stop recording',
+      ),
       (status) {
         isRecording.value = soundRecorder.isRecording;
         log(status.message);

@@ -7,7 +7,6 @@ class PostOnboardingAction extends Equatable {
   final String actionStatus;
   final String title;
   final String subtitle;
-  final String feedbackMood;
   final int durationInMinutes;
 
   const PostOnboardingAction({
@@ -16,7 +15,6 @@ class PostOnboardingAction extends Equatable {
     @required this.actionStatus,
     @required this.title,
     @required this.subtitle,
-    @required this.feedbackMood,
     @required this.durationInMinutes,
   });
 
@@ -29,7 +27,6 @@ class PostOnboardingAction extends Equatable {
       title,
       subtitle,
       durationInMinutes,
-      feedbackMood,
     ];
   }
 }

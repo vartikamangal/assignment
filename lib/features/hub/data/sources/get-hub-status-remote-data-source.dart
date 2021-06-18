@@ -1,13 +1,12 @@
 // Dart imports:
 import 'dart:convert';
+import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -20,22 +19,26 @@ abstract class GetHubStatusRemoteDataSource {
 }
 
 class GetHubStatusRemoteDataSourceImpl implements GetHubStatusRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client remoteClient;
 
   GetHubStatusRemoteDataSourceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    @required this.remoteClient,
   });
   @override
   Future<HubStatusModel> getHubStatus() async {
-    final response = await client.get(
-      uri: APIRoute.getHubUserStatus,
+    final header = await SessionManager.getHeader();
+    final response = await remoteClient.get(
+      Uri.parse(APIRoute.getHubUserStatus),
+      headers: header,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    final jsonMap = jsonDecode(response.body) as Map;
-    return HubStatusModel.fromJson(
-      jsonMap as Map<String, dynamic>,
-    );
+    await SessionManager.setHeader(header: response.headers);
+    if (response.statusCode == 200) {
+      final jsonMap = jsonDecode(response.body) as Map;
+      return HubStatusModel.fromJson(
+        jsonMap as Map<String, dynamic>,
+      );
+    } else {
+      throw ServerException();
+    }
   }
 }

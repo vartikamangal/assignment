@@ -62,33 +62,30 @@ class HubScreen extends StatelessWidget {
                     ).value,
                   ),
                 ),
-                Container(
-                  height: Get.height*0.42,
-                  child: Obx(
-                    () => GestureDetector(
-                      onTap: _controller.isLoading.value
-                          // Do nothing untill some process is going on
-                          ? () {}
-                          : _controller.activeHubStateObject.value.onImageTap,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Responsive(
-                            mobile: _MidImageMobileComponent(
-                              controller: _controller,
-                              imageScale: imageScale,
-                            ),
-                            tablet: _MidImageTabletContent(
-                              controller: _controller,
-                              imageScale: imageScale,
-                            ),
-                            desktop: _MidImageDesktopComponent(
-                              controller: _controller,
-                              imageScale: imageScale,
-                            ),
+                Obx(
+                  () => GestureDetector(
+                    onTap: _controller.isLoading.value
+                        // Do nothing untill some process is going on
+                        ? () {}
+                        : _controller.activeHubStateObject.value.onImageTap,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Responsive(
+                          mobile: _MidImageMobileComponent(
+                            controller: _controller,
+                            imageScale: imageScale,
                           ),
-                        ],
-                      ),
+                          tablet: _MidImageTabletContent(
+                            controller: _controller,
+                            imageScale: imageScale,
+                          ),
+                          desktop: _MidImageDesktopComponent(
+                            controller: _controller,
+                            imageScale: imageScale,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

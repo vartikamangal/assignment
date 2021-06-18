@@ -38,16 +38,19 @@ class NotPermittedActionFailure extends Failure {
 }
 
 class AuthFailure extends Failure {
-  final String title;
-  final String details;
+  final String code;
+  final String smallMessage;
+  final String reason;
 
   const AuthFailure({
-    @required this.title,
-    @required this.details,
+    @required this.code,
+    @required this.smallMessage,
+    @required this.reason,
   });
   @override
   List<Object> get props => [
-        title,
-        details,
+        reason,
+        smallMessage,
+        reason,
       ];
 }

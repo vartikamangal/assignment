@@ -90,9 +90,7 @@ class WheelOfLifeScreen extends StatelessWidget {
                           1) {
                         return FlipCard(
                           flipOnTouch: false,
-                          key: _controller.bottomBtnAnimState,
-                          speed:
-                              600 + ((_controller.lifeAreas.length + 1) * 50),
+                          key: _controller.cardKey,
                           front: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [

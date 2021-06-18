@@ -21,7 +21,6 @@ abstract class PersistRecommendationFeedbackLocalService {
     @required String textInput,
     @required String voiceNoteInput,
   });
-  Future<List<RecommendationInputModel>> getPersistedFeedbacks();
 }
 
 class PersistRecommendationFeedbackLocalServiceImpl
@@ -91,25 +90,6 @@ class PersistRecommendationFeedbackLocalServiceImpl
     } catch (e) {
       log('Seems like saving something for the first time.');
       return [];
-    }
-  }
-
-  @override
-  Future<List<RecommendationInputModel>> getPersistedFeedbacks() async {
-    try {
-      final result = await box.get(
-        PersistenceConst.RECOMMENDATION_INPUTS,
-      ) as String;
-      return (jsonDecode(result) as List)
-          .map(
-            (log) => RecommendationInputModel.fromJson(
-              jsonDecode(log as String) as Map<String, dynamic>,
-            ),
-          )
-          .toList();
-    } catch (e) {
-      log(e.toString());
-      throw CacheException();
     }
   }
 }

@@ -37,7 +37,7 @@ class VoiceNoteRecorderFragment extends StatelessWidget {
             Row(
               children: [
                 SizedBox(
-                  height: ScaleManager.spaceScale(
+                  height:  ScaleManager.spaceScale(
                     spaceing: 26,
                   ).value,
                   child: SvgPicture.asset(
@@ -53,11 +53,7 @@ class VoiceNoteRecorderFragment extends StatelessWidget {
                 Obx(
                   () => Text(
                     // Elapsed Time String
-                      "${_voiceNoteController.elapsedDuration.value.inMinutes<10?"0${_voiceNoteController.elapsedDuration.value.inMinutes}"
-                          :"${_voiceNoteController.elapsedDuration.value.inMinutes}"}"
-                          ":${_voiceNoteController.elapsedDuration.value.inSeconds-_voiceNoteController.elapsedDuration.value.inMinutes*60<10
-                          ?"0${_voiceNoteController.elapsedDuration.value.inSeconds-_voiceNoteController.elapsedDuration.value.inMinutes*60}"
-                          :"${_voiceNoteController.elapsedDuration.value.inSeconds-_voiceNoteController.elapsedDuration.value.inMinutes*60}"}",
+                    "${_voiceNoteController.elapsedDuration.value.inMinutes}:${_voiceNoteController.elapsedDuration.value.inSeconds-_voiceNoteController.elapsedDuration.value.inMinutes*60}",
                     style: GoogleFonts.zillaSlab(
                       fontWeight: FontWeight.w300,
                       fontSize: 18,
@@ -91,21 +87,19 @@ class VoiceNoteRecorderFragment extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Container(
-                      height: ScaleManager.spaceScale(
+                      height:  ScaleManager.spaceScale(
                         spaceing: 28,
                       ).value,
-                      width: ScaleManager.spaceScale(
+                      width:  ScaleManager.spaceScale(
                         spaceing: 28,
                       ).value,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: blueDarkShade),
-                      child: Icon(
-                        Icons.done,
-                        color: Colors.white,
-                        size: ScaleManager.spaceScale(
-                          spaceing: 20,
-                        ).value,
-                      )),
+                        shape: BoxShape.circle,
+                        color: blueDarkShade
+                      ),
+                      child:  Icon(Icons.done,color: Colors.white,size: ScaleManager.spaceScale(
+                        spaceing: 20,
+                      ).value,)),
                   onPressed: () async {
                     await _voiceNoteController.stopRecordingVoiceNote();
                   },

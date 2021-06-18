@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/platform/network_info.dart';
 import '../../domain/entities/recommendation.dart';
 import '../../domain/repositories/get-category-activities-repository.dart';
 import '../models/recommendation-category-model.dart';
@@ -15,20 +16,27 @@ import '../sources/get-category-activites-remote-data-source.dart';
 class GetCategoryActivitiesRepositoryImpl
     implements GetCategoryActivitiesRepository {
   final GetCategoryActivitiesRemoteDataSource remoteDataSource;
-  final BaseRepository baseRepository;
+  final NetworkInfo networkInfo;
 
   GetCategoryActivitiesRepositoryImpl({
     @required this.remoteDataSource,
-    @required this.baseRepository,
+    @required this.networkInfo,
   });
   @override
   Future<Either<Failure, List<Recommendation>>> getActivities({
     RecommendationCategoryModel category,
   }) async {
-    return baseRepository(
-      () => remoteDataSource.getActivities(
-        category: category,
-      ),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final activites = await remoteDataSource.getActivities(
+          category: category,
+        );
+        return Right(activites);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 }

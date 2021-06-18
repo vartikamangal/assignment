@@ -13,7 +13,6 @@ import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/responsive/responsive-builder.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
-import 'package:tatsam_app_experimental/core/utils/animations/enter-exit-root-animation.dart';
 import 'package:tatsam_app_experimental/core/utils/animations/fade-animation-x-axis.dart';
 import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
 import 'package:tatsam_app_experimental/core/utils/buttons/bottom-left-gradient-button.dart';
@@ -21,7 +20,6 @@ import 'package:tatsam_app_experimental/core/utils/buttons/bottom-right-text-but
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/loading-widget.dart';
-import 'package:tatsam_app_experimental/features/hub/presentation/screen/hub-screen.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 import 'package:tatsam_app_experimental/core/utils/buttons/inactive-bottom-right-button.dart';
 
@@ -71,9 +69,8 @@ class RapportScreen extends StatelessWidget {
                   ).value,
                   child: BottomLeftGradientButton(
                     // ignore: avoid_print
-                    onPressed: () => Navigator.of(context).pushNamed(
-                      RouteName.instantRelief,
-                    ),
+                    onPressed: () => Navigator.of(context)
+                        .pushNamed(RouteName.profileScreen),
                   ),
                 ),
                 Positioned(
@@ -96,20 +93,18 @@ class RapportScreen extends StatelessWidget {
                                 .currentOnBoardPageCounter.value ==
                             0
                         ? (_onBoardingController.userName.value.isNotEmpty
-                            ? (_onBoardingController.isProcessing.value
-                                ? CircularProgressIndicator()
-                                : BottomRightButton(
-                                    title: '',
-                                    onPressed: () {
-                                      _onBoardingController.switchButtonStatus
-                                                      .value ==
-                                                  true &&
-                                              _onBoardingController
-                                                  .userName.value.isNotEmpty
-                                          ? _onBoardingController
-                                              .changeNickNameAndMoveOnwards()
-                                          : Container();
-                                    }))
+                            ? (_onBoardingController.isProcessing.value? CircularProgressIndicator():BottomRightButton(
+                                title: '',
+                                onPressed: () {
+                                  _onBoardingController
+                                                  .switchButtonStatus.value ==
+                                              true &&
+                                          _onBoardingController
+                                              .userName.value.isNotEmpty
+                                      ? _onBoardingController
+                                          .changeNickNameAndMoveOnwards()
+                                      : Container();
+                                }))
                             : const InactiveBottomRightButton(
                                 title: '',
                               ))
@@ -132,11 +127,10 @@ class RapportScreen extends StatelessWidget {
                                                   .feeling.value,
                                             )
                                             .then(
-                                              (value) => Navigator.push(
-                                                  context,
-                                                  EnterExitRoute(
-                                                      exitPage: this,
-                                                      enterPage: HubScreen())),
+                                              (value) => Navigator.of(context)
+                                                  .pushNamed(
+                                                RouteName.hubScreen,
+                                              ),
                                             );
                                       },
                                     ),
@@ -149,20 +143,16 @@ class RapportScreen extends StatelessWidget {
                                                 .selectedFeelingDuration
                                                 .value !=
                                             null
-                                        ? (_onBoardingController
-                                                .isProcessing.value
-                                            ? CircularProgressIndicator()
-                                            : BottomRightButton(
-                                                title: '',
-                                                onPressed: () =>
-                                                    _onBoardingController
-                                                                .selectedFeelingDuration
-                                                                .value ==
-                                                            null
-                                                        ? Container()
-                                                        : _onBoardingController
-                                                            .changeScreen(),
-                                              ))
+                                        ? (_onBoardingController.isProcessing.value?CircularProgressIndicator() :BottomRightButton(
+                                            title: '',
+                                            onPressed: () => _onBoardingController
+                                                        .selectedFeelingDuration
+                                                        .value ==
+                                                    null
+                                                ? Container()
+                                                : _onBoardingController
+                                                    .changeScreen(),
+                                          ))
                                         : const InactiveBottomRightButton(
                                             title: '',
                                           ),

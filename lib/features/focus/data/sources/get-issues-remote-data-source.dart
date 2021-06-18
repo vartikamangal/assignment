@@ -7,10 +7,10 @@ import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/persistence-consts.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../models/issue-model.dart';
@@ -20,27 +20,30 @@ abstract class GetIssueRemoteDataSource {
 }
 
 class GetIssueRemoteDataSourceImpl implements GetIssueRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   GetIssueRemoteDataSourceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<IssueModel>> getIssues() async {
+    final header = await SessionManager.getHeader();
     final response = await client.get(
-      uri: APIRoute.getAllIssues,
+      Uri.parse(APIRoute.getAllIssues),
+      headers: header,
     );
     SessionManager.setHeader(
       header: response.headers,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    final rawIssues = jsonDecode(response.body) as List;
-    return rawIssues
-        .map(
-          (rawIssue) => IssueModel.fromJson(rawIssue as Map<String, dynamic>),
-        )
-        .toList();
+    if (response.statusCode == 200) {
+      final rawIssues = jsonDecode(response.body) as List;
+      return rawIssues
+          .map(
+            (rawIssue) => IssueModel.fromJson(rawIssue as Map<String, dynamic>),
+          )
+          .toList();
+    } else {
+      throw ServerException();
+    }
   }
 }

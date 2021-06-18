@@ -13,7 +13,7 @@ import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
 class PersistRecommendationFeedback
     implements Usecase<Unit, PersistRecommendationFeedbackParams> {
-  final RecommendationFeedbackService service;
+  final PersistRecommendationFeedbackService service;
 
   PersistRecommendationFeedback({
     @required this.service,

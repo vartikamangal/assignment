@@ -8,8 +8,6 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/persistence-consts.dart';
@@ -24,33 +22,43 @@ abstract class StartJourneyRemoteService {
 }
 
 class StartJourneyRemoteServiceImp implements StartJourneyRemoteService {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
   final Box localClient;
 
   StartJourneyRemoteServiceImp({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
     @required this.localClient,
   });
   @override
   Future<SuccessJourneyStart> startJourney({JourneyModel journey}) async {
+    final header = await SessionManager.getHeader();
     final response = await client.post(
-      uri: APIRoute.startJourney,
+      Uri.parse(APIRoute.startJourney),
+      headers: header,
       body: jsonEncode(journey.toJson()),
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    try {
-      /// For keeping a track of what path has user chosen
-      /// Either SMALL_WINS or BIG_GOALS
-      await localClient.put(
-        PersistenceConst.USER_SELECTED_PATH,
-        journey.pathName,
-      );
-    } catch (e) {
-      log(e.toString());
-      throw CacheException();
+    SessionManager.setHeader(
+      header: response.headers,
+    );
+
+    if (response.statusCode == 200) {
+      try {
+        /// For keeping a track of what path has user chosen
+        /// Either SMALL_WINS or BIG_GOALS
+        await localClient.put(
+          PersistenceConst.USER_SELECTED_PATH,
+          journey.pathName,
+        );
+      } catch (e) {
+        log(e.toString());
+        throw CacheException();
+      }
+      return SuccessJourneyStart();
     }
-    return SuccessJourneyStart();
+    if (response.statusCode == 401) {
+      throw AuthException();
+    } else {
+      throw ServerException();
+    }
   }
 }

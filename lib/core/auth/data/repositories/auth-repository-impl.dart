@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
+import '../../../error/exceptions.dart';
 import '../../../error/failures.dart';
 import '../../../platform/network_info.dart';
 import '../../domain/entities/request-data.dart';
@@ -27,8 +28,9 @@ class AuthRepositoryImpl implements AuthRepository {
         );
       } on PlatformException catch (e) {
         return Left(AuthFailure(
-          title: e.code,
-          details: e.message,
+          reason: e.details.toString(),
+          smallMessage: e.message,
+          code: e.code,
         ));
       }
     } else {
@@ -52,8 +54,9 @@ class AuthRepositoryImpl implements AuthRepository {
         );
       } on PlatformException catch (e) {
         return Left(AuthFailure(
-          title: e.code,
-          details: e.message,
+          reason: e.details.toString(),
+          smallMessage: e.message,
+          code: e.code,
         ));
       }
     } else {
@@ -72,12 +75,11 @@ class AuthRepositoryImpl implements AuthRepository {
           logoutStatus,
         );
       } on PlatformException catch (e) {
-        return Left(
-          AuthFailure(
-            title: e.code,
-            details: e.message,
-          ),
-        );
+        return Left(AuthFailure(
+          reason: e.details.toString(),
+          smallMessage: e.message,
+          code: e.code,
+        ));
       }
     } else {
       return Left(
@@ -97,8 +99,9 @@ class AuthRepositoryImpl implements AuthRepository {
       } on PlatformException catch (e) {
         return Left(
           AuthFailure(
-            title: e.code,
-            details: e.message,
+            reason: e.details.toString(),
+            smallMessage: e.message,
+            code: e.code,
           ),
         );
       }

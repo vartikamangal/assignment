@@ -7,8 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 import '../../../error/exceptions.dart';
 import '../../../persistence-consts.dart';
@@ -32,14 +30,12 @@ abstract class AuthRemoteService {
 class AuthRemoteServiceImpl implements AuthRemoteService {
   final FlutterSecureStorage secureStorage;
   final FlutterAppAuth flutterAppAuth;
-  final ApiClient apiClient;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client apiClient;
 
   AuthRemoteServiceImpl({
     @required this.secureStorage,
     @required this.flutterAppAuth,
     @required this.apiClient,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<bool> checkIfAlreadyLoggedIn() async {
@@ -182,24 +178,54 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   Future<void> _loginRemoteApiHelper({
     @required String user_id,
   }) async {
+    final headers = await SessionManager.getHeader();
     final response = await apiClient.post(
-      uri: APIRoute.login,
-      body: jsonEncode(user_id),
+      Uri.parse(
+        APIRoute.login,
+      ),
+      headers: headers,
+      body: jsonEncode(
+        user_id,
+      ),
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    log('user logged in successfully!');
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
+    log(APIRoute.login);
+    log(headers.toString());
+    log(response.body);
+    if (response.statusCode == 200) {
+      log('user logged in successfully!');
+    } else {
+      log(response.statusCode.toString());
+      throw AuthException();
+    }
   }
 
   /// Saves the user_id onto the tatsam_auth_api
   Future<void> _registrationRemoteApiHelper({
     @required String user_id,
   }) async {
+    final headers = await SessionManager.getHeader();
     final response = await apiClient.post(
-      uri: APIRoute.register,
-      body: jsonEncode(user_id),
+      Uri.parse(
+        APIRoute.register,
+      ),
+      headers: headers,
+      body: jsonEncode(
+        user_id,
+      ),
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    log('user registsered successfully!');
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
+    log(response.body);
+    if (response.statusCode == 200) {
+      log('user registsered successfully!');
+    } else {
+      log(response.statusCode.toString());
+      throw AuthException();
+    }
   }
 
   Future<void> _saveRefreshTokenToSecureStorage({

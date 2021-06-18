@@ -1,7 +1,6 @@
 // Package imports:
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 // Project imports:
 import '../features/wheel-of-life-track/data/repository/get-life-areas-repository-impl.dart';
@@ -59,50 +58,49 @@ Future<void> initWheelOfLifeDependencies() async {
   sl_wol.registerLazySingleton<GetLifeAreasRepository>(
     () => GetLifeAreasRepositoryImpl(
       source: sl_wol(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_wol(),
     ),
   );
   sl_wol.registerLazySingleton<GetRatingScaleRepository>(
     () => GetRatingScaleRepositoryImpl(
       remoteDataSource: sl_wol(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_wol(),
     ),
   );
   sl_wol.registerLazySingleton<PrioritizeService>(
     () => PrioritizeServiceImpl(
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_wol(),
       remoteService: sl_wol(),
     ),
   );
   sl_wol.registerLazySingleton<RateSatisfactionService>(
     () => RateSatisfactionServiceImpl(
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_wol(),
       remoteService: sl_wol(),
     ),
   );
   // Sources
   sl_wol.registerLazySingleton<GetLifeAreasRemoteDataSource>(
     () => GetLifeAreasRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_wol(),
+      sessionClient: sl_wol(),
     ),
   );
   sl_wol.registerLazySingleton<GetRatingScaleRemoteDataSource>(
     () => GetRatingScaleRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_wol(),
     ),
   );
   sl_wol.registerLazySingleton<PrioritizeRemoteService>(
     () => PrioritizeRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_wol(),
+      sessionClient: sl_wol(),
     ),
   );
   sl_wol.registerLazySingleton<RateSatisfactionRemoteService>(
     () => RateSatisfactionRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_wol(),
+      sessionClient: sl_wol(),
     ),
   );
   // External

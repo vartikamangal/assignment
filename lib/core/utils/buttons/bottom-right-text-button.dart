@@ -9,6 +9,7 @@ import '../../responsive/responsive-builder.dart';
 import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
+
 // ignore: must_be_immutable
 class BottomRightTextButton extends StatelessWidget {
   String title;

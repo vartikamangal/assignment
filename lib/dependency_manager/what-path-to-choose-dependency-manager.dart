@@ -1,7 +1,6 @@
 // Package imports:
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 // Project imports:
 import '../features/what-path-to-choose/data/repositories/get_journey_path_list_repository_impl.dart';
@@ -41,27 +40,25 @@ Future<void> initJourneyDependencies() async {
   sl_journey.registerLazySingleton<GetJounreyPathListRepository>(
     () => GetJourneyPathListRpositoryImpl(
       remoteDataSource: sl_journey(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_journey(),
     ),
   );
   sl_journey.registerLazySingleton<StartJourneyService>(
     () => StartJourneyServiceImpl(
       remoteService: sl_journey(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_journey(),
     ),
   );
   // Sources
   sl_journey.registerLazySingleton<GetJourneyPathListRemoteDataSource>(
     () => GetJourneyPathListRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_journey(),
     ),
   );
   sl_journey.registerLazySingleton<StartJourneyRemoteService>(
     () => StartJourneyRemoteServiceImp(
-      client: sl_core_dependencies(),
+      client: sl_journey(),
       localClient: sl_journey(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
     ),
   );
   // External

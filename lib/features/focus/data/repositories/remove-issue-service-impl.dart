@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -16,16 +15,23 @@ import '../sources/remove-issue-remote-service.dart';
 
 class RemoveIssueServiceImpl implements RemoveIssueService {
   final RemoveIssueRemoteService remoteService;
-  final BaseRepository baseRepository;
+  final NetworkInfo networkInfo;
 
   RemoveIssueServiceImpl({
     @required this.remoteService,
-    @required this.baseRepository,
+    @required this.networkInfo,
   });
   @override
   Future<Either<Failure, Success>> removeIssue({Issue issue}) async {
-    return baseRepository(
-      () => remoteService.removeIssue(issue: issue),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final issueRemoved = await remoteService.removeIssue(issue: issue);
+        return Right(issueRemoved);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 }

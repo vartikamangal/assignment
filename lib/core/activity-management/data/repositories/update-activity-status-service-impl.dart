@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -15,22 +14,29 @@ import '../sources/update-activity-status-remote-sevice.dart';
 
 class UpdateActivityStatusServiceImpl implements UpdateActivityStatusService {
   final UpdateActivityStatusRemoteService remoteService;
-  final BaseRepository baseRepository;
+  final NetworkInfo networkInfo;
 
   UpdateActivityStatusServiceImpl({
     @required this.remoteService,
-    @required this.baseRepository,
+    @required this.networkInfo,
   });
   @override
   Future<Either<Failure, ActivityStatus>> updateStatus({
     String status,
     int actionId,
   }) async {
-    return baseRepository(
-      () => remoteService.modifyStatus(
-        status: status,
-        actionId: actionId,
-      ),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final activityStatus = await remoteService.modifyStatus(
+          status: status,
+          actionId: actionId,
+        );
+        return Right(activityStatus);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 }

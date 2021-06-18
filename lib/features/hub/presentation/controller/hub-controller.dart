@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/request-login.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
 // Project imports:
 import '../../../../core/routes/app-routes/app-routes.dart';
@@ -52,7 +51,10 @@ class HubController extends GetxController {
     final hubStatusOrFailure = await getHubStatus(NoParams());
     hubStatusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (fetchedHubStatus) {
         hubStatus.value = fetchedHubStatus;
@@ -73,7 +75,10 @@ class HubController extends GetxController {
     final hubStatusOrFailure = await getHubStatus(NoParams());
     hubStatusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (fetchedHubStatus) {
         hubStatusFinal.value = fetchedHubStatus;
@@ -95,7 +100,10 @@ class HubController extends GetxController {
     toggleProcessor();
     travellerCreatedOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (travellerCreatedStatus) {
         log(travellerCreatedStatus.message);
@@ -114,7 +122,10 @@ class HubController extends GetxController {
     toggleLogger();
     loggedInOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Error in logging in',
+        );
       },
       (loginStatus) async {
         log('user logged in');
@@ -128,7 +139,10 @@ class HubController extends GetxController {
     );
     return alreadyLoggedInStatusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Error in logging in',
+        );
         return false;
       },
       (loginStatus) {

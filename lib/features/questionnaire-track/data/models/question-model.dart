@@ -46,22 +46,13 @@ class QuestionModel extends Question {
             ),
           )
           .toList(),
-      //TODO mess due to inequality in varNames in API response
-      questionOptionVO: jsonMap['questionOptionVO'] != null
-          ? (jsonMap['questionOptionVO'] as List)
-              .map(
-                (quesOption) => QuestionOptionModel.fromJson(
-                  quesOption as Map<String, dynamic>,
-                ),
-              )
-              .toList()
-          : (jsonMap['questionOptions'] as List)
-              .map(
-                (quesOption) => QuestionOptionModel.fromJson(
-                  quesOption as Map<String, dynamic>,
-                ),
-              )
-              .toList(),
+      questionOptionVO: (jsonMap['questionOptionVO'] as List)
+          .map(
+            (quesOption) => QuestionOptionModel.fromJson(
+              quesOption as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
       questionText: jsonMap['questionText'] as String,
       questionExplanation: jsonMap['questionExplanation'] as String,
       creationTime: jsonMap['creationTime'] as String,

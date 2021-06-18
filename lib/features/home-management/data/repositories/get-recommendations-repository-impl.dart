@@ -6,28 +6,42 @@ import 'package:dartz/dartz.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/platform/network_info.dart';
 import '../../../../features/home-management/data/sources/get-recommendations-by-action-time-remote-data-source.dart';
 import '../../../../features/home-management/domain/repositories/get-recommendations-by-action-time-repository.dart';
 
 class GetRecommendationsByActionTimeRepositoryRepositoryImpl
     implements GetRecommendationsByActionTimeRepository {
   final GetRecommendationsByActionTimeRemoteDataSource remoteDataSource;
-  final BaseRepository baseRepository;
+  final NetworkInfo networkInfo;
 
   GetRecommendationsByActionTimeRepositoryRepositoryImpl({
     @required this.remoteDataSource,
-    @required this.baseRepository,
+    @required this.networkInfo,
   });
   @override
   Future<Either<Failure, List<ActivityRecommendation>>> getRecommendations({
     String actionTime,
   }) async {
-    return baseRepository(
-      () => remoteDataSource.getRecommendations(
-        actionTime: actionTime,
-      ),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final recommendations = await remoteDataSource.getRecommendations(
+          actionTime: actionTime,
+        );
+        return Right(
+          recommendations,
+        );
+      } on ServerException {
+        return Left(
+          ServerFailure(),
+        );
+      }
+    } else {
+      return Left(
+        ServerFailure(),
+      );
+    }
   }
 }

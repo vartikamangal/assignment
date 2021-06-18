@@ -4,11 +4,12 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 
 // Package imports:
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+import 'package:http/http.dart' as http;
 
 // Project imports:
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
+import '../../../../core/session-manager/session-manager.dart';
 import '../../domain/entities/success-create-traveller.dart';
 
 abstract class CreateTravellerRemoteService {
@@ -16,19 +17,28 @@ abstract class CreateTravellerRemoteService {
 }
 
 class CreateTravellerRemoteServiceImpl implements CreateTravellerRemoteService {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   CreateTravellerRemoteServiceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<SuccessCreatedTraveller> createTraveller() async {
+    final header = await SessionManager.getHeader();
     final response = await client.get(
-      uri: APIRoute.createNewTraveller,
+      Uri.parse(APIRoute.createNewTraveller),
+      headers: header,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    return const SuccessCreatedTraveller();
+
+    await SessionManager.setHeader(header: response.headers);
+    log(response.body);
+    log(response.statusCode.toString());
+    log(header.toString());
+    if (response.statusCode == 200) {
+      return const SuccessCreatedTraveller();
+    } else {
+      log(response.body);
+      throw ServerException();
+    }
   }
 }

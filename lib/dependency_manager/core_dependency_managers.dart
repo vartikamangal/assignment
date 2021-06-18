@@ -5,11 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
-import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
-import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/data/repository/get-recorder-stats-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/data/source/get-recorder-stats-local-data-source.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/get-recorder-stats-repository.dart';
@@ -130,14 +125,7 @@ Future<void> initCoreDependencies() async {
       service: sl_core_dependencies(),
     ),
   );
-
   // Respos/Services
-  sl_core_dependencies.registerLazySingleton(
-    () => BaseRepository(
-      callIfNetworkConnected: sl_core_dependencies(),
-      handleException: sl_core_dependencies(),
-    ),
-  );
   sl_core_dependencies.registerLazySingleton<StartRecordingVoiceNoteService>(
     () => StartRecordingVoiceNoteServiceImpl(
       localService: sl_core_dependencies(),
@@ -151,13 +139,11 @@ Future<void> initCoreDependencies() async {
   sl_core_dependencies.registerLazySingleton<SaveFeedbackService>(
     () => SaveFeedbackServiceImpl(
       localService: sl_core_dependencies(),
-      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_core_dependencies.registerLazySingleton<MoodCacheService>(
     () => MoodCacheServiceImpl(
       localService: sl_core_dependencies(),
-      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_core_dependencies.registerLazySingleton<AppDurationRepository>(
@@ -168,7 +154,6 @@ Future<void> initCoreDependencies() async {
   sl_core_dependencies.registerLazySingleton<LogLastOpenedAppService>(
     () => LogLastOpenedAppServiceImpl(
       localService: sl_core_dependencies(),
-      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_core_dependencies.registerLazySingleton<GetRecorderStatsRepository>(
@@ -215,14 +200,6 @@ Future<void> initCoreDependencies() async {
     ),
   );
   //Core
-  sl_core_dependencies.registerLazySingleton(
-    () => CallIfNetworkConnected(
-      networkInfo: sl_core_dependencies(),
-    ),
-  );
-  sl_core_dependencies.registerLazySingleton(
-    () => HandleException(),
-  );
   sl_core_dependencies.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(
       sl_core_dependencies(),
@@ -235,14 +212,6 @@ Future<void> initCoreDependencies() async {
     () => FileUtilsImpl(
       box: sl_core_dependencies(),
     ),
-  );
-  sl_core_dependencies.registerLazySingleton(
-    () => ApiClient(
-      client: sl_core_dependencies(),
-    ),
-  );
-  sl_core_dependencies.registerLazySingleton(
-    () => ThrowExceptionIfResponseError(),
   );
 
   // External

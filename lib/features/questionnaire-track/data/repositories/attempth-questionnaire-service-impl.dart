@@ -4,10 +4,11 @@ import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/platform/network_info.dart';
 import '../../../../core/success/success-interface.dart';
 import '../../domain/entities/question-option.dart';
 import '../../domain/entities/question.dart';
@@ -17,11 +18,11 @@ import '../sources/attempt-questionnaire-remote-service.dart';
 
 class AttemptQuestionnaireServiceImpl implements AtemptQuestionnaireService {
   final AttemptQuestionnaireRemoteService remoteService;
-  final BaseRepository baseRepository;
+  final NetworkInfo networkInfo;
 
   AttemptQuestionnaireServiceImpl({
     @required this.remoteService,
-    @required this.baseRepository,
+    @required this.networkInfo,
   });
   @override
   Future<Either<Failure, Success>> attempQuestionnaire({
@@ -29,12 +30,19 @@ class AttemptQuestionnaireServiceImpl implements AtemptQuestionnaireService {
     Questionnaire questionnaire,
     RxMap<Question, QuestionOption> questionToScaleMap,
   }) async {
-    return baseRepository(
-      () => remoteService.attemptQuestionnaire(
-        questionToAnswerMap: questionToAnswerMap,
-        questionToScaleMap: questionToScaleMap,
-        questionnaire: questionnaire,
-      ),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final attemptResult = await remoteService.attemptQuestionnaire(
+          questionToAnswerMap: questionToAnswerMap,
+          questionToScaleMap: questionToScaleMap,
+          questionnaire: questionnaire,
+        );
+        return Right(attemptResult);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 }

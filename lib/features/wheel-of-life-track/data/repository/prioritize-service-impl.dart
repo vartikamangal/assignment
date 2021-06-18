@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -16,21 +15,28 @@ import '../models/life-area-model-for-prioritization.dart';
 import '../sources/prioritize-remote-service.dart';
 
 class PrioritizeServiceImpl implements PrioritizeService {
+  final NetworkInfo networkInfo;
   final PrioritizeRemoteService remoteService;
-  final BaseRepository baseRepository;
 
   PrioritizeServiceImpl({
+    @required this.networkInfo,
     @required this.remoteService,
-    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, Success>> prioritize({
     @required LifeAreaForPrioritization lifeAreas,
   }) async {
-    return baseRepository(
-      () => remoteService.prioritize(
-        lifeAreas: lifeAreas as LifeAreaModelForPrioritization,
-      ),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final prioritizeStatus = await remoteService.prioritize(
+          lifeAreas: lifeAreas as LifeAreaModelForPrioritization,
+        );
+        return Right(prioritizeStatus);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(DeviceOfflineFailure());
+    }
   }
 }

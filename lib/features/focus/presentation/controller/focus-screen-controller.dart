@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
 // Project imports:
 import '../../../../core/routes/app-routes/app-routes.dart';
@@ -42,7 +41,10 @@ class FocusController extends GetxController {
     final gottenIssueOrFailure = await getIssues(NoParams());
     gottenIssueOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (fetchedIssues) {
         log('Fetched all focus areas');
@@ -61,7 +63,10 @@ class FocusController extends GetxController {
     toggleProcessor();
     issueAddedOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (issueSaved) {
         log("Saved user's current focus");
@@ -94,8 +99,6 @@ class FocusController extends GetxController {
   List<String> cart = [];
   bool optionSelected = false;
   Rx<Issue> selectedIssue = Rx<IssueModel>();
-  RxInt count=0.obs;
-  RxList<Issue> removedItem=RxList<IssueModel>([]);
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;
@@ -103,12 +106,6 @@ class FocusController extends GetxController {
 
   void toggleLoader() {
     isLoading.value = !isLoading.value;
-  }
-  void removeIssue(Issue issue){
-    count++;
-    issues.removeWhere((element) => element.focusName==issue.focusName);
-    count>1?issues.add(removedItem.value[removedItem.length-1]):print("");
-    removedItem.add(selectedIssue.value);
   }
 
   void getDescription(String image, Issue issue) {
@@ -120,9 +117,6 @@ class FocusController extends GetxController {
 
   // Custom navigator
   void navigateBack() {
-    count.value=0;
-    issues.add(selectedIssue.value);
-    issues.toSet();
     topExpandedContainer.value = 0.0;
   }
 

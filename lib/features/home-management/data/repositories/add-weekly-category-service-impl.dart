@@ -1,33 +1,44 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
-
-import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
+import 'package:dartz/dartz.dart';
 import '../../../../core/platform/network_info.dart';
-import '../../domain/repositories/add-weekly-category-service.dart';
 import '../sources/add-weekly-category-remote-service.dart';
+import '../../domain/repositories/add-weekly-category-service.dart';
 
 class AddWeeklyCategoryServiceImpl implements AddWeeklyCategoryService {
   final AddWeeklyCategoryRemoteService remoteService;
-  final BaseRepository baseRepository;
+  final NetworkInfo networkInfo;
 
   AddWeeklyCategoryServiceImpl({
     @required this.remoteService,
-    @required this.baseRepository,
+    @required this.networkInfo,
   });
   @override
   Future<Either<Failure, Unit>> addWeeklyCategory({
     int weekNumber,
     RecommendationCategoryModel category,
   }) async {
-    return baseRepository(
-      () => remoteService.addWeeklyCategory(
-        weekNumber: weekNumber,
-        category: category,
-      ),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final status = await remoteService.addWeeklyCategory(
+          weekNumber: weekNumber,
+          category: category,
+        );
+        return Right(
+          status,
+        );
+      } on ServerException {
+        return Left(
+          ServerFailure(),
+        );
+      }
+    } else {
+      return Left(
+        DeviceOfflineFailure(),
+      );
+    }
   }
 
   @override
@@ -35,11 +46,24 @@ class AddWeeklyCategoryServiceImpl implements AddWeeklyCategoryService {
     String category,
     String recommendationId,
   }) async {
-    return baseRepository(
-      () => remoteService.addWeeklyActivity(
-        category: category,
-        recomendationId: recommendationId,
-      ),
-    );
+    if (await networkInfo.isConnected) {
+      try {
+        final status = await remoteService.addWeeklyActivity(
+          category: category,
+          recomendationId: recommendationId,
+        );
+        return Right(
+          status,
+        );
+      } on ServerException {
+        return Left(
+          ServerFailure(),
+        );
+      }
+    } else {
+      return Left(
+        DeviceOfflineFailure(),
+      );
+    }
   }
 }

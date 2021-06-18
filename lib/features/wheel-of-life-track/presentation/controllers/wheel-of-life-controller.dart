@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flip_card/flip_card.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
 // Project imports:
 import '../../../../core/routes/app-routes/app-routes.dart';
@@ -68,11 +67,13 @@ class WheelOfLifeController extends GetxController {
     final lifeAreasOrFailure = await getLifeAreas(NoParams());
     lifeAreasOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (fetchedLifeAreas) {
         lifeAreas.assignAll(fetchedLifeAreas);
-        _populateCardListWithGlobalState();
       },
     );
   }
@@ -81,7 +82,10 @@ class WheelOfLifeController extends GetxController {
     final ratingScaleOrFailure = await getRatingScale(NoParams());
     ratingScaleOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (fetchedRatingScale) {
         ratingScale.value = fetchedRatingScale;
@@ -112,7 +116,10 @@ class WheelOfLifeController extends GetxController {
     toggleProcessor();
     prioritizeSuccessOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (prioritizeSuccess) {
         currentSelectedPage.value = WheelOfLifeBodyD(controller: this);
@@ -141,7 +148,10 @@ class WheelOfLifeController extends GetxController {
     toggleProcessor();
     ratedSatisfactionOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Something went wrong!',
+        );
       },
       (prioritizeSuccess) {
         log('Succesfully rated satisfactions');
@@ -202,19 +212,16 @@ class WheelOfLifeController extends GetxController {
   RxDouble emotionvalue = 1.0.obs;
   RxBool isClickedOnInformation = false.obs;
   RxString userName = RxString('');
+  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
   RxBool isInformationButtontoggled = false.obs;
+  GlobalKey<FlipCardState> cardKey1 = GlobalKey<FlipCardState>();
 
-  /// will hold the state for the bottom Done button
-  GlobalKey<FlipCardState> bottomBtnAnimState = GlobalKey<FlipCardState>();
-
-  /// will hold the state for various life areas for flip animation
-  RxList<GlobalKey<FlipCardState>> cardsElementsState = RxList([]);
-
-  void toggleAnimatableCard() {
-    cardsElementsState.forEach((element) {
-      element.currentState.toggleCard();
-    });
-    bottomBtnAnimState.currentState.toggleCard();
+  void toggleInformation() {
+    cardKey1.currentState.toggleCard();
+    cardKey.currentState.toggleCard();
+    /* Future.delayed(Duration(milliseconds: 350), () {
+      isInformationButtontoggled.value=!isInformationButtontoggled.value;
+    });*/
   }
 
   void toggleProcessor() {
@@ -231,18 +238,6 @@ class WheelOfLifeController extends GetxController {
     } else {
       showBottomButton.value = true;
     }
-  }
-
-  /// Adds List of [GlobalKeu] into the animatableCardsStateList equal to the number of
-  /// lifeareas
-  void _populateCardListWithGlobalState() {
-    lifeAreas.forEach(
-      (element) {
-        cardsElementsState.add(
-          GlobalKey<FlipCardState>(),
-        );
-      },
-    );
   }
 
   // ignore: use_setters_to_change_properties

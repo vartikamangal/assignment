@@ -1,7 +1,6 @@
 // Package imports:
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 // Project imports:
 import '../features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
@@ -82,76 +81,71 @@ Future<void> initRapportDependencies() async {
   sl_rapport.registerLazySingleton<SetSubjectNameService>(
     () => SetSubjectNameServiceImpl(
       service: sl_rapport(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_rapport(),
     ),
   );
   sl_rapport.registerLazySingleton<SetSubjectMoodService>(
     () => SetSubjectMoodServiceImpl(
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_rapport(),
       service: sl_rapport(),
     ),
   );
   sl_rapport.registerLazySingleton<GetAllMoodsRepository>(
     () => GetAllMoodsRepositoryImpl(
       source: sl_rapport(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_rapport(),
     ),
   );
 
   sl_rapport.registerLazySingleton<GetRapportBuildingStepsRepository>(
     () => GetRapportBuildingStepsRepositoryImpl(
       remoteDataSource: sl_rapport(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_rapport(),
     ),
   );
   sl_rapport.registerLazySingleton<GetAvailableFeelingDurationRepository>(
     () => GetAvailableFeelingDurationRepositoryImpl(
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_rapport(),
       remoteDataSource: sl_rapport(),
     ),
   );
   sl_rapport.registerLazySingleton<TrackSubjectMoodService>(
     () => TrackSubjectMoodServiceImpl(
       service: sl_rapport(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_rapport(),
     ),
   );
   // Sources
   sl_rapport.registerLazySingleton<SetSubjectNameRemoteService>(
     () => SetSubjectNameRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_rapport(),
     ),
   );
   sl_rapport.registerLazySingleton<SetSubjectMoodRemoteService>(
     () => SetSubjectMoodRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_rapport(),
     ),
   );
   sl_rapport.registerLazySingleton<GetAllMoodsRemoteDataSource>(
     () => GetAllMoodsRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_rapport(),
     ),
   );
 
   sl_rapport.registerLazySingleton<GetRapportBuildingStepsRemoteDataSource>(
     () => GetRapportBuildingStepsRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      remoteClient: sl_rapport(),
     ),
   );
   sl_rapport.registerLazySingleton<GetAvailableFeelingDurationRemoteDataSource>(
     () => GetAvailableFeelingDurationRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_rapport(),
     ),
   );
   sl_rapport.registerLazySingleton<TrackSubjectMoodRemoteService>(
     () => TrackSubjectMoodRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_rapport(),
+      sessionClient: sl_rapport(),
     ),
   );
   // External

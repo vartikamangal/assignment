@@ -9,20 +9,24 @@ import 'package:tatsam_app_experimental/core/cache-manager/data/services/retriev
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/retrieve-user-path-repository.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 class RetrieveUserPathRepositoryImpl implements RetrieveUserPathRepository {
   final RetrieveUserPathLocalDataSource localDataSource;
-  final BaseRepository baseRepository;
 
   RetrieveUserPathRepositoryImpl({
     @required this.localDataSource,
-    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, String>> retrievePath() async {
-    return baseRepository(
-      () => localDataSource.retrievePath(),
-    );
+    try {
+      final userPath = await localDataSource.retrievePath();
+      return Right(
+        userPath,
+      );
+    } on CacheException {
+      return Left(
+        CacheFailure(),
+      );
+    }
   }
 }

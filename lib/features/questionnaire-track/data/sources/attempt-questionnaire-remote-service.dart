@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -31,12 +29,10 @@ abstract class AttemptQuestionnaireRemoteService {
 
 class AttemptQuestionnaireRemoteServiceImpl
     implements AttemptQuestionnaireRemoteService {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   AttemptQuestionnaireRemoteServiceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<SuccessAtemptQuestionnaire> attemptQuestionnaire({
@@ -44,20 +40,27 @@ class AttemptQuestionnaireRemoteServiceImpl
     RxMap<Question, dynamic> questionToAnswerMap,
     RxMap<Question, QuestionOption> questionToScaleMap,
   }) async {
+    final header = await SessionManager.getHeader();
     final requestBody = _buildRequestBody(
       questionnaire,
       questionToAnswerMap,
       questionToScaleMap,
     );
     final response = await client.post(
-      uri: APIRoute.attemptQuestions,
+      Uri.parse(APIRoute.attemptQuestions),
+      headers: header,
       body: requestBody,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
-    return const SuccessAtemptQuestionnaire();
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
+    if (response.statusCode == 200) {
+      return const SuccessAtemptQuestionnaire();
+    } else {
+      throw ServerException();
+    }
   }
 
-  /// Helper function for generating the requestBody from passed in model & data
   String _buildRequestBody(
     Questionnaire questionnaire,
     RxMap<Question, dynamic> questionToAnswerMap,

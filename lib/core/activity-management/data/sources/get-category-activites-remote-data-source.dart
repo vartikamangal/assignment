@@ -6,8 +6,6 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -24,32 +22,40 @@ abstract class GetCategoryActivitiesRemoteDataSource {
 
 class GetCategoryActivitiesRemoteDataSourceImpl
     implements GetCategoryActivitiesRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final http.Client client;
 
   GetCategoryActivitiesRemoteDataSourceImpl({
     @required this.client,
-    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<RecommendationModel>> getActivities({
     RecommendationCategoryModel category,
   }) async {
+    final header = await SessionManager.getHeader();
     final response = await client.post(
-      uri: APIRoute.getAllRecommendationsByCategory,
+      Uri.parse(
+        APIRoute.getAllRecommendationsByCategory,
+      ),
+      headers: header,
       body: jsonEncode(
         category.toJson(),
       ),
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    await SessionManager.setHeader(
+      header: response.headers,
+    );
     //TODO Check why only one data is being shown as response
-    final rawActivities = jsonDecode(response.body) as List;
-    return rawActivities
-        .map(
-          (rawActivity) => RecommendationModel.fromJson(
-            rawActivity as Map<String, dynamic>,
-          ),
-        )
-        .toList();
+    if (response.statusCode == 200) {
+      final rawActivities = jsonDecode(response.body) as List;
+      return rawActivities
+          .map(
+            (rawActivity) => RecommendationModel.fromJson(
+              rawActivity as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+    } else {
+      throw ServerException();
+    }
   }
 }

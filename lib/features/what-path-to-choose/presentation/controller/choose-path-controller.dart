@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/activity-management/presentation/controller/path-controller.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/request-login.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';
@@ -47,7 +46,10 @@ class ChoosePathController extends GetxController {
     final fetchedJourneysOrFailure = await getJourneyPathList(NoParams());
     fetchedJourneysOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: '$failure',
+          message: 'Some error occured',
+        );
       },
       (fetchedJourneys) {
         availableJournies.assignAll(fetchedJourneys);
@@ -66,7 +68,11 @@ class ChoosePathController extends GetxController {
     toggleProcessor();
     journeyStartedOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        final fNew = failure as AuthFailure;
+        ShowSnackbar.rawSnackBar(
+          title: fNew.smallMessage,
+          message: fNew.reason,
+        );
       },
       (journeyStatus) {
         log('${selectedJourney.value.title} started');

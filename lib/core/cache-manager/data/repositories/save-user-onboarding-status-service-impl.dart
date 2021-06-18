@@ -3,54 +3,80 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/cache-manager/data/services/user-onboarding-status-local-service.dart';
 import '../../../../core/cache-manager/domain/repositories/save-user-onboarding-status-service.dart';
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 
 class SaveUserOnboardingStatusServiceImpl
     implements SaveUserOnboardingStatusService {
   final UserOnboardingStatusLocalService localService;
-  final BaseRepository baseRepository;
 
   SaveUserOnboardingStatusServiceImpl({
     @required this.localService,
-    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, String>> fetchStatus() async {
-    return baseRepository(
-      () => localService.fetchStatus(),
-    );
+    try {
+      final onBoardingStatus = await localService.fetchStatus();
+      return Right(
+        onBoardingStatus,
+      );
+    } on CacheException {
+      return Left(
+        CacheFailure(),
+      );
+    }
   }
 
   @override
   Future<Either<Failure, Unit>> saveStatus({
     String onBoardingStatus,
   }) async {
-    return baseRepository(
-      () => localService.saveStatus(
+    try {
+      final cacheStatus = await localService.saveStatus(
         status: onBoardingStatus,
-      ),
-    );
+      );
+      return Right(
+        cacheStatus,
+      );
+    } on CacheException {
+      return Left(
+        CacheFailure(),
+      );
+    }
   }
 
   @override
   Future<Either<Failure, bool>> checkIfFirstTimeUser() async {
-    return baseRepository(
-      () => localService.checkIsFirstTimeUser(),
-    );
+    try {
+      final isFirstTimeUser = await localService.checkIsFirstTimeUser();
+      return Right(
+        isFirstTimeUser,
+      );
+    } on CacheException {
+      return Left(
+        CacheFailure(),
+      );
+    }
   }
 
   @override
   Future<Either<Failure, Unit>> saveIsFirstTimeOnboardingStatus(
       {String onBoardingStatus}) async {
-    return baseRepository(
-      () => localService.saveIsFirstTimeUser(
+    try {
+      final cacheStatus = await localService.saveIsFirstTimeUser(
         onBoardingStatus: onBoardingStatus,
-      ),
-    );
+      );
+      return Right(
+        cacheStatus,
+      );
+    } on CacheException {
+      return Left(
+        CacheFailure(),
+      );
+    }
   }
 }

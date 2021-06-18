@@ -1,8 +1,6 @@
 // Package imports:
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/get-persisted-feedbacks.dart';
-import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 // Project imports:
 import '../core/activity-management/data/repositories/get-activity-category-repository-impl.dart';
@@ -99,89 +97,78 @@ Future<void> initPathDependencies() async {
       service: sl_path(),
     ),
   );
-  sl_path.registerLazySingleton(
-    () => GetPersistedFeedbacks(
-      service: sl_path(),
-    ),
-  );
   // Services/Repos
   sl_path.registerLazySingleton<GetAllRecommendationCategoriesRepository>(
     () => GetAllRecommendationCategoriesRepositoryImpl(
       remoteDataSource: sl_path(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<GetCategoryActivitiesRepository>(
     () => GetCategoryActivitiesRepositoryImpl(
       remoteDataSource: sl_path(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<StartActivityService>(
     () => StartActivityServiceImpl(
       remoteService: sl_path(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<UpdateActivityStatusService>(
     () => UpdateActivityStatusServiceImpl(
       remoteService: sl_path(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<GetActivitySceduleForGuidedPlanRepository>(
     () => GetActivityScheduleGuidedPlanRepositoryImpl(
       remoteDataSource: sl_path(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_path(),
     ),
   );
-  sl_path.registerLazySingleton<RecommendationFeedbackService>(
-    () => RecommendationFeedbackServiceImpl(
+  sl_path.registerLazySingleton<PersistRecommendationFeedbackService>(
+    () => PersistRecommendationFeedbackServiceImpl(
       localService: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<RateRecommendationFlowService>(
     () => RateRecommendationFlowServiceImpl(
       remoteService: sl_path(),
-      baseRepository: sl_core_dependencies(),
+      networkInfo: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<CacheMostRecentAcitivtyService>(
     () => CacheMostRecentActivityServiceImpl(
       localService: sl_path(),
-      baseRepository: sl_core_dependencies(),
     ),
   );
   // Sources
   sl_path.registerLazySingleton<GetAllRecommendationCategoriesRemoteDataSource>(
     () => GetAllRecommendationCategoriesRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<GetCategoryActivitiesRemoteDataSource>(
     () => GetCategoryActivitiesRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<StartActivityRemoteService>(
     () => StartActivityRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<UpdateActivityStatusRemoteService>(
     () => UpdateActivityStatusRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_path(),
     ),
   );
   sl_path
       .registerLazySingleton<GetActivityScheduleForGuidedPlanRemoteDataSource>(
     () => GetActivityScheduleForGuidedPlanRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<PersistRecommendationFeedbackLocalService>(
@@ -191,8 +178,7 @@ Future<void> initPathDependencies() async {
   );
   sl_path.registerLazySingleton<RateRecommendationFlowRemoteService>(
     () => RateRecommendationFlowRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
+      client: sl_path(),
     ),
   );
   sl_path.registerLazySingleton<CacheMostRecentAcitivityLocalService>(

@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/save-feedback.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 
 // Project imports:
@@ -105,7 +104,10 @@ class PathController extends GetxController {
         await getAllRecommendationCategories(NoParams());
     fetchedCategoriesOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (fetchedRecommendationcatgories) async {
         log('self driven plan fetched');
@@ -122,7 +124,10 @@ class PathController extends GetxController {
         await getActivityScheduleForGuidedPlan(NoParams());
     fetchedActivitiesOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (fetchedRecommendationcatgories) {
         log('guided plan activities fetched');
@@ -143,7 +148,10 @@ class PathController extends GetxController {
     toggleProcessor();
     fetchedCategoryActivitiesOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (fetchedActivities) {
         recommendationActivities.assignAll(fetchedActivities);
@@ -168,7 +176,11 @@ class PathController extends GetxController {
     toggleProcessor();
     activityStatusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        log(failure.toString());
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (activityStatus) {
         currentOngoingActivity.value = activityStatus;
@@ -190,7 +202,11 @@ class PathController extends GetxController {
     toggleProcessor();
     activityStatusOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        log(failure.toString());
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (activityStatus) async {
         // Cache the activity, if actionStatus is not Abandoned'
@@ -219,9 +235,10 @@ class PathController extends GetxController {
       ),
     );
     activityCachedOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
+      (failure) => ShowSnackbar.rawSnackBar(
+        title: '$failure',
+        message: 'Some error occured',
+      ),
       (cacheStatus) => log(
         'recent activity cached',
       ),
@@ -241,7 +258,11 @@ class PathController extends GetxController {
     toggleProcessor();
     persistedInputOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        log(failure.toString());
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (status) async {
         //! Later modify this if statement for the null voiceNOte check too
@@ -287,7 +308,11 @@ class PathController extends GetxController {
     toggleProcessor();
     ratedActivityOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        log(failure.toString());
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (status) async {
         log('recommendation flow response captured!');
@@ -306,7 +331,10 @@ class PathController extends GetxController {
     );
     userPathOrFailure.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        ShowSnackbar.rawSnackBar(
+          title: failure.toString(),
+          message: 'Some error occured',
+        );
       },
       (userPath) {
         userSelectedPath.value = userPath;
