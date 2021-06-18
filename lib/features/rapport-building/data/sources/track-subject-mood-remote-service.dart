@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:tatsam_app_experimental/core/session-manager/session-manager.dart';
 
 // Project imports:
@@ -25,33 +27,22 @@ abstract class TrackSubjectMoodRemoteService {
 
 class TrackSubjectMoodRemoteServiceImpl
     implements TrackSubjectMoodRemoteService {
-  final http.Client client;
-  final Box sessionClient;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   TrackSubjectMoodRemoteServiceImpl({
     @required this.client,
-    @required this.sessionClient,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<TrackMoodSuccess> trackMood({@required MoodTracking mood}) async {
-    final headers = await SessionManager.getHeader();
     final response = await client.post(
-      Uri.parse(APIRoute.setMoodDuration),
-      headers: headers,
+      uri: APIRoute.setMoodDuration,
       body: jsonEncode(
         (mood as MoodTrackingModel).toJson(),
       ),
     );
-    log((mood as MoodTrackingModel).toJson().toString());
-    log(response.statusCode.toString());
-    log(headers.toString());
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
-    if (response.statusCode == 200) {
-      return TrackMoodSuccess();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    return TrackMoodSuccess();
   }
 }

@@ -2,28 +2,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-screen-controller.dart';
+import 'package:tatsam_app_experimental/features/home-management/presentation/controller/home-controller.dart';
+import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
+import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/answered-question-diary.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/bottom-nav-bar.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/landing-profile.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/mood-profile.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/not-answered-question-diary.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/wol-profile.dart';
 
+import '../../../../core/asset-image-path/image-path.dart';
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/color-pallete.dart';
-import '../../../../features/profile-screen/presentation/widget/answered-question-diary.dart';
 import '../../../../features/profile-screen/presentation/widget/my-diary.dart';
-import '../../../../core/asset-image-path/image-path.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final ProfileScreenController controller = Get.put(ProfileScreenController());
-  List<Widget> screens = [
-     LandingProfileScreen(),
+  final ProfileController controller = Get.find();
+  final HomeController _homeController = Get.find();
+  final List<Widget> screens = [
+    const LandingProfileScreen(),
     WheelOfLifeProfile(),
     MoodProfileScreen(),
     MyDiary(),
-    NotAnsweredQuestionDiary()
+    AnsweredQuestionDiary(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -34,24 +35,36 @@ class ProfileScreen extends StatelessWidget {
           elevation: 0,
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pop();
+              Navigator.of(context).pop();
             },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: blueDarkShade,
-              size: ScaleManager.spaceScale(spaceing: 26).value,
+            icon: SvgPicture.asset(
+              ImagePath.backButton,
+              height: ScaleManager.spaceScale(
+                spaceing: 26,
+              ).value,
             ),
           ),
-          actions: [ IconButton(
-            onPressed: () {
-              //TODO SETTING FUNCTIONALITY
-            },
-            icon: Image.asset(ImagePath.settingsIcon,height: 26,)
-          )],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  //TODO SETTING FUNCTIONALITY
+                },
+                icon: Image.asset(
+                  ImagePath.settingsIcon,
+                  height: 26,
+                ))
+          ],
         ),
-        body: Obx(()=>screens[controller.selectedScreenIndex.value]),
-        bottomNavigationBar: BottomNavBar()
+        body: Obx(
+          () => controller.isLoading.value
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : screens[controller.selectedScreenIndex.value],
+        ),
+        bottomNavigationBar: BottomNavBar(
+          mood: _homeController.userMood.value.moodName,
+        ),
       ),
     );
   }

@@ -8,6 +8,7 @@ import 'package:dartz/dartz.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/feedback-model.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/sources/rate-recommendation-flow-remote-service.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/rate-recommendation-flow-service.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/platform/network_info.dart';
@@ -15,34 +16,20 @@ import '../../../../core/platform/network_info.dart';
 class RateRecommendationFlowServiceImpl
     implements RateRecommendationFlowService {
   final RateRecommendationFlowRemoteService remoteService;
-  final NetworkInfo networkInfo;
+  final BaseRepository baseRepository;
 
   RateRecommendationFlowServiceImpl({
     @required this.remoteService,
-    @required this.networkInfo,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, Unit>> rateRecommendation({
     FeedbackModel feedback,
   }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final feedbackStatusResponse =
-            await remoteService.rateRecommendationFlow(
-          feedback: feedback,
-        );
-        return Right(
-          feedbackStatusResponse,
-        );
-      } on ServerException {
-        return Left(
-          ServerFailure(),
-        );
-      }
-    } else {
-      return Left(
-        DeviceOfflineFailure(),
-      );
-    }
+    return baseRepository(
+      () => remoteService.rateRecommendationFlow(
+        feedback: feedback,
+      ),
+    );
   }
 }

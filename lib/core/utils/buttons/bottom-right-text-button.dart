@@ -1,15 +1,16 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // Package imports:
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
 import '../../responsive/responsive-builder.dart';
 import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
-
 // ignore: must_be_immutable
 class BottomRightTextButton extends StatelessWidget {
   String title;
@@ -121,13 +122,10 @@ class _ResponsiveBottomBtn extends StatelessWidget {
           SizedBox(
             width: ScaleManager.spaceScale(spaceing: 14).value,
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            color: whiteshade,
-            size: ScaleManager.spaceScale(
+          SvgPicture.asset(ImagePath.forwardIcon,
+            height: ScaleManager.spaceScale(
               spaceing: 19,
-            ).value,
-          ),
+            ).value,),
         ],
       ),
     );

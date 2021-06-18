@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -17,28 +18,18 @@ import '../sources/get-rapport-building-steps-remote-data-source.dart';
 class GetRapportBuildingStepsRepositoryImpl
     implements GetRapportBuildingStepsRepository {
   final GetRapportBuildingStepsRemoteDataSource remoteDataSource;
-  final NetworkInfo networkInfo;
+  final BaseRepository baseRepository;
 
   GetRapportBuildingStepsRepositoryImpl({
     @required this.remoteDataSource,
-    @required this.networkInfo,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, RapportBuildingSteps>> getRapportBuildingSteps({
     @required Mood mood,
   }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final rapportBuildingSteps =
-            await remoteDataSource.getRapportBuildingSteps(
-          mood: mood as MoodModel,
-        );
-        return Right(rapportBuildingSteps);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => remoteDataSource.getRapportBuildingSteps(mood: mood as MoodModel),
+    );
   }
 }

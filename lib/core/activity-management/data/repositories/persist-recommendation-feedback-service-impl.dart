@@ -7,15 +7,16 @@ import 'package:dartz/dartz.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity-management/data/models/activity-status-model.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/sources/persist-recommendation-input-local-service.dart';
+import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-input.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/persist-recommendation-feedback-service.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 
-class PersistRecommendationFeedbackServiceImpl
-    implements PersistRecommendationFeedbackService {
+class RecommendationFeedbackServiceImpl
+    implements RecommendationFeedbackService {
   final PersistRecommendationFeedbackLocalService localService;
 
-  PersistRecommendationFeedbackServiceImpl({
+  RecommendationFeedbackServiceImpl({
     @required this.localService,
   });
   @override
@@ -31,6 +32,17 @@ class PersistRecommendationFeedbackServiceImpl
         voiceNoteInput: voiceNoteInput,
       );
       return Right(status);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<RecommendationInput>>>
+      getpersistedFeedbacks() async {
+    try {
+      final result = await localService.getPersistedFeedbacks();
+      return Right(result);
     } on CacheException {
       return Left(CacheFailure());
     }

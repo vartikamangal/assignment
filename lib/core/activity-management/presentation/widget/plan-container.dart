@@ -57,7 +57,7 @@ class PlanContainer extends StatelessWidget {
                       ).value),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: greyLightShade,
+                      color: hintshade,
                       width: 2,
                     ),
                     borderRadius: BorderRadius.all(
@@ -79,7 +79,7 @@ class PlanContainer extends StatelessWidget {
                           InitCap(title),
                           style: isFaded
                               ? AppTextStyle.Darkblueheader.copyWith(
-                                  color: Colors.grey,
+                                  color: greyboxshade,
                                 )
                               : AppTextStyle.Darkblueheader,
                           textScaleFactor: textScaleFactor,
@@ -87,11 +87,14 @@ class PlanContainer extends StatelessWidget {
                         if (isFaded || description == '')
                           EmptySpacePlaceHolder()
                         else
-                          Text(
-                            description,
-                            style: AppTextStyle.ligntbluedescription,
-                            textAlign: TextAlign.center,
-                            textScaleFactor: textScaleFactor,
+                          Padding(
+                            padding:  EdgeInsets.only(top: ScaleManager.spaceScale(spaceing: 7).value),
+                            child: Text(
+                              description,
+                              style: AppTextStyle.ligntbluedescription,
+                              textAlign: TextAlign.center,
+                              textScaleFactor: textScaleFactor,
+                            ),
                           )
                       ],
                     ),

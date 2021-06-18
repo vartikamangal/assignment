@@ -3,12 +3,19 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/file-manager/file-manager.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/core/utils/snackbars/snackbars.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/data/model/player-stats-model.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/player-stats.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/cancel-recording.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/clear-recording-data.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/get-player-stats.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/get-recorder-details.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/pause-voicenote.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/play-voicenote.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/start-recording-voice-note.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/stop-playing-voicenote.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/stop-recording.dart';
 import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
@@ -17,7 +24,12 @@ class VoiceNoteController extends GetxController {
   final FlutterSoundRecorder soundRecorder;
   final GetRecorderDetails getRecorderDetails;
   final StopRecording stopRecording;
+  final PlayVoiceNote playVoiceNote;
+  final PauseVoiceNote pauseVoiceNote;
+  final StopPlayingVoiceNote stopPlayingVoiceNote;
   final CancelRecording cancelRecording;
+  final ClearRecordingData clearRecordingData;
+  final GetPlayerStats getPlayerStats;
   final FileUtils fileUtils;
 
   // Usecases
@@ -25,19 +37,27 @@ class VoiceNoteController extends GetxController {
     @required this.startRecordingVoiceNote,
     @required this.soundRecorder,
     @required this.stopRecording,
+    @required this.playVoiceNote,
+    @required this.pauseVoiceNote,
+    @required this.stopPlayingVoiceNote,
+    @required this.clearRecordingData,
     @required this.fileUtils,
     @required this.getRecorderDetails,
+    @required this.getPlayerStats,
     @required this.cancelRecording,
   });
+
+  static const defaultCodec = Codec.aacMP4;
+  static const defaultSampleRate = 44000;
+  static const defaultNumChannel = 2;
 
   // Usecase assistors
   Future<void> getFilePathToRecord() async {
     final pathToRecordOrFailure = await fileUtils.getNewFileNameName();
     pathToRecordOrFailure.fold(
-      (failure) => ShowSnackbar.rawSnackBar(
-        title: failure.toString(),
-        message: 'Unable to fetch filePath',
-      ),
+      (failure) {
+        ErrorInfo.show(failure);
+      },
       (filePath) async {
         currentVoiceNotePath.value = filePath;
       },
@@ -45,25 +65,25 @@ class VoiceNoteController extends GetxController {
   }
 
   Future<void> recordVoiceNote() async {
-    await getFilePathToRecord().then((value) async {
-      final startedRecordingVoiceNoteOrFailure = await startRecordingVoiceNote(
-        StartRecordingVoiceNoteParams(
-          filePath: currentVoiceNotePath.value,
-          codec: Codec.aacMP4,
-        ),
-      );
-      startedRecordingVoiceNoteOrFailure.fold(
-        (failure) => ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Unable to start recording',
-        ),
-        (status) {
-          isRecording.value = soundRecorder.isRecording;
-          fetchRecorderStats();
-          log(status.message);
-        },
-      );
-    });
+    await getFilePathToRecord().then(
+      (value) async {
+        final startedRecordingVoiceNoteOrFailure =
+            await startRecordingVoiceNote(
+          StartRecordingVoiceNoteParams(
+              filePath: currentVoiceNotePath.value, codec: defaultCodec),
+        );
+        startedRecordingVoiceNoteOrFailure.fold(
+          (failure) {
+            ErrorInfo.show(failure);
+          },
+          (status) {
+            isRecording.value = soundRecorder.isRecording;
+            fetchRecorderStats();
+            log(status.message);
+          },
+        );
+      },
+    );
   }
 
   Future<void> fetchRecorderStats() async {
@@ -74,10 +94,7 @@ class VoiceNoteController extends GetxController {
     isWaiting.value = false;
     failureOrResult.fold(
       (f) {
-        ShowSnackbar.rawSnackBar(
-          title: f.toString(),
-          message: 'Unable to start recording',
-        );
+        ErrorInfo.show(f);
       },
       (r) {
         r.listen((event) {
@@ -92,15 +109,95 @@ class VoiceNoteController extends GetxController {
       NoParams(),
     );
     stoppedRecordingOrFailure.fold(
-      (failure) => ShowSnackbar.rawSnackBar(
-        title: failure.toString(),
-        message: 'Unable to stop recording',
-      ),
+      (failure) {
+        ErrorInfo.show(failure);
+      },
       (status) {
         isRecording.value = soundRecorder.isRecording;
         log(status.message);
       },
     );
+  }
+
+  /// UI -> Usecase implementation
+  Future<void> playVoicenoteUI() async {
+    final failureOrResult = await playVoiceNote(
+      PlayVoiceNoteParams(
+        fileToPlay: currentVoiceNotePath.value,
+        codec: defaultCodec,
+        numChannels: defaultNumChannel,
+        smapleRate: defaultSampleRate,
+        onCompleted: () {
+          log('play complete');
+        },
+      ),
+    );
+    failureOrResult.fold(
+      (f) {
+        ErrorInfo.show(f);
+      },
+      (r) async {
+        await getPlayerStatsUI();
+      },
+    );
+  }
+
+  Future<void> getPlayerStatsUI() async {
+    final failureOrResult = await getPlayerStats(NoParams());
+    failureOrResult.fold(
+      (f) {
+        ErrorInfo.show(f);
+      },
+      (r) {
+        currentPlayingFileStats.bindStream(r);
+      },
+    );
+  }
+
+  Future<void> pauseVoicenoteUI() async {
+    final failureOrResult = await pauseVoiceNote(NoParams());
+    failureOrResult.fold(
+      (f) {
+        ErrorInfo.show(f);
+      },
+      (r) {},
+    );
+  }
+
+  Future<void> stopVoicenoteUI() async {
+    final failureOrResult = await stopPlayingVoiceNote(NoParams());
+    failureOrResult.fold(
+      (f) {
+        ErrorInfo.show(f);
+      },
+      (r) {},
+    );
+  }
+
+  Future<void> clearVoiceNoteUI() async {
+    final failureOrResult = await clearRecordingData(
+      ClearRecordingDataPrams(
+        fileToDelete: currentVoiceNotePath.value,
+      ),
+    );
+    failureOrResult.fold(
+      (f) {
+        ErrorInfo.show(f);
+      },
+      (r) {
+        log('previous recording file deleted');
+        cleanVoiceFilePath();
+      },
+    );
+  }
+
+  /// Mixed function of stopPlayer() and cleanVoiceNote()
+  /// Stops the running player and then cleans its session files
+  Future<void> stopPlayerAndCleanPreviousRecording() async {
+    Future.value([
+      stopVoicenoteUI(),
+      clearVoiceNoteUI(),
+    ]);
   }
 
   Future<void> cancelOngoingRecording() async {
@@ -118,8 +215,17 @@ class VoiceNoteController extends GetxController {
       (r) {
         cleanVoiceFilePath();
         isRecording.value = soundRecorder.isRecording;
+        elapsedDuration.value = null;
       },
     );
+  }
+
+  bool isPlayableFilePresent() {
+    if (currentVoiceNotePath.value != null && isRecording.value == false) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void cleanVoiceFilePath() {
@@ -129,18 +235,38 @@ class VoiceNoteController extends GetxController {
   // UI managers
   RxBool isRecording = RxBool(false);
   RxBool isWaiting = RxBool(false);
-  RxString currentVoiceNotePath = RxString('');
+  RxString currentVoiceNotePath = RxString();
   Rx<Duration> elapsedDuration = Rx<Duration>();
+  Rx<PlayerStats> currentPlayingFileStats = Rx<PlayerStatsModel>();
+
+  /// Helper getters for playback UI
+  Stream<Duration> get currentPlayingFileDuration =>
+      currentPlayingFileStats.map(
+        (event) => event.totalLength,
+      );
+  Stream<Duration> get currentPlayingFilePosition =>
+      currentPlayingFileStats.map(
+        (event) => event.currentPosition,
+      );
+
+  /// for calculating postiion for the progress bar
+  double calculatePosition(Duration currentPos, Duration maxPos) {
+    return (currentPos.inMilliseconds / maxPos.inMilliseconds)
+        .clamp(0, 1)
+        .toDouble();
+  }
 
   @override
   Future<void> onInit() async {
     super.onInit();
     sl_core_dependencies<FlutterSoundRecorder>().openAudioSession();
+    sl_core_dependencies<FlutterSoundPlayer>().openAudioSession();
   }
 
   @override
   Future<void> onClose() async {
     super.onClose();
     sl_core_dependencies<FlutterSoundRecorder>().closeAudioSession();
+    sl_core_dependencies<FlutterSoundPlayer>().closeAudioSession();
   }
 }

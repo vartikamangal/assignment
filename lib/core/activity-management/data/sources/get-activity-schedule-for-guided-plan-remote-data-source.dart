@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -19,28 +21,22 @@ abstract class GetActivityScheduleForGuidedPlanRemoteDataSource {
 
 class GetActivityScheduleForGuidedPlanRemoteDataSourceImpl
     implements GetActivityScheduleForGuidedPlanRemoteDataSource {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetActivityScheduleForGuidedPlanRemoteDataSourceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<ActivityScheduleGuidedModel> getSchedule() async {
-    final header = await SessionManager.getHeader();
     final response = await client.post(
-      Uri.parse(
-        APIRoute.getActivityScheduleForGuided,
-      ),
-      headers: header,
+      uri: APIRoute.getActivityScheduleForGuided,
     );
-    await SessionManager.setHeader(header: response.headers);
+    throwExceptionIfResponseError(statusCode: response.statusCode);
     final rawSchedule = jsonDecode(response.body) as Map;
-    if (response.statusCode == 200) {
-      return ActivityScheduleGuidedModel.fromJson(
-        rawSchedule as Map<String, dynamic>,
-      );
-    } else {
-      throw ServerException();
-    }
+    return ActivityScheduleGuidedModel.fromJson(
+      rawSchedule as Map<String, dynamic>,
+    );
   }
 }

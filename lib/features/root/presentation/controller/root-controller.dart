@@ -2,6 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:smartlook/smartlook.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+import 'package:tatsam_app_experimental/core/secrets.dart';
+import 'package:tatsam_app_experimental/core/utils/helper_functions/add-delay.dart';
 
 import '../../../../core/auth/domain/usecases/check-if-already-logged-in.dart';
 import '../../../../core/cache-manager/domain/usecases/log-app-start-time.dart';
@@ -45,10 +49,7 @@ class RootController extends GetxController {
     );
     onBoardingStatusOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Unable to load initial data',
-        );
+        ErrorInfo.show(failure);
       },
       (status) async {
         if (status == 'COMPLETE') {
@@ -72,10 +73,9 @@ class RootController extends GetxController {
       NoParams(),
     );
     isLoggedInStatusOrFailure.fold(
-      (failure) => ShowSnackbar.rawSnackBar(
-        title: '$failure',
-        message: 'Error fetching login status',
-      ),
+      (failure) {
+        ErrorInfo.show(failure);
+      },
       (loginStatus) {
         log(
           'Login status: ${loginStatus.toString()}',
@@ -112,10 +112,7 @@ class RootController extends GetxController {
     );
     onBoardingStatusOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Unable to load initial data',
-        );
+        ErrorInfo.show(failure);
       },
       (status) {
         log('isFirstTime variable updated successfully');
@@ -126,24 +123,26 @@ class RootController extends GetxController {
   Future<void> navigateBasedOnLoginStatus({
     @required bool isLoggedIn,
   }) async {
-    if (isLoggedIn) {
-      if (hasOnboardedPreviously.value) {
-        Navigator.of(Get.context).pushNamedAndRemoveUntil(
-          RouteName.onBoardingIncomplete,
-          (route) => false,
-        );
+    addDelay(() {
+      if (isLoggedIn) {
+        if (hasOnboardedPreviously.value) {
+          Navigator.of(Get.context).pushNamedAndRemoveUntil(
+            RouteName.onBoardingIncomplete,
+            (route) => false,
+          );
+        } else {
+          Navigator.of(Get.context).pushNamedAndRemoveUntil(
+            RouteName.rapportPages,
+            (route) => false,
+          );
+        }
       } else {
         Navigator.of(Get.context).pushNamedAndRemoveUntil(
-          RouteName.rapportPages,
+          RouteName.origin,
           (route) => false,
         );
       }
-    } else {
-      Navigator.of(Get.context).pushNamedAndRemoveUntil(
-        RouteName.origin,
-        (route) => false,
-      );
-    }
+    });
   }
 
   Future<void> logAppInit() async {
@@ -152,10 +151,7 @@ class RootController extends GetxController {
     );
     failureOrResult.fold(
       (f) {
-        ShowSnackbar.rawSnackBar(
-          title: f.toString(),
-          message: 'Unable to load initial data',
-        );
+        ErrorInfo.show(f);
       },
       (r) {
         log('sucessfully logged app start time');

@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
 // Project imports:
 import '../../../../core/activity-management/data/models/feedback-model.dart';
@@ -38,7 +39,6 @@ import '../../../../core/duration-tracker/domain/usecases/update-user-duration-o
 import '../../../../core/extensions/enum-to-string.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/utils/helper_functions/generate-date-from-datetime.dart';
 import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../../../features/home-management/data/models/post-onboparding-action-model.dart';
 import '../../../../features/home-management/domain/entities/post-onboarding-action.dart';
@@ -145,10 +145,7 @@ class HomeController extends GetxController {
     );
     moodOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (cachedMood) {
         userMood.value = cachedMood;
@@ -166,10 +163,7 @@ class HomeController extends GetxController {
     );
     mostRecentAcitivityOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (cachedActivity) {
         mostRecentAcitivity.value = cachedActivity;
@@ -184,10 +178,7 @@ class HomeController extends GetxController {
     );
     optedPathOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (optedPath) {
         chosenPath.value = optedPath;
@@ -204,10 +195,7 @@ class HomeController extends GetxController {
     );
     cacheStausOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (cacheStatus) {
         log('onboarding status cached');
@@ -223,15 +211,24 @@ class HomeController extends GetxController {
     );
     recommendedActivitiesOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedRecommendedActivities) {
-        recommendedActivities.assignAll(
-          fetchedRecommendedActivities,
-        );
+        /// Change logic here if you want to tweak number of recommended activities shown
+        /// If there are more than 3 activites present in response
+        if (fetchedRecommendedActivities.length > 3) {
+          /// Add only 3 of them to the showing list
+          for (int i = 0; i < 3; i++) {
+            recommendedActivities.add(fetchedRecommendedActivities[i]);
+          }
+        } else {
+          recommendedActivities.assignAll(fetchedRecommendedActivities);
+        }
+
+        /// Uncomment the below LOC's for showing all activites irrespective of their length
+        // recommendedActivities.assignAll(
+        //   fetchedRecommendedActivities,
+        // );
         log('recommeded activities fetched');
       },
     );
@@ -243,10 +240,7 @@ class HomeController extends GetxController {
     );
     onBoardingStatusOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedStatus) {
         if (fetchedStatus == 'COMPLETE') {
@@ -268,10 +262,7 @@ class HomeController extends GetxController {
     );
     postOnboardingActionsOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (recievedActions) {
         actionsIfOnboarded.assignAll(
@@ -293,10 +284,7 @@ class HomeController extends GetxController {
     );
     markedOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (saveStatus) {
         log('saved isFirstTime status');
@@ -311,10 +299,7 @@ class HomeController extends GetxController {
     );
     markedOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (isFirstTime) {
         log('USER VISITING PAGE FOR THE FIRST TIME : $isFirstTime');
@@ -344,10 +329,7 @@ class HomeController extends GetxController {
     toggleProcessor();
     ratedActionOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (status) async {
         log('action fulfilled successfully');
@@ -369,10 +351,7 @@ class HomeController extends GetxController {
     toggleProcessor();
     updatedActionStatusOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (modificationStatus) {
         log(
@@ -395,10 +374,7 @@ class HomeController extends GetxController {
       );
       categoriesOrFailure.fold(
         (failure) {
-          ShowSnackbar.rawSnackBar(
-            title: '$failure',
-            message: 'Unable to fetch the categories for weekday',
-          );
+          ErrorInfo.show(failure);
         },
         (categories) {
           categoriesForWeeklyFeedback.assignAll(
@@ -430,11 +406,7 @@ class HomeController extends GetxController {
       toggleProcessor();
       activitiesOrFailure.fold(
         (failure) {
-          ShowSnackbar.rawSnackBar(
-            title: '$failure',
-            message:
-                'Unable to fetch the activites for ${category.displayTitle}',
-          );
+          ErrorInfo.show(failure);
         },
         (activities) {
           subActivitesOfCategories.assignAll(
@@ -460,10 +432,7 @@ class HomeController extends GetxController {
     );
     statusOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Unable to add category to server',
-        );
+        ErrorInfo.show(failure);
       },
       (status) {
         log(
@@ -485,10 +454,7 @@ class HomeController extends GetxController {
     );
     statusOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Unable to add activity to server',
-        );
+        ErrorInfo.show(failure);
       },
       (status) {
         log(
@@ -542,10 +508,7 @@ class HomeController extends GetxController {
     );
     failureOrResult.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (r) {
         log(r.toString());
@@ -563,10 +526,7 @@ class HomeController extends GetxController {
     );
     failureOrResult.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Ooops! some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (cacheStatus) {
         log('onboarding status cached');

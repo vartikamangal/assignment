@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 // Project imports:
@@ -63,10 +64,9 @@ class _PlaySection1State extends State<PlaySection1> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: blueDarkShade,
-              size: ScaleManager.spaceScale(
+            icon: SvgPicture.asset(
+              ImagePath.backButton,
+              height: ScaleManager.spaceScale(
                 spaceing: 26,
               ).value,
             ),

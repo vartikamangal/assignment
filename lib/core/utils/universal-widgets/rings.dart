@@ -6,7 +6,7 @@ import 'package:animator/animator.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import '../../../../core/utils/color-pallete.dart';
+import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 
 class Rounds extends StatelessWidget {
   @override

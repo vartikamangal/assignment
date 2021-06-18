@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:animator/animator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
@@ -24,10 +26,9 @@ class ChoosePathScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: blueDarkShade,
-                size: ScaleManager.spaceScale(
+              icon:SvgPicture.asset(
+                ImagePath.backButton,
+                height: ScaleManager.spaceScale(
                   spaceing: 26,
                 ).value,
               ),

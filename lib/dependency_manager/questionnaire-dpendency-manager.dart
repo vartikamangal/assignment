@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 // Project imports:
 import '../features/questionnaire-track/data/repositories/attempth-questionnaire-service-impl.dart';
@@ -38,25 +39,27 @@ Future<void> initQuestionnaireDependencies() async {
   // Services/Repos
   sl_questionnaire.registerLazySingleton<GetQuestionnaireByIdRepository>(
     () => GetQuestionnaireByIdRepositoryImpl(
-      networkInfo: sl_questionnaire(),
       remoteDataSource: sl_questionnaire(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_questionnaire.registerLazySingleton<AtemptQuestionnaireService>(
     () => AttemptQuestionnaireServiceImpl(
       remoteService: sl_questionnaire(),
-      networkInfo: sl_questionnaire(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
   // Sources
   sl_questionnaire.registerLazySingleton<GetQuestionnaireByIdRemoteDataSource>(
     () => GetQuestionnaireByIdRemoteDataSourceImpl(
-      client: sl_questionnaire(),
+      client: sl_core_dependencies(),
+      throwExceptionIfResponseError: sl_core_dependencies(),
     ),
   );
   sl_questionnaire.registerLazySingleton<AttemptQuestionnaireRemoteService>(
     () => AttemptQuestionnaireRemoteServiceImpl(
-      client: sl_questionnaire(),
+      client: sl_core_dependencies(),
+      throwExceptionIfResponseError: sl_core_dependencies(),
     ),
   );
 }

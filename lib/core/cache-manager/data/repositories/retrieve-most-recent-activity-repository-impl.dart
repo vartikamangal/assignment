@@ -10,25 +10,21 @@ import 'package:tatsam_app_experimental/core/cache-manager/data/services/retriev
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/retrieve-most-recent-activity-repository.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 class RetreieveMostRecentAcitvityRepositoryImpl
     implements RetrieveMostRecentAcitivityRepository {
   final RetrieveMostRecentActivityLocalDataSource localDataSource;
+  final BaseRepository baseRepository;
 
   RetreieveMostRecentAcitvityRepositoryImpl({
     @required this.localDataSource,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, CacheAcitivityModel>> retrieveActivity() async {
-    try {
-      final cachedActivity = await localDataSource.retrieveActivity();
-      return Right(
-        cachedActivity,
-      );
-    } on CacheException {
-      return Left(
-        CacheFailure(),
-      );
-    }
+    return baseRepository(
+      () => localDataSource.retrieveActivity(),
+    );
   }
 }

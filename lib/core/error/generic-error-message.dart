@@ -2,9 +2,8 @@ import 'package:tatsam_app_experimental/core/error/failures.dart';
 
 abstract class GenericErrorMessage {
   static const AuthFailure authFailure = AuthFailure(
-    code: 'xxx',
-    smallMessage: 'UnAuthorised request',
-    reason: 'Seems like auth header has problems',
+    title: 'Authentication error',
+    details: 'Seems like you are not logged in',
   );
   GenericErrorMessage._();
 }

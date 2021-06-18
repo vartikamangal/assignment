@@ -1,6 +1,7 @@
 // Project imports:
 import 'package:tatsam_app_experimental/dependency_manager/auth-dependency-manager.dart';
 import 'package:tatsam_app_experimental/dependency_manager/home-management-dependency-manager.dart';
+import 'package:tatsam_app_experimental/dependency_manager/profile_dependency_managers.dart';
 import 'package:tatsam_app_experimental/dependency_manager/root-dependency-manager.dart';
 import './dependency_manager/core_dependency_managers.dart';
 import './dependency_manager/focus-dependency-manaer.dart';
@@ -25,4 +26,5 @@ Future<void> initializeDependencies() async {
   await initPathDependencies();
   await initQuestionnaireDependencies();
   await initHomeManagementDependencies();
+  await initProfileDependencies();
 }

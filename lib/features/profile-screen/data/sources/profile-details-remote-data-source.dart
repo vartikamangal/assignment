@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
@@ -35,108 +38,64 @@ abstract class ProfileDetailsRemoteDataSource {
 
 class ProfileDetailsRemoteDataSourceImpl
     implements ProfileDetailsRemoteDataSource {
-  final http.Client remoteClient;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   ProfileDetailsRemoteDataSourceImpl({
-    @required this.remoteClient,
+    @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<ProfileDataModel> getBasicProfileDetails() async {
-    final _headers = await SessionManager.getHeader();
-    final _uri = Uri.parse(APIRoute.getBasicDetails);
-    final response = await remoteClient.post(
-      _uri,
-      headers: _headers,
+    final response = await client.post(
+      uri: APIRoute.getBasicDetails,
     );
-    await SessionManager.setHeader(
-      header: response.headers,
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    return ProfileDataModel.fromJson(
+      jsonDecode(response.body) as Map<String, dynamic>,
     );
-    if (response.statusCode == 200) {
-      return ProfileDataModel.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>,
-      );
-    }
-    if (response.statusCode == 401) {
-      throw AuthException();
-    } else {
-      throw ServerException();
-    }
   }
 
   @override
   Future<List<MoodTrackingModel>> getMoodLogs() async {
-    final _headers = await SessionManager.getHeader();
-    final _uri = Uri.parse(APIRoute.getMoodLogs);
-    final response = await remoteClient.get(
-      _uri,
-      headers: _headers,
+    final _body = jsonEncode(["APP_OPEN", "ONBOARDING"]);
+    final response = await client.post(
+      uri: APIRoute.getMoodLogs,
+      body: _body,
     );
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
-    if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body) as List;
-      return responseBody
-          .map(
-            (rawMood) =>
-                MoodTrackingModel.fromJson(rawMood as Map<String, dynamic>),
-          )
-          .toList();
-    }
-    if (response.statusCode == 401) {
-      throw AuthException();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final responseBody = jsonDecode(response.body) as List;
+    return responseBody
+        .map(
+          (rawMood) =>
+              MoodTrackingModel.fromJson(rawMood as Map<String, dynamic>),
+        )
+        .toList();
   }
 
   @override
   Future<List<QuestionLogModel>> getProfileQuestions() async {
-    final _headers = await SessionManager.getHeader();
-    final _uri = Uri.parse(APIRoute.getQuestionLogs);
-    final response = await remoteClient.get(
-      _uri,
-      headers: _headers,
+    final response = await client.post(
+      uri: APIRoute.getQuestionLogs,
     );
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
-    if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body) as List;
-      return responseBody
-          .map(
-            (rawQuestion) =>
-                QuestionLogModel.fromJson(rawQuestion as Map<String, dynamic>),
-          )
-          .toList();
-    }
-    if (response.statusCode == 401) {
-      throw AuthException();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final responseBody = jsonDecode(response.body) as List;
+    return responseBody
+        .map(
+          (rawQuestion) =>
+              QuestionLogModel.fromJson(rawQuestion as Map<String, dynamic>),
+        )
+        .toList();
   }
 
   @override
   Future<HubStatusModel> getProfileWheelOfLifeData() async {
-    final _headers = await SessionManager.getHeader();
-    final _uri = Uri.parse(APIRoute.getProfileWolData);
-    final response = await remoteClient.get(
-      _uri,
-      headers: _headers,
+    final response = await client.get(
+      uri: APIRoute.getProfileWolData,
     );
-    await SessionManager.setHeader(
-      header: response.headers,
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    return HubStatusModel.fromJson(
+      jsonDecode(response.body) as Map<String, dynamic>,
     );
-    if (response.statusCode == 200) {
-      return HubStatusModel.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>,
-      );
-    }
-    if (response.statusCode == 401) {
-      throw AuthException();
-    } else {
-      throw ServerException();
-    }
   }
 }

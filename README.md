@@ -24,52 +24,48 @@ This Project is an early experimental version of **Tatsam** and consists of the 
 
 ## DOMAIN
 
- - [ ] Onboarding Screen
- - [ ] Interactive Introduction
+ - [x] Onboarding Screen
+ - [x] Interactive Introduction
  - [x] Rapport Building (Time Part Left)
- - [ ] Intial_Hub
- - [ ] Final_Hub
- - [ ] Tracks (WOL, Focus & Questions)
- - [ ] Paths
- - [ ] SignUp
- - [ ] SignIn
- - [ ] Profile
- - [ ] Homepage
- - [ ] User Info PC
+ - [x] Intial_Hub
+ - [x] Final_Hub
+ - [x] Tracks (WOL, Focus & Questions)
+ - [x] Paths
+ - [x] SignUp
+ - [x] SignIn
+ - [] Profile
+ - [x] Homepage
+ - [x] User Info PC
 
 
 ## DATA
 
- - [ ] Onboarding Screen
- - [ ] Interactive Introduction
- - [ ] Rapport Building
- - [ ] Initial_Hub
- - [ ] Final_Hub
- - [ ] Tracks (WOL, Focus & Questions)
- - [ ] Paths
- - [ ] SignUp
- - [ ] SignIn
+ - [x] Onboarding Screen
+ - [x] Interactive Introduction
+ - [x] Rapport Building
+ - [x] Initial_Hub
+ - [x] Final_Hub
+ - [x] Tracks (WOL, Focus & Questions)
+ - [x] Paths
+ - [x] SignUp
+ - [x] SignIn
  - [ ] Profile
- - [ ] Homepage
- - [ ] User Info PC
+ - [x] Homepage
+ - [x] User Info PC
 
 
 ## PRESENTATION
 
- - [ ] Onboarding Screen
- - [ ] Interactive Introduction
- - [ ] Rapport Building
- - [ ] Initial_Hub
- - [ ] Final_Hub
- - [ ] Tracks (WOL, Focus & Questions)
- - [ ] Paths
- - [ ] SignUp
- - [ ] SignIn
+ - [x] Onboarding Screen
+ - [x] Interactive Introduction
+ - [x] Rapport Building
+ - [x] Initial_Hub
+ - [x] Final_Hub
+ - [x] Tracks (WOL, Focus & Questions)
+ - [x] Paths
+ - [x] SignUp
+ - [x] SignIn
  - [ ] Profile
- - [ ] Homepage
- - [ ] User Info PC
+ - [x] Homepage
+ - [x] User Info PC
 
-
-## Current Domain Mapping
-
-![Domain_Map](https://raw.githubusercontent.com/Tatsam-Wellness/clean-architecture-sessions/55906eb1680cd65059040db681859600b0245b4e/draggable_gravity/domain.svg?token=AIVGBNRXMOYIOJAVXO4X4STAKHT5G)

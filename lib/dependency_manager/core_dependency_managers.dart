@@ -1,15 +1,31 @@
 // Package imports:
 import 'package:cross_connectivity/cross_connectivity.dart';
+import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
+import 'package:smartlook/smartlook.dart';
+import 'package:tatsam_app_experimental/core/analytics/analytics-setup.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/data/repository/get-recorder-stats-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/data/repository/voice-note-player-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/data/source/get-recorder-stats-local-data-source.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/data/source/voice-note-player-local-service.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/get-recorder-stats-repository.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/voicenotes-player-repository.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/cancel-recording.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/clear-recording-data.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/get-player-stats.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/get-recorder-details.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/pause-voicenote.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/play-voicenote.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/stop-playing-voicenote.dart';
 
 import '../core/cache-manager/data/repositories/log-last-opened-app-service.dart';
 import '../core/cache-manager/data/repositories/mood-cache-service-impl.dart';
@@ -60,7 +76,12 @@ Future<void> initCoreDependencies() async {
       stopRecording: sl_core_dependencies(),
       fileUtils: sl_core_dependencies(),
       getRecorderDetails: sl_core_dependencies(),
+      clearRecordingData: sl_core_dependencies(),
       cancelRecording: sl_core_dependencies(),
+      playVoiceNote: sl_core_dependencies(),
+      getPlayerStats: sl_core_dependencies(),
+      pauseVoiceNote: sl_core_dependencies(),
+      stopPlayingVoiceNote: sl_core_dependencies(),
     ),
   );
   Get.lazyPut<DurationTrackerController>(
@@ -125,7 +146,39 @@ Future<void> initCoreDependencies() async {
       service: sl_core_dependencies(),
     ),
   );
+  sl_core_dependencies.registerLazySingleton(
+    () => PlayVoiceNote(
+      voiceNotesPlayerRepository: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => PauseVoiceNote(
+      voiceNotesPlayerRepository: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => StopPlayingVoiceNote(
+      voiceNotesPlayerRepository: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => ClearRecordingData(
+      voiceNotesPlayerRepository: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => GetPlayerStats(
+      voiceNotesPlayerRepository: sl_core_dependencies(),
+    ),
+  );
+
   // Respos/Services
+  sl_core_dependencies.registerLazySingleton(
+    () => BaseRepository(
+      callIfNetworkConnected: sl_core_dependencies(),
+      handleException: sl_core_dependencies(),
+    ),
+  );
   sl_core_dependencies.registerLazySingleton<StartRecordingVoiceNoteService>(
     () => StartRecordingVoiceNoteServiceImpl(
       localService: sl_core_dependencies(),
@@ -139,11 +192,13 @@ Future<void> initCoreDependencies() async {
   sl_core_dependencies.registerLazySingleton<SaveFeedbackService>(
     () => SaveFeedbackServiceImpl(
       localService: sl_core_dependencies(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_core_dependencies.registerLazySingleton<MoodCacheService>(
     () => MoodCacheServiceImpl(
       localService: sl_core_dependencies(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_core_dependencies.registerLazySingleton<AppDurationRepository>(
@@ -154,11 +209,17 @@ Future<void> initCoreDependencies() async {
   sl_core_dependencies.registerLazySingleton<LogLastOpenedAppService>(
     () => LogLastOpenedAppServiceImpl(
       localService: sl_core_dependencies(),
+      baseRepository: sl_core_dependencies(),
     ),
   );
   sl_core_dependencies.registerLazySingleton<GetRecorderStatsRepository>(
     () => GetRecorderStatsRepositoryImpl(
       localDataSource: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton<VoiceNotesPlayerRepository>(
+    () => VoiceNotePlayerRepositoryImpl(
+      voiceNotePlayerLocalService: sl_core_dependencies(),
     ),
   );
   // Sources
@@ -172,6 +233,7 @@ Future<void> initCoreDependencies() async {
   sl_core_dependencies.registerLazySingleton<StopRecordingLocalService>(
     () => StopRecordingLocalServiceImpl(
       recorder: sl_core_dependencies(),
+      fileUtils: sl_core_dependencies(),
     ),
   );
   sl_core_dependencies.registerLazySingleton<SaveFeedbackLocalService>(
@@ -199,7 +261,21 @@ Future<void> initCoreDependencies() async {
       recorder: sl_core_dependencies(),
     ),
   );
+  sl_core_dependencies.registerLazySingleton<VoiceNotePlayerLocalService>(
+    () => VoiceNotePlayerLocalServiceImpl(
+      player: sl_core_dependencies(),
+      fileUtils: sl_core_dependencies(),
+    ),
+  );
   //Core
+  sl_core_dependencies.registerLazySingleton(
+    () => CallIfNetworkConnected(
+      networkInfo: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => HandleException(),
+  );
   sl_core_dependencies.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(
       sl_core_dependencies(),
@@ -212,6 +288,17 @@ Future<void> initCoreDependencies() async {
     () => FileUtilsImpl(
       box: sl_core_dependencies(),
     ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => ApiClient(
+      client: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => ThrowExceptionIfResponseError(),
+  );
+  sl_core_dependencies.registerLazySingleton<SetupAnalytics>(
+    () => SetupAnalyticsImpl(),
   );
 
   // External
@@ -229,5 +316,8 @@ Future<void> initCoreDependencies() async {
   );
   sl_core_dependencies.registerLazySingleton<FlutterSoundRecorder>(
     () => FlutterSoundRecorder(),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => FlutterSoundPlayer(),
   );
 }

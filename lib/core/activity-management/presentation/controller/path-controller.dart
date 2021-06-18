@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/save-feedback.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 
 // Project imports:
@@ -104,10 +105,7 @@ class PathController extends GetxController {
         await getAllRecommendationCategories(NoParams());
     fetchedCategoriesOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedRecommendationcatgories) async {
         log('self driven plan fetched');
@@ -124,10 +122,7 @@ class PathController extends GetxController {
         await getActivityScheduleForGuidedPlan(NoParams());
     fetchedActivitiesOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedRecommendationcatgories) {
         log('guided plan activities fetched');
@@ -148,10 +143,7 @@ class PathController extends GetxController {
     toggleProcessor();
     fetchedCategoryActivitiesOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedActivities) {
         recommendationActivities.assignAll(fetchedActivities);
@@ -176,11 +168,7 @@ class PathController extends GetxController {
     toggleProcessor();
     activityStatusOrFailure.fold(
       (failure) {
-        log(failure.toString());
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (activityStatus) {
         currentOngoingActivity.value = activityStatus;
@@ -202,11 +190,7 @@ class PathController extends GetxController {
     toggleProcessor();
     activityStatusOrFailure.fold(
       (failure) {
-        log(failure.toString());
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (activityStatus) async {
         // Cache the activity, if actionStatus is not Abandoned'
@@ -235,10 +219,9 @@ class PathController extends GetxController {
       ),
     );
     activityCachedOrFailure.fold(
-      (failure) => ShowSnackbar.rawSnackBar(
-        title: '$failure',
-        message: 'Some error occured',
-      ),
+      (failure) {
+        ErrorInfo.show(failure);
+      },
       (cacheStatus) => log(
         'recent activity cached',
       ),
@@ -258,13 +241,10 @@ class PathController extends GetxController {
     toggleProcessor();
     persistedInputOrFailure.fold(
       (failure) {
-        log(failure.toString());
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (status) async {
+        _voiceNoteController.cleanVoiceFilePath();
         //! Later modify this if statement for the null voiceNOte check too
         if (userTextFeedback.value == '') {
           await updateActivityStatusTrigger(
@@ -308,11 +288,7 @@ class PathController extends GetxController {
     toggleProcessor();
     ratedActivityOrFailure.fold(
       (failure) {
-        log(failure.toString());
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (status) async {
         log('recommendation flow response captured!');
@@ -331,10 +307,7 @@ class PathController extends GetxController {
     );
     userPathOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Some error occured',
-        );
+        ErrorInfo.show(failure);
       },
       (userPath) {
         userSelectedPath.value = userPath;

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
@@ -30,11 +32,12 @@ class QuestionsTrackScreen extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: const Icon(Icons.arrow_back_ios),
-          color: blueDarkShade,
-          iconSize: ScaleManager.spaceScale(
-            spaceing: 26,
-          ).value,
+          icon: SvgPicture.asset(
+            ImagePath.backButton,
+            height: ScaleManager.spaceScale(
+              spaceing: 26,
+            ).value,
+          ),
         ),
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,

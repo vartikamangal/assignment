@@ -80,9 +80,7 @@ class MidPageContentA extends StatelessWidget {
                       ),
                       tablet: _TextFormFieldComponent(
                         controller: controller,
-                        fontSize:  ScaleManager.spaceScale(
-                          spaceing: 35,
-                        ).value,
+                        fontSize: 35,
                         paddingFactor: EdgeInsets.only(
                           left: ScaleManager.spaceScale(
                             spaceing: 6,

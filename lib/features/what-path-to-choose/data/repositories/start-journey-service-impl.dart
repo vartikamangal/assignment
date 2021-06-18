@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -16,39 +17,18 @@ import '../sources/start-journey-remote-service.dart';
 
 class StartJourneyServiceImpl implements StartJourneyService {
   final StartJourneyRemoteService remoteService;
-  final NetworkInfo networkInfo;
+  final BaseRepository baseRepository;
 
   StartJourneyServiceImpl({
     @required this.remoteService,
-    @required this.networkInfo,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, Success>> startJourney({Journey journey}) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final startedJourneyStatus = await remoteService.startJourney(
-          journey: journey as JourneyModel,
-        );
-        return Right(startedJourneyStatus);
-      } on AuthException {
-        return const Left(
-          AuthFailure(
-            reason: 'You need to be logged in first',
-            code: 'NA',
-            smallMessage: 'No authentication header passed',
-          ),
-        );
-      } on ServerException {
-        return Left(
-          ServerFailure(),
-        );
-      } on CacheException {
-        return Left(
-          CacheFailure(),
-        );
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => remoteService.startJourney(
+        journey: journey as JourneyModel,
+      ),
+    );
   }
 }

@@ -4,30 +4,27 @@ import 'package:tatsam_app_experimental/core/cache-manager/data/services/app-las
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/log-last-opened-app-service.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 class LogLastOpenedAppServiceImpl implements LogLastOpenedAppService {
   final AppLastOpenedLogLocalService localService;
+  final BaseRepository baseRepository;
 
   LogLastOpenedAppServiceImpl({
     @required this.localService,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, Unit>> logStartDatetime() async {
-    try {
-      final result = await localService.logStartDatetime();
-      return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
-    }
+    return baseRepository(
+      () => localService.logStartDatetime(),
+    );
   }
 
   @override
   Future<Either<Failure, DateTime>> retrieveLastLog() async {
-    try {
-      final result = await localService.retrieveLastLog();
-      return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
-    }
+    return baseRepository(
+      () => localService.retrieveLastLog(),
+    );
   }
 }

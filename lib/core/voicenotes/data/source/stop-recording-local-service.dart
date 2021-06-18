@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
+import 'package:tatsam_app_experimental/core/file-manager/file-manager.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/recording-stopped.dart';
 
 abstract class StopRecordingLocalService {
@@ -15,9 +16,11 @@ abstract class StopRecordingLocalService {
 
 class StopRecordingLocalServiceImpl implements StopRecordingLocalService {
   final FlutterSoundRecorder recorder;
+  final FileUtils fileUtils;
 
   StopRecordingLocalServiceImpl({
     @required this.recorder,
+    @required this.fileUtils,
   });
   @override
   Future<RecordingStopped> stopRecording() async {
@@ -48,14 +51,22 @@ class StopRecordingLocalServiceImpl implements StopRecordingLocalService {
         return unit;
       } else {
         await recorder.stopRecorder();
-        await recorder.deleteRecord(
-          fileName: partialRecordingFileToDelete,
-        );
+        if (!partialRecordingFileToDelete.contains("/")) {
+          // flutter_sound's deleteRecord method only helps
+          // in deleting temporary files
+          // (as the creation is also supposed to happen by the library)
+          await recorder.deleteRecord(
+            fileName: partialRecordingFileToDelete,
+          );
+        }  else {
+          fileUtils.deleteFile(partialRecordingFileToDelete);
+        }
         log("deleted $partialRecordingFileToDelete & cancelled recording");
         return unit;
       }
-    } catch (e) {
+    } catch (e, tb) {
       log(e.toString());
+      log(tb.toString());
       throw VoiceNoteExceptionOperationException();
     }
   }

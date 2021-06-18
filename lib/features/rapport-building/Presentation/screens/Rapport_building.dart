@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
@@ -13,13 +14,15 @@ import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/responsive/responsive-builder.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
-import 'package:tatsam_app_experimental/core/utils/animations/fade-animation-x-axis.dart';
+import 'package:tatsam_app_experimental/core/utils/animations/enter-exit-root-animation.dart';
 import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
 import 'package:tatsam_app_experimental/core/utils/buttons/bottom-left-gradient-button.dart';
 import 'package:tatsam_app_experimental/core/utils/buttons/bottom-right-text-button.dart';
+import 'package:tatsam_app_experimental/core/utils/buttons/bottomRightButton.dart';
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/loading-widget.dart';
+import 'package:tatsam_app_experimental/features/hub/presentation/screen/hub-screen.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 import 'package:tatsam_app_experimental/core/utils/buttons/inactive-bottom-right-button.dart';
 
@@ -69,8 +72,9 @@ class RapportScreen extends StatelessWidget {
                   ).value,
                   child: BottomLeftGradientButton(
                     // ignore: avoid_print
-                    onPressed: () => Navigator.of(context)
-                        .pushNamed(RouteName.profileScreen),
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      RouteName.instantRelief,
+                    ),
                   ),
                 ),
                 Positioned(
@@ -93,70 +97,78 @@ class RapportScreen extends StatelessWidget {
                                 .currentOnBoardPageCounter.value ==
                             0
                         ? (_onBoardingController.userName.value.isNotEmpty
-                            ? (_onBoardingController.isProcessing.value? CircularProgressIndicator():BottomRightButton(
-                                title: '',
-                                onPressed: () {
-                                  _onBoardingController
-                                                  .switchButtonStatus.value ==
-                                              true &&
-                                          _onBoardingController
-                                              .userName.value.isNotEmpty
-                                      ? _onBoardingController
-                                          .changeNickNameAndMoveOnwards()
-                                      : Container();
-                                }))
+                            ? (_onBoardingController.isProcessing.value
+                                ? CircularProgressIndicator()
+                                : BottomRightButton(
+                                    title: '',
+                                    onPressed: () {
+                                      _onBoardingController.switchButtonStatus
+                                                      .value ==
+                                                  true &&
+                                              _onBoardingController
+                                                  .userName.value.isNotEmpty
+                                          ? _onBoardingController
+                                              .changeNickNameAndMoveOnwards()
+                                          : Container();
+                                    }))
                             : const InactiveBottomRightButton(
                                 title: '',
                               ))
-                        : AnimatedSwitcher(
-                            switchInCurve: Curves.easeIn,
-                            duration: const Duration(
-                              milliseconds: 300,
-                            ),
-                            child: _onBoardingController
+                        : _onBoardingController
+                                    .currentOnBoardPageCounter.value ==
+                                _onBoardingController.maxIntroPages
+                            ?
+                        AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            reverseDuration: const Duration(milliseconds: 300) ,
+                            transitionBuilder: (Widget child, Animation<double> animation) {
+                              return SizeTransition(
+                                axis: Axis.horizontal,
+                                  sizeFactor: animation, child: child);
+                            },
+                            child:_onBoardingController
+                            .isProcessing.value ? CircularProgressIndicator():BottomRightTextButton(
+                                  title: tr('done'),
+                                  onPressed: () async {
+                                    await _onBoardingController
+                                        .persistSubjectFeeing(
+                                          feeling: _onBoardingController
+                                              .feeling.value,
+                                        )
+                                        .then(
+                                          (value) => Navigator.push(
+                                              context,
+                                              EnterExitRoute(
+                                                  exitPage: this,
+                                                  enterPage: HubScreen())),
+                                        );
+                                  },
+                                ))
+                            : _onBoardingController
                                         .currentOnBoardPageCounter.value ==
-                                    _onBoardingController.maxIntroPages
-                                ? FadeAnimationXAxis(
-                                    0.2,
-                                    BottomRightTextButton(
-                                      title: tr('done'),
-                                      onPressed: () async {
-                                        await _onBoardingController
-                                            .persistSubjectFeeing(
-                                              feeling: _onBoardingController
-                                                  .feeling.value,
-                                            )
-                                            .then(
-                                              (value) => Navigator.of(context)
-                                                  .pushNamed(
-                                                RouteName.hubScreen,
-                                              ),
-                                            );
-                                      },
-                                    ),
-                                  )
+                                    1
+                                ? Container()
                                 : _onBoardingController
-                                            .currentOnBoardPageCounter.value ==
-                                        1
-                                    ? Container()
-                                    : _onBoardingController
-                                                .selectedFeelingDuration
-                                                .value !=
-                                            null
-                                        ? (_onBoardingController.isProcessing.value?CircularProgressIndicator() :BottomRightButton(
+                                            .selectedFeelingDuration
+                                            .value !=
+                                        null
+                                    ? (_onBoardingController
+                                            .isProcessing.value
+                                        ? CircularProgressIndicator()
+                                        : BottomRightButton(
                                             title: '',
-                                            onPressed: () => _onBoardingController
-                                                        .selectedFeelingDuration
-                                                        .value ==
-                                                    null
-                                                ? Container()
-                                                : _onBoardingController
-                                                    .changeScreen(),
+                                            onPressed: () =>
+                                                _onBoardingController
+                                                            .selectedFeelingDuration
+                                                            .value ==
+                                                        null
+                                                    ? Container()
+                                                    : _onBoardingController
+                                                        .changeScreen(),
                                           ))
-                                        : const InactiveBottomRightButton(
-                                            title: '',
-                                          ),
-                          ),
+                                    : const InactiveBottomRightButton(
+                                        title: '',
+                                      ),
                   ),
                 ),
                 Obx(
@@ -166,10 +178,10 @@ class RapportScreen extends StatelessWidget {
                 ),
                 Positioned(
                   left: ScaleManager.spaceScale(
-                    spaceing: 17,
+                    spaceing: 3,
                   ).value,
                   top: ScaleManager.spaceScale(
-                    spaceing: 17,
+                    spaceing: 9,
                   ).value,
                   child: Obx(
                     () =>
@@ -180,11 +192,12 @@ class RapportScreen extends StatelessWidget {
                                 onPressed: () {
                                   _onBoardingController.navigateBack();
                                 },
-                                icon: const Icon(Icons.arrow_back_ios),
-                                color: blueDarkShade,
-                                iconSize: ScaleManager.spaceScale(
-                                  spaceing: 26,
-                                ).value,
+                                icon: SvgPicture.asset(
+                                  ImagePath.backButton,
+                                  height: ScaleManager.spaceScale(
+                                    spaceing: 26,
+                                  ).value,
+                                ),
                               ),
                   ),
                 ),
@@ -243,74 +256,6 @@ class _LoadingWidget extends StatelessWidget {
           ).value,
         ),
         child: Loader(),
-      ),
-    );
-  }
-}
-
-class BottomRightButton extends StatelessWidget {
-  final String title;
-  final Callback onPressed;
-  const BottomRightButton({
-    this.onPressed,
-    this.title,
-  });
-  @override
-  Widget build(BuildContext context) {
-    final textScaleFactor = ScaleManager.textScale.value;
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        height: ScaleManager.spaceScale(
-          spaceing: 56,
-        ).value,
-        width: ScaleManager.spaceScale(
-          spaceing: 97,
-        ).value,
-        padding: EdgeInsets.only(
-            left: ScaleManager.spaceScale(
-              spaceing: 56,
-            ).value,
-            right: ScaleManager.spaceScale(
-              spaceing: 17,
-            ).value,
-            top: ScaleManager.spaceScale(
-              spaceing: 18,
-            ).value,
-            bottom: ScaleManager.spaceScale(
-              spaceing: 17,
-            ).value),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(
-              ScaleManager.spaceScale(
-                spaceing: 25,
-              ).value,
-            ),
-            bottomRight: Radius.circular(
-              ScaleManager.spaceScale(
-                spaceing: 25,
-              ).value,
-            ),
-          ),
-          color: blueDarkShade,
-        ),
-        child: Row(
-          children: [
-            Text(
-              title,
-              style: AppTextStyle.buttonTextStyle,
-              textScaleFactor: textScaleFactor,
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: whiteshade,
-              size: ScaleManager.spaceScale(
-                spaceing: 24,
-              ).value,
-            ),
-          ],
-        ),
       ),
     );
   }

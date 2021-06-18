@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -21,32 +23,27 @@ abstract class SetSubjectNameRemoteService {
 
 class SetSubjectNameRemoteServiceImpl implements SetSubjectNameRemoteService {
   // Deivce ID is acting like s, Object sessionClientession id
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   SetSubjectNameRemoteServiceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<SubjectInformationModel> setSubjectName({
     String name,
   }) async {
-    final header = await SessionManager.getHeader();
     final response = await client.post(
-      Uri.parse(APIRoute.setSubjectName),
-      headers: header,
+      uri: APIRoute.setSubjectName,
       body: jsonEncode(
         {
           "nickName": name,
         },
       ),
     );
-    await SessionManager.setHeader(header: response.headers);
-    if (response.statusCode == 200) {
-      final subjectInfo = SubjectInformationModel.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>);
-      return subjectInfo;
-    } else {
-      throw ServerException();
-    }
+    return SubjectInformationModel.fromJson(
+      jsonDecode(response.body) as Map<String, dynamic>,
+    );
   }
 }

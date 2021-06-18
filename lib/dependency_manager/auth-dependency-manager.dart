@@ -3,6 +3,7 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 // Project imports:
 import '../core/auth/data/repositories/auth-repository-impl.dart';
@@ -61,7 +62,8 @@ Future<void> initAuthDependencies() async {
     () => AuthRemoteServiceImpl(
       secureStorage: sl_auth(),
       flutterAppAuth: sl_auth(),
-      apiClient: sl_auth(),
+      apiClient: sl_core_dependencies(),
+      throwExceptionIfResponseError: sl_core_dependencies(),
     ),
   );
 

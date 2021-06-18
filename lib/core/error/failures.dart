@@ -38,19 +38,26 @@ class NotPermittedActionFailure extends Failure {
 }
 
 class AuthFailure extends Failure {
-  final String code;
-  final String smallMessage;
-  final String reason;
+  final String title;
+  final String details;
 
   const AuthFailure({
-    @required this.code,
-    @required this.smallMessage,
-    @required this.reason,
+    @required this.title,
+    @required this.details,
   });
   @override
   List<Object> get props => [
-        reason,
-        smallMessage,
-        reason,
+        title,
+        details,
       ];
+}
+
+class PlaybackFailure extends Failure {
+  @override
+  List<Object> get props => [];
+}
+
+class AnalyticsInitializationFailure extends Failure {
+  @override
+  List<Object> get props => [];
 }

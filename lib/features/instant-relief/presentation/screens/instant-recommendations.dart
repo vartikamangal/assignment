@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../../core/activity-management/data/models/recommendation-activity-model.dart';
 import '../../../../core/activity-management/data/models/recommendation-model.dart';
@@ -29,10 +30,9 @@ class InstantRecommendationsScreen extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: blueDarkShade,
-              size: ScaleManager.spaceScale(
+            icon: SvgPicture.asset(
+              ImagePath.backButton,
+              height: ScaleManager.spaceScale(
                 spaceing: 26,
               ).value,
             ),

@@ -9,3 +9,5 @@ class VoiceNoteExceptionOperationException implements Exception {}
 class NotPermittedActionException implements Exception {}
 
 class AuthException implements Exception {}
+
+class PlayBackException implements Exception {}

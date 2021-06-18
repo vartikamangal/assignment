@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-note-player-ui-fragment.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-recorder-ui-fragment.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-ui-fragment.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 import '../../../../core/asset-image-path/image-path.dart';
@@ -66,7 +68,7 @@ class MidPageContentsD extends StatelessWidget {
               ),
               SizedBox(
                 height: ScaleManager.spaceScale(
-                  spaceing: 15,
+                  spaceing: 16,
                 ).value,
               ),
               Padding(
@@ -113,63 +115,75 @@ class MidPageContentsD extends StatelessWidget {
                 constraints: BoxConstraints(maxWidth: Get.width * 0.82),
                 child: SingleChildScrollView(
                   reverse: true,
-                  child: Obx(
-                    () => _voiceNoteController.isRecording.value
-                        ? VoiceNoteRecorderFragment()
-                        : Responsive(
-                            mobile: _TextFormFieldComponent(
-                              onBoardingController: _onBoardingController,
-                              textController: _textController,
-                              voiceNoteController: _voiceNoteController,
-                              micIconSize:
-                                  ScaleManager.spaceScale(spaceing: 40).value,
-                              edgeInsets: EdgeInsets.only(
-                                left: ScaleManager.spaceScale(
-                                  spaceing: 3,
-                                ).value,
-                                bottom: ScaleManager.spaceScale(
-                                  spaceing: 6,
-                                ).value,
-                              ),
-                              fontSize: ScaleManager.spaceScale(
-                                spaceing: 18,
-                              ).value,
-                            ),
-                            tablet: _TextFormFieldComponent(
-                              onBoardingController: _onBoardingController,
-                              textController: _textController,
-                              voiceNoteController: _voiceNoteController,
-                              micIconSize:
-                                  ScaleManager.spaceScale(spaceing: 40).value,
-                              edgeInsets: EdgeInsets.only(
-                                left: ScaleManager.spaceScale(
-                                  spaceing: 3,
-                                ).value,
-                                bottom: ScaleManager.spaceScale(
-                                  spaceing: 6,
-                                ).value,
-                              ),
-                              fontSize: 35,
-                            ),
-                            desktop: _TextFormFieldComponent(
-                              onBoardingController: _onBoardingController,
-                              textController: _textController,
-                              voiceNoteController: _voiceNoteController,
-                              micIconSize: ScaleManager.spaceScale(
-                                spaceing: 40,
-                              ).value,
-                              edgeInsets: EdgeInsets.only(
-                                left: ScaleManager.spaceScale(
-                                  spaceing: 3,
-                                ).value,
-                                bottom: ScaleManager.spaceScale(
-                                  spaceing: 6,
-                                ).value,
-                              ),
-                              fontSize: 18,
-                            ),
+
+                  /// If user has recorded something in this session then show him
+                  /// voicenote fragement else show him basic flow ui
+                  child: Obx(() {
+                    /// If current state is recording
+                    if (_voiceNoteController.isRecording.value) {
+                      return VoiceNoteRecorder();
+                    }
+
+                    /// If current state is not recording and some file is present in controller for playing
+                    if (_voiceNoteController.isPlayableFilePresent()) {
+                      return VoiceNotePlayer();
+                    } else {
+                      /// IDLE state
+                      return Responsive(
+                        mobile: _TextFormFieldComponent(
+                          onBoardingController: _onBoardingController,
+                          textController: _textController,
+                          voiceNoteController: _voiceNoteController,
+                          micIconSize:
+                              ScaleManager.spaceScale(spaceing: 40).value,
+                          edgeInsets: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(
+                              spaceing: 3,
+                            ).value,
+                            bottom: ScaleManager.spaceScale(
+                              spaceing: 6,
+                            ).value,
                           ),
-                  ),
+                          fontSize: ScaleManager.spaceScale(
+                            spaceing: 18,
+                          ).value,
+                        ),
+                        tablet: _TextFormFieldComponent(
+                          onBoardingController: _onBoardingController,
+                          textController: _textController,
+                          voiceNoteController: _voiceNoteController,
+                          micIconSize:
+                              ScaleManager.spaceScale(spaceing: 40).value,
+                          edgeInsets: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(
+                              spaceing: 3,
+                            ).value,
+                            bottom: ScaleManager.spaceScale(
+                              spaceing: 6,
+                            ).value,
+                          ),
+                          fontSize: 35,
+                        ),
+                        desktop: _TextFormFieldComponent(
+                          onBoardingController: _onBoardingController,
+                          textController: _textController,
+                          voiceNoteController: _voiceNoteController,
+                          micIconSize: ScaleManager.spaceScale(
+                            spaceing: 40,
+                          ).value,
+                          edgeInsets: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(
+                              spaceing: 3,
+                            ).value,
+                            bottom: ScaleManager.spaceScale(
+                              spaceing: 6,
+                            ).value,
+                          ),
+                          fontSize: 18,
+                        ),
+                      );
+                    }
+                  }),
                 ),
               ),
             ],

@@ -1,20 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-screen-controller.dart';
+import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/bottom-sheet.dart';
 
-class LandingProfileScreen extends StatelessWidget {
-  final ProfileScreenController controller;
-
-  const LandingProfileScreen({Key key, this.controller}) : super(key: key);
+class LandingProfileScreen extends GetWidget<ProfileController> {
+  const LandingProfileScreen({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
@@ -24,84 +20,114 @@ class LandingProfileScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 12,
-            ).value,),
-            Image.asset('assets/profile-icon/user-image.png',height: ScaleManager.spaceScale(
-              spaceing: 79,
-            ).value,scale: imageScaleFactor,),
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 12,
-            ).value,),
-            Text("controller.userName.value",
+            SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 12,
+              ).value,
+            ),
+            Image.asset(
+              'assets/profile-icon/user-image.png',
+              height: ScaleManager.spaceScale(
+                spaceing: 79,
+              ).value,
+              scale: imageScaleFactor,
+            ),
+            SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 12,
+              ).value,
+            ),
+            Text(
+              controller.profileData.value.nickName,
               style: AppTextStyle.titleMDark,
-              textScaleFactor: textScaleFactor,),
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 12,
-            ).value,),
-            Text("I want to sleep better",
+              textScaleFactor: textScaleFactor,
+            ),
+            SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 12,
+              ).value,
+            ),
+            Text(
+              "I want to ${controller.profileData.value.focusIssues.first.displayName} better",
               style: AppTextStyle.Darkbluebold.copyWith(color: greyLightShade),
-              textScaleFactor: textScaleFactor,),
-            Text("Self driven path",
+              textScaleFactor: textScaleFactor,
+            ),
+            Text(
+              controller.profileData.value.journeyPath.title,
               style: AppTextStyle.lightbold,
-              textScaleFactor: textScaleFactor,),
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 10,
-            ).value,),
+              textScaleFactor: textScaleFactor,
+            ),
+            SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 10,
+              ).value,
+            ),
             Container(
               height: 1,
-              width:  ScaleManager.spaceScale(
+              width: ScaleManager.spaceScale(
                 spaceing: 324,
               ).value,
               color: greyline,
             ),
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 18,
-            ).value,),
+            SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 18,
+              ).value,
+            ),
             InfoContainer(
               image: 'assets/profile-icon/user-image.png',
               field: tr('holistic score'),
-              score: 78.toString(),
-              onPressed: (){
+              score: controller.profileData.value.holisticScore.toString(),
+              onPressed: () {
                 showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    useRootNavigator: true,
-                    isScrollControlled: true,
-                    builder: (context) => InfoBottomSheet(
-                      selectedArea: 'What is my holistic score?',
-                      description: 'Your best self can only happen when you have access to  growth in different areas o',
-                    ));
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  useRootNavigator: true,
+                  isScrollControlled: true,
+                  builder: (context) => const InfoBottomSheet(
+                    selectedArea: 'What is my holistic score?',
+                    description:
+                        'Your best self can only happen when you have access to  growth in different areas o',
+                  ),
+                );
               },
             ),
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 17,
-            ).value,),
+            SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 17,
+              ).value,
+            ),
             Padding(
-              padding:  EdgeInsets.only(left:ScaleManager.spaceScale(
-                spaceing: 65,
-              ).value,right: ScaleManager.spaceScale(
-                spaceing: 50,
-              ).value),
+              padding: EdgeInsets.only(
+                  left: ScaleManager.spaceScale(
+                    spaceing: 65,
+                  ).value,
+                  right: ScaleManager.spaceScale(
+                    spaceing: 50,
+                  ).value),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InfoContainer(
                     image: 'assets/profile-icon/user-image.png',
                     field: tr('ime taken'),
-                    score: 78.toString(),
+                    score: controller.profileData.value.timeOnActivitiesThisWeek
+                        .toString(),
                   ),
                   InfoContainer(
                     image: 'assets/profile-icon/user-image.png',
                     field: tr('how many activity done'),
-                    score: 8.toString(),
+                    score: controller.profileData.value.activitiesThisWeek
+                        .toString(),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 21,
-            ).value,)
+            SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 21,
+              ).value,
+            )
           ],
         ),
       ),
@@ -109,13 +135,12 @@ class LandingProfileScreen extends StatelessWidget {
   }
 }
 
-
 class InfoContainer extends StatelessWidget {
-  String image;
-  String field;
-  String score;
-  Callback onPressed;
-  InfoContainer({this.image, this.field, this.score,this.onPressed});
+  final String image;
+  final String field;
+  final String score;
+  final Callback onPressed;
+  const InfoContainer({this.image, this.field, this.score, this.onPressed});
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
@@ -124,25 +149,37 @@ class InfoContainer extends StatelessWidget {
       onTap: onPressed,
       child: Column(
         children: [
-          SizedBox(height: ScaleManager.spaceScale(
-            spaceing: 113,
-          ).value,
+          SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 113,
+              ).value,
               width: ScaleManager.spaceScale(
                 spaceing: 113,
               ).value,
-              child: Image.asset(image,scale: imageScaleFactor,)),
-          SizedBox(height: ScaleManager.spaceScale(
-            spaceing: 11,
-          ).value,),
-          Text(field,
+              child: Image.asset(
+                image,
+                scale: imageScaleFactor,
+              )),
+          SizedBox(
+            height: ScaleManager.spaceScale(
+              spaceing: 11,
+            ).value,
+          ),
+          Text(
+            field,
             style: AppTextStyle.dayText.copyWith(fontSize: 14),
-            textScaleFactor: textScaleFactor,),
-          Text(score,
             textScaleFactor: textScaleFactor,
-            style: AppTextStyle.ligntbluedescription.copyWith(fontSize: 18),),
-          Text(tr('current week'),
+          ),
+          Text(
+            score,
+            textScaleFactor: textScaleFactor,
+            style: AppTextStyle.ligntbluedescription.copyWith(fontSize: 18),
+          ),
+          Text(
+            tr('current week'),
             style: AppTextStyle.dayText.copyWith(fontSize: 14),
-            textScaleFactor: textScaleFactor,),
+            textScaleFactor: textScaleFactor,
+          ),
         ],
       ),
     );

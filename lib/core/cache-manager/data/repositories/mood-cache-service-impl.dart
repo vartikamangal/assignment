@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import '../services/mood-cache-local-service.dart';
 import '../../domain/entities/cached-mood.dart';
 import '../models/cached-mood-model.dart';
@@ -9,39 +10,27 @@ import '../../../error/failures.dart';
 
 class MoodCacheServiceImpl implements MoodCacheService {
   final MoodCacheLocalService localService;
+  final BaseRepository baseRepository;
 
   MoodCacheServiceImpl({
     @required this.localService,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, Unit>> cacheMood({
     CachedMood mood,
   }) async {
-    try {
-      final status = await localService.cacheMood(
+    return baseRepository(
+      () => localService.cacheMood(
         cachedMoodModel: mood as CachedMoodModel,
-      );
-      return Right(
-        status,
-      );
-    } on CacheException {
-      return Left(
-        CacheFailure(),
-      );
-    }
+      ),
+    );
   }
 
   @override
   Future<Either<Failure, CachedMoodModel>> getCacheMood() async {
-    try {
-      final mood = await localService.getCachedMood();
-      return Right(
-        mood,
-      );
-    } on CacheException {
-      return Left(
-        CacheFailure(),
-      );
-    }
+    return baseRepository(
+      () => localService.getCachedMood(),
+    );
   }
 }

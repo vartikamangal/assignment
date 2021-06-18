@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -22,40 +24,32 @@ abstract class GetCategoryActivitiesRemoteDataSource {
 
 class GetCategoryActivitiesRemoteDataSourceImpl
     implements GetCategoryActivitiesRemoteDataSource {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetCategoryActivitiesRemoteDataSourceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<RecommendationModel>> getActivities({
     RecommendationCategoryModel category,
   }) async {
-    final header = await SessionManager.getHeader();
     final response = await client.post(
-      Uri.parse(
-        APIRoute.getAllRecommendationsByCategory,
-      ),
-      headers: header,
+      uri: APIRoute.getAllRecommendationsByCategory,
       body: jsonEncode(
         category.toJson(),
       ),
     );
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
+    throwExceptionIfResponseError(statusCode: response.statusCode);
     //TODO Check why only one data is being shown as response
-    if (response.statusCode == 200) {
-      final rawActivities = jsonDecode(response.body) as List;
-      return rawActivities
-          .map(
-            (rawActivity) => RecommendationModel.fromJson(
-              rawActivity as Map<String, dynamic>,
-            ),
-          )
-          .toList();
-    } else {
-      throw ServerException();
-    }
+    final rawActivities = jsonDecode(response.body) as List;
+    return rawActivities
+        .map(
+          (rawActivity) => RecommendationModel.fromJson(
+            rawActivity as Map<String, dynamic>,
+          ),
+        )
+        .toList();
   }
 }

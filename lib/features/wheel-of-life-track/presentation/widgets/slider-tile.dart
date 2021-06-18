@@ -85,18 +85,23 @@ class SliderTile extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(
-                    '${min.toInt()}',
-                    style: AppTextStyle.sliderValue,
-                    textScaleFactor: textScale,
-                  ),
-                  SizedBox(
+                  if (value<(min.round()+max.round())/2) SizedBox(width: ScaleManager.spaceScale(
+                    spaceing: 6,
+                  ).value) else Container(),
+                  if (value>(min.round()+max.round())/2) SizedBox(
+                    width: (ScaleManager.spaceScale(
+                      spaceing: 325,
+                    ).value *
+                        ((value - min) / (max - min)))-ScaleManager.spaceScale(
+                      spaceing: 6,
+                    ).value,
+                  ) else SizedBox(
                     width: ScaleManager.spaceScale(
-                          spaceing: 310,
+                          spaceing: 325,
                         ).value *
                         ((value - min) / (max - min)),
                   ),
-                  if (value <= min.round() + 0.2 || value >= max - 0.2)
+                  if (value <= min.round() + 0.4 || value >= max - 0.4)
                     Container()
                   else
                     Text(
@@ -109,11 +114,29 @@ class SliderTile extends StatelessWidget {
             ],
           ),
           Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding:  EdgeInsets.only(left: ScaleManager.spaceScale(
+                spaceing: 10,
+              ).value),
+              child: Text(
+                '${min.round()}',
+                style: AppTextStyle.sliderValue,
+                textScaleFactor: textScale,
+              ),
+            ),
+          ),
+          Align(
             alignment: Alignment.bottomRight,
-            child: Text(
-              '${max.round()}',
-              style: AppTextStyle.sliderValue,
-              textScaleFactor: textScale,
+            child: Padding(
+              padding:  EdgeInsets.only(right: ScaleManager.spaceScale(
+                spaceing: 10,
+              ).value),
+              child: Text(
+                '${max.round()}',
+                style: AppTextStyle.sliderValue,
+                textScaleFactor: textScale,
+              ),
             ),
           )
         ],

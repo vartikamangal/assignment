@@ -19,6 +19,7 @@ class StartRecordingVoiceNoteLocalServiceImpl
     implements StartRecordingVoiceNoteLocalService {
   final FlutterSoundRecorder recorder;
   final PermissionManager permissionManager;
+  final CallbackPeriod = const Duration(milliseconds: 500);
 
   StartRecordingVoiceNoteLocalServiceImpl({
     @required this.recorder,
@@ -46,6 +47,7 @@ class StartRecordingVoiceNoteLocalServiceImpl
               recorder,
               filePath,
               codec,
+              CallbackPeriod
             );
           } else {
             throw NotPermittedActionException();
@@ -59,6 +61,7 @@ class StartRecordingVoiceNoteLocalServiceImpl
               recorder,
               filePath,
               codec,
+              CallbackPeriod
             );
           } else {
             throw NotPermittedActionException();
@@ -75,8 +78,10 @@ class StartRecordingVoiceNoteLocalServiceImpl
     FlutterSoundRecorder recorder,
     String filePath,
     Codec codec,
+    Duration callbackPeriod,
   ) async {
     try {
+      await recorder.setSubscriptionDuration(callbackPeriod);
       await recorder.startRecorder(
         toFile: filePath,
         codec: codec,

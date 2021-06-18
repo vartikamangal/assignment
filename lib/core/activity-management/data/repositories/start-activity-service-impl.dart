@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -14,29 +15,22 @@ import '../sources/start-activity-remote-service.dart';
 
 class StartActivityServiceImpl implements StartActivityService {
   final StartActivityRemoteService remoteService;
-  final NetworkInfo networkInfo;
+  final BaseRepository baseRepository;
 
   StartActivityServiceImpl({
     @required this.remoteService,
-    @required this.networkInfo,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, ActivityStatus>> startActivity({
     String recommendationId,
     bool isInstantActivity,
   }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final activtyStatus = await remoteService.startActivity(
-          recommendationId: recommendationId,
-          isInstantActivity: isInstantActivity,
-        );
-        return Right(activtyStatus);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => remoteService.startActivity(
+        recommendationId: recommendationId,
+        isInstantActivity: isInstantActivity,
+      ),
+    );
   }
 }

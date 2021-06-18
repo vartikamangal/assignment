@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
 // Project imports:
 import '../../../../core/routes/app-routes/app-routes.dart';
@@ -52,10 +53,7 @@ class QuestionnaireConroller extends GetxController {
     );
     questionnaireOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Something went wrong!',
-        );
+        ErrorInfo.show(failure);
       },
       (fetchedQuestionnaire) {
         questionnaire.value = fetchedQuestionnaire;
@@ -105,10 +103,7 @@ class QuestionnaireConroller extends GetxController {
     toggleProcessor();
     questionAttemptedOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: failure.toString(),
-          message: 'Something went wrong!',
-        );
+        ErrorInfo.show(failure);
       },
       (attemptStatus) async {
         log('successfully attempted questions!');
@@ -126,7 +121,7 @@ class QuestionnaireConroller extends GetxController {
   RxBool toShowBottomBtn = RxBool(false);
   RxBool isLoading = RxBool(false);
   RxBool isProcessing = RxBool(false);
-  RxBool isAllQuestionAnswered=RxBool(false);
+  RxBool isAllQuestionAnswered = RxBool(false);
 
   void toggleBottomButtonVisibility({
     double position,
@@ -174,7 +169,7 @@ class QuestionnaireConroller extends GetxController {
     @required dynamic option,
   }) {
     questionToAnswerMap[question] = option;
-    isAllQuestionAnswered.value=true;
+    isAllQuestionAnswered.value = true;
   }
 
   @override

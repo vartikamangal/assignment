@@ -48,13 +48,17 @@ class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
                 style: AppTextStyle.titleLM,
                 textScaleFactor: textScaleFactor,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                      onTap: widget.controller.toggleInformation,
-                      child: SvgPicture.asset(ImagePath.connectionStatus))
-                ],
+              Obx(()=> Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: widget.controller.toggleAnimatableCard,
+                      child: SvgPicture.asset(
+                          widget.controller.isToggled.value==true ? ImagePath.crossIcon
+                          :ImagePath.connectionStatus),
+                    )
+                  ],
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -63,53 +67,46 @@ class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
                   ).value,
                 ),
                 child: Obx(
-                  () => FlipCard(
-                    flipOnTouch: false,
-                    key: widget.controller.cardKey1,
-                    back: SizedBox(
-                      width: Get.width,
-                      height: widget.controller.lifeAreas.length *
-                          ScaleManager.spaceScale(
-                            spaceing: 65.0,
-                          ).value,
-                      child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: 8,
-                        itemBuilder: (BuildContext context, int index) {
-                          final lifeArea = widget.controller.lifeAreas[index];
-                          return WheelOfLifeAreaHolder(
-                            title: lifeArea.name,
-                            subtitle: lifeArea.description,
-                          );
-                        },
+                  () => SizedBox(
+                    width: Get.width,
+                    height: widget.controller.lifeAreas.length *
+                        ScaleManager.spaceScale(
+                          spaceing: 65.0,
+                        ).value,
+                    child: Theme(
+                      data: ThemeData(
+                        scaffoldBackgroundColor: Colors.transparent,
+                        canvasColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        backgroundColor: Colors.transparent,
+                        dialogBackgroundColor: Colors.transparent,
                       ),
-                    ),
-                    front: SizedBox(
-                      width: Get.width,
-                      height: widget.controller.lifeAreas.length *
-                          ScaleManager.spaceScale(
-                            spaceing: 65.0,
-                          ).value,
-                      child: Theme(
-                        data: ThemeData(
-                          scaffoldBackgroundColor: Colors.transparent,
-                          canvasColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          backgroundColor: Colors.transparent,
-                          dialogBackgroundColor: Colors.transparent,
-                        ),
-                        child: SingleTouchRecognizerWidget(
-                          child: ReorderableListView(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            clipBehavior: Clip.antiAlias,
-                            onReorder: reorderData,
-                            children: <Widget>[
-                              for (final lifeArea
-                                  in widget.controller.lifeAreas)
-                                reorderableListItem(lifeArea.name),
-                            ],
-                          ),
+                      child: SingleTouchRecognizerWidget(
+                        child: ReorderableListView(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          clipBehavior: Clip.antiAlias,
+                          onReorder: reorderData,
+                          children: <Widget>[
+                            for (int i = 0;
+                                i < widget.controller.lifeAreas.length;
+                                i++)
+                              FlipCard(
+                                key: widget.controller.cardsElementsState[i],
+                                flipOnTouch: false,
+
+                                /// adds 50ms of duration in each card
+                                speed: 600 + ((i + 1) * 50),
+                                back: WheelOfLifeAreaHolder(
+                                  title: widget.controller.lifeAreas[i].name,
+                                  subtitle: widget
+                                      .controller.lifeAreas[i].description,
+                                ),
+                                front: reorderableListItem(
+                                  widget.controller.lifeAreas[i].name,
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ),

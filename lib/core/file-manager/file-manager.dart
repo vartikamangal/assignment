@@ -1,5 +1,6 @@
 // Dart imports:
 import 'dart:developer';
+import 'dart:io';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,8 @@ abstract class FileUtils {
   Future<Either<Failure, String>> retriveFile();
   // Returns a generated-filename for voicenote name & Failure if any exception occurs
   Future<Either<Failure, String>> getNewFileNameName();
+  // Delete a file from app's documents or return failure
+  Future<Either<Failure, Unit>> deleteFile(String filePath);
 }
 
 class FileUtilsImpl implements FileUtils {
@@ -54,5 +57,27 @@ class FileUtilsImpl implements FileUtils {
   Future<Either<Failure, String>> retriveFile() {
     //TODO Implement retirveFile
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteFile(String filePath) async {
+    try {
+      // gets the application specific directory
+      final appDirPath = await getApplicationDocumentsDirectory();
+
+      // Deletion of files outside application's
+      // Documents directory not allowed
+      if (!filePath.startsWith(appDirPath.path)) {
+        // TODO add message support to errors #CRITICAL
+        return Left(FileOperationFailure());
+      }
+
+      final file = File(filePath);
+      await file.delete();
+      return const Right(unit);
+    } catch (e) {
+      log(e.toString());
+      return Left(FileOperationFailure());
+    }
   }
 }

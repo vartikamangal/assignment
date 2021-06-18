@@ -3,11 +3,10 @@ import 'package:flutter/foundation.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
-import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
-import '../../../../core/platform/network_info.dart';
 import '../../domain/entities/mood-tracking.dart';
 import '../../domain/entities/track-mood-success.dart';
 import '../../domain/repositories/track-subject-mood-service.dart';
@@ -15,25 +14,18 @@ import '../sources/track-subject-mood-remote-service.dart';
 
 class TrackSubjectMoodServiceImpl implements TrackSubjectMoodService {
   final TrackSubjectMoodRemoteService service;
-  final NetworkInfo networkInfo;
+  final BaseRepository baseRepository;
 
   TrackSubjectMoodServiceImpl({
     @required this.service,
-    @required this.networkInfo,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, TrackMoodSuccess>> trackMood({
     @required MoodTracking mood,
   }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final trackStatus = await service.trackMood(mood: mood);
-        return Right(trackStatus);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => service.trackMood(mood: mood),
+    );
   }
 }

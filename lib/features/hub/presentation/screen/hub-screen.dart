@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
 import '../../../../core/responsive/responsive-builder.dart';
@@ -35,8 +37,12 @@ class HubScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    icon: const Icon(Icons.arrow_back_ios),
-                    color: blueDarkShade,
+                    icon: SvgPicture.asset(
+                      ImagePath.backButton,
+                      height: ScaleManager.spaceScale(
+                        spaceing: 26,
+                      ).value,
+                    ),
                   )
                 : EmptySpacePlaceHolder(),
           ),
@@ -62,30 +68,33 @@ class HubScreen extends StatelessWidget {
                     ).value,
                   ),
                 ),
-                Obx(
-                  () => GestureDetector(
-                    onTap: _controller.isLoading.value
-                        // Do nothing untill some process is going on
-                        ? () {}
-                        : _controller.activeHubStateObject.value.onImageTap,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Responsive(
-                          mobile: _MidImageMobileComponent(
-                            controller: _controller,
-                            imageScale: imageScale,
+                Container(
+                  height: Get.height*0.42,
+                  child: Obx(
+                    () => GestureDetector(
+                      onTap: _controller.isLoading.value
+                          // Do nothing untill some process is going on
+                          ? () {}
+                          : _controller.activeHubStateObject.value.onImageTap,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Responsive(
+                            mobile: _MidImageMobileComponent(
+                              controller: _controller,
+                              imageScale: imageScale,
+                            ),
+                            tablet: _MidImageTabletContent(
+                              controller: _controller,
+                              imageScale: imageScale,
+                            ),
+                            desktop: _MidImageDesktopComponent(
+                              controller: _controller,
+                              imageScale: imageScale,
+                            ),
                           ),
-                          tablet: _MidImageTabletContent(
-                            controller: _controller,
-                            imageScale: imageScale,
-                          ),
-                          desktop: _MidImageDesktopComponent(
-                            controller: _controller,
-                            imageScale: imageScale,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

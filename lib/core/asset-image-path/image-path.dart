@@ -42,7 +42,12 @@ class ImagePath {
   //Universal Images
   static final String micImage = "/universal_images/mic.svg".makePath();
   static final String connectionStatus = "/universal_images/connection_status.svg".makePath();
+  static final String crossIcon = "/universal_images/cross_icon.svg".makePath();
   static final String grid = "/universal_images/grid.svg".makePath();
+  static final String backButton='/universal_images/back_button.svg'.makePath();
+  static final String forwardIcon='/universal_images/forward_icon.svg'.makePath();
+  static final String playButton='/universal_images/play_icon.svg'.makePath();
+  static final String crossButton='/universal_images/cross_button.svg'.makePath();
 
   //Your Path screen
   //self driven path
@@ -68,4 +73,9 @@ class ImagePath {
   static final String sadEmoji="/profile-icon/sad.png".makePath();
   static final String lockImage="/profile-icon/lock-image.png".makePath();
   static final String chartLock="/profile-icon/chart-lock.png".makePath();
+  static final String profileIcon='/profile-icon/profile.svg'.makePath();
+  static final String moodIcon='/profile-icon/mood.svg'.makePath();
+  static final String wheelIcon='/profile-icon/wheel.svg'.makePath();
+  static final String diaryIcon='/profile-icon/diary.svg'.makePath();
+  static final String profileDiaryIcon ='/profile-icon/profile_diary.svg'.makePath();
 }

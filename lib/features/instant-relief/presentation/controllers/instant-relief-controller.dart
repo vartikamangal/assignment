@@ -16,6 +16,7 @@ import 'package:tatsam_app_experimental/core/activity-management/domain/entities
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/request-login.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/retrieve-user-onboarding-status.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
@@ -82,10 +83,7 @@ class InstantReliefController extends GetxController {
     );
     emergencyNumbersOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: 'Failed to fetch SOS resources',
-        );
+        ErrorInfo.show(failure);
       },
       (numbers) {
         emergencyResources.addAll(numbers);
@@ -100,10 +98,7 @@ class InstantReliefController extends GetxController {
     final activitiesOrFailure = await getInstantReliefAreas(NoParams());
     activitiesOrFailure.fold(
       (failure) {
-        Get.rawSnackbar(
-          title: '$failure',
-          message: 'Failed to fetch activities',
-        );
+        ErrorInfo.show(failure);
       },
       (instantActivities) {
         instantLifeAreas.addAll(instantActivities);
@@ -154,10 +149,7 @@ class InstantReliefController extends GetxController {
               ),
             );
           } else {
-            ShowSnackbar.rawSnackBar(
-              title: '$failure',
-              message: "Failed to fetch activities",
-            );
+            ErrorInfo.show(failure);
           }
         },
         (fetchedRecommendations) {
@@ -194,10 +186,7 @@ class InstantReliefController extends GetxController {
     isLoggingIn.value = false;
     loggedInOrFailure.fold(
       (failure) {
-        ShowSnackbar.rawSnackBar(
-          title: '$failure',
-          message: "Failed to fetch activities",
-        );
+        ErrorInfo.show(failure);
       },
       (status) {
         Get.back();

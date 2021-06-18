@@ -1,8 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 // Package imports:
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
 import '../../responsive/scale-manager.dart';
@@ -57,19 +60,12 @@ class BottomRightButton extends StatelessWidget {
           color: blueDarkShade,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(
-              title,
-              style: AppTextStyle.buttonTextStyle,
-              textScaleFactor: textScaleFactor,
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: whiteshade,
-              size: ScaleManager.spaceScale(
-                spaceing: 24,
-              ).value,
-            ),
+           SvgPicture.asset(ImagePath.forwardIcon,
+           height: ScaleManager.spaceScale(
+             spaceing: 19,
+           ).value,)
           ],
         ),
       ),

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-note-player-ui-fragment.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-recorder-ui-fragment.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-ui-fragment.dart';
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/responsive-builder.dart';
@@ -41,10 +44,9 @@ class PathInfoSection3 extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: blueDarkShade,
-                size: ScaleManager.spaceScale(
+              icon: SvgPicture.asset(
+                ImagePath.backButton,
+                height: ScaleManager.spaceScale(
                   spaceing: 26,
                 ).value,
               ),
@@ -139,31 +141,40 @@ class PathInfoSection3 extends StatelessWidget {
                         ).value,
                       ),
                       child: Obx(
-                        () => _voiceNoteController.isRecording.value
-                            ? VoiceNoteRecorderFragment()
-                            : Responsive(
-                                mobile: _TextInputComponent(
-                                  focusNode: focusNode,
-                                  voiceNoteController: _voiceNoteController,
-                                  micSize: 40,
-                                  fontSize: 18,
-                                  controller: _controller,
-                                ),
-                                tablet: _TextInputComponent(
-                                  focusNode: focusNode,
-                                  micSize: 40,
-                                  fontSize: 32,
-                                  voiceNoteController: _voiceNoteController,
-                                  controller: _controller,
-                                ),
-                                desktop: _TextInputComponent(
-                                  focusNode: focusNode,
-                                  voiceNoteController: _voiceNoteController,
-                                  micSize: 40,
-                                  fontSize: 18,
-                                  controller: _controller,
-                                ),
+                        () {
+                          if (_voiceNoteController.isRecording.value) {
+                            return VoiceNoteRecorder();
+                          }
+
+                          /// If current state is not recording and some file is present in controller for playing
+                          if (_voiceNoteController.isPlayableFilePresent()) {
+                            return VoiceNotePlayer();
+                          } else {
+                            return Responsive(
+                              mobile: _TextInputComponent(
+                                focusNode: focusNode,
+                                voiceNoteController: _voiceNoteController,
+                                micSize: 40,
+                                fontSize: 18,
+                                controller: _controller,
                               ),
+                              tablet: _TextInputComponent(
+                                focusNode: focusNode,
+                                micSize: 40,
+                                fontSize: 32,
+                                voiceNoteController: _voiceNoteController,
+                                controller: _controller,
+                              ),
+                              desktop: _TextInputComponent(
+                                focusNode: focusNode,
+                                voiceNoteController: _voiceNoteController,
+                                micSize: 40,
+                                fontSize: 18,
+                                controller: _controller,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   )

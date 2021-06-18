@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -19,25 +21,21 @@ abstract class GetAllMoodsRemoteDataSource {
 }
 
 class GetAllMoodsRemoteDataSourceImpl implements GetAllMoodsRemoteDataSource {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetAllMoodsRemoteDataSourceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<MoodModel>> getMoods() async {
-    final header = await SessionManager.getHeader();
     final response = await client.get(
-      Uri.parse(APIRoute.getMoods),
-      headers: header,
+      uri: APIRoute.getMoods,
     );
-    log(header.toString());
-    if (response.statusCode == 200) {
-      return (jsonDecode(response.body) as List)
-          .map((moodRaw) => MoodModel.fromJson(moodRaw as Map<String, dynamic>))
-          .toList();
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    return (jsonDecode(response.body) as List)
+        .map((moodRaw) => MoodModel.fromJson(moodRaw as Map<String, dynamic>))
+        .toList();
   }
 }

@@ -5,14 +5,11 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 // Package imports:
-import 'package:hive/hive.dart';
-import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
-import '../../../../core/error/exceptions.dart';
-import '../../../../core/persistence-consts.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
-import '../../../../core/session-manager/session-manager.dart';
 import '../../domain/entities/issue-removed-success.dart';
 import '../../domain/entities/issue.dart';
 import '../models/issue-model.dart';
@@ -22,33 +19,20 @@ abstract class RemoveIssueRemoteService {
 }
 
 class RemoveIssueRemoteServiceImpl implements RemoveIssueRemoteService {
-  final http.Client client;
-  final Box sessionClient;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   RemoveIssueRemoteServiceImpl({
     @required this.client,
-    @required this.sessionClient,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<IssueRemovedSuccess> removeIssue({Issue issue}) async {
-    final header = await SessionManager.getHeader();
     final response = await client.post(
-      Uri.parse(APIRoute.deleteFocus),
-      headers: header,
+      uri: APIRoute.deleteFocus,
       body: jsonEncode((issue as IssueModel).toJson()),
     );
-    SessionManager.setHeader(
-      header: response.headers,
-    );
-    if (response.statusCode == 200) {
-      final isRemoved = jsonDecode(response.body) as int;
-      if (isRemoved == 1) {
-        return IssueRemovedSuccess();
-      } else {
-        throw ServerException();
-      }
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    return IssueRemovedSuccess();
   }
 }

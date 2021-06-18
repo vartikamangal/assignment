@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -21,28 +23,21 @@ abstract class GetQuestionnaireByIdRemoteDataSource {
 
 class GetQuestionnaireByIdRemoteDataSourceImpl
     implements GetQuestionnaireByIdRemoteDataSource {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetQuestionnaireByIdRemoteDataSourceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<QuestionnaireModel> getQuestionnaireById({String id}) async {
-    final uri = "${APIRoute.getQuestionnaire}/$id";
-    final header = await SessionManager.getHeader();
     final response = await client.get(
-      Uri.parse(uri),
-      headers: header,
+      uri: "${APIRoute.getQuestionnaire}/$id",
     );
-    await SessionManager.setHeader(
-      header: response.headers,
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    return QuestionnaireModel.fromJson(
+      jsonDecode(response.body) as Map<String, dynamic>,
     );
-    if (response.statusCode == 200) {
-      return QuestionnaireModel.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>,
-      );
-    } else {
-      throw ServerException();
-    }
   }
 }

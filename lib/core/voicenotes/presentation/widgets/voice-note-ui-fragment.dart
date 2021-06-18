@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-note-player-ui-fragment.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-recorder-ui-fragment.dart';
 
-class VoiceNoteRecorderFragment extends StatelessWidget {
-  VoiceNoteRecorderFragment({
+class VoiceNoteFragment extends StatelessWidget {
+  VoiceNoteFragment({
     Key key,
   }) : super(key: key);
 
@@ -17,98 +14,14 @@ class VoiceNoteRecorderFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textScale = ScaleManager.textScale.value;
-    return Container(
-      height: ScaleManager.spaceScale(
-        spaceing: 50,
-      ).value,
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color.fromRGBO(171, 174, 178, 1),
-          ),
-        ),
-      ),
-      child: SizedBox(
-        width: Get.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                SizedBox(
-                  height:  ScaleManager.spaceScale(
-                    spaceing: 26,
-                  ).value,
-                  child: SvgPicture.asset(
-                    ImagePath.micImage,
-                    color: blueDarkShade,
-                  ),
-                ),
-                SizedBox(
-                  width: ScaleManager.spaceScale(
-                    spaceing: 12,
-                  ).value,
-                ),
-                Obx(
-                  () => Text(
-                    // Elapsed Time String
-                    "${_voiceNoteController.elapsedDuration.value.inMinutes}:${_voiceNoteController.elapsedDuration.value.inSeconds-_voiceNoteController.elapsedDuration.value.inMinutes*60}",
-                    style: GoogleFonts.zillaSlab(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 18,
-                      color: const Color.fromRGBO(171, 174, 178, 1),
-                    ),
-                    textScaleFactor: textScale,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () async {
-                    await _voiceNoteController.cancelOngoingRecording();
-                  },
-                  child: Text(
-                    'CANCEL',
-                    style: GoogleFonts.zillaSlab(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      color: blueDarkShade,
-                    ),
-                    textScaleFactor: textScale,
-                  ),
-                ),
-                SizedBox(
-                  width: ScaleManager.spaceScale(
-                    spaceing: 21,
-                  ).value,
-                ),
-                IconButton(
-                  icon: Container(
-                      height:  ScaleManager.spaceScale(
-                        spaceing: 28,
-                      ).value,
-                      width:  ScaleManager.spaceScale(
-                        spaceing: 28,
-                      ).value,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: blueDarkShade
-                      ),
-                      child:  Icon(Icons.done,color: Colors.white,size: ScaleManager.spaceScale(
-                        spaceing: 20,
-                      ).value,)),
-                  onPressed: () async {
-                    await _voiceNoteController.stopRecordingVoiceNote();
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+    return Obx(
+      () {
+        if (_voiceNoteController.isPlayableFilePresent()) {
+          return VoiceNotePlayer();
+        } else {
+          return VoiceNoteRecorder();
+        }
+      },
     );
   }
 }

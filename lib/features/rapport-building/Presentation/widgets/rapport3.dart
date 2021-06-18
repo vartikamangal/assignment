@@ -71,7 +71,7 @@ class MidPageContentC extends StatelessWidget {
               ),
               SizedBox(
                 height: ScaleManager.spaceScale(
-                  spaceing: 20,
+                  spaceing: 16,
                 ).value,
               ),
               Padding(
@@ -95,7 +95,7 @@ class MidPageContentC extends StatelessWidget {
               ),
               SizedBox(
                 height: ScaleManager.spaceScale(
-                  spaceing: 30,
+                  spaceing: 16,
                 ).value,
               ),
               DiagonalAnimation(
@@ -117,77 +117,48 @@ class MidPageContentC extends StatelessWidget {
                   1.0,
                   1),
               SizedBox(
-                height: ScaleManager.spaceScale(spaceing: 15).value,
+                height: ScaleManager.spaceScale(spaceing: 25).value,
               ),
               DiagonalAnimation(
-                  0.7,
-                  Obx(
-                    () => controller.isDropDownExpanded.value
-                        ? customDropDownBtn(
-                            color: blueDarkShade,
-                            isExpanded: true,
-                            options: controller.availableDurations,
-                            label:
-                                controller.selectedFeelingDuration.value == null
-                                    ? tr('selection')
-                                    : controller.selectedFeelingDuration.value
-                                        .durationDisplayName
-                                        .toUpperCase(),
-                            // ignore: avoid_print
-                            onPressed: () =>
-                                controller.toggleDropDownExpansion(),
-                            controller: controller,
-                          )
-                        : customDropDownBtn(
-                            color: blueDarkShade,
-                            isExpanded: false,
-                            label:
-                                controller.selectedFeelingDuration.value == null
-                                    ? tr('selection')
-                                    : controller.selectedFeelingDuration.value
-                                        .durationDisplayName
-                                        .toUpperCase(),
-                            // ignore: avoid_print
-                            onPressed: () =>
-                                controller.toggleDropDownExpansion(),
-                            // ignore: avoid_print
-                          ),
-                  ),
-                  1.0,
-                  1.0,
-                  1.0,
-                  1),
+                0.7,
+                Obx(
+                  () => controller.isDropDownExpanded.value
+                      ? customDropDownBtn(
+                          color: blueDarkShade,
+                          isExpanded: true,
+                          options: controller.availableDurations,
+                          label:
+                              controller.selectedFeelingDuration.value == null
+                                  ? tr('selection')
+                                  : controller.selectedFeelingDuration.value
+                                      .durationDisplayName
+                                      .toUpperCase(),
+                          // ignore: avoid_print
+                          onPressed: () => controller.toggleDropDownExpansion(),
+                          controller: controller,
+                        )
+                      : customDropDownBtn(
+                          color: blueDarkShade,
+                          isExpanded: false,
+                          label:
+                              controller.selectedFeelingDuration.value == null
+                                  ? tr('selection')
+                                  : controller.selectedFeelingDuration.value
+                                      .durationDisplayName
+                                      .toUpperCase(),
+                          // ignore: avoid_print
+                          onPressed: () => controller.toggleDropDownExpansion(),
+                          // ignore: avoid_print
+                        ),
+                ),
+                1.0,
+                1.0,
+                1.0,
+                1,
+              ),
             ],
           ),
         ),
-        FadedDiagonalEndAnimation(
-            0.4,
-            0.0,
-            Align(
-                alignment: Alignment.bottomRight,
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  color: blueDarkShade,
-                  size: ScaleManager.spaceScale(
-                    spaceing: 24,
-                  ).value,
-                )),
-            -Get.width * 0.5,
-            -Get.height * 0.5,
-            400),
-        FadedDiagonalEndAnimation(
-            0.4,
-            0.0,
-            Align(
-                alignment: Alignment.bottomLeft,
-                child: SizedBox(
-                    height: 30,
-                    child: Image.asset(
-                        '${ImagePath.lightBlueEmoji}${'$selectedEmotion.png'}',
-                        scale: 0.2))),
-            Get.width * 0.5,
-            -Get.height * 0.5,
-            400),
       ],
     );
   }

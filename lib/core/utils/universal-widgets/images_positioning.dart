@@ -43,35 +43,38 @@ class ImagePositioning extends StatelessWidget {
             ),
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  left: ScaleManager.spaceScale(spaceing: 94).value,
-                  right: ScaleManager.spaceScale(spaceing: 96.9).value),
-              child: Image.asset(
-                ImagePath.logo,
-                height: ScaleManager.spaceScale(spaceing: 50).value,
-                width: ScaleManager.spaceScale(spaceing: 237).value,
-                scale: scale,
+        Positioned(
+          top: Get.height*0.40,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                    left: ScaleManager.spaceScale(spaceing: 94).value,
+                    right: ScaleManager.spaceScale(spaceing: 96.9).value),
+                child: Image.asset(
+                  ImagePath.logo,
+                  height: ScaleManager.spaceScale(spaceing: 50).value,
+                  width: ScaleManager.spaceScale(spaceing: 237).value,
+                  scale: scale,
+                ),
               ),
-            ),
-            SizedBox(
-              height: Get.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: ScaleManager.spaceScale(spaceing: 46).value,
-                  right: ScaleManager.spaceScale(spaceing: 50).value),
-              child: Image.asset(
-                ImagePath.tagLine,
-                height: ScaleManager.spaceScale(spaceing: 27).value,
-                width: ScaleManager.spaceScale(spaceing: 328).value,
-                scale: scale,
+              SizedBox(
+                height: Get.height * 0.01,
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.only(
+                    left: ScaleManager.spaceScale(spaceing: 46).value,
+                    right: ScaleManager.spaceScale(spaceing: 50).value),
+                child: Image.asset(
+                  ImagePath.tagLine,
+                  height: ScaleManager.spaceScale(spaceing: 27).value,
+                  width: ScaleManager.spaceScale(spaceing: 328).value,
+                  scale: scale,
+                ),
+              )
+            ],
+          ),
         ),
         Positioned(
           bottom: ScaleManager.spaceScale(

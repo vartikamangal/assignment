@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -21,33 +23,27 @@ abstract class SetSubjectMoodRemoteService {
 }
 
 class SetSubjectMoodRemoteServiceImpl implements SetSubjectMoodRemoteService {
-  final http.Client client;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   const SetSubjectMoodRemoteServiceImpl({
     @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<MoodTrackingModel> setMood({
     @required String moodName,
     @required String activityType,
   }) async {
-    final header = await SessionManager.getHeader();
     final response = await client.post(
-      Uri.parse(APIRoute.setMood),
-      headers: header,
+      uri: APIRoute.setMood,
       body: jsonEncode({
         "mood": moodName,
         "activityType": activityType,
       }),
     );
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
-    if (response.statusCode == 200) {
-      final userMoodStatus = jsonDecode(response.body) as Map;
-      return MoodTrackingModel.fromJson(userMoodStatus as Map<String, dynamic>);
-    } else {
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final userMoodStatus = jsonDecode(response.body) as Map;
+    return MoodTrackingModel.fromJson(userMoodStatus as Map<String, dynamic>);
   }
 }

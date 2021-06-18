@@ -11,43 +11,48 @@ class NotAnsweredQuestionDiary extends StatelessWidget {
     final textScaleFactor = ScaleManager.textScale.value;
     final imageScaleFactor = ScaleManager.imageScale.value;
     return SingleChildScrollView(
-      child: Padding(
-        padding:  EdgeInsets.only(left: ScaleManager.spaceScale(
-          spaceing: 32,
-        ).value),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(tr('choices'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding:  EdgeInsets.only(left: ScaleManager.spaceScale(
+              spaceing: 32,
+            ).value),
+            child: Text(tr('choices'),
               textScaleFactor: textScaleFactor,
               style: AppTextStyle.titleL.copyWith(fontSize: 24,
                   fontWeight: FontWeight.w600),
             ),
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 41,
-            ).value,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                    height: ScaleManager.spaceScale(
-                      spaceing: 80,
-                    ).value,
-                    width: ScaleManager.spaceScale(
-                      spaceing: 80,
-                    ).value,
-                    child: Image.asset(ImagePath.lockImage,
-                    scale: imageScaleFactor,)),
-              ],
-            ),
-            SizedBox(height: ScaleManager.spaceScale(
-              spaceing: 10,
-            ).value,),
-            Text(tr('answered question to help'),
+          ),
+          SizedBox(height: ScaleManager.spaceScale(
+            spaceing: 41,
+          ).value,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                  height: ScaleManager.spaceScale(
+                    spaceing: 80,
+                  ).value,
+                  width: ScaleManager.spaceScale(
+                    spaceing: 80,
+                  ).value,
+                  child: Image.asset(ImagePath.lockImage,
+                  scale: imageScaleFactor,)),
+            ],
+          ),
+          SizedBox(height: ScaleManager.spaceScale(
+            spaceing: 10,
+          ).value,),
+          Padding(
+            padding:   EdgeInsets.only(left: ScaleManager.spaceScale(
+              spaceing: 32,
+            ).value),
+            child: Text(tr('answered question to help'),
             textScaleFactor: textScaleFactor,
-            style: AppTextStyle.titleM.copyWith(fontSize: 18),)
-          ],
-        ),
+            style: AppTextStyle.titleM.copyWith(fontSize: 18),),
+          )
+        ],
       ),
     );
   }

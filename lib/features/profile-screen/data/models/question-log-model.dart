@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tatsam_app_experimental/features/profile-screen/data/models/profile-question-model.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/question-log.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-model.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
@@ -7,7 +8,7 @@ class QuestionLogModel extends QuestionLog {
   const QuestionLogModel({
     @required int id,
     @required DateTime answeredWhen,
-    @required QuestionModel question,
+    @required ProfileQuestionModel question,
     @required List<QuestionOptionModel> optionChosen,
     @required String additionalInformation,
   }) : super(
@@ -21,8 +22,8 @@ class QuestionLogModel extends QuestionLog {
   factory QuestionLogModel.fromJson(Map<String, dynamic> jsonMap) {
     return QuestionLogModel(
       id: jsonMap['id'] as int,
-      answeredWhen: jsonMap['answeredWhen'] as DateTime,
-      question: QuestionModel.fromJson(
+      answeredWhen: DateTime.parse(jsonMap['answeredWhen'] as String),
+      question: ProfileQuestionModel.fromJson(
         jsonMap['question'] as Map<String, dynamic>,
       ),
       optionChosen: (jsonMap['optionChosen'] as List)

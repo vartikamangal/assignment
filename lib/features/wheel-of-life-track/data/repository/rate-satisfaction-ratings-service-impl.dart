@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -15,28 +16,21 @@ import '../models/satisfaction-ratings-model.dart';
 import '../sources/rate-satisfaction-remote-service.dart';
 
 class RateSatisfactionServiceImpl implements RateSatisfactionService {
-  final NetworkInfo networkInfo;
   final RateSatisfactionRemoteService remoteService;
+  final BaseRepository baseRepository;
 
   RateSatisfactionServiceImpl({
-    @required this.networkInfo,
     @required this.remoteService,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, Success>> rateSatisfactionService({
     @required SatisfactionRatings satisfactionRatings,
   }) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final satisfactionRatedStatus = await remoteService.rateSatisfaction(
-          ratings: satisfactionRatings as SatisfactionRatingsModel,
-        );
-        return Right(satisfactionRatedStatus);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => remoteService.rateSatisfaction(
+        ratings: satisfactionRatings as SatisfactionRatingsModel,
+      ),
+    );
   }
 }

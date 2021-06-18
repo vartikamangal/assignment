@@ -1,18 +1,16 @@
 // Dart imports:
 import 'dart:convert';
-import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 
 // Package imports:
-import 'package:http/http.dart' as http;
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
-import '../../../../core/error/exceptions.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
-import '../../../../core/session-manager/session-manager.dart';
 
 abstract class GetRecommendationsByActionTimeRemoteDataSource {
   Future<List<ActivityRecommendationModel>> getRecommendations({
@@ -22,38 +20,28 @@ abstract class GetRecommendationsByActionTimeRemoteDataSource {
 
 class GetRecommendationsByActionTimeRemoteDataSourceImpl
     implements GetRecommendationsByActionTimeRemoteDataSource {
-  final http.Client remoteClient;
+  final ApiClient client;
+  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   GetRecommendationsByActionTimeRemoteDataSourceImpl({
-    @required this.remoteClient,
+    @required this.client,
+    @required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<ActivityRecommendationModel>> getRecommendations({
     String actionTime,
   }) async {
-    final _uri = Uri.parse(
-      "${APIRoute.getRecommendationByActionTime}${"/$actionTime"}",
+    final response = await client.get(
+      uri: "${APIRoute.getRecommendationByActionTime}${"/$actionTime"}",
     );
-    final headers = await SessionManager.getHeader();
-    final response = await remoteClient.get(
-      _uri,
-      headers: headers,
-    );
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
-    if (response.statusCode == 200) {
-      final rawActivities = jsonDecode(response.body) as List;
-      return rawActivities
-          .map(
-            (rawActivity) => ActivityRecommendationModel.fromJson(
-              rawActivity as Map<String, dynamic>,
-            ),
-          )
-          .toList();
-    } else {
-      log(response.body);
-      throw ServerException();
-    }
+    throwExceptionIfResponseError(statusCode: response.statusCode);
+    final rawActivities = jsonDecode(response.body) as List;
+    return rawActivities
+        .map(
+          (rawActivity) => ActivityRecommendationModel.fromJson(
+            rawActivity as Map<String, dynamic>,
+          ),
+        )
+        .toList();
   }
 }

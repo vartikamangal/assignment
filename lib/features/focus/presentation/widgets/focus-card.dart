@@ -36,10 +36,13 @@ class FocusCard extends StatelessWidget {
             width: ScaleManager.spaceScale(
               spaceing: 106,
             ).value,
-            child: Image.asset(
-              imageAddress,
-              height: 100,
-              scale: imageScaleFactor,
+            child: Hero(
+              tag: imageAddress,
+              child: Image.asset(
+                imageAddress,
+                height: 100,
+                scale: imageScaleFactor,
+              ),
             ),
           ),
         ),

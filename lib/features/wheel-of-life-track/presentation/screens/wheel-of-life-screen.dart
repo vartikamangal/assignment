@@ -5,9 +5,11 @@ import 'dart:io';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 
 // Project imports:
@@ -32,10 +34,9 @@ class WheelOfLifeScreen extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 leading: Obx(
                   () => IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: blueDarkShade,
-                      size: ScaleManager.spaceScale(
+                    icon: SvgPicture.asset(
+                      ImagePath.backButton,
+                      height: ScaleManager.spaceScale(
                         spaceing: 26,
                       ).value,
                     ),
@@ -90,7 +91,9 @@ class WheelOfLifeScreen extends StatelessWidget {
                           1) {
                         return FlipCard(
                           flipOnTouch: false,
-                          key: _controller.cardKey,
+                          key: _controller.bottomBtnAnimState,
+                          speed:
+                              600 + ((_controller.lifeAreas.length + 1) * 50),
                           front: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,10 +35,9 @@ class InstantReliefScreen extends StatelessWidget {
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: blueDarkShade,
-              size: ScaleManager.spaceScale(
+            icon: SvgPicture.asset(
+              ImagePath.backButton,
+              height: ScaleManager.spaceScale(
                 spaceing: 26,
               ).value,
             ),

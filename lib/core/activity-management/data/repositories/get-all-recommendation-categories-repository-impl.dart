@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 // Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
 import '../../../../core/error/exceptions.dart';
@@ -15,24 +16,17 @@ import '../sources/get-all-recommendation-categories-remote-data-source.dart';
 class GetAllRecommendationCategoriesRepositoryImpl
     implements GetAllRecommendationCategoriesRepository {
   final GetAllRecommendationCategoriesRemoteDataSource remoteDataSource;
-  final NetworkInfo networkInfo;
+  final BaseRepository baseRepository;
 
   GetAllRecommendationCategoriesRepositoryImpl({
     @required this.remoteDataSource,
-    @required this.networkInfo,
+    @required this.baseRepository,
   });
   @override
   Future<Either<Failure, List<RecommendationCategory>>>
       getAllCategories() async {
-    if (await networkInfo.isConnected) {
-      try {
-        final categories = await remoteDataSource.getAllCategories();
-        return Right(categories);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      return Left(DeviceOfflineFailure());
-    }
+    return baseRepository(
+      () => remoteDataSource.getAllCategories(),
+    );
   }
 }
