@@ -8,6 +8,9 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model-for-prioritization.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/prioritize-service-impl.dart';
@@ -23,13 +26,22 @@ void main() {
   MockPrioritizeRemoteService remoteService;
   MockNetworkInfo networkInfo;
   PrioritizeServiceImpl serviceImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     remoteService = MockPrioritizeRemoteService();
     networkInfo = MockNetworkInfo();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     serviceImpl = PrioritizeServiceImpl(
       remoteService: remoteService,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 

@@ -55,7 +55,10 @@ class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
                       onTap: widget.controller.toggleAnimatableCard,
                       child: SvgPicture.asset(
                           widget.controller.isToggled.value==true ? ImagePath.crossIcon
-                          :ImagePath.connectionStatus),
+                          :ImagePath.connectionStatus,
+                      height: ScaleManager.spaceScale(
+                        spaceing: 29,
+                      ).value,),
                     )
                   ],
                 ),
@@ -83,7 +86,7 @@ class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
                       ),
                       child: SingleTouchRecognizerWidget(
                         child: ReorderableListView(
-                          physics: const BouncingScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           clipBehavior: Clip.antiAlias,
                           onReorder: reorderData,

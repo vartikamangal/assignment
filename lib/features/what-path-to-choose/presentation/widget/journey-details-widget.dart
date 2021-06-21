@@ -33,6 +33,24 @@ class JourneyDetails extends StatelessWidget {
       0.4,
       Stack(
         children: [
+          Positioned(
+            top: ScaleManager.spaceScale(
+              spaceing: 31,
+            ).value,
+            left: ScaleManager.spaceScale(
+              spaceing: 68,
+            ).value,
+            child: Image.asset(
+              journeyLabelImageUrl,
+              height: ScaleManager.spaceScale(
+                spaceing: 287,
+              ).value,
+              width: ScaleManager.spaceScale(
+                spaceing: 265,
+              ).value,
+              scale: imageScale,
+            ),
+          ),
             Padding(
               padding: EdgeInsets.only(
                 left: ScaleManager.spaceScale(
@@ -87,24 +105,6 @@ class JourneyDetails extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            top: ScaleManager.spaceScale(
-              spaceing: 31,
-            ).value,
-            left: ScaleManager.spaceScale(
-              spaceing: 68,
-            ).value,
-            child: Image.asset(
-              journeyLabelImageUrl,
-              height: ScaleManager.spaceScale(
-                spaceing: 287,
-              ).value,
-              width: ScaleManager.spaceScale(
-                spaceing: 265,
-              ).value,
-              scale: imageScale,
-            ),
-          )
         ],
       ),
     );

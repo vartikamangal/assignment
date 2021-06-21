@@ -14,9 +14,7 @@ import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space
 
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
-import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/buttons/bottom-middle-button.dart';
-import '../../../../core/utils/color-pallete.dart';
 import '../controllers/wheel-of-life-controller.dart';
 
 class WheelOfLifeScreen extends StatelessWidget {
@@ -33,7 +31,14 @@ class WheelOfLifeScreen extends StatelessWidget {
               SliverAppBar(
                 backgroundColor: Colors.transparent,
                 leading: Obx(
-                  () => IconButton(
+                      () => IconButton(
+                    padding:EdgeInsets.only(left: ScaleManager.spaceScale(
+                      spaceing: 10,
+                    ).value,
+                        top: ScaleManager.spaceScale(
+                          spaceing: 10,
+                        ).value,
+                        bottom: 0),
                     icon: SvgPicture.asset(
                       ImagePath.backButton,
                       height: ScaleManager.spaceScale(
@@ -50,7 +55,7 @@ class WheelOfLifeScreen extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: Obx(
-                  () => _controller.isProcessing.value
+                      () => _controller.isProcessing.value
                       ? const LinearProgressIndicator()
                       : Container(),
                 ),
@@ -82,10 +87,18 @@ class WheelOfLifeScreen extends StatelessWidget {
                       ).value,
                     ),
                     child: Obx(() {
+                      if(_controller.isLoading.value){
+                        return Container();
+                      }
                       if (_controller.currentOnBoardPageCounter.value == 0) {
-                        return BottomMiddleButton(
-                          title: 'MAKES SENSE',
-                          onPressed: () => _controller.changeScreen(),
+                        return AnimatedSwitcher(
+                          switchInCurve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 700),
+                          child: _controller.isLoading.value ?
+                          Container():BottomMiddleButton(
+                            title: 'MAKES SENSE',
+                            onPressed: () => _controller.changeScreen(),
+                          ),
                         );
                       } else if (_controller.currentOnBoardPageCounter.value ==
                           1) {
@@ -93,7 +106,7 @@ class WheelOfLifeScreen extends StatelessWidget {
                           flipOnTouch: false,
                           key: _controller.bottomBtnAnimState,
                           speed:
-                              600 + ((_controller.lifeAreas.length + 1) * 50),
+                          600 + ((_controller.lifeAreas.length + 1) * 50),
                           front: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [

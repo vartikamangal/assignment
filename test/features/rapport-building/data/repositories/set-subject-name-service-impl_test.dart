@@ -7,6 +7,9 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-information-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/repository/set-subject-name-service-impl.dart';
@@ -21,13 +24,22 @@ void main() {
   MockNetworkInfo networkInfo;
   MockSetSubjectNameRemoteService service;
   SetSubjectNameServiceImpl impl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     networkInfo = MockNetworkInfo();
     service = MockSetSubjectNameRemoteService();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     impl = SetSubjectNameServiceImpl(
       service: service,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 

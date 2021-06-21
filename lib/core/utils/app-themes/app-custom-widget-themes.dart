@@ -9,7 +9,9 @@ class CustomWidgetThemes {
   static SliderThemeData sliderTheme = SliderThemeData(
     showValueIndicator: ShowValueIndicator.always,
     trackShape: const RectangularSliderTrackShape(),
-    trackHeight: 2.0,
+    trackHeight:  ScaleManager.spaceScale(
+      spaceing: 2,
+    ).value,
     activeTickMarkColor: greyDarkShade,
     inactiveTickMarkColor: greyDarkShade,
     activeTrackColor: Colors.white,

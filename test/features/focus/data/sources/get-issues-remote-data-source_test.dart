@@ -1,10 +1,10 @@
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -14,71 +14,57 @@ import 'package:tatsam_app_experimental/features/focus/data/models/issue-model.d
 import 'package:tatsam_app_experimental/features/focus/data/sources/get-issues-remote-data-source.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
-
-Future<void> main() async{
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox localClient;
+Future<void> main() async {
   GetIssueRemoteDataSourceImpl remoteDataSourceImpl;
+  MockCustomApiClient client;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
-    localClient = MockBox();
-    client = MockHttpClient();
+    client = MockCustomApiClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = GetIssueRemoteDataSourceImpl(
       client: client,
-      sessionClient: localClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
-  const tIssueModel=<IssueModel>[
-    IssueModel(issueId: 1,
-        focusName: "SLEEP",
-        displayName: "Sleep",
-        messageOnSelection: " I want to sleep better. More, restful, deeper sleep for my mind and my body",
-        issueIcon: ImageProp(
-          urlLarge: null,
-          urlMedium: null,
-          urlShort: null,
-        ),),
-    IssueModel(issueId: 2,
-        focusName: "WORK_FROM_HOME",
-        displayName: "Work form home",
-        messageOnSelection: "I want to manage my life better as I work from home",
-        issueIcon: ImageProp(
-          urlLarge: null,
-          urlMedium: null,
-          urlShort: null,
-        ),),
+  const tIssueModel = <IssueModel>[
     IssueModel(
-        issueId: 3,
-        focusName: "REDUCE_STRESS",
-        displayName: "Reduce stress",
-        messageOnSelection: "I want to reduce stress",
-        issueIcon: ImageProp(
-          urlLarge: null,
-          urlMedium: null,
-          urlShort: null,
-        ),)
+      issueId: 1,
+      focusName: "SLEEP",
+      displayName: "Sleep",
+      messageOnSelection:
+          " I want to sleep better. More, restful, deeper sleep for my mind and my body",
+      issueIcon: ImageProp(),
+    ),
+    IssueModel(
+      issueId: 2,
+      focusName: "WORK_FROM_HOME",
+      displayName: "Work form home",
+      messageOnSelection: "I want to manage my life better as I work from home",
+      issueIcon: ImageProp(),
+    ),
+    IssueModel(
+      issueId: 3,
+      focusName: "REDUCE_STRESS",
+      displayName: "Reduce stress",
+      messageOnSelection: "I want to reduce stress",
+      issueIcon: ImageProp(),
+    )
   ];
 
   void setupHttpSuccessClient200() {
-    when(client.get(Uri.parse(APIRoute.getAllIssues), headers: anyNamed('headers')))
-        .thenAnswer(
-          (_) async =>
+    when(client.get(uri: APIRoute.getAllIssues)).thenAnswer(
+      (_) async =>
           http.Response(fixtureReader(filename: 'raw-issues.json'), 200),
     );
   }
+
   void setupHttpFailureClient404() {
-    when(client.get(Uri.parse(APIRoute.getAllIssues), headers: anyNamed('headers')))
-        .thenAnswer(
-          (_) async => http.Response('Oops! page not found', 404),
+    when(client.get(uri: APIRoute.getAllIssues)).thenAnswer(
+      (_) async => http.Response('Oops! page not found', 404),
     );
   }
 
@@ -90,13 +76,12 @@ Future<void> main() async{
       await remoteDataSourceImpl.getIssues();
       //assert
       verifyNever(
-        client.get(Uri.parse(APIRoute.getAllIssues), headers: {
-          'content-type': 'application/json',
-        }),
+        client.get(uri: APIRoute.getAllIssues),
       );
     });
 
-    test('should return List<IssueModel> when call statusCode is 200', () async {
+    test('should return List<IssueModel> when call statusCode is 200',
+        () async {
       //arrange
       setupHttpSuccessClient200();
       //act

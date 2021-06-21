@@ -26,6 +26,13 @@ class ChoosePathScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
+              padding:EdgeInsets.only(left: ScaleManager.spaceScale(
+                spaceing: 10,
+              ).value,
+                  top: ScaleManager.spaceScale(
+                    spaceing: 10,
+                  ).value,
+                  bottom: 0),
               icon:SvgPicture.asset(
                 ImagePath.backButton,
                 height: ScaleManager.spaceScale(

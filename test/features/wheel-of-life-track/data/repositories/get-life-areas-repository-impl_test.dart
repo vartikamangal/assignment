@@ -8,6 +8,9 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/get-life-areas-repository-impl.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/get-life-areas-remote-data-source.dart';
@@ -21,13 +24,22 @@ void main() {
   MockGetLifeAreasRemoteDataSource remoteDataSource;
   MockNetworkInfo networkInfo;
   GetLifeAreasRepositoryImpl repositoryImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     remoteDataSource = MockGetLifeAreasRemoteDataSource();
     networkInfo = MockNetworkInfo();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     repositoryImpl = GetLifeAreasRepositoryImpl(
       source: remoteDataSource,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 

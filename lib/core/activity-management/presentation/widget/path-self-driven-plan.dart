@@ -90,8 +90,12 @@ class PathSelfDrivenPlan extends StatelessWidget {
             SliverToBoxAdapter(
               child: Obx(
                 () => _controller.isLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(),
+                    ?  Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    const CircularProgressIndicator(),
+                  ],
                       )
                     : Column(
                         children: [

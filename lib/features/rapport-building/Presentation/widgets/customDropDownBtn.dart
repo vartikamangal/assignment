@@ -29,89 +29,91 @@ Widget customDropDownBtn({
           child: Stack(
             alignment: Alignment.topCenter,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: blueLightShade,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(
-                      ScaleManager.spaceScale(
-                        spaceing: 20,
-                      ).value,
-                    ),
-                    topRight: Radius.circular(
-                      ScaleManager.spaceScale(
-                        spaceing: 20,
-                      ).value,
-                    ),
-                    bottomLeft: Radius.circular(
-                      ScaleManager.spaceScale(
-                        spaceing: 20,
-                      ).value,
+              SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: blueLightShade,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(
+                        ScaleManager.spaceScale(
+                          spaceing: 20,
+                        ).value,
+                      ),
+                      topRight: Radius.circular(
+                        ScaleManager.spaceScale(
+                          spaceing: 20,
+                        ).value,
+                      ),
+                      bottomLeft: Radius.circular(
+                        ScaleManager.spaceScale(
+                          spaceing: 20,
+                        ).value,
+                      ),
                     ),
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    for (int i = 0; i < options.length; i++)
-                      GestureDetector(
-                        // ignore: void_checks
-                        onTap: () {
-                          controller.setFeelingDuration(
-                            feelingDuration: options[i],
-                          );
-                          controller.toggleDropDownExpansion();
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: ScaleManager.spaceScale(
-                                  spaceing: 6,
-                                ).value,
-                                bottom: ScaleManager.spaceScale(
-                                  spaceing: i == options.length - 1 ? 14 : 6,
-                                ).value,
-                                left: ScaleManager.spaceScale(
-                                  spaceing: 21,
-                                ).value,
-                                right: ScaleManager.spaceScale(
-                                  spaceing: 12,
-                                ).value,
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      options[i]
-                                          .durationDisplayName
-                                          .toUpperCase(),
-                                      style:
-                                          AppTextStyle.dropDownStyle.copyWith(
-                                        fontSize: 14,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      for (int i = 0; i < options.length; i++)
+                        GestureDetector(
+                          // ignore: void_checks
+                          onTap: () {
+                            controller.setFeelingDuration(
+                              feelingDuration: options[i],
+                            );
+                            controller.toggleDropDownExpansion();
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: ScaleManager.spaceScale(
+                                    spaceing: 6,
+                                  ).value,
+                                  bottom: ScaleManager.spaceScale(
+                                    spaceing: i == options.length - 1 ? 14 : 6,
+                                  ).value,
+                                  left: ScaleManager.spaceScale(
+                                    spaceing: 21,
+                                  ).value,
+                                  right: ScaleManager.spaceScale(
+                                    spaceing: 12,
+                                  ).value,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        options[i]
+                                            .durationDisplayName
+                                            .toUpperCase(),
+                                        style:
+                                            AppTextStyle.dropDownStyle.copyWith(
+                                          fontSize: 14,
+                                        ),
+                                        textScaleFactor: textScaleFactor,
                                       ),
-                                      textScaleFactor: textScaleFactor,
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            if (i == 0)
-                              const Divider(
-                                color: Colors.transparent,
-                              )
-                            else if (i <= options.length - 2)
-                              const Divider(
-                                color: Colors.white,
-                              )
-                            else
-                              EmptySpacePlaceHolder(),
-                          ],
+                              if (i == 0)
+                                const Divider(
+                                  color: Colors.transparent,
+                                )
+                              else if (i <= options.length - 2)
+                                const Divider(
+                                  color: Colors.white,
+                                )
+                              else
+                                EmptySpacePlaceHolder(),
+                            ],
+                          ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               _DropDownTopHeader(

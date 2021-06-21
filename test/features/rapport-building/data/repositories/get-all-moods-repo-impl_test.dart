@@ -8,6 +8,9 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/repository/get-all-moods-repository-impl.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/get-all-moods-remote-data-source.dart';
@@ -21,6 +24,9 @@ void main() {
   MockGetAllMoodsRemoteDataSource remoteDataSource;
   MockNetworkInfo networkInfo;
   GetAllMoodsRepositoryImpl repositoryImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   //? Helper data vars
   const tMoods = <MoodModel>[
@@ -58,14 +64,22 @@ void main() {
 
   //? Helper Functions
 
-  setUp(() {
-    remoteDataSource = MockGetAllMoodsRemoteDataSource();
-    networkInfo = MockNetworkInfo();
-    repositoryImpl = GetAllMoodsRepositoryImpl(
-      source: remoteDataSource,
-      networkInfo: networkInfo,
-    );
-  });
+  setUp(
+    () {
+      remoteDataSource = MockGetAllMoodsRemoteDataSource();
+      networkInfo = MockNetworkInfo();
+      callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+      handleException = HandleException();
+      baseRepository = BaseRepository(
+        callIfNetworkConnected: callIfNetworkConnected,
+        handleException: handleException,
+      );
+      repositoryImpl = GetAllMoodsRepositoryImpl(
+        source: remoteDataSource,
+        baseRepository: baseRepository,
+      );
+    },
+  );
 
   void runTestOnline(Callback body) {
     setUp(() {

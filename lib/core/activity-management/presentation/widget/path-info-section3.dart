@@ -217,7 +217,7 @@ class PathInfoSection3 extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
-                              //TODO clean this mess
+                              //TODO Remove the recent activity caching logic from here
                               onTap: () async {
                                 await _controller
                                     .updateActivityStatusTrigger(

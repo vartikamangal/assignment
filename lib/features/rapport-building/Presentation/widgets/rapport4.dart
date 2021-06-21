@@ -13,6 +13,7 @@ import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voi
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-recorder-ui-fragment.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-ui-fragment.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/temporary-step-data.dart';
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/responsive-builder.dart';
 import '../../../../core/responsive/scale-manager.dart';
@@ -38,19 +39,14 @@ class MidPageContentsD extends StatelessWidget {
             right: 1,
           ),
           width: Get.width,
-          height: Get.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: ScaleManager.spaceScale(
-                  spaceing: 37,
-                ).value,
-              ),
+
               Padding(
                 padding: EdgeInsets.only(
                   top: ScaleManager.spaceScale(
-                    spaceing: 35,
+                    spaceing: 5,
                   ).value,
                 ),
                 child: SizedBox(
@@ -78,7 +74,10 @@ class MidPageContentsD extends StatelessWidget {
                   ).value,
                 ),
                 child: Text(
-                  tr('additional details text'),
+                  rapportStepData[
+                          _onBoardingController.selectedMood.value.moodName]
+                      .feelingPageStepContent
+                      .textTop,
                   style: AppTextStyle.titleM,
                   textScaleFactor: textScale,
                 ),
@@ -97,7 +96,10 @@ class MidPageContentsD extends StatelessWidget {
                 child: DiagonalAnimation(
                     0.6,
                     Text(
-                      tr('additional details title'),
+                      rapportStepData[
+                              _onBoardingController.selectedMood.value.moodName]
+                          .feelingPageStepContent
+                          .textMid,
                       style: AppTextStyle.titleL,
                       textScaleFactor: textScale,
                     ),
@@ -186,34 +188,34 @@ class MidPageContentsD extends StatelessWidget {
                   }),
                 ),
               ),
+              SizedBox(
+                height: ScaleManager.spaceScale(
+                  spaceing: 100,
+                ).value,
+              ),
+              DiagonalAnimation(
+                0.6,
+                Text(
+                  rapportStepData[_onBoardingController.selectedMood.value.moodName]
+                      .feelingPageStepContent
+                      .textBottom,
+                  style: AppTextStyle.titleM,
+                  textScaleFactor: textScale,
+                ),
+                1.0,
+                1.0,
+                1.0,
+                1,
+
+              ),
+              SizedBox(
+                height: ScaleManager.spaceScale(
+                  spaceing: 30,
+                ).value,
+              ),
             ],
           ),
         ),
-        Positioned(
-          left: ScaleManager.spaceScale(
-            spaceing: 32,
-          ).value,
-          right: ScaleManager.spaceScale(
-            spaceing: 34,
-          ).value,
-          bottom: ScaleManager.spaceScale(
-            spaceing: 110,
-          ).value,
-          child: DiagonalAnimation(
-            0.6,
-            Text(
-              tr(
-                'Did you know: We cope better with problems when we observe ourselves and emotions, rather than participate in them',
-              ),
-              style: AppTextStyle.titleM,
-              textScaleFactor: textScale,
-            ),
-            1.0,
-            1.0,
-            1.0,
-            1,
-          ),
-        )
       ],
     );
   }

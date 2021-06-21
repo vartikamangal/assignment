@@ -9,6 +9,9 @@ import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/repositories/get_journey_path_list_repository_impl.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/get_journey_path_list_remote_data_source.dart';
@@ -18,32 +21,43 @@ class MockGetJourneyPathListRemoteDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-void main(){
+void main() {
   MockGetJourneyPathListRemoteDataSource remoteDataSource;
   MockNetworkInfo networkInfo;
   GetJourneyPathListRpositoryImpl repositoryImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     remoteDataSource = MockGetJourneyPathListRemoteDataSource();
     networkInfo = MockNetworkInfo();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     repositoryImpl = GetJourneyPathListRpositoryImpl(
       remoteDataSource: remoteDataSource,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 
-  const tJourneyModel=<JourneyModel>[
+  const tJourneyModel = <JourneyModel>[
     JourneyModel(
-      id: 1,
-      title: "Small Wins Path",
-      subtitle: "Weekly focus areas. Choose your own experiences.",
-      description: "Only one area of focus per week, Daily small wins at your own pace",
-      icon: ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
-      ),
-      pathName: "SMALL_WINS")];
+        id: 1,
+        title: "Small Wins Path",
+        subtitle: "Weekly focus areas. Choose your own experiences.",
+        description:
+            "Only one area of focus per week, Daily small wins at your own pace",
+        icon: ImageProp(
+          urlLarge: '',
+          urlMedium: '',
+          urlShort: '',
+        ),
+        pathName: "SMALL_WINS")
+  ];
 
   void runTestOnline(Callback body) {
     setUp(() {
@@ -62,32 +76,33 @@ void main(){
     });
     test(
         'should return a List<IssueModel> when call to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteDataSource.getJourneys()).thenAnswer((_) async => tJourneyModel);
-          //act
-          final result = await repositoryImpl.getJourneyPaths();
-          //assert
-          verify(remoteDataSource.getJourneys());
-          expect(result, const Right(tJourneyModel));
-        });
+        () async {
+      //arrange
+      when(remoteDataSource.getJourneys())
+          .thenAnswer((_) async => tJourneyModel);
+      //act
+      final result = await repositoryImpl.getJourneyPaths();
+      //assert
+      verify(remoteDataSource.getJourneys());
+      expect(result, const Right(tJourneyModel));
+    });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
-            () async {
-          //arrange
-          when(remoteDataSource.getJourneys()).thenThrow(ServerException());
-          //act
-          final result = await repositoryImpl.getJourneyPaths();
-          //assert
-          expect(result, Left(ServerFailure()));
-        });
+        () async {
+      //arrange
+      when(remoteDataSource.getJourneys()).thenThrow(ServerException());
+      //act
+      final result = await repositoryImpl.getJourneyPaths();
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
   test('DEVICE OFFLINE : GetJourneyPaths should return DeviceOfflineFailure',
-          () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
-        //act
-        final result = await repositoryImpl.getJourneyPaths();
-        //assert
-        expect(result, Left(DeviceOfflineFailure()));
-      });
+      () async {
+    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    //act
+    final result = await repositoryImpl.getJourneyPaths();
+    //assert
+    expect(result, Left(DeviceOfflineFailure()));
+  });
 }

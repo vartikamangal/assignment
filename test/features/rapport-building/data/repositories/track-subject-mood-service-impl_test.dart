@@ -7,8 +7,10 @@ import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/platform/instant.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/repository/track-subject-mood-service-impl.dart';
@@ -25,19 +27,28 @@ void main() {
   MockTrackSubjectMoodRemoteService remoteService;
   MockNetworkInfo networkInfo;
   TrackSubjectMoodServiceImpl serviceImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     remoteService = MockTrackSubjectMoodRemoteService();
     networkInfo = MockNetworkInfo();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     serviceImpl = TrackSubjectMoodServiceImpl(
       service: remoteService,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 
   final MoodTracking tMoodTrack = MoodTrackingModel(
     activityType: 'ONBOARDING',
-    createdWhen: Instant(time: DateTime.parse('2021-04-10 13:38:35.105')),
+    createdWhen: DateTime.parse('2021-04-10 13:38:35.105'),
     id: 3,
     mood: 'NEUTRAL',
     moodDuration: 'SEVEN_DAYS',

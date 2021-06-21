@@ -30,9 +30,20 @@ class RetrieveMostRecentActivityLocalDataSourceImpl
       final cachedActivityRaw = await localClient.get(
         PersistenceConst.MOST_RECENT_ACITIVITY,
       ) as String;
-      return CacheAcitivityModel.fromJson(
-        jsonDecode(cachedActivityRaw) as Map<String, dynamic>,
-      );
+
+      /// In this case use has no recently completed mood recenlty
+      if (cachedActivityRaw == null) {
+        return const CacheAcitivityModel(
+          id: null,
+          title: '',
+          subtitle: '',
+          icon: null,
+        );
+      } else {
+        return CacheAcitivityModel.fromJson(
+          jsonDecode(cachedActivityRaw) as Map<String, dynamic>,
+        );
+      }
     } catch (e) {
       log(e.toString());
       throw CacheException();

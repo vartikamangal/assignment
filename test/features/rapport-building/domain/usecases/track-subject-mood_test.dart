@@ -4,9 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 // Project imports:
-import 'package:tatsam_app_experimental/core/platform/instant.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/track-mood-success.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/track-subject-mood-service.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/track-subject-mood.dart';
@@ -23,9 +22,9 @@ void main() {
     useCase = TrackSubjectMood(service: service);
   });
 
-  final tMoodTrack = MoodTracking(
+  final tMoodTrack = MoodTrackingModel(
     activityType: 'ONBOARDING',
-    createdWhen: Instant(time: DateTime.parse('2021-04-10 13:38:35.105')),
+    createdWhen: DateTime.now(),
     id: 3,
     mood: 'NEUTRAL',
     moodDuration: 'SEVEN_DAYS',

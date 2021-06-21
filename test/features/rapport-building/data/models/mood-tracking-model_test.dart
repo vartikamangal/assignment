@@ -17,9 +17,7 @@ void main() {
     moodDuration: 'SEVEN_DAYS',
     activityType: 'ONBOARDING',
     mood: 'NEUTRAL',
-    createdWhen: Instant(
-      time: DateTime.parse('2021-04-10 13:38:35.105'),
-    ),
+    createdWhen: DateTime.parse('2021-04-10 13:38:35.105'),
   );
   group('MODEL MoodTrackingModel ', () {
     test('should be an extendor of MoodTracking', () async {

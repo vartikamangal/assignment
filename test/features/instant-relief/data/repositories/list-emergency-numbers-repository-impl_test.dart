@@ -8,6 +8,9 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/emergency-number-model.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/repositories/list-emergency-numbers-repository-impl.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/sources/list-emergency-numbers-remote-service.dart';
@@ -17,17 +20,26 @@ class MockListEmergencyNumberDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-void main(){
+void main() {
   MockListEmergencyNumberDataSource remoteDataSource;
   MockNetworkInfo networkInfo;
   ListEmergencyNumbersRepositoryImpl repositoryImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     remoteDataSource = MockListEmergencyNumberDataSource();
     networkInfo = MockNetworkInfo();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     repositoryImpl = ListEmergencyNumbersRepositoryImpl(
       remoteDataSource: remoteDataSource,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 
@@ -35,14 +47,12 @@ void main(){
     EmergencyNumberModel(number: "9545865596")
   ];
 
-
   void runTestOnline(Callback body) {
     setUp(() {
       when(networkInfo.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : GetEmergencyNumber', body);
   }
-
 
   //! Actual tests go here
   runTestOnline(() {
@@ -54,34 +64,36 @@ void main(){
     });
     test(
         'should return a List<EmergencyNumber> when call to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteDataSource.fetchEmergencyNumbers()).thenAnswer((_) async => tEmergencyNumbers);
-          //act
-          final result = await repositoryImpl.fetchEmergencyNumbers();
-          //assert
-          verify(remoteDataSource.fetchEmergencyNumbers());
-          expect(result, const Right(tEmergencyNumbers));
-        });
+        () async {
+      //arrange
+      when(remoteDataSource.fetchEmergencyNumbers())
+          .thenAnswer((_) async => tEmergencyNumbers);
+      //act
+      final result = await repositoryImpl.fetchEmergencyNumbers();
+      //assert
+      verify(remoteDataSource.fetchEmergencyNumbers());
+      expect(result, const Right(tEmergencyNumbers));
+    });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
-            () async {
-          //arrange
-          when(remoteDataSource.fetchEmergencyNumbers()).thenThrow(ServerException());
-          //act
-          final result = await repositoryImpl.fetchEmergencyNumbers();
-          //assert
-          expect(result, Left(ServerFailure()));
-        });
+        () async {
+      //arrange
+      when(remoteDataSource.fetchEmergencyNumbers())
+          .thenThrow(ServerException());
+      //act
+      final result = await repositoryImpl.fetchEmergencyNumbers();
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
 
   //! For offline tests
   test('DEVICE OFFLINE : GetAllMoods should return DeviceOfflineFailure',
-          () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
-        //act
-        final result = await repositoryImpl.fetchEmergencyNumbers();
-        //assert
-        expect(result, Left(DeviceOfflineFailure()));
-      });
+      () async {
+    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    //act
+    final result = await repositoryImpl.fetchEmergencyNumbers();
+    //assert
+    expect(result, Left(DeviceOfflineFailure()));
+  });
 }

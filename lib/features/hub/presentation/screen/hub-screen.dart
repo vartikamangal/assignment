@@ -34,6 +34,13 @@ class HubScreen extends StatelessWidget {
             () => _controller.userHubStatus.value ==
                     HubAnswerStatus.nothingAnswered
                 ? IconButton(
+                   padding:EdgeInsets.only(left: ScaleManager.spaceScale(
+                     spaceing: 10,
+                   ).value,
+                   top: ScaleManager.spaceScale(
+                     spaceing: 10,
+                   ).value,
+                   bottom: 0),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

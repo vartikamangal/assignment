@@ -51,7 +51,9 @@ class ProfileScreen extends StatelessWidget {
                 },
                 icon: Image.asset(
                   ImagePath.settingsIcon,
-                  height: 26,
+                  height: ScaleManager.spaceScale(
+                    spaceing: 26,
+                  ).value,
                 ))
           ],
         ),

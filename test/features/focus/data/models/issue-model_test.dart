@@ -3,29 +3,25 @@ import 'dart:convert';
 
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tatsam_app_experimental/core/image/image.dart';
 
 // Project imports:
-import 'package:tatsam_app_experimental/core/image/image.dart';
+import 'package:tatsam_app_experimental/features/focus/data/models/issue-model.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue.dart';
-import '../../../../../lib/features/focus/data/models/issue-model.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
 // ignore: avoid_relative_lib_imports
 
-void main(){
-  const tIssueModel =
-  IssueModel(
+void main() {
+  const tIssueModel = IssueModel(
     issueId: 1,
-      focusName: "SLEEP",
-      displayName: "Sleep",
-      messageOnSelection: " I want to sleep better. More, restful, deeper sleep for my mind and my body",
-      issueIcon:  ImageProp(
-        urlShort: '',
-        urlLarge: '',
-        urlMedium: '',
-      ),
+    focusName: 'SLEEP',
+    displayName: 'Sleep',
+    messageOnSelection:
+        ' I want to sleep better. More, restful, deeper sleep for my mind and my body',
+    issueIcon: ImageProp(),
   );
-  group('Model IssueModel',(){
+  group('Model IssueModel', () {
     test('should be a extended version of Issue', () async {
       //assert
       expect(tIssueModel, isA<Issue>());
@@ -34,7 +30,7 @@ void main(){
     test(' .fromJson should return a valid Issue', () async {
       //arrange
       final jsonMap = jsonDecode(fixtureReader(filename: 'raw-issues.json'))
-      as List<dynamic>;
+          as List<dynamic>;
       //act
       final result = IssueModel.fromJson(jsonMap.first as Map<String, dynamic>);
       //assert

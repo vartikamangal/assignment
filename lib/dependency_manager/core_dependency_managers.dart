@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:cross_connectivity/cross_connectivity.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
 import 'package:get/get.dart';

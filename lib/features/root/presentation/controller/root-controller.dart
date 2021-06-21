@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:smartlook/smartlook.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/clear-dirty-cache-service.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/secrets.dart';
 import 'package:tatsam_app_experimental/core/utils/helper_functions/add-delay.dart';
@@ -28,6 +29,7 @@ class RootController extends GetxController {
   final GetIsMoodPopupShownStatus getIsMoodPopupShownStatus;
   final RetirieveLastLoggedAppInit retirieveLastLoggedAppInit;
   final ToggleMoodPopupShownState toggleMoodPopupShownState;
+  final ClearDirtyCacheService clearCache;
 
   RootController({
     @required this.retrieveUserOnboardingStatus,
@@ -37,6 +39,7 @@ class RootController extends GetxController {
     @required this.getIsMoodPopupShownStatus,
     @required this.retirieveLastLoggedAppInit,
     @required this.toggleMoodPopupShownState,
+    @required this.clearCache,
   });
 
   // Dynamic data holders
@@ -59,6 +62,11 @@ class RootController extends GetxController {
           );
         } else {
           log('user opened for the first time');
+
+          // On reinstall (uninstall then install), the access/refresh tokens
+          // are still persisted in secure storage
+          // So, clearing for the auth system to work
+          await clearCache.clearCache();
           await updateIsFirstTimeIfOnBoarded(
             yesOrNo: 'YES',
           );

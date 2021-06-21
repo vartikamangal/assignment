@@ -8,39 +8,50 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/focus/data/repositories/remove-issue-service-impl.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue-removed-success.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue.dart';
 
-import'package:tatsam_app_experimental/features/focus/data/sources/remove-issue-remote-service.dart';
-
-
+import 'package:tatsam_app_experimental/features/focus/data/sources/remove-issue-remote-service.dart';
 
 class MockRemoveIssueRemoteService extends Mock
     implements RemoveIssueRemoteService {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-void main(){
+void main() {
   MockNetworkInfo networkInfo;
   MockRemoveIssueRemoteService remoteService;
   RemoveIssueServiceImpl serviceImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     networkInfo = MockNetworkInfo();
     remoteService = MockRemoveIssueRemoteService();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     serviceImpl = RemoveIssueServiceImpl(
       remoteService: remoteService,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 
-  const tissue=Issue(
+  const tissue = Issue(
       issueId: 1,
       issueIcon: null,
       displayName: "Sleep",
       focusName: "SLEEP",
-      messageOnSelection: " I want to sleep better. More, restful, deeper sleep for my mind and my body");
+      messageOnSelection:
+          " I want to sleep better. More, restful, deeper sleep for my mind and my body");
 
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : RemoveIssue', () {
@@ -51,7 +62,6 @@ void main(){
     });
   }
 
-
   void runTestsOffline(Callback body) {
     group('DEVICE OFFLINE : RemoveIssue', () {
       setUp(() {
@@ -61,55 +71,42 @@ void main(){
     });
   }
 
-
   //? Actual tests go here
   runTestsOnline(() {
     test('should check if the device is online', () async {
       //act
-      await serviceImpl.removeIssue(
-        issue: tissue
-      );
+      await serviceImpl.removeIssue(issue: tissue);
       //assert
       verify(networkInfo.isConnected);
     });
     test(
         'should return SetMoodSuccess if call to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteService.removeIssue(
-            issue: tissue
-          )).thenAnswer((_) async => IssueRemovedSuccess());
-          //act
-          final result = await serviceImpl.removeIssue(
-            issue: tissue
-          );
-          //assert
-          verify(remoteService.removeIssue(
-            issue: tissue
-          ));
-          expect(result, Right(IssueRemovedSuccess()));
-        });
+        () async {
+      //arrange
+      when(remoteService.removeIssue(issue: tissue))
+          .thenAnswer((_) async => IssueRemovedSuccess());
+      //act
+      final result = await serviceImpl.removeIssue(issue: tissue);
+      //assert
+      verify(remoteService.removeIssue(issue: tissue));
+      expect(result, Right(IssueRemovedSuccess()));
+    });
 
     test('should return ServerFailure when the call to remoteService fails',
-            () async {
-          //arrange
-          when(remoteService.removeIssue(
-            issue: tissue
-          )).thenThrow(ServerException());
-          //act
-          final result = await serviceImpl.removeIssue(
-            issue: tissue
-          );
-          //assert
-          expect(result, Left(ServerFailure()));
-        });
+        () async {
+      //arrange
+      when(remoteService.removeIssue(issue: tissue))
+          .thenThrow(ServerException());
+      //act
+      final result = await serviceImpl.removeIssue(issue: tissue);
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
   runTestsOffline(() {
     test('should return DeviceOfflineFailure', () async {
       //act
-      final result = await serviceImpl.removeIssue(
-        issue: tissue
-      );
+      final result = await serviceImpl.removeIssue(issue: tissue);
       //assert
       expect(result, Left(DeviceOfflineFailure()));
     });

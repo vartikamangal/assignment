@@ -85,6 +85,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
           Secrets.AUTH0_CLIENT_ID,
           Secrets.AUTH0_REDIRECT_URI,
           issuer: Secrets.AUTH0_ISSUER,
+
           scopes: _scopes,
           // If passing aud then no refresh token will come
           additionalParameters: _params,

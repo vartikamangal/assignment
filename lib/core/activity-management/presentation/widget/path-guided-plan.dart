@@ -67,6 +67,7 @@ class PathGuidedPlan extends StatelessWidget {
                     Text(
                       tr('practice divided'),
                       style: AppTextStyle.pathdescription,
+                      textScaleFactor: textScaleFactor,
                     ),
                     Container(
                       margin: EdgeInsets.only(

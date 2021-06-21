@@ -18,7 +18,7 @@ This Project is an early experimental version of **Tatsam** and consists of the 
  4. An overall walkthrough of Hub.
  5. Write GitHub-Actions config file for quick glanced test results
  6. There should be changeLocal() server side too per user??
- 7. We can make a responsiveScaledWrapper() widget which will make achieving       responsivesness easier in near future.
+ 7. We can make a responsiveScaledWrapper() widget which will make achieving       responsivesness easier in near future
  
 
 

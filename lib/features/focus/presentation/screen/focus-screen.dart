@@ -22,7 +22,6 @@ class FocusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
-    int removedIssueIndex;
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -31,6 +30,13 @@ class FocusScreen extends StatelessWidget {
               backgroundColor: Colors.transparent,
               leading: Obx(
                     () => IconButton(
+                      padding:EdgeInsets.only(left: ScaleManager.spaceScale(
+                        spaceing: 0,
+                      ).value,
+                          top: ScaleManager.spaceScale(
+                            spaceing: 10,
+                          ).value,
+                          bottom: 0),
                   icon: SvgPicture.asset(
                     ImagePath.backButton,
                     height: ScaleManager.spaceScale(
@@ -162,7 +168,6 @@ class _MiddleExpandableContainer extends StatelessWidget {
       curve: Curves.easeInOut,
       tween: Tween<double>(begin: 0, end: 1),
       duration: const Duration(milliseconds: 700),
-      resetAnimationOnRebuild: true,
       builder: (context, animatorState, child) => Opacity(
         opacity: animatorState.value,
         child: Padding(
@@ -195,6 +200,7 @@ class _MiddleExpandableContainer extends StatelessWidget {
               Text(
                 title,
                 style: AppTextStyle.lightblueheader,
+                textScaleFactor: textScaleFactor,
               ),
               Container(
                 margin: EdgeInsets.only(

@@ -1,8 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
@@ -24,905 +22,286 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     final imageScaleFactor = ScaleManager.imageScale.value;
     return Theme(
-          data: Theme.of(context).copyWith(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          ),
-          child: BottomAppBar(
-          elevation: 0,
-          notchMargin: 0,
-          color: Colors.white,
-          child: widget.controller.selectedScreenIndex.value == 0
-              ? Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: ScaleManager.spaceScale(
-                        spaceing: 20,
-                      ).value),
-                      child: IconButton(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: BottomAppBar(
+            elevation: 0,
+            notchMargin: 0,
+            color: Colors.white,
+            child:Stack(children: [
+              if (widget.controller.selectedScreenIndex.value == 0) Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    height: ScaleManager.spaceScale(
+                      spaceing: 61,
+                    ).value,
+                    width: Get.width*0.80,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(
+                            ScaleManager.spaceScale(
+                              spaceing: 25,
+                            ).value,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: greyLightShade,
+                        )),
+                  ),
+                ],
+              ) else widget.controller.selectedScreenIndex.value == 1?
+              Row(
+                children: [
+                  Container(
+                    height: ScaleManager.spaceScale(
+                      spaceing: 61,
+                    ).value,
+                    width: Get.width*0.20,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(
+                            ScaleManager.spaceScale(
+                              spaceing: 25,
+                            ).value,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: greyLightShade,
+                        )),
+                  ),
+                  Spacer(),
+                  Container(
+                    height: ScaleManager.spaceScale(
+                      spaceing: 61,
+                    ).value,
+                    width: Get.width*0.60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(
+                            ScaleManager.spaceScale(
+                              spaceing: 25,
+                            ).value,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: greyLightShade,
+                        )),
+                  ),
+                ],
+              )
+                  :widget.controller.selectedScreenIndex.value == 2 ? Row(
+                children: [
+                  Container(
+                    height: ScaleManager.spaceScale(
+                      spaceing: 61,
+                    ).value,
+                    width: Get.width*0.40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(
+                            ScaleManager.spaceScale(
+                              spaceing: 25,
+                            ).value,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: greyLightShade,
+                        )),
+                  ),
+                  Spacer(),
+                  Container(
+                    height: ScaleManager.spaceScale(
+                      spaceing: 61,
+                    ).value,
+                    width: Get.width*0.40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(
+                            ScaleManager.spaceScale(
+                              spaceing: 25,
+                            ).value,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: greyLightShade,
+                        )),
+                  ),
+                ],
+              ):
+              widget.controller.selectedScreenIndex.value == 3 ?
+              Row(
+                children: [
+                  Container(
+                    height: ScaleManager.spaceScale(
+                      spaceing: 61,
+                    ).value,
+                    width: Get.width*0.60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(
+                            ScaleManager.spaceScale(
+                              spaceing: 25,
+                            ).value,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: greyLightShade,
+                        )),
+                  ),
+                  Spacer(),
+                  Container(
+                    height: ScaleManager.spaceScale(
+                      spaceing: 61,
+                    ).value,
+                    width: Get.width*0.20,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(
+                            ScaleManager.spaceScale(
+                              spaceing: 25,
+                            ).value,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: greyLightShade,
+                        )),
+                  )
+                ],
+              ):Row(
+                children: [
+                  Container(
+                    height: ScaleManager.spaceScale(
+                      spaceing: 61,
+                    ).value,
+                    width: Get.width*0.80,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(
+                            ScaleManager.spaceScale(
+                              spaceing: 25,
+                            ).value,
+                          ),
+                        ),
+                        border: Border.all(
+                          color: greyLightShade,
+                        )),
+                  )
+                ],
+              ),
+
+              ///row of icons
+
+              Padding(
+                padding:  EdgeInsets.only(left:ScaleManager.spaceScale(
+                  spaceing: 20,
+                ).value,
+                    right: ScaleManager.spaceScale(
+                      spaceing: 20,
+                    ).value),
+                child: Container(
+                  height: ScaleManager.spaceScale(
+                    spaceing: 61,
+                  ).value,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                          padding: EdgeInsets.zero,
                           icon: SvgPicture.asset(
                             ImagePath.profileIcon,
                             height: ScaleManager.spaceScale(
                               spaceing: 34,
                             ).value,
-                            color:
-                                widget.controller.selectedScreenIndex.value == 0
-                                    ? blueDarkShade
-                                    : greyLightShade,
+                            color: widget.controller.selectedScreenIndex.value == 0
+                                ? blueDarkShade
+                                : greyLightShade,
                           ),
                           onPressed: () {
                             setState(() {
                               widget.controller.selectedScreenIndex.value = 0;
                             });
                           }),
-                    ),
-                    SizedBox(
-                      width: ScaleManager.spaceScale(
-                        spaceing: 15,
-                      ).value,
-                    ),
-                    Expanded(
-                      child: Container(
-                        width: ScaleManager.spaceScale(
-                          spaceing: 325.70,
-                        ).value,
-                        height: ScaleManager.spaceScale(
-                          spaceing: 61,
-                        ).value,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(
-                                ScaleManager.spaceScale(
-                                  spaceing: 25,
-                                ).value,
-                              ),
-                            ),
-                            border: Border.all(
-                              color: greyLightShade,
-                            )),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: ScaleManager.spaceScale(
-                              spaceing: 15,
-                            ).value,
-                            right: ScaleManager.spaceScale(
-                              spaceing: 15,
-                            ).value,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                icon: SvgPicture.asset(
-                                  ImagePath.wheelIcon,
-                                  height: ScaleManager.spaceScale(
-                                    spaceing: 34,
-                                  ).value,
-                                  color:
-                                      widget.controller.selectedScreenIndex.value ==
-                                              1
-                                          ? blueDarkShade
-                                          : greyLightShade,
-                                ),
-                                onPressed: () {
-                                  setState(
-                                    () {
-                                      widget.controller.selectedScreenIndex.value =
-                                          1;
-                                    },
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                  icon: SvgPicture.asset(
-                                    ImagePath.moodIcon,
-                                    height: ScaleManager.spaceScale(
-                                      spaceing: 34,
-                                    ).value,
-                                    color: widget.controller.selectedScreenIndex
-                                                .value ==
-                                            2
-                                        ? blueDarkShade
-                                        : greyLightShade,
-                                  ),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        widget.controller.selectedScreenIndex
-                                            .value = 2;
-                                      },
-                                    );
-                                  }),
-                              IconButton(
-                                  icon: SvgPicture.asset(
-                                    ImagePath.diaryIcon,
-                                    height: ScaleManager.spaceScale(
-                                      spaceing: 34,
-                                    ).value,
-                                    color: widget.controller.selectedScreenIndex
-                                                .value ==
-                                            3
-                                        ? blueDarkShade
-                                        : greyLightShade,
-                                  ),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        widget.controller.selectedScreenIndex
-                                            .value = 3;
-                                      },
-                                    );
-                                  }),
-                              IconButton(
-                                icon: SvgPicture.asset(
-                                  ImagePath.profileDiaryIcon,
-                                  height: ScaleManager.spaceScale(
-                                    spaceing: 34,
-                                  ).value,
-                                  color:
-                                      widget.controller.selectedScreenIndex.value ==
-                                              4
-                                          ? blueDarkShade
-                                          : greyLightShade,
-                                ),
-                                onPressed: () {
-                                  setState(
-                                    () {
-                                      widget.controller.selectedScreenIndex.value =
-                                          4;
-                                    },
-                                  );
-                                },
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-
-              ///when selected index is 2
-
-              : widget.controller.selectedScreenIndex.value == 2
-                  ? Row(
-                      children: [
-                        Container(
-                          width: ScaleManager.spaceScale(
-                            spaceing: 165.20,
-                          ).value,
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: SvgPicture.asset(
+                          ImagePath.wheelIcon,
                           height: ScaleManager.spaceScale(
-                            spaceing: 61,
+                            spaceing: 34,
                           ).value,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(
-                                ScaleManager.spaceScale(
-                                  spaceing: 25,
-                                ).value,
-                              )),
-                              border: Border.all(
-                                color: greyLightShade,
-                                width: ScaleManager.spaceScale(
-                                  spaceing: 1,
-                                ).value,
-                              )),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: ScaleManager.spaceScale(
-                                spaceing: 20,
-                              ).value,
-                              right: ScaleManager.spaceScale(
-                                spaceing: 15,
-                              ).value,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                  icon: SvgPicture.asset(
-                                    ImagePath.profileIcon,
-                                    height: ScaleManager.spaceScale(
-                                      spaceing: 34,
-                                    ).value,
-                                    color: widget.controller.selectedScreenIndex
-                                                .value ==
-                                            0
-                                        ? blueDarkShade
-                                        : greyLightShade,
-                                  ),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        widget.controller.selectedScreenIndex
-                                            .value = 0;
-                                      },
-                                    );
-                                  },
-                                ),
-                                IconButton(
-                                  icon: SvgPicture.asset(
-                                    ImagePath.wheelIcon,
-                                    height: ScaleManager.spaceScale(
-                                      spaceing: 34,
-                                    ).value,
-                                    color: widget.controller.selectedScreenIndex
-                                                .value ==
-                                            1
-                                        ? blueDarkShade
-                                        : greyLightShade,
-                                  ),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        widget.controller.selectedScreenIndex
-                                            .value = 1;
-                                      },
-                                    );
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
+                          color: widget.controller.selectedScreenIndex.value == 1
+                              ? blueDarkShade
+                              : greyLightShade,
                         ),
-                        SizedBox(
-                          width: ScaleManager.spaceScale(
-                            spaceing: 15,
-                          ).value,
-                        ),
-                        IconButton(
+                        onPressed: () {
+                          setState(
+                                () {
+                              widget.controller.selectedScreenIndex.value = 1;
+                            },
+                          );
+                        },
+                      ),
+                      IconButton(
+                          padding: EdgeInsets.zero,
                           icon: SvgPicture.asset(
                             ImagePath.moodIcon,
                             height: ScaleManager.spaceScale(
                               spaceing: 34,
                             ).value,
-                            color:
-                                widget.controller.selectedScreenIndex.value == 2
-                                    ? blueDarkShade
-                                    : greyLightShade,
+                            color: widget.controller.selectedScreenIndex.value == 2
+                                ? blueDarkShade
+                                : greyLightShade,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              widget.controller.selectedScreenIndex.value = 2;
+                            });
+                          }),
+                      IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: SvgPicture.asset(
+                            ImagePath.diaryIcon,
+                            height: ScaleManager.spaceScale(
+                              spaceing: 34,
+                            ).value,
+                            color: widget.controller.selectedScreenIndex.value == 3
+                                ? blueDarkShade
+                                : greyLightShade,
                           ),
                           onPressed: () {
                             setState(
-                              () {
-                                widget.controller.selectedScreenIndex.value = 2;
+                                  () {
+                                widget.controller.selectedScreenIndex.value = 3;
                               },
                             );
-                          },
-                        ),
-                        SizedBox(
-                          width: ScaleManager.spaceScale(
-                            spaceing: 15,
-                          ).value,
-                        ),
-                        Expanded(child: Container(
-                          width: ScaleManager.spaceScale(
-                            spaceing: 165.60,
-                          ).value,
+                          }),
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: SvgPicture.asset(
+                          ImagePath.profileDiaryIcon,
                           height: ScaleManager.spaceScale(
-                            spaceing: 61,
+                            spaceing: 34,
                           ).value,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(
-                                  ScaleManager.spaceScale(
-                                    spaceing: 25,
-                                  ).value,
-                                ),
-                              ),
-                              border: Border.all(
-                                color: greyLightShade,
-                                width: ScaleManager.spaceScale(
-                                  spaceing: 1,
-                                ).value,
-                              )),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: ScaleManager.spaceScale(
-                                spaceing: 15,
-                              ).value,
-                              right: ScaleManager.spaceScale(
-                                spaceing: 15,
-                              ).value,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                    icon:SvgPicture.asset(
-                                      ImagePath.diaryIcon,
-                                      height: ScaleManager.spaceScale(
-                                        spaceing: 34,
-                                      ).value,
-                                      color: widget.controller.selectedScreenIndex
-                                          .value ==
-                                          3
-                                          ? blueDarkShade
-                                          : greyLightShade,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        widget.controller.selectedScreenIndex
-                                            .value = 3;
-                                      });
-                                    }),
-                                IconButton(
-                                  icon: SvgPicture.asset(
-                                    ImagePath.profileDiaryIcon,
-                                    height: ScaleManager.spaceScale(
-                                      spaceing: 34,
-                                    ).value,
-                                    color: widget.controller.selectedScreenIndex
-                                        .value ==
-                                        4
-                                        ? blueDarkShade
-                                        : greyLightShade,
-                                  ),
-                                  onPressed: () {
-                                    setState(
-                                          () {
-                                        widget.controller.selectedScreenIndex
-                                            .value = 4;
-                                      },
-                                    );
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-                        ),)
-                      ],
-                    )
-
-                  ///when selected index is 1
-
-                  : widget.controller.selectedScreenIndex.value == 1
-                      ? Row(
-                          children: [
-                            Container(
-                              width: ScaleManager.spaceScale(
-                                spaceing: 84,
-                              ).value,
-                              height: ScaleManager.spaceScale(
-                                spaceing: 61,
-                              ).value,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(
-                                      ScaleManager.spaceScale(
-                                        spaceing: 25,
-                                      ).value,
-                                    ),
-                                  ),
-                                  border: Border.all(
-                                    color: greyLightShade,
-                                  )),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  left: ScaleManager.spaceScale(
-                                    spaceing: 20,
-                                  ).value,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    IconButton(
-                                      icon: SvgPicture.asset(
-                                        ImagePath.profileIcon,
-                                        height: ScaleManager.spaceScale(
-                                          spaceing: 34,
-                                        ).value,
-                                        color: widget.controller
-                                                    .selectedScreenIndex.value ==
-                                                0
-                                            ? blueDarkShade
-                                            : greyLightShade,
-                                      ),
-                                      onPressed: () {
-                                        setState(
-                                          () {
-                                            widget.controller.selectedScreenIndex
-                                                .value = 0;
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: ScaleManager.spaceScale(
-                                spaceing: 15,
-                              ).value,
-                            ),
-                            IconButton(
-                              icon: SvgPicture.asset(
-                                ImagePath.wheelIcon,
-                                height: ScaleManager.spaceScale(
-                                  spaceing: 34,
-                                ).value,
-                                color:
-                                    widget.controller.selectedScreenIndex.value ==
-                                            1
-                                        ? blueDarkShade
-                                        : greyLightShade,
-                              ),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    widget.controller.selectedScreenIndex.value =
-                                        1;
-                                  },
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              width: ScaleManager.spaceScale(
-                                spaceing: 15,
-                              ).value,
-                            ),
-                            Expanded(
-                              child: Container(
-                                width: ScaleManager.spaceScale(
-                                  spaceing: 246.65,
-                                ).value,
-                                height: ScaleManager.spaceScale(
-                                  spaceing: 61,
-                                ).value,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(
-                                        ScaleManager.spaceScale(
-                                          spaceing: 25,
-                                        ).value,
-                                      ),
-                                    ),
-                                    border: Border.all(
-                                      color: greyLightShade,
-                                      width: ScaleManager.spaceScale(
-                                        spaceing: 1,
-                                      ).value,
-                                    )),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    left: ScaleManager.spaceScale(
-                                      spaceing: 15,
-                                    ).value,
-                                    right: ScaleManager.spaceScale(
-                                      spaceing: 15,
-                                    ).value,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconButton(
-                                        icon: SvgPicture.asset(
-                                          ImagePath.moodIcon,
-                                          height: ScaleManager.spaceScale(
-                                            spaceing: 34,
-                                          ).value,
-                                          color: widget.controller
-                                                      .selectedScreenIndex.value ==
-                                                  2
-                                              ? blueDarkShade
-                                              : greyLightShade,
-                                        ),
-                                        onPressed: () {
-                                          setState(
-                                            () {
-                                              widget.controller.selectedScreenIndex
-                                                  .value = 2;
-                                            },
-                                          );
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon:SvgPicture.asset(
-                                          ImagePath.diaryIcon,
-                                          height: ScaleManager.spaceScale(
-                                            spaceing: 34,
-                                          ).value,
-                                          color: widget.controller
-                                                      .selectedScreenIndex.value ==
-                                                  3
-                                              ? blueDarkShade
-                                              : greyLightShade,
-                                        ),
-                                        onPressed: () {
-                                          setState(
-                                            () {
-                                              widget.controller.selectedScreenIndex
-                                                  .value = 3;
-                                            },
-                                          );
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: SvgPicture.asset(
-                                          ImagePath.profileDiaryIcon,
-                                          height: ScaleManager.spaceScale(
-                                            spaceing: 34,
-                                          ).value,
-                                          color: widget.controller
-                                                      .selectedScreenIndex.value ==
-                                                  4
-                                              ? blueDarkShade
-                                              : greyLightShade,
-                                        ),
-                                        onPressed: () {
-                                          setState(
-                                            () {
-                                              widget.controller.selectedScreenIndex
-                                                  .value = 4;
-                                            },
-                                          );
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-
-                      ///when selected index is 3
-
-                      : widget.controller.selectedScreenIndex.value == 3
-                          ? Row(
-                              children: [
-                                Container(
-                                  width: ScaleManager.spaceScale(
-                                    spaceing: 246.65,
-                                  ).value,
-                                  height: ScaleManager.spaceScale(
-                                    spaceing: 61,
-                                  ).value,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(
-                                        ScaleManager.spaceScale(
-                                          spaceing: 25,
-                                        ).value,
-                                      )),
-                                      border: Border.all(
-                                        color: greyLightShade,
-                                        width: ScaleManager.spaceScale(
-                                          spaceing: 1,
-                                        ).value,
-                                      )),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: ScaleManager.spaceScale(
-                                        spaceing: 20,
-                                      ).value,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        IconButton(
-                                            icon: SvgPicture.asset(
-                                              ImagePath.profileIcon,
-                                              height: ScaleManager.spaceScale(
-                                                spaceing: 34,
-                                              ).value,
-                                              color: widget
-                                                          .controller
-                                                          .selectedScreenIndex
-                                                          .value ==
-                                                      0
-                                                  ? blueDarkShade
-                                                  : greyLightShade,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                widget
-                                                    .controller
-                                                    .selectedScreenIndex
-                                                    .value = 0;
-                                              });
-                                            }),
-                                        IconButton(
-                                            icon: SvgPicture.asset(
-                                              ImagePath.wheelIcon,
-                                              height: ScaleManager.spaceScale(
-                                                spaceing: 34,
-                                              ).value,
-                                              color: widget
-                                                          .controller
-                                                          .selectedScreenIndex
-                                                          .value ==
-                                                      1
-                                                  ? blueDarkShade
-                                                  : greyLightShade,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                widget
-                                                    .controller
-                                                    .selectedScreenIndex
-                                                    .value = 1;
-                                              });
-                                            }),
-                                        IconButton(
-                                            icon: SvgPicture.asset(
-                                              ImagePath.moodIcon,
-                                              height: ScaleManager.spaceScale(
-                                                spaceing: 34,
-                                              ).value,
-                                              color: widget
-                                                          .controller
-                                                          .selectedScreenIndex
-                                                          .value ==
-                                                      2
-                                                  ? blueDarkShade
-                                                  : greyLightShade,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                widget
-                                                    .controller
-                                                    .selectedScreenIndex
-                                                    .value = 2;
-                                              });
-                                            }),
-                                        SizedBox(
-                                          width: ScaleManager.spaceScale(
-                                            spaceing: 0,
-                                          ).value,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: ScaleManager.spaceScale(
-                                    spaceing: 15,
-                                  ).value,
-                                ),
-                                IconButton(
-                                    icon: SvgPicture.asset(
-                                      ImagePath.diaryIcon,
-                                      height: ScaleManager.spaceScale(
-                                        spaceing: 34,
-                                      ).value,
-                                      color: widget.controller.selectedScreenIndex
-                                                  .value ==
-                                              3
-                                          ? blueDarkShade
-                                          : greyLightShade,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        widget.controller.selectedScreenIndex
-                                            .value = 3;
-                                      });
-                                    }),
-                                SizedBox(
-                                  width: ScaleManager.spaceScale(
-                                    spaceing: 15,
-                                  ).value,
-                                ),
-                                Expanded(child: Container(
-                                  width: ScaleManager.spaceScale(
-                                    spaceing: 84,
-                                  ).value,
-                                  height: ScaleManager.spaceScale(
-                                    spaceing: 61,
-                                  ).value,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(
-                                              ScaleManager.spaceScale(
-                                                spaceing: 25,
-                                              ).value)),
-                                      border: Border.all(
-                                          color: greyLightShade,
-                                          width: ScaleManager.spaceScale(
-                                            spaceing: 1,
-                                          ).value)),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: ScaleManager.spaceScale(
-                                          spaceing: 15,
-                                        ).value,
-                                        right: ScaleManager.spaceScale(
-                                          spaceing: 15,
-                                        ).value),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        IconButton(
-                                            icon: SvgPicture.asset(
-                                              ImagePath.profileDiaryIcon,
-                                              height: ScaleManager.spaceScale(
-                                                spaceing: 34,
-                                              ).value,
-                                              color: widget
-                                                  .controller
-                                                  .selectedScreenIndex
-                                                  .value ==
-                                                  4
-                                                  ? blueDarkShade
-                                                  : greyLightShade,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                widget
-                                                    .controller
-                                                    .selectedScreenIndex
-                                                    .value = 4;
-                                              });
-                                            })
-                                      ],
-                                    ),
-                                  ),
-                                ),)
-                              ],
-                            )
-
-                          ///for selected index 4
-
-                          : Row(
-                              children: [
-                                Container(
-                                  width: ScaleManager.spaceScale(
-                                    spaceing: 325.70,
-                                  ).value,
-                                  height: ScaleManager.spaceScale(
-                                    spaceing: 61,
-                                  ).value,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(
-                                              ScaleManager.spaceScale(
-                                        spaceing: 25,
-                                      ).value)),
-                                      border: Border.all(
-                                          color: greyLightShade,
-                                          width: ScaleManager.spaceScale(
-                                            spaceing: 1,
-                                          ).value)),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: ScaleManager.spaceScale(
-                                          spaceing: 15,
-                                        ).value,
-                                        right: ScaleManager.spaceScale(
-                                          spaceing: 15,
-                                        ).value),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        IconButton(
-                                            icon: SvgPicture.asset(
-                                              ImagePath.profileIcon,
-                                              height: ScaleManager.spaceScale(
-                                                spaceing: 34,
-                                              ).value,
-                                              color: widget
-                                                          .controller
-                                                          .selectedScreenIndex
-                                                          .value ==
-                                                      0
-                                                  ? blueDarkShade
-                                                  : greyLightShade,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                widget
-                                                    .controller
-                                                    .selectedScreenIndex
-                                                    .value = 0;
-                                              });
-                                            }),
-                                        IconButton(
-                                            icon: SvgPicture.asset(
-                                              ImagePath.wheelIcon,
-                                              height: ScaleManager.spaceScale(
-                                                spaceing: 34,
-                                              ).value,
-                                              color: widget
-                                                          .controller
-                                                          .selectedScreenIndex
-                                                          .value ==
-                                                      1
-                                                  ? blueDarkShade
-                                                  : greyLightShade,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                widget
-                                                    .controller
-                                                    .selectedScreenIndex
-                                                    .value = 1;
-                                              });
-                                            }),
-                                        IconButton(
-                                            icon: SvgPicture.asset(
-                                              ImagePath.moodIcon,
-                                              height: ScaleManager.spaceScale(
-                                                spaceing: 34,
-                                              ).value,
-                                              color: widget
-                                                          .controller
-                                                          .selectedScreenIndex
-                                                          .value ==
-                                                      2
-                                                  ? blueDarkShade
-                                                  : greyLightShade,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                widget
-                                                    .controller
-                                                    .selectedScreenIndex
-                                                    .value = 2;
-                                              });
-                                            }),
-                                        IconButton(
-                                            icon: SvgPicture.asset(
-                                              ImagePath.diaryIcon,
-                                              height: ScaleManager.spaceScale(
-                                                spaceing: 34,
-                                              ).value,
-                                              color: widget
-                                                          .controller
-                                                          .selectedScreenIndex
-                                                          .value ==
-                                                      3
-                                                  ? blueDarkShade
-                                                  : greyLightShade,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                widget
-                                                    .controller
-                                                    .selectedScreenIndex
-                                                    .value = 3;
-                                              });
-                                            }),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: ScaleManager.spaceScale(
-                                    spaceing: 15,
-                                  ).value,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      right: ScaleManager.spaceScale(
-                                    spaceing: 20,
-                                  ).value),
-                                  child: IconButton(
-                                      icon: SvgPicture.asset(
-                                        ImagePath.profileDiaryIcon,
-                                        height: ScaleManager.spaceScale(
-                                          spaceing: 34,
-                                        ).value,
-                                        color: widget.controller
-                                                    .selectedScreenIndex.value ==
-                                                4
-                                            ? blueDarkShade
-                                            : greyLightShade,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          widget.controller.selectedScreenIndex
-                                              .value = 4;
-                                        });
-                                      }),
-                                ),
-                              ],
-                            )),
-    );
+                          color: widget.controller.selectedScreenIndex.value == 4
+                              ? blueDarkShade
+                              : greyLightShade,
+                        ),
+                        onPressed: () {
+                          setState(
+                                () {
+                              widget.controller.selectedScreenIndex.value = 4;
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ])
+        ));
   }
 }

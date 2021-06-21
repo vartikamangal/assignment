@@ -194,10 +194,10 @@ class PathController extends GetxController {
       },
       (activityStatus) async {
         // Cache the activity, if actionStatus is not Abandoned'
-        if (actionStatus == ActionStatus.ABANDONED) {
-          log('not caching due to abanoed action');
-        } else {
+        if (actionStatus == ActionStatus.COMPLETED) {
           await cacheActivity();
+        } else {
+          log('not caching due to Status == !COMPLETE');
         }
         currentOngoingActivity.value = activityStatus;
         log('updated activity status to ${currentOngoingActivity.value.actionStatus}');

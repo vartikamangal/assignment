@@ -8,9 +8,14 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/repository/set-subject-mood-service-impl.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/set-subject-mood-remote-service.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/set-mood-success.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
 
 class MockSetSubjectMoodRemoteService extends Mock
     implements SetSubjectMoodRemoteService {}
@@ -21,19 +26,37 @@ void main() {
   MockNetworkInfo networkInfo;
   MockSetSubjectMoodRemoteService remoteService;
   SetSubjectMoodServiceImpl serviceImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     networkInfo = MockNetworkInfo();
     remoteService = MockSetSubjectMoodRemoteService();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     serviceImpl = SetSubjectMoodServiceImpl(
       service: remoteService,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 
   // Helper vars
   const tMood = 'NEUTRAL';
   const tActivityType = 'ONBOARDING';
+
+  final tMoodTrackingModel = MoodTrackingModel(
+    subjectId: const SubjectId('testId'),
+    id: 1,
+    moodDuration: 'test_duration',
+    activityType: tActivityType,
+    mood: tMood,
+    createdWhen: DateTime.now(),
+  );
 
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : SetSubjectMood', () {
@@ -71,7 +94,9 @@ void main() {
       when(remoteService.setMood(
         moodName: tMood,
         activityType: tActivityType,
-      )).thenAnswer((_) async => SetMoodSuccess());
+      )).thenAnswer(
+        (_) async => tMoodTrackingModel,
+      );
       //act
       final result = await serviceImpl.setSubjectMood(
         moodName: tMood,
@@ -82,7 +107,7 @@ void main() {
         moodName: tMood,
         activityType: tActivityType,
       ));
-      expect(result, Right(SetMoodSuccess()));
+      expect(result, Right(tMoodTrackingModel));
     });
     test('should return ServerFailure when the call to remoteService fails',
         () async {

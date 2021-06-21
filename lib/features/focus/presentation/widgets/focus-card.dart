@@ -27,21 +27,28 @@ class FocusCard extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        GestureDetector(
-          onTap: onTap,
-          child: SizedBox(
-            height: ScaleManager.spaceScale(
-              spaceing: 100,
-            ).value,
-            width: ScaleManager.spaceScale(
-              spaceing: 106,
-            ).value,
-            child: Hero(
-              tag: imageAddress,
-              child: Image.asset(
-                imageAddress,
-                height: 100,
-                scale: imageScaleFactor,
+        Container(
+          constraints: BoxConstraints(
+            maxHeight: ScaleManager.spaceScale(
+              spaceing: 125,
+            ).value
+          ),
+          child: GestureDetector(
+            onTap: onTap,
+            child: SizedBox(
+              height: ScaleManager.spaceScale(
+                spaceing: 100,
+              ).value,
+              width: ScaleManager.spaceScale(
+                spaceing: 106,
+              ).value,
+              child: Hero(
+                tag: imageAddress,
+                child: Image.asset(
+                  imageAddress,
+                  height: 100,
+                  scale: imageScaleFactor,
+                ),
               ),
             ),
           ),

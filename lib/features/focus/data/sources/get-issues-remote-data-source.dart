@@ -5,8 +5,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 // Package imports:
-import 'package:hive/hive.dart';
-import 'package:http/http.dart' as http;
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 

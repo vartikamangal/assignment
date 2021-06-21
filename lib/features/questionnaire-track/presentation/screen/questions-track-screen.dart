@@ -29,6 +29,13 @@ class QuestionsTrackScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+          padding:EdgeInsets.only(left: ScaleManager.spaceScale(
+            spaceing: 10,
+          ).value,
+              top: ScaleManager.spaceScale(
+                spaceing: 10,
+              ).value,
+              bottom: 0),
           onPressed: () {
             Navigator.of(context).pop();
           },

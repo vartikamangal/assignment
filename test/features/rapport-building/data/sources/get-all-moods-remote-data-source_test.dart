@@ -1,39 +1,35 @@
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/session-manager.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/get-all-moods-remote-data-source.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
-
 Future<void> main() async {
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
   MockHttpClient client;
-  MockBox localClient;
+  ApiClient apiClient;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
   GetAllMoodsRemoteDataSourceImpl remoteDataSourceImpl;
 
   setUp(() {
-    localClient = MockBox();
     client = MockHttpClient();
+    apiClient = ApiClient(client: client);
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = GetAllMoodsRemoteDataSourceImpl(
-      client: client,
-      sessionClient: localClient,
+      client: apiClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
@@ -94,8 +90,7 @@ Future<void> main() async {
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client.get(Uri.parse(APIRoute.getMoods), headers: anyNamed('headers')))
-        .thenAnswer(
+    when(apiClient.get(uri: APIRoute.getMoods)).thenAnswer(
       (_) async =>
           http.Response(fixtureReader(filename: 'raw-moods.json'), 200),
     );
@@ -117,9 +112,7 @@ Future<void> main() async {
       await remoteDataSourceImpl.getMoods();
       //assert
       verify(
-        client.get(Uri.parse(APIRoute.getMoods), headers: {
-          'content-type': 'application/json',
-        }),
+        apiClient.get(uri: APIRoute.getMoods),
       );
     });
     test('should return List<MoodModel> when call statusCode is 200', () async {

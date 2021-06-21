@@ -45,6 +45,7 @@ class RadialBoxForPathSelection extends StatelessWidget {
                 ).value,
               ),
               decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.all(
                   Radius.circular(
                     ScaleManager.spaceScale(spaceing: 85 / 2).value,

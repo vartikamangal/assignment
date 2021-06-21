@@ -355,32 +355,30 @@ class _TopHalfComponent extends StatelessWidget {
                 color: greyline,
               ),
             ),
-            RenderingConditionChecker(
-              whatToShow: Container(
-                margin: EdgeInsets.only(
-                  top: ScaleManager.spaceScale(
-                    spaceing: 33,
-                  ).value,
-                  left: ScaleManager.spaceScale(
-                    spaceing: 70,
-                  ).value,
-                  right: ScaleManager.spaceScale(
-                    spaceing: 60,
-                  ).value,
+
+            /// If user hasn't completed any activity recently
+            /// No recent activity elemnt would be shown to him
+            if (recentActivityTitle.isNotEmpty)
+              RenderingConditionChecker(
+                whatToShow: Container(
+                  margin: EdgeInsets.only(
+                    top: ScaleManager.spaceScale(spaceing: 33).value,
+                    left: ScaleManager.spaceScale(spaceing: 70).value,
+                    right: ScaleManager.spaceScale(spaceing: 60).value,
+                  ),
+                  child: Text(
+                    'You just finished $recentActivityTitle. Wohoo!!',
+                    style: AppTextStyle.greyHint,
+                    textAlign: TextAlign.center,
+                    textScaleFactor: textScaleFactor,
+                  ),
                 ),
-                child: Text(
-                  'You just finished $recentActivityTitle. Wohoo!!',
-                  style: AppTextStyle.greyHint,
-                  textAlign: TextAlign.center,
-                  textScaleFactor: textScaleFactor,
-                ),
-              ),
-            ),
+              )
+            else
+              EmptySpacePlaceHolder(),
             RenderingConditionChecker(
               whatToShow: SizedBox(
-                height: ScaleManager.spaceScale(
-                  spaceing: 20,
-                ).value,
+                height: ScaleManager.spaceScale(spaceing: 20).value,
               ),
             ),
             RenderingConditionChecker(

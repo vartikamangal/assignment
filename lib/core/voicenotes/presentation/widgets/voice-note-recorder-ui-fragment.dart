@@ -42,6 +42,9 @@ class VoiceNoteRecorder extends StatelessWidget {
                   child: SvgPicture.asset(
                     ImagePath.micImage,
                     color: blueDarkShade,
+                    height: ScaleManager.spaceScale(
+                      spaceing: 26,
+                    ).value,
                   ),
                 ),
                 SizedBox(
@@ -88,8 +91,11 @@ class VoiceNoteRecorder extends StatelessWidget {
                     spaceing: 21,
                   ).value,
                 ),
-                IconButton(
-                  icon: Container(
+                GestureDetector(
+                  onTap: () async {
+                    await _voiceNoteController.stopRecordingVoiceNote();
+                  },
+                  child: Container(
                       height: ScaleManager.spaceScale(
                         spaceing: 28,
                       ).value,
@@ -105,9 +111,6 @@ class VoiceNoteRecorder extends StatelessWidget {
                           spaceing: 20,
                         ).value,
                       )),
-                  onPressed: () async {
-                    await _voiceNoteController.stopRecordingVoiceNote();
-                  },
                 ),
               ],
             ),

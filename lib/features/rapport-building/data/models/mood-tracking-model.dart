@@ -45,7 +45,7 @@ class MoodTrackingModel extends MoodTracking {
       "id": id,
       "activityType": activityType,
       "moodDuration": moodDuration,
-      "mood": mood
+      "mood": mood,
     };
   }
 }

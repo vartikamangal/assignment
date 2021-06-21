@@ -16,6 +16,7 @@ class VoiceNotePlayer extends StatelessWidget {
   final VoiceNoteController _controller = Get.find();
   @override
   Widget build(BuildContext context) {
+    final double textScale = ScaleManager.textScale.value;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -77,14 +78,16 @@ class VoiceNotePlayer extends StatelessWidget {
               onTap: () async {
                 await _controller.stopPlayerAndCleanPreviousRecording();
               },
-              child:  Icon(Icons.cancel_rounded,
+              child:
+              /* Icon(Icons.cancel_rounded,
                 color: blueDarkShade,
                 size: ScaleManager.spaceScale(
                   spaceing: 30,
-                ).value,),
+                ).value,)*/
 
-              /*
-               SvgPicture.asset(ImagePath.crossButton)*/
+               SvgPicture.asset(ImagePath.crossButton,height: ScaleManager.spaceScale(
+                 spaceing: 30,
+               ).value,)
             ),
           ],
         ),
@@ -100,7 +103,8 @@ class VoiceNotePlayer extends StatelessWidget {
                   ":${duration.inSeconds-duration.inMinutes*60<10?"0${duration.inSeconds-duration.inMinutes*60}":"${duration.inSeconds-duration.inMinutes*60}"}",
                 style: AppTextStyle.verySmallGreyText.copyWith(
                     fontSize: 12
-                ),);
+                ),
+              textScaleFactor: textScale,);
             }
           },
         ),

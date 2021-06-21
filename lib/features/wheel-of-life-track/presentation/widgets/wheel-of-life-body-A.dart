@@ -37,7 +37,7 @@ class WheelOfLifeBodyA extends StatelessWidget {
           ).value,
         ),
         Obx(
-          () => Text(
+              () => Text(
             tr('hub nothing answeres text',
                 namedArgs: {'name': controller.userName.value}),
             style: AppTextStyle.lightbold,
@@ -50,33 +50,45 @@ class WheelOfLifeBodyA extends StatelessWidget {
           ).value,
         ),
         Obx(
-          () => controller.isLoading.value
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Container(
-            padding: EdgeInsets.only(
-                top: ScaleManager.spaceScale(
-                  spaceing: 16,
-                ).value),
-            width: Get.width,
-            height: controller.lifeAreas.length*ScaleManager.spaceScale(
-              spaceing: 67.0,
-            ).value,
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                    itemCount: controller.lifeAreas.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final lifeArea = controller.lifeAreas[index];
-                      return WheelOfLifeAreaHolder(
-                        title: lifeArea.name,
-                        subtitle: lifeArea.description,
-                      );
-                    },
-                  ),
+              () => AnimatedSwitcher(
+            switchInCurve: Curves.easeIn,
+            duration: const Duration(milliseconds: 700),
+            child: controller.isLoading.value
+                ? SizedBox(
+              height: controller.lifeAreas.length*ScaleManager.spaceScale(
+                spaceing: 67.0,
+              ).value,
+              child:  const Center(
+                child: CircularProgressIndicator(),
               ),
-        ),
+            )
+                : Container(
+              padding: EdgeInsets.only(
+                  top: ScaleManager.spaceScale(
+                    spaceing: 16,
+                  ).value),
+              width: Get.width,
+              height: controller.lifeAreas.length*ScaleManager.spaceScale(
+                spaceing: 67.0,
+              ).value,
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.lifeAreas.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final lifeArea = controller.lifeAreas[index];
+                  return  WheelOfLifeAreaHolder(
+                    title: lifeArea.name,
+                    subtitle: lifeArea.description,
+                  );
+                },
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
 }
+
+
+

@@ -8,6 +8,9 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/repositories/get-instant-relief-areas-repository-impl.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/sources/get-instant-relief-areas-remote-data-source.dart';
@@ -17,21 +20,30 @@ class MockGetInstantReliefAreaDataSource extends Mock
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
-void main(){
+void main() {
   GetInstantReliefAreasRemoteDataSource remoteDataSource;
   MockNetworkInfo networkInfo;
   GetInstantReliefAreasRepositoryImpl repositoryImpl;
+  HandleException handleException;
+  CallIfNetworkConnected callIfNetworkConnected;
+  BaseRepository baseRepository;
 
   setUp(() {
     remoteDataSource = MockGetInstantReliefAreaDataSource();
     networkInfo = MockNetworkInfo();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+      callIfNetworkConnected: callIfNetworkConnected,
+      handleException: handleException,
+    );
     repositoryImpl = GetInstantReliefAreasRepositoryImpl(
       remoteDataSource: remoteDataSource,
-      networkInfo: networkInfo,
+      baseRepository: baseRepository,
     );
   });
 
-  const tInstantReliefAreas=<InstantReliefAreaModel>[
+  const tInstantReliefAreas = <InstantReliefAreaModel>[
     InstantReliefAreaModel(
         id: 1,
         title: "title",
@@ -48,7 +60,6 @@ void main(){
     group('DEVICE ONLINE : GetInstantReliefArea', body);
   }
 
-
   //! Actual tests go here
   runTestOnline(() {
     test('should check if the device is online', () async {
@@ -59,32 +70,33 @@ void main(){
     });
     test(
         'should return a List<InstReliefArea> when call to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteDataSource.getReliefAreas()).thenAnswer((_) async => tInstantReliefAreas);
-          //act
-          final result = await repositoryImpl.getReliefAreas();
-          //assert
-          verify(remoteDataSource.getReliefAreas());
-          expect(result, const Right(tInstantReliefAreas));
-        });
+        () async {
+      //arrange
+      when(remoteDataSource.getReliefAreas())
+          .thenAnswer((_) async => tInstantReliefAreas);
+      //act
+      final result = await repositoryImpl.getReliefAreas();
+      //assert
+      verify(remoteDataSource.getReliefAreas());
+      expect(result, const Right(tInstantReliefAreas));
+    });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
-            () async {
-          //arrange
-          when(remoteDataSource.getReliefAreas()).thenThrow(ServerException());
-          //act
-          final result = await repositoryImpl.getReliefAreas();
-          //assert
-          expect(result, Left(ServerFailure()));
-        });
+        () async {
+      //arrange
+      when(remoteDataSource.getReliefAreas()).thenThrow(ServerException());
+      //act
+      final result = await repositoryImpl.getReliefAreas();
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
   test('DEVICE OFFLINE : GetReliefArea should return DeviceOfflineFailure',
-          () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
-        //act
-        final result = await repositoryImpl.getReliefAreas();
-        //assert
-        expect(result, Left(DeviceOfflineFailure()));
-      });
+      () async {
+    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    //act
+    final result = await repositoryImpl.getReliefAreas();
+    //assert
+    expect(result, Left(DeviceOfflineFailure()));
+  });
 }
