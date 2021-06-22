@@ -1,148 +1,479 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
+import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
+import 'package:tatsam_app_experimental/core/utils/buttons/middle-call-us-button.dart';
+import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
+import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
+import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/drop-down-button.dart';
 
-class SettingScreen extends StatefulWidget {
-  @override
-  _SettingScreenState createState() => _SettingScreenState();
-}
-class _SettingScreenState extends State<SettingScreen> {
-  File _image;
-  final picker = ImagePicker();
-  String dropDownValue = 'Select';
-  Future _imgFromGallery() async {
-    print("image picked");
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
-  Future _imgFromCamera() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
+class  SettingScreen extends  GetWidget<ProfileController>  {
+  String image=ImagePath.happyEmoji;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-          child: Container(
-            width: size.width,
-            height: size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    final textScaleFactor = ScaleManager.textScale.value;
+    return SafeArea(child: Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).canvasColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: SvgPicture.asset(
+            ImagePath.backButton,
+            height: ScaleManager.spaceScale(
+              spaceing: 26,
+            ).value,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+            spaceing: 14,
+          ).value,
+              left: ScaleManager.spaceScale(
+            spaceing: 44,
+          ).value,
+          right: ScaleManager.spaceScale(
+            spaceing: 43,
+          ).value),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 45,
-                        child: _image == null
-                            ? Text('No image')
-                            : ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.file(
-                            _image,
-                            fit: BoxFit.cover,
-                            width: 100,
-                            height: 100,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SafeArea(
-                                    child: Container(
-                                      child: Wrap(
-                                        children: <Widget>[
-                                          ListTile(
-                                              leading: Icon(Icons.photo_library),
-                                              title: Text('Photo Library'),
-                                              onTap: () {
-                                                _imgFromGallery();
-                                                Navigator.of(context).pop();
-                                              }),
-                                          ListTile(
-                                            leading: Icon(Icons.photo_camera),
-                                            title: Text('Camera'),
-                                            onTap: () {
-                                              _imgFromCamera();
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                });
-                          },
-                          child: Text('Change profile photo')),
-                    ],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(ScaleManager.spaceScale(
+                      spaceing: 40,
+                    ).value),
+                    child: Image.asset(
+                      image,
+                      fit: BoxFit.cover,
+                      width: ScaleManager.spaceScale(
+                        spaceing: 79,
+                      ).value,
+                      height: ScaleManager.spaceScale(
+                        spaceing: 79,
+                      ).value,
+                    ),
                   ),
-                  TextField(
-                    keyboardType: TextInputType.name,
-                    decoration: InputDecoration(labelText: 'Your Name'),
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.datetime,
-                    decoration: InputDecoration(labelText: 'Your Date of Birth'),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DropdownButton(
-                    dropdownColor: Colors.blue,
-                    value: dropDownValue,
-                    onChanged: (newValue) {
-                      setState(() {
-                        dropDownValue = newValue.toString();
-                      });
-                    },
-                    items: <String>['Select', 'First', 'Second', 'Third', 'Fourth']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                          value: value, child: Text(value));
-                    }).toList(),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Focus Area'),
-                      TextButton(onPressed: () {}, child: Text('Sleep >'))
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Path'),
-                      TextButton(onPressed: () {}, child: Text('Self Driven >')),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(onPressed: () {}, child: Text('SAVE')),
-                    ],
-                  ),
+                  SizedBox(width: ScaleManager.spaceScale(
+                    spaceing: 14,
+                  ).value,),
+                  TextButton(onPressed: (){},
+                      child: Text(tr('change your profile'),
+                        style: AppTextStyle.titlel.copyWith(fontSize: 17),
+                        textScaleFactor: textScaleFactor,
+                  ))
                 ],
               ),
+              Padding(
+                padding:  EdgeInsets.only(top:ScaleManager.spaceScale(
+                  spaceing: 10,
+                ).value),
+                child: TextField(
+                  style: AppTextStyle.titlel.copyWith(fontSize: ScaleManager.spaceScale(
+                    spaceing: 26,
+                  ).value),
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(labelText: tr('name'),labelStyle: AppTextStyle.hintStyle.copyWith(fontSize: ScaleManager.spaceScale(
+                    spaceing: 12,
+                  ).value),
+                  contentPadding: EdgeInsets.symmetric(
+                  vertical: ScaleManager.spaceScale(
+                  spaceing: 10,
+                  ).value),),
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                  spaceing: 10,
+                ).value),
+                child: TextField(
+                  style: AppTextStyle.titlel.copyWith(fontSize: ScaleManager.spaceScale(
+                    spaceing: 26,
+                  ).value),
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(labelText: tr('nickname'),labelStyle: AppTextStyle.hintStyle.copyWith(fontSize: ScaleManager.spaceScale(
+                    spaceing: 12,
+                  ).value),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: ScaleManager.spaceScale(
+                          spaceing: 10,
+                        ).value),),
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                  spaceing: 10,
+                ).value),
+                child: TextField(
+                  style: AppTextStyle.titlel.copyWith(fontSize: ScaleManager.spaceScale(
+                    spaceing: 26,
+                  ).value),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp("[0-9/]")),
+                    LengthLimitingTextInputFormatter(10),
+                    _DateFormatter(),
+                  ],
+                  keyboardType: TextInputType.datetime,
+                  decoration: InputDecoration(labelText: tr('dob'),labelStyle: AppTextStyle.hintStyle.copyWith(fontSize: ScaleManager.spaceScale(
+                    spaceing: 12,
+                  ).value),
+
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: ScaleManager.spaceScale(
+                          spaceing: 10,
+                        ).value),),
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                  spaceing: 17,
+                ).value),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tr('email id'),
+                        textScaleFactor: textScaleFactor,
+                        style: AppTextStyle.hintStyle.copyWith(fontSize: 12),
+                      ),
+                      Text(
+                        'test@test.com',
+                        textScaleFactor: textScaleFactor,
+                        style: AppTextStyle.dayText.copyWith(fontSize: 26),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                  spaceing: 22,
+                ).value),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tr('gender'),
+                        textScaleFactor: textScaleFactor,
+                        style: AppTextStyle.hintStyle.copyWith(fontSize: 12),
+                      ),
+
+                      SizedBox(height: ScaleManager.spaceScale(
+                        spaceing: 11,
+                      ).value,),
+                      Obx(
+                            () => controller.isDropDownExpanded.value? DropDownBtn(
+                              color: blueDarkShade,
+                              isExpanded: true,
+                              label:tr('selection'),
+                              // ignore: avoid_print
+                              onPressed: () => controller.toggleDropDownExpansion(),
+                              controller: controller,
+                            )
+                            : DropDownBtn(
+                        color: blueDarkShade,
+                        isExpanded: false,
+                        label:tr('selection'),
+                        // ignore: avoid_print
+                        onPressed: () => controller.toggleDropDownExpansion(),
+                        // ignore: avoid_print
+                      ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                  spaceing: 15,
+                ).value),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(tr('focus area'),
+                    textScaleFactor: textScaleFactor,
+                    style: AppTextStyle.hintStyle.copyWith(fontSize: 20),),
+                    TextButton(onPressed: () {},
+                        child: Row(children: [
+                          Text('Sleep',
+                          style: AppTextStyle.titlel.copyWith(fontSize: 19),
+                          textScaleFactor: textScaleFactor,),
+                          SizedBox(width: ScaleManager.spaceScale(
+                            spaceing: 8,
+                          ).value,),
+                          SvgPicture.asset(ImagePath.forwardIcon,
+                            height: ScaleManager.spaceScale(
+                              spaceing: 16.3,
+                            ).value,
+                          color: blueDarkShade,)],))
+                  ],
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                  spaceing: 1,
+                ).value),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(tr('path'),
+                      textScaleFactor: textScaleFactor,
+                      style: AppTextStyle.hintStyle.copyWith(fontSize: 20),),
+                    TextButton(onPressed: () {},
+                        child: Row(children: [
+                          Text('Sleep',
+                            style: AppTextStyle.titlel.copyWith(fontSize: 19),
+                            textScaleFactor: textScaleFactor,),
+                          SizedBox(width: ScaleManager.spaceScale(
+                            spaceing: 8,
+                          ).value,),
+                          SvgPicture.asset(ImagePath.forwardIcon,
+                            height: ScaleManager.spaceScale(
+                              spaceing: 16.3,
+                            ).value,
+                            color: blueDarkShade,)],))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: ScaleManager.spaceScale(
+                  spaceing: 27,
+                ).value,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: ScaleManager.spaceScale(
+                      spaceing: 101,
+                    ).value,
+                    child: MiddleCallUsButton(
+                      title: 'Save',
+                      onPressed: (){},
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: ScaleManager.spaceScale(
+                  spaceing: 14,
+                ).value,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
+}
+
+
+
+// Persistent Dropdown header
+class _DropDownTopHeader extends StatelessWidget {
+  const _DropDownTopHeader({
+    Key key,
+    @required this.textScaleFactor,
+    @required this.color,
+    @required this.label,
+    @required this.isExpanded,
+    @required this.onTap,
+  }) : super(key: key);
+
+  final double textScaleFactor;
+  final Color color;
+  final String label;
+  final bool isExpanded;
+  final Callback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: ScaleManager.spaceScale(spaceing: 151).value,
+        height: ScaleManager.spaceScale(spaceing: 40).value,
+        padding: EdgeInsets.only(
+          top: ScaleManager.spaceScale(
+            spaceing: 2,
+          ).value,
+          bottom: ScaleManager.spaceScale(
+            spaceing: 8,
+          ).value,
+          left: ScaleManager.spaceScale(
+            spaceing: 21,
+          ).value,
+        ),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(
+              ScaleManager.spaceScale(
+                spaceing: 20,
+              ).value,
             ),
-          )),
+            topRight: Radius.circular(
+              ScaleManager.spaceScale(
+                spaceing: 20,
+              ).value,
+            ),
+            bottomLeft: Radius.circular(
+              ScaleManager.spaceScale(
+                spaceing: 20,
+              ).value,
+            ),
+          ),
+        ),
+        child: Row(
+          children: [
+            Flexible(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: ScaleManager.spaceScale(
+                      spaceing: 6,
+                    ).value),
+                child: Text(
+                  label,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyle.dropDownStyle,
+                  textScaleFactor: textScaleFactor,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: ScaleManager.spaceScale(
+                spaceing: 12,
+              ).value,
+            ),
+            if (isExpanded)
+              Icon(
+                Icons.arrow_drop_up,
+                color: Theme.of(context).canvasColor,
+                size: ScaleManager.spaceScale(
+                  spaceing: 36,
+                ).value,
+              )
+            else
+              Icon(
+                Icons.arrow_drop_down,
+                color: Theme.of(context).canvasColor,
+                size: ScaleManager.spaceScale(
+                  spaceing: 36,
+                ).value,
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
+
+
+
+//
+
+
+
+
+class _DateFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue prevText, TextEditingValue currText) {
+    int selectionIndex;
+    // Get the previous and current input strings
+    String pText = prevText.text;
+    String cText = currText.text;
+    // Abbreviate lengths
+    int cLen = cText.length;
+    int pLen = pText.length;
+    if (cLen == 1) {
+      // Can only be 0, 1, 2 or 3
+      if (int.parse(cText) > 3) {
+        // Remove char
+        cText = '';
+      }
+    } else if (cLen == 2 && pLen == 1) {
+      // Days cannot be greater than 31
+      int dd = int.parse(cText.substring(0, 2));
+      if (dd == 0 || dd > 31) {
+        // Remove char
+        cText = cText.substring(0, 1);
+      } else {
+        // Add a / char
+        cText += '/';
+      }
+    } else if (cLen == 4) {
+      // Can only be 0 or 1
+      if (int.parse(cText.substring(3, 4)) > 1) {
+        // Remove char
+        cText = cText.substring(0, 3);
+      }
+    } else if (cLen == 5 && pLen == 4) {
+      // Month cannot be greater than 12
+      int mm = int.parse(cText.substring(3, 5));
+      if (mm == 0 || mm > 12) {
+        // Remove char
+        cText = cText.substring(0, 4);
+      } else {
+        // Add a / char
+        cText += '/';
+      }
+    } else if ((cLen == 3 && pLen == 4) || (cLen == 6 && pLen == 7)) {
+      // Remove / char
+      cText = cText.substring(0, cText.length - 1);
+    } else if (cLen == 3 && pLen == 2) {
+      if (int.parse(cText.substring(2, 3)) > 1) {
+        // Replace char
+        cText = cText.substring(0, 2) + '/';
+      } else {
+        // Insert / char
+        cText =
+            cText.substring(0, pLen) + '/' + cText.substring(pLen, pLen + 1);
+      }
+    } else if (cLen == 6 && pLen == 5) {
+      // Can only be 1 or 2 - if so insert a / char
+      int y1 = int.parse(cText.substring(5, 6));
+      if (y1 < 1 || y1 > 2) {
+        // Replace char
+        cText = cText.substring(0, 5) + '/';
+      } else {
+        // Insert / char
+        cText = cText.substring(0, 5) + '/' + cText.substring(5, 6);
+      }
+    } else if (cLen == 7) {
+      // Can only be 1 or 2
+      int y1 = int.parse(cText.substring(6, 7));
+      if (y1 < 1 || y1 > 2) {
+        // Remove char
+        cText = cText.substring(0, 6);
+      }
+    } else if (cLen == 8) {
+      // Can only be 19 or 20
+      int y2 = int.parse(cText.substring(6, 8));
+      if (y2 < 18 || y2 > 20) {
+        // Remove char
+        cText = cText.substring(0, 7);
+      }
+    }
+    selectionIndex = cText.length;
+    return TextEditingValue(
+      text: cText,
+      selection: TextSelection.collapsed(offset: selectionIndex),
+    );
+  }
+}
+

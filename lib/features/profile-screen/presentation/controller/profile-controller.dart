@@ -60,6 +60,9 @@ class ProfileController extends GetxController {
   RxList<RecommendationInput> diaryLogs = RxList<RecommendationInputModel>([]);
   RxList<PostOnboardingAction> actions = RxList<PostOnboardingActionModel>([]);
 
+  // For getting status of dropdown
+  RxBool isDropDownExpanded = RxBool(false);
+
   // Usecase helpers
   Future<void> fetchBasicProfileData() async {
     final failureOrResult = await getBasicProfileDetails(NoParams());
@@ -85,7 +88,9 @@ class ProfileController extends GetxController {
       },
     );
   }
-
+  void toggleDropDownExpansion() {
+    isDropDownExpanded.value = !isDropDownExpanded.value;
+  }
   Future<void> fetchQuestionLogs() async {
     final failureOrResult = await getProfileQuestions(NoParams());
     failureOrResult.fold(
