@@ -12,11 +12,11 @@ import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
   const tSubjectInfo = SubjectInformationModel(
-    subjectId: SubjectIdModel(id: "5a58e827-7c69-4bcc-b40d-5e5c12c5e956"),
-    userID: "f43d2341-e0c9-4219-bb6d-252ddd3be26b",
+    subjectId: SubjectIdModel(id: "b0d388a5-78e5-4520-a137-41336265c978"),
+    userID: "ed598e21-dcf3-4f3a-bc0d-9079f372d603",
     name: null,
-    nickName: "Test User",
-    deviceIndentifier: "THIS_IS_A_RANDOM_DEVICE_IDENTIFIER",
+    nickName: "Bhavna",
+    deviceIndentifier: "Here_is_a_random_identifier",
     // ignore: avoid_redundant_argument_values
     gender: null,
   );
@@ -38,12 +38,12 @@ void main() {
     test('toJsoon() should give a decoded Map<String,dynamic>', () async {
       //arrange
       final Map<String, dynamic> json = {
-        "subjectId": {"id": "5a58e827-7c69-4bcc-b40d-5e5c12c5e956"},
-        "userId": "f43d2341-e0c9-4219-bb6d-252ddd3be26b",
+        "subjectId": {"id": "b0d388a5-78e5-4520-a137-41336265c978"},
+        "userId": "ed598e21-dcf3-4f3a-bc0d-9079f372d603",
         "name": null,
-        "nickName": "Test User",
+        "nickName": "Bhavna",
         "gender": null,
-        "deviceIdentifier": "THIS_IS_A_RANDOM_DEVICE_IDENTIFIER"
+        "deviceIdentifier": "Here_is_a_random_identifier"
       };
       //act
       final result = tSubjectInfo.toJson();

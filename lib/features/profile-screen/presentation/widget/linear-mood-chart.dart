@@ -81,7 +81,7 @@ class _LinearChartState extends State<LinearChart> {
                             ).value,
                             //TODO calculation for max width
                             // (At place charData[5] we have to put number of days)
-                            maxWidth: _profileController.linearChartData.length<=10
+                            maxWidth: _profileController.linearChartData.length<10
                                 ?
                             ScaleManager.spaceScale(
                               spaceing: 360,
@@ -92,7 +92,7 @@ class _LinearChartState extends State<LinearChart> {
                                 ScaleManager.spaceScale(
                                       spaceing: 40,
                                     ).value *
-                                    _profileController.linearChartData.length,
+                                    (_profileController.linearChartData.length-10),
                           ),
                           child: SfCartesianChart(
                             enableAxisAnimation: true,

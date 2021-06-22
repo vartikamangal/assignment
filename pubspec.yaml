@@ -60,6 +60,7 @@ dependencies:
   smartlook: ^2.0.1
   syncfusion_flutter_charts: ^19.1.66+1
   url_launcher: ^6.0.6
+  image_picker: ^0.8.0+3
 
 dev_dependencies:
   flutter_test:

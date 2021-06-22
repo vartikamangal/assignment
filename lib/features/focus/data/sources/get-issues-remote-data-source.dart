@@ -30,9 +30,6 @@ class GetIssueRemoteDataSourceImpl implements GetIssueRemoteDataSource {
     final response = await client.get(
       uri: APIRoute.getAllIssues,
     );
-    SessionManager.setHeader(
-      header: response.headers,
-    );
     throwExceptionIfResponseError(statusCode: response.statusCode);
     final rawIssues = jsonDecode(response.body) as List;
     return rawIssues

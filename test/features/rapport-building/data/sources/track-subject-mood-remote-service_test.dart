@@ -11,10 +11,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/platform/instant.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
@@ -23,32 +24,25 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/entitie
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/track-mood-success.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
-
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox localClient;
   TrackSubjectMoodRemoteServiceImpl serviceImpl;
+  MockCustomApiClient client;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
-    client = MockHttpClient();
-    localClient = MockBox();
+    client = MockCustomApiClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     serviceImpl = TrackSubjectMoodRemoteServiceImpl(
       client: client,
-      sessionClient: localClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
   final MoodTracking tMoodTrack = MoodTrackingModel(
     activityType: 'ONBOARDING',
-    createdWhen: Instant(time: DateTime.parse('2021-04-10 13:38:35.105')),
+    createdWhen: DateTime.parse('2021-04-10 13:38:35.105'),
     id: 3,
     mood: 'NEUTRAL',
     moodDuration: 'SEVEN_DAYS',
@@ -57,20 +51,17 @@ Future<void> main() async {
 
   void setupHttpSuccessClient200({@required String responseFilePath}) {
     when(
-      client.post(Uri.parse(APIRoute.setMoodDuration),
-          headers: anyNamed('headers'), body: anyNamed('body')),
+      client.post(uri: APIRoute.setMoodDuration, body: anyNamed('body')),
     ).thenAnswer(
-      (_) async => http.Response(
-        fixtureReader(filename: responseFilePath),
-        200,
-      ),
+      (_) async =>
+          http.Response(fixtureReader(filename: responseFilePath), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.post(Uri.parse(APIRoute.setMoodDuration),
-            headers: anyNamed('headers'), body: anyNamed('body')))
-        .thenAnswer(
+    when(
+      client.post(uri: APIRoute.setMoodDuration, body: anyNamed('body')),
+    ).thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }
@@ -87,26 +78,12 @@ Future<void> main() async {
       //assert
       verify(
         client.post(
-          Uri.parse(APIRoute.setMoodDuration),
-          headers: {
-            "content-type": "application/json",
-          },
-          body: jsonEncode({
-            "subjectId": {
-              "id": "74a439b1-396b-43c2-a859-608c055a78a3",
-            },
-            "id": 3,
-            "activityType": "ONBOARDING",
-            "moodDuration": "SEVEN_DAYS",
-            "createdWhen": "2021-04-10 13:38:35.105",
-            "mood": "NEUTRAL"
-          }),
+          uri: APIRoute.setMoodDuration,
+          body: jsonEncode((tMoodTrack as MoodTrackingModel).toJson()),
         ),
       );
     });
-    test(
-        'should return TrackMoodSuccess when response is 1 & statusCode is 200',
-        () async {
+    test('should return TrackMoodSuccess when statusCode is 200', () async {
       //arrange
       setupHttpSuccessClient200(
         responseFilePath: 'track-subject-mood-raw-response-success.json',
@@ -116,17 +93,6 @@ Future<void> main() async {
       //assert
       expect(result, TrackMoodSuccess());
     });
-    test('should throw ServerException when response is not 1', () async {
-      //arrange
-      setupHttpSuccessClient200(
-        responseFilePath: 'track-subject-mood-raw-response-failed.json',
-      );
-      //act
-      final call = serviceImpl.trackMood;
-      //assert
-      expect(() => call(mood: tMoodTrack),
-          throwsA(const TypeMatcher<ServerException>()));
-    });
 
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange
@@ -134,8 +100,10 @@ Future<void> main() async {
       //act
       final call = serviceImpl.trackMood;
       //assert
-      expect(() => call(mood: tMoodTrack),
-          throwsA(const TypeMatcher<ServerException>()));
+      expect(
+        () => call(mood: tMoodTrack),
+        throwsA(const TypeMatcher<ServerException>()),
+      );
     });
   });
 }

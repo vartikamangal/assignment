@@ -42,6 +42,7 @@ class SetSubjectNameRemoteServiceImpl implements SetSubjectNameRemoteService {
         },
       ),
     );
+    throwExceptionIfResponseError(statusCode: response.statusCode);
     return SubjectInformationModel.fromJson(
       jsonDecode(response.body) as Map<String, dynamic>,
     );

@@ -75,7 +75,7 @@ Future<void> main() async {
       //act
       await remoteDataSourceImpl.getIssues();
       //assert
-      verifyNever(
+      verify(
         client.get(uri: APIRoute.getAllIssues),
       );
     });

@@ -5,14 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import '../../../../core/platform/instant.dart';
 import 'mood.dart';
 import 'subject-id.dart';
 
 class SubjectMood extends Equatable {
   final SubjectId subjectId;
   final Mood mood;
-  final Instant when;
+  final DateTime when;
 
   const SubjectMood({
     @required this.subjectId,

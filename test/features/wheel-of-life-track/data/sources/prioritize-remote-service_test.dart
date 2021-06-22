@@ -12,6 +12,8 @@ import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart' as http;
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -22,26 +24,19 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/source
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/success-prioritize.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends http.Mock implements http.Client {}
-
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox sessionClient;
+  MockCustomApiClient client;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
   PrioritizeRemoteServiceImpl remoteServiceImpl;
 
   setUp(() {
-    client = MockHttpClient();
-    sessionClient = MockBox();
+    client = MockCustomApiClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteServiceImpl = PrioritizeRemoteServiceImpl(
       client: client,
-      sessionClient: sessionClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
@@ -94,8 +89,7 @@ Future<void> main() async {
   void setupHttpSuccessClient200({@required String path}) {
     when(
       client.post(
-        Uri.parse(APIRoute.prioritizeAreas),
-        headers: anyNamed('headers'),
+        uri: APIRoute.prioritizeAreas,
         body: jsonEncode(tLifeAreaPrioritizationModel.toJson()),
       ),
     ).thenAnswer(
@@ -109,8 +103,7 @@ Future<void> main() async {
   void setupHttpFailureClient404() {
     when(
       client.post(
-        Uri.parse(APIRoute.prioritizeAreas),
-        headers: anyNamed('headers'),
+        uri: APIRoute.prioritizeAreas,
         body: jsonEncode(tLifeAreaPrioritizationModel.toJson()),
       ),
     ).thenAnswer(
@@ -128,10 +121,7 @@ Future<void> main() async {
       //assert
       verify(
         client.post(
-          Uri.parse(APIRoute.prioritizeAreas),
-          headers: {
-            'content-type': 'application/json',
-          },
+          uri: APIRoute.prioritizeAreas,
           body: jsonEncode(tLifeAreaPrioritizationModel.toJson()),
         ),
       );
@@ -148,17 +138,6 @@ Future<void> main() async {
 
       //assert
       expect(result, SuccessPrioritize());
-    });
-    test('should throw ServerException when responseBody is not 1', () async {
-      //arrange
-      setupHttpSuccessClient200(path: 'failed-prioritize-response.json');
-      //act
-      final call = remoteServiceImpl.prioritize;
-      //assert
-      expect(
-        () => call(lifeAreas: tLifeAreaPrioritizationModel),
-        throwsA(const TypeMatcher<ServerException>()),
-      );
     });
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange

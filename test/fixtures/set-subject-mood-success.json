@@ -1,1 +1,10 @@
-1
+{
+    "id": 18703,
+    "subjectId": {
+        "id": "b0d388a5-78e5-4520-a137-41336265c978"
+    },
+    "mood": "BAD",
+    "activityType": "ONBOARDING",
+    "createdWhen": "2021-06-21T03:03:46.071Z",
+    "moodDuration": null
+}

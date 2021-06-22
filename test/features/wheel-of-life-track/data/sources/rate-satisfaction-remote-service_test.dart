@@ -11,6 +11,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -23,26 +25,19 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/source
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rated-satisfaction-success.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
-
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox sessionClient;
+  MockCustomApiClient client;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
   RateSatisfactionRemoteServiceImpl serviceImpl;
 
   setUp(() {
-    client = MockHttpClient();
-    sessionClient = MockBox();
+    client = MockCustomApiClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     serviceImpl = RateSatisfactionRemoteServiceImpl(
       client: client,
-      sessionClient: sessionClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
@@ -160,8 +155,7 @@ Future<void> main() async {
   void setupHttpSuccessClient200({@required String path}) {
     when(
       client.post(
-        Uri.parse(APIRoute.setUserSatisfaction),
-        headers: anyNamed('headers'),
+        uri: APIRoute.setUserSatisfaction,
         body: jsonEncode(tSatisfactionRatings.toJson()),
       ),
     ).thenAnswer(
@@ -175,8 +169,7 @@ Future<void> main() async {
   void setupHttpFailureClient404() {
     when(
       client.post(
-        Uri.parse(APIRoute.setUserSatisfaction),
-        headers: anyNamed('headers'),
+        uri: APIRoute.setUserSatisfaction,
         body: jsonEncode(tSatisfactionRatings.toJson()),
       ),
     ).thenAnswer(
@@ -195,10 +188,7 @@ Future<void> main() async {
       //assert
       verify(
         client.post(
-          Uri.parse(APIRoute.setUserSatisfaction),
-          headers: {
-            'content-type': 'application/json',
-          },
+          uri: APIRoute.setUserSatisfaction,
           body: jsonEncode(tSatisfactionRatings.toJson()),
         ),
       );
@@ -216,25 +206,6 @@ Future<void> main() async {
       );
       //assert
       expect(result, SuccessRatedSatisfaction());
-    });
-    test(
-        'should throw ServerException when statusCode is 200 and body is not 1',
-        () async {
-      //arrange
-      setupHttpSuccessClient200(
-        path: 'set-user-satisfaction-failed-resposne.json',
-      );
-      //act
-      final call = serviceImpl.rateSatisfaction;
-      //assert
-      expect(
-        () => call(
-          ratings: tSatisfactionRatings,
-        ),
-        throwsA(
-          const TypeMatcher<ServerException>(),
-        ),
-      );
     });
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange

@@ -11,29 +11,30 @@ import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
   const tsubjectIdModel =
-      SubjectIdModel(id: '5a58e827-7c69-4bcc-b40d-5e5c12c5e956');
+      SubjectIdModel(id: 'b0d388a5-78e5-4520-a137-41336265c978');
 
   group("MODEL SubjectIdModel :", () {
     test('SubjectIdModel is a exttended version of SubjectId.', () async {
       //assert
       expect(tsubjectIdModel, isA<SubjectId>());
     });
-    test('SubjectIdModel.fromJson should return a SubjectIdModel', () async {
+    test('fromJson should return a SubjectIdModel', () async {
       //arrange
-      final Map<String, dynamic> jsonMap = jsonDecode(fixtureReader(
-              filename: 'create-rapport-building-user-response.json'))
-          as Map<String, dynamic>;
+      final Map<String, dynamic> jsonMap = jsonDecode(
+        fixtureReader(filename: 'create-rapport-building-user-response.json'),
+      ) as Map<String, dynamic>;
       //act
       final result = SubjectIdModel.fromJson(
-          jsonMap: jsonMap['subjectId'] as Map<String, dynamic>);
+        jsonMap: jsonMap['subjectId'] as Map<String, dynamic>,
+      );
       //assert
       expect(result, tsubjectIdModel);
     });
     test('toJson should return a jsonMap obtained from SubjectIdModel',
         () async {
       //arrange
-      const Map<String, dynamic> jsonMap = {
-        "id": "5a58e827-7c69-4bcc-b40d-5e5c12c5e956"
+      final Map<String, dynamic> jsonMap = {
+        "id": tsubjectIdModel.id,
       };
       //act
       final result = tsubjectIdModel.toJson();

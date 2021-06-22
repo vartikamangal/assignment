@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/features/home-management/presentation/controller/home-controller.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/answered-question-diary.dart';
@@ -48,6 +49,7 @@ class ProfileScreen extends StatelessWidget {
             IconButton(
                 onPressed: () {
                   //TODO SETTING FUNCTIONALITY
+                  Navigator.pushNamed(context, RouteName.settingScreen);
                 },
                 icon: Image.asset(
                   ImagePath.settingsIcon,

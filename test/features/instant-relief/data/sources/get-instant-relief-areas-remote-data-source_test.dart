@@ -1,10 +1,10 @@
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -14,59 +14,46 @@ import 'package:tatsam_app_experimental/features/instant-relief/data/models/inst
 import 'package:tatsam_app_experimental/features/instant-relief/data/sources/get-instant-relief-areas-remote-data-source.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
-
-Future<void> main() async{
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox localClient;
+Future<void> main() async {
   GetInstantReliefAreasRemoteDataSourceImpl remoteDataSourceImpl;
+  MockCustomApiClient client;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
-    localClient = MockBox();
-    client = MockHttpClient();
+    client = MockCustomApiClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = GetInstantReliefAreasRemoteDataSourceImpl(
       client: client,
-      sessionClient: localClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
-  const tInstantReliefAreas=<InstantReliefAreaModel>[
+  const tInstantReliefAreas = <InstantReliefAreaModel>[
     InstantReliefAreaModel(
         id: 1,
         title: "title",
         subtitle: "subtitle",
         instantReliefName: "instantReliefName",
         description: "description",
-        icon: ImageProp(urlMedium: '',
-        urlLarge: '',
-        urlShort: ''))
+        icon: ImageProp(urlMedium: '', urlLarge: '', urlShort: ''))
   ];
-
 
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client.get(Uri.parse(APIRoute.getInstantReliefAreas), headers: anyNamed('headers')))
-        .thenAnswer(
-          (_) async =>
-          http.Response(fixtureReader(filename: 'raw-instant-relief-area.json'), 200),
+    when(client.get(uri: APIRoute.getInstantReliefAreas)).thenAnswer(
+      (_) async => http.Response(
+          fixtureReader(filename: 'raw-instant-relief-area.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(Uri.parse(APIRoute.getInstantReliefAreas), headers: anyNamed('headers')))
-        .thenAnswer(
-          (_) async => http.Response('Oops! page not found', 404),
+    when(client.get(uri: APIRoute.getInstantReliefAreas)).thenAnswer(
+      (_) async => http.Response('Oops! page not found', 404),
     );
   }
-
 
   //? Actual tests go here
   group('DATA SOURCE : GetInstantReliefAreas{Remote}', () {
@@ -77,12 +64,12 @@ Future<void> main() async{
       await remoteDataSourceImpl.getReliefAreas();
       //assert
       verify(
-        client.get(Uri.parse(APIRoute.getInstantReliefAreas), headers: {
-          'content-type': 'application/json',
-        }),
+        client.get(uri: APIRoute.getInstantReliefAreas),
       );
     });
-    test('should return List<InstantReliefAreaModel> when call statusCode is 200', () async {
+    test(
+        'should return List<InstantReliefAreaModel> when call statusCode is 200',
+        () async {
       //arrange
       setupHttpSuccessClient200();
       //act
@@ -98,7 +85,5 @@ Future<void> main() async{
       //assert
       expect(() => call, throwsA(const TypeMatcher<ServerException>()));
     });
-
   });
-
 }

@@ -11,6 +11,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -21,26 +23,25 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/data/source
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
+class MockLocalClient extends Mock implements Box {}
 
 Future<void> main() async {
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox localClient;
+  await Hive.initFlutter();
+  MockCustomApiClient client;
+  MockLocalClient localClient;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
   StartJourneyRemoteServiceImp remoteServiceImpl;
 
   setUp(() {
-    client = MockHttpClient();
-    localClient = MockBox();
+    client = MockCustomApiClient();
+    localClient = MockLocalClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteServiceImpl = StartJourneyRemoteServiceImp(
       client: client,
-      sessionClient: localClient,
+      localClient: localClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
@@ -58,17 +59,17 @@ Future<void> main() async {
       pathName: "SMALL_WINS");
 
   void setupHttpSuccessClient200({@required String testFileName}) {
-    when(client.post(Uri.parse(APIRoute.startJourney),
-            headers: anyNamed('headers'), body: anyNamed('body')))
-        .thenAnswer(
+    when(
+      client.post(uri: APIRoute.startJourney, body: anyNamed('body')),
+    ).thenAnswer(
       (_) async => http.Response(fixtureReader(filename: testFileName), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.post(Uri.parse(APIRoute.startJourney),
-            headers: anyNamed('headers'), body: anyNamed('body')))
-        .thenAnswer(
+    when(
+      client.post(uri: APIRoute.startJourney, body: anyNamed('body')),
+    ).thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }
@@ -80,14 +81,10 @@ Future<void> main() async {
       setupHttpSuccessClient200(
           testFileName: 'start-journey-remote-success.json');
       //act
-      final result =
-          await remoteServiceImpl.startJourney(journey: tJourneyModel);
+      await remoteServiceImpl.startJourney(journey: tJourneyModel);
       //assert
       verifyNever(client.post(
-        Uri.parse(APIRoute.startJourney),
-        headers: {
-          "content-type": "application/json",
-        },
+        uri: APIRoute.startJourney,
         body: jsonEncode(
           {
             "id": 1,
@@ -101,9 +98,7 @@ Future<void> main() async {
         ),
       ));
     });
-    test(
-        'should return StartJourneySuccess if response is 1 and statusCode is 200',
-        () async {
+    test('should return StartJourneySuccess if statusCode is 200', () async {
       //arrange
       setupHttpSuccessClient200(
           testFileName: 'start-journey-remote-success.json');
@@ -113,22 +108,11 @@ Future<void> main() async {
       //assert
       expect(result, SuccessJourneyStart());
     });
-    test('should throw ServerException if response is not 1', () async {
-      //arrange
-      setupHttpSuccessClient200(testFileName: 'set-subject-mood-failed.json');
-      //act
-      final call = remoteServiceImpl.startJourney;
-      //assert
-      expect(
-        () => call(journey: tJourneyModel),
-        throwsA(const TypeMatcher<ServerException>()),
-      );
-    });
     test('should throw ServerException if statusCode is not 404', () async {
       //arrange
       setupHttpFailureClient404();
       //act
-      final call = await remoteServiceImpl.startJourney;
+      final call = remoteServiceImpl.startJourney;
       //assert
       expect(
         () => call(journey: tJourneyModel),

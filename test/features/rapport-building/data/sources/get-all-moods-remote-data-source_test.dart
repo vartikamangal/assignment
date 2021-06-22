@@ -10,25 +10,22 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
-import 'package:tatsam_app_experimental/core/session-manager/session-manager.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/get-all-moods-remote-data-source.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  MockHttpClient client;
-  ApiClient apiClient;
+  MockCustomApiClient client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   GetAllMoodsRemoteDataSourceImpl remoteDataSourceImpl;
 
   setUp(() {
-    client = MockHttpClient();
-    apiClient = ApiClient(client: client);
+    client = MockCustomApiClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = GetAllMoodsRemoteDataSourceImpl(
-      client: apiClient,
+      client: client,
       throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
@@ -90,15 +87,14 @@ Future<void> main() async {
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(apiClient.get(uri: APIRoute.getMoods)).thenAnswer(
+    when(client.get(uri: APIRoute.getMoods)).thenAnswer(
       (_) async =>
           http.Response(fixtureReader(filename: 'raw-moods.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(Uri.parse(APIRoute.getMoods), headers: anyNamed('headers')))
-        .thenAnswer(
+    when(client.get(uri: APIRoute.getMoods)).thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }
@@ -112,7 +108,7 @@ Future<void> main() async {
       await remoteDataSourceImpl.getMoods();
       //assert
       verify(
-        apiClient.get(uri: APIRoute.getMoods),
+        client.get(uri: APIRoute.getMoods),
       );
     });
     test('should return List<MoodModel> when call statusCode is 200', () async {

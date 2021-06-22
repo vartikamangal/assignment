@@ -1,5 +1,6 @@
 // Dart imports:
 import 'dart:convert';
+import 'dart:developer';
 
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
@@ -40,7 +41,7 @@ void main() {
       //act
       final result = tMoodModel.toJson();
       //assert
-      expect(result, jsonDecode(fixtureReader(filename: 'single-journey.json')));
+      expect(result, jsonDecode(fixtureReader(filename: 'single-mood.json')));
     });
   });
 }

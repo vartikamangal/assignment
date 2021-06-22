@@ -40,7 +40,7 @@ class MidPageContentA extends StatelessWidget {
             children: [
               SizedBox(
                 height: ScaleManager.spaceScale(
-                  spaceing: 130,
+                  spaceing: 170,
                 ).value,
               ),
 

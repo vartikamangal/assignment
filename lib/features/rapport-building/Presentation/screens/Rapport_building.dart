@@ -50,6 +50,11 @@ class RapportScreen extends StatelessWidget {
         child: SafeArea(
           child: Stack(
             children: [
+              Obx(
+                    () => _onBoardingController.isProcessing.value
+                    ? const LinearProgressIndicator()
+                    : Container(),
+              ),
               Positioned(
                 right: 0,
                 child: Image.asset(
@@ -87,11 +92,11 @@ class RapportScreen extends StatelessWidget {
                         onPressed: () {
                           _onBoardingController.navigateBack();
                         },
-                        iconSize: ScaleManager.spaceScale(
-                          spaceing: 26,
-                        ).value,
                         icon: SvgPicture.asset(
                           ImagePath.backButton,
+                          height: ScaleManager.spaceScale(
+                            spaceing: 26,
+                          ).value,
                         ),
                       ),
                     ),
@@ -99,8 +104,7 @@ class RapportScreen extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: Container(
                       constraints: BoxConstraints(
-                        minHeight: size.height-
-                            (size.shortestSide>600?(70*size.height/731):(105*size.height/731))
+                        minHeight: size.height- (size.shortestSide>600?(70*size.height/731):(105*size.height/731))
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -235,7 +239,9 @@ class _LoadingWidget extends StatelessWidget {
       mobile: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.25,
+          top: ScaleManager.spaceScale(
+            spaceing: 170,
+          ).value,
           left: ScaleManager.spaceScale(
             spaceing: 30,
           ).value,
@@ -248,7 +254,9 @@ class _LoadingWidget extends StatelessWidget {
       tablet: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.25,
+          top: ScaleManager.spaceScale(
+            spaceing: 170,
+          ).value,
           left: ScaleManager.spaceScale(
             spaceing: 30,
           ).value,
@@ -261,7 +269,9 @@ class _LoadingWidget extends StatelessWidget {
       desktop: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.25,
+          top:ScaleManager.spaceScale(
+            spaceing: 170,
+          ).value,
           left: ScaleManager.spaceScale(
             spaceing: 30,
           ).value,

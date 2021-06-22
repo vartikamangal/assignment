@@ -1,11 +1,12 @@
 {
-    "id": 1,
+    "id": 1013,
     "subjectId": {
-        "id": "5a58e827-7c69-4bcc-b40d-5e5c12c5e956"
+        "id": "b0d388a5-78e5-4520-a137-41336265c978"
     },
-    "userId": "f43d2341-e0c9-4219-bb6d-252ddd3be26b",
+    "userId": "ed598e21-dcf3-4f3a-bc0d-9079f372d603",
     "name": null,
-    "nickName": "Test User",
+    "nickName": "Bhavna",
     "gender": null,
-    "deviceIdentifier": "THIS_IS_A_RANDOM_DEVICE_IDENTIFIER"
+    "deviceIdentifier": "Here_is_a_random_identifier",
+    "auth0Identifier": null
 }

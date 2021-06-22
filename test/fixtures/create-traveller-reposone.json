@@ -1,0 +1,201 @@
+{
+    "travellerId": "5c813ea2-9c76-4a90-bb14-914669894b53",
+    "subject": {
+        "id": 2,
+        "subjectInformation": {
+            "id": 1,
+            "subjectId": {
+                "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+            },
+            "userId": "937712ee-dd10-4786-b233-afed2ec31cab",
+            "name": null,
+            "nickName": "Bhavna",
+            "gender": null,
+            "deviceIdentifier": "Test_10052021",
+            "auth0Identifier": "user_auth_id"
+        },
+        "lifeSatisfactionRatings": {
+            "id": 52,
+            "lifeSatisfactionRatings": {
+                "HEALTH": {
+                    "id": 45,
+                    "subjectId": {
+                        "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+                    },
+                    "wolArea": "HEALTH",
+                    "rating": {
+                        "id": 44,
+                        "rating": 2,
+                        "scale": {
+                            "id": 1,
+                            "ratingScaleName": "WOL_SATISFACTION_RATING",
+                            "minValue": 1,
+                            "maxValue": 5,
+                            "icon": null
+                        }
+                    },
+                    "createdWhen": "2021-05-10T13:19:41.543Z"
+                },
+                "CAREER": {
+                    "id": 37,
+                    "subjectId": {
+                        "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+                    },
+                    "wolArea": "CAREER",
+                    "rating": {
+                        "id": 36,
+                        "rating": 3,
+                        "scale": {
+                            "id": 1,
+                            "ratingScaleName": "WOL_SATISFACTION_RATING",
+                            "minValue": 1,
+                            "maxValue": 5,
+                            "icon": null
+                        }
+                    },
+                    "createdWhen": "2021-05-10T13:19:41.543Z"
+                },
+                "FAMILY_AND_FRIENDS": {
+                    "id": 47,
+                    "subjectId": {
+                        "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+                    },
+                    "wolArea": "FAMILY_AND_FRIENDS",
+                    "rating": {
+                        "id": 46,
+                        "rating": 2,
+                        "scale": {
+                            "id": 1,
+                            "ratingScaleName": "WOL_SATISFACTION_RATING",
+                            "minValue": 1,
+                            "maxValue": 5,
+                            "icon": null
+                        }
+                    },
+                    "createdWhen": "2021-05-10T13:19:41.543Z"
+                },
+                "PERSONAL_GROWTH": {
+                    "id": 41,
+                    "subjectId": {
+                        "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+                    },
+                    "wolArea": "PERSONAL_GROWTH",
+                    "rating": {
+                        "id": 40,
+                        "rating": 1,
+                        "scale": {
+                            "id": 1,
+                            "ratingScaleName": "WOL_SATISFACTION_RATING",
+                            "minValue": 1,
+                            "maxValue": 5,
+                            "icon": null
+                        }
+                    },
+                    "createdWhen": "2021-05-10T13:19:41.543Z"
+                },
+                "PHYSICAL_ENVIRONMENT": {
+                    "id": 51,
+                    "subjectId": {
+                        "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+                    },
+                    "wolArea": "PHYSICAL_ENVIRONMENT",
+                    "rating": {
+                        "id": 50,
+                        "rating": 2,
+                        "scale": {
+                            "id": 1,
+                            "ratingScaleName": "WOL_SATISFACTION_RATING",
+                            "minValue": 1,
+                            "maxValue": 5,
+                            "icon": null
+                        }
+                    },
+                    "createdWhen": "2021-05-10T13:19:41.543Z"
+                },
+                "ROMANCE": {
+                    "id": 39,
+                    "subjectId": {
+                        "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+                    },
+                    "wolArea": "ROMANCE",
+                    "rating": {
+                        "id": 38,
+                        "rating": 2,
+                        "scale": {
+                            "id": 1,
+                            "ratingScaleName": "WOL_SATISFACTION_RATING",
+                            "minValue": 1,
+                            "maxValue": 5,
+                            "icon": null
+                        }
+                    },
+                    "createdWhen": "2021-05-10T13:19:41.543Z"
+                },
+                "FINANCES": {
+                    "id": 43,
+                    "subjectId": {
+                        "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+                    },
+                    "wolArea": "FINANCES",
+                    "rating": {
+                        "id": 42,
+                        "rating": 4,
+                        "scale": {
+                            "id": 1,
+                            "ratingScaleName": "WOL_SATISFACTION_RATING",
+                            "minValue": 1,
+                            "maxValue": 5,
+                            "icon": null
+                        }
+                    },
+                    "createdWhen": "2021-05-10T13:19:41.543Z"
+                },
+                "FUN_AND_RECREATION": {
+                    "id": 49,
+                    "subjectId": {
+                        "id": "c34d4062-355f-406e-b78b-b18721dee93e"
+                    },
+                    "wolArea": "FUN_AND_RECREATION",
+                    "rating": {
+                        "id": 48,
+                        "rating": 2,
+                        "scale": {
+                            "id": 1,
+                            "ratingScaleName": "WOL_SATISFACTION_RATING",
+                            "minValue": 1,
+                            "maxValue": 5,
+                            "icon": null
+                        }
+                    },
+                    "createdWhen": "2021-05-10T13:19:41.543Z"
+                }
+            }
+        },
+        "lifePriorities": {
+            "id": 34,
+            "areasInOrderOfPriority": [
+                "CAREER",
+                "ROMANCE",
+                "PERSONAL_GROWTH",
+                "FUN_AND_RECREATION",
+                "FINANCES",
+                "HEALTH",
+                "FAMILY_AND_FRIENDS",
+                "PHYSICAL_ENVIRONMENT"
+            ]
+        },
+        "targetFocus": {
+            "id": 33,
+            "targetFocusList": [
+                {
+                    "id": 1,
+                    "displayName": "Sleep",
+                    "messageOnSelection": " I want to sleep better. More, restful, deeper sleep for my mind and my body",
+                    "focusName": "SLEEP",
+                    "icon": null
+                }
+            ]
+        },
+        "attemptedQuestions": true
+    }
+}

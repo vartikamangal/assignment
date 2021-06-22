@@ -8,6 +8,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -17,59 +19,57 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/models/su
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/set-subject-name-remote-service.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
-
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox localClient;
   SetSubjectNameRemoteServiceImpl remoteService;
+  MockCustomApiClient client;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
-    client = MockHttpClient();
-    localClient = MockBox();
+    client = MockCustomApiClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteService = SetSubjectNameRemoteServiceImpl(
       client: client,
-      sessionClient: localClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
+  const tSubjectName = "Bhavna";
+  const tDeviceID = "Here_is_a_random_identifier";
 
   const tSubjectInfo = SubjectInformationModel(
-    subjectId: SubjectIdModel(id: "5a58e827-7c69-4bcc-b40d-5e5c12c5e956"),
-    userID: "f43d2341-e0c9-4219-bb6d-252ddd3be26b",
+    subjectId: SubjectIdModel(id: "b0d388a5-78e5-4520-a137-41336265c978"),
+    userID: "ed598e21-dcf3-4f3a-bc0d-9079f372d603",
     name: null,
-    nickName: "Test User",
-    deviceIndentifier: "THIS_IS_A_RANDOM_DEVICE_IDENTIFIER",
+    nickName: tSubjectName,
+    deviceIndentifier: tDeviceID,
     // ignore: avoid_redundant_argument_values
     gender: null,
   );
 
-  const tSubjectName = "Test User";
-  const tDeviceID = "THIS_IS_A_RANDOM_DEVICE_IDENTIFIER";
-
   ///! Actual tests begin here
 
   void setupHttpSuccessClient200() {
-    when(client.post(Uri.parse(APIRoute.setSubjectName),
-            headers: anyNamed('headers'), body: anyNamed('body')))
-        .thenAnswer(
+    when(client.post(
+      uri: APIRoute.setSubjectName,
+      body: anyNamed('body'),
+    )).thenAnswer(
       (_) async => http.Response(
-          fixtureReader(filename: 'create-rapport-building-user-response.json'),
-          200),
+        fixtureReader(filename: 'create-rapport-building-user-response.json'),
+        200,
+      ),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.post(Uri.parse(APIRoute.setSubjectName),
-            headers: anyNamed('headers'), body: anyNamed('body')))
-        .thenAnswer(
-      (_) async => http.Response('Oops! page not found', 404),
+    when(client.post(
+      uri: APIRoute.setSubjectName,
+      body: anyNamed('body'),
+    )).thenAnswer(
+      (_) async => http.Response(
+        'Oops! page not found',
+        404,
+      ),
     );
   }
 
@@ -84,17 +84,12 @@ Future<void> main() async {
       //assert
       verify(
         client.post(
-          Uri.parse(APIRoute.setSubjectName),
-          headers: {
-            "content-type": "application/json",
-            "TATSAM_USER": "{'deviceIdentifier': '$tDeviceID'}",
-          },
-          body: jsonEncode(
-            {
-              "nickName": tSubjectName,
-            },
-          ),
-        ),
+            uri: APIRoute.setSubjectName,
+            body: jsonEncode(
+              {
+                "nickName": tSubjectName,
+              },
+            )),
       );
     });
     test('should return SubjectInformation when the statusCode is 200',

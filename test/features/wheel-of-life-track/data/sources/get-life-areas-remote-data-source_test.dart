@@ -1,10 +1,10 @@
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -13,26 +13,19 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/get-life-areas-remote-data-source.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
-
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox sessionClient;
+  MockCustomApiClient client;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
   GetLifeAreasRemoteDataSourceImpl sourceImpl;
 
   setUp(() {
-    client = MockHttpClient();
-    sessionClient = MockBox();
+    client = MockCustomApiClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     sourceImpl = GetLifeAreasRemoteDataSourceImpl(
       client: client,
-      sessionClient: sessionClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
@@ -80,19 +73,24 @@ Future<void> main() async {
   ];
 
   void setupHttpSuccessClient200() {
-    when(client.get(Uri.parse(APIRoute.getWolAreas),
-            headers: anyNamed('headers')))
-        .thenAnswer(
+    when(
+      client.get(uri: APIRoute.getWolAreas),
+    ).thenAnswer(
       (_) async => http.Response(
-          fixtureReader(filename: 'get-wol-areas-raw-repsonse.json'), 200),
+        fixtureReader(filename: 'get-wol-areas-raw-repsonse.json'),
+        200,
+      ),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(Uri.parse(APIRoute.getWolAreas),
-            headers: anyNamed('headers')))
-        .thenAnswer(
-      (_) async => http.Response('Oops! page not found', 404),
+    when(
+      client.get(uri: APIRoute.getWolAreas),
+    ).thenAnswer(
+      (_) async => http.Response(
+        'Oops! page not found',
+        404,
+      ),
     );
   }
 
@@ -107,14 +105,11 @@ Future<void> main() async {
       //assert
       verify(
         client.get(
-          Uri.parse(APIRoute.getWolAreas),
-          headers: {
-            'content-type': 'application/json',
-          },
+          uri: APIRoute.getWolAreas,
         ),
       );
     });
-    test('should return the List<LifeAreaModel> if the styatusCode is 200',
+    test('should return the List<LifeAreaModel> if the statusCode is 200',
         () async {
       //arrange
       setupHttpSuccessClient200();

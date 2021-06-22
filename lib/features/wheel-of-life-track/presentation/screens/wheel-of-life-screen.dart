@@ -23,114 +23,116 @@ class WheelOfLifeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-            physics: Platform.isIOS
-                ? const BouncingScrollPhysics()
-                : const ClampingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                backgroundColor: Colors.transparent,
-                leading: Obx(
-                      () => IconButton(
-                    padding:EdgeInsets.only(left: ScaleManager.spaceScale(
-                      spaceing: 10,
-                    ).value,
-                        top: ScaleManager.spaceScale(
+        child: Stack(
+          children: [
+            Obx(
+                  () => _controller.isProcessing.value
+                  ? const LinearProgressIndicator()
+                  : Container(),
+            ),
+            CustomScrollView(
+                physics: Platform.isIOS
+                    ? const BouncingScrollPhysics()
+                    : const ClampingScrollPhysics(),
+                slivers: [
+                  SliverAppBar(
+                    backgroundColor: Colors.transparent,
+                    leading: Obx(
+                          () => IconButton(
+                        padding:EdgeInsets.only(left: ScaleManager.spaceScale(
                           spaceing: 10,
                         ).value,
-                        bottom: 0),
-                    icon: SvgPicture.asset(
-                      ImagePath.backButton,
-                      height: ScaleManager.spaceScale(
-                        spaceing: 26,
-                      ).value,
+                            top: ScaleManager.spaceScale(
+                              spaceing: 10,
+                            ).value,
+                            bottom: 0),
+                        icon: SvgPicture.asset(
+                          ImagePath.backButton,
+                          height: ScaleManager.spaceScale(
+                            spaceing: 26,
+                          ).value,
+                        ),
+                        onPressed: () {
+                          _controller.currentOnBoardPageCounter.value == 0
+                              ? Navigator.of(context).pop()
+                              : _controller.navigateBack();
+                        },
+                      ),
                     ),
-                    onPressed: () {
-                      _controller.currentOnBoardPageCounter.value == 0
-                          ? Navigator.of(context).pop()
-                          : _controller.navigateBack();
-                    },
                   ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Obx(
-                      () => _controller.isProcessing.value
-                      ? const LinearProgressIndicator()
-                      : Container(),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  padding: EdgeInsets.only(
-                    left: ScaleManager.spaceScale(
-                      spaceing: 42,
-                    ).value,
-                    right: ScaleManager.spaceScale(
-                      spaceing: 38,
-                    ).value,
-                  ),
-                  width: Get.width,
-                  child: Obx(() => _controller.currentSelectedPage.value),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      bottom: ScaleManager.spaceScale(
-                        spaceing: 16,
-                      ).value,
-                      right: ScaleManager.spaceScale(
-                        spaceing: 14,
-                      ).value,
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        left: ScaleManager.spaceScale(
+                          spaceing: 42,
+                        ).value,
+                        right: ScaleManager.spaceScale(
+                          spaceing: 38,
+                        ).value,
+                      ),
+                      width: Get.width,
+                      child: Obx(() => _controller.currentSelectedPage.value),
                     ),
-                    child: Obx(() {
-                      if(_controller.isLoading.value){
-                        return Container();
-                      }
-                      if (_controller.currentOnBoardPageCounter.value == 0) {
-                        return AnimatedSwitcher(
-                          switchInCurve: Curves.easeIn,
-                          duration: const Duration(milliseconds: 700),
-                          child: _controller.isLoading.value ?
-                          Container():BottomMiddleButton(
-                            title: 'MAKES SENSE',
-                            onPressed: () => _controller.changeScreen(),
-                          ),
-                        );
-                      } else if (_controller.currentOnBoardPageCounter.value ==
-                          1) {
-                        return FlipCard(
-                          flipOnTouch: false,
-                          key: _controller.bottomBtnAnimState,
-                          speed:
-                          600 + ((_controller.lifeAreas.length + 1) * 50),
-                          front: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              BottomMiddleButton(
-                                title: 'DONE',
+                  ),
+                  SliverToBoxAdapter(
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          bottom: ScaleManager.spaceScale(
+                            spaceing: 16,
+                          ).value,
+                          right: ScaleManager.spaceScale(
+                            spaceing: 14,
+                          ).value,
+                        ),
+                        child: Obx(() {
+                          if(_controller.isLoading.value){
+                            return Container();
+                          }
+                          if (_controller.currentOnBoardPageCounter.value == 0) {
+                            return AnimatedSwitcher(
+                              switchInCurve: Curves.easeIn,
+                              duration: const Duration(milliseconds: 700),
+                              child: _controller.isLoading.value ?
+                              Container():BottomMiddleButton(
+                                title: 'MAKES SENSE',
                                 onPressed: () => _controller.changeScreen(),
                               ),
-                            ],
-                          ),
-                          back: EmptySpacePlaceHolder(),
-                        );
-                      } else {
-                        return BottomMiddleButton(
-                          title: 'DONE',
-                          // ignore: avoid_print
-                          onPressed: () async =>
-                              _controller.rateSatisfactionAndMoveAhead(),
-                        );
-                      }
-                    }),
+                            );
+                          } else if (_controller.currentOnBoardPageCounter.value ==
+                              1) {
+                            return FlipCard(
+                              flipOnTouch: false,
+                              key: _controller.bottomBtnAnimState,
+                              speed:
+                              600 + ((_controller.lifeAreas.length + 1) * 50),
+                              front: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  BottomMiddleButton(
+                                    title: 'DONE',
+                                    onPressed: () => _controller.changeScreen(),
+                                  ),
+                                ],
+                              ),
+                              back: EmptySpacePlaceHolder(),
+                            );
+                          } else {
+                            return BottomMiddleButton(
+                              title: 'DONE',
+                              // ignore: avoid_print
+                              onPressed: () async =>
+                                  _controller.rateSatisfactionAndMoveAhead(),
+                            );
+                          }
+                        }),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ]),
+                ]),
+          ],
+        ),
       ),
     );
   }

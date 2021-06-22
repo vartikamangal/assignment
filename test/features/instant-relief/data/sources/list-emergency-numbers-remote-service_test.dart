@@ -1,10 +1,10 @@
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
+import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -13,50 +13,44 @@ import 'package:tatsam_app_experimental/features/instant-relief/data/models/emer
 import 'package:tatsam_app_experimental/features/instant-relief/data/sources/list-emergency-numbers-remote-service.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
+class MockCustomApiClient extends Mock implements ApiClient {}
 
-class MockBox extends Mock implements Box {}
-
-class MockHiveInterface extends Mock implements HiveInterface {}
-
-Future<void> main() async{
-  final interface = MockHiveInterface();
-  await interface.initFlutter();
-
-  MockHttpClient client;
-  MockBox localClient;
+Future<void> main() async {
   ListEmergencyNumberRemoteDataSourceImpl remoteDataSourceImpl;
+  MockCustomApiClient client;
+  ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
-    localClient = MockBox();
-    client = MockHttpClient();
+    client = MockCustomApiClient();
+    throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = ListEmergencyNumberRemoteDataSourceImpl(
       client: client,
-      sessionClient: localClient,
+      throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
 
-  const tEmergencyNumber=<EmergencyNumberModel>[
-    EmergencyNumberModel(number: "9545865596")
+  const tEmergencyNumber = <EmergencyNumberModel>[
+    // EmergencyNumberModel(number: "9545865596")
   ];
 
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client.get(Uri.parse(APIRoute.listEmergencyNumbers), headers: anyNamed('headers')))
-        .thenAnswer(
-          (_) async =>
-          http.Response(fixtureReader(filename: 'raw-emergency-number.json'), 200),
+    when(
+      client.get(uri: APIRoute.listEmergencyNumbers),
+    ).thenAnswer(
+      (_) async => http.Response(
+          fixtureReader(filename: 'raw-emergency-number.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(Uri.parse(APIRoute.listEmergencyNumbers), headers: anyNamed('headers')))
-        .thenAnswer(
-          (_) async => http.Response('Oops! page not found', 404),
+    when(
+      client.get(uri: APIRoute.listEmergencyNumbers),
+    ).thenAnswer(
+      (_) async => http.Response('Oops! page not found', 404),
     );
   }
-
 
   //? Actual tests go here
   group('DATA SOURCE : GetEmergencyNumber{Remote}', () {
@@ -67,12 +61,11 @@ Future<void> main() async{
       await remoteDataSourceImpl.fetchEmergencyNumbers();
       //assert
       verify(
-        client.get(Uri.parse(APIRoute.listEmergencyNumbers), headers: {
-          'content-type': 'application/json',
-        }),
+        client.get(uri: APIRoute.listEmergencyNumbers),
       );
     });
-    test('should return List<EmergencyNumberModel> when call statusCode is 200', () async {
+    test('should return List<EmergencyNumberModel> when call statusCode is 200',
+        () async {
       //arrange
       setupHttpSuccessClient200();
       //act

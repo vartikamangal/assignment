@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/screen/profile-screen.dart';
+import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/setting-screen.dart';
 
 // Project imports:
 import '../../../core/activity-management/presentation/widget/guided_path-plan-inside.dart';
@@ -60,8 +61,8 @@ abstract class RouteName {
   static const playSection1 = '/path-complete-outro';
   static const pathPlaySection2 = '/path-play-section2';
   static const onBoardingIncomplete = '/onboarding-screen';
-
   static const profileScreen = '/profile_screen';
+  static const settingScreen='/setting_screen';
 
   RouteName._();
 }
@@ -349,6 +350,11 @@ class GenerateRoute {
     if (route == RouteName.profileScreen) {
       return CupertinoPageRoute(
         builder: (context) => ProfileScreen(),
+      );
+    }
+    if (route == RouteName.settingScreen) {
+      return CupertinoPageRoute(
+        builder: (context) => SettingScreen(),
       );
     }
   }
