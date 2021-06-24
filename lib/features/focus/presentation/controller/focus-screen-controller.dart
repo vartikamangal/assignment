@@ -73,7 +73,7 @@ class FocusController extends GetxController {
           await Get.find<HubController>().fetchHubStatus().then((value) {
             // coz. two pages back Hub screen is present and currenlty popUntill is breaking
             Get.back();
-           // Get.back();
+            // Get.back();
           });
         });
       },
@@ -94,8 +94,8 @@ class FocusController extends GetxController {
   List<String> cart = [];
   bool optionSelected = false;
   Rx<Issue> selectedIssue = Rx<IssueModel>();
-  RxInt count=0.obs;
-  RxList<Issue> removedItem=RxList<IssueModel>([]);
+  RxInt count = 0.obs;
+  RxList<Issue> removedItem = RxList<IssueModel>([]);
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;
@@ -104,20 +104,22 @@ class FocusController extends GetxController {
   void toggleLoader() {
     isLoading.value = !isLoading.value;
   }
-  void removeIssue(Issue issue){
+
+  void removeIssue(Issue issue) {
     count++;
-    issues.removeWhere((element) => element.focusName==issue.focusName);
-    count>1?issues.add(removedItem.value[removedItem.length-1]):print("");
+    issues.removeWhere((element) => element.focusName == issue.focusName);
+    count > 1
+        ? issues.add(removedItem.value[removedItem.length - 1])
+        : print("");
     removedItem.add(selectedIssue.value);
   }
 
   void getDescription(String image, Issue issue) {
-    if(topExpandedContainer.value != Get.height * 0.5){
+    if (topExpandedContainer.value != Get.height * 0.5) {
       topExpandedContainer.value = Get.height * 0.5;
-    }
-    else{
-      topExpandedContainer.value=0.0;
-      Future.delayed(const Duration(milliseconds: 400), () async{
+    } else {
+      topExpandedContainer.value = 0.0;
+      Future.delayed(const Duration(milliseconds: 400), () async {
         topExpandedContainer.value = Get.height * 0.5;
       });
     }
@@ -128,7 +130,7 @@ class FocusController extends GetxController {
 
   // Custom navigator
   void navigateBack() {
-    count.value=0;
+    count.value = 0;
     issues.add(selectedIssue.value);
     issues.toSet();
     topExpandedContainer.value = 0.0;

@@ -29,6 +29,7 @@ class AppDurationLocalDataSourceImpl implements AppDurationLocalDataSource {
       final rawAppDuration = await localClient.get(
         PersistenceConst.USER_DURATION_ON_APP,
       );
+      log(rawAppDuration.toString());
       return AppDurationModel.frmoJson(
         jsonDecode(rawAppDuration.toString()) as Map<String, dynamic>,
       );

@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import '../entities/user-data.dart';
-import '../repositories/auth-repository.dart';
+
 import '../../../error/failures.dart';
 import '../../../usecase/usecase.dart';
+import '../entities/user-data.dart';
+import '../repositories/auth-repository.dart';
 
 class GetUserDetails implements Usecase<UserData, NoParams> {
   final AuthRepository authRepository;

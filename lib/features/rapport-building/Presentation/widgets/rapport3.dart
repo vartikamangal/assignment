@@ -127,12 +127,11 @@ class MidPageContentC extends StatelessWidget {
                       color: blueDarkShade,
                       isExpanded: true,
                       options: controller.availableDurations,
-                      label:
-                          controller.selectedFeelingDuration.value == null
-                              ? tr('selection')
-                              : controller.selectedFeelingDuration.value
-                                  .durationDisplayName
-                                  .toUpperCase(),
+                      label: controller.selectedFeelingDuration.value == null
+                          ? tr('selection')
+                          : controller
+                              .selectedFeelingDuration.value.durationDisplayName
+                              .toUpperCase(),
                       // ignore: avoid_print
                       onPressed: () => controller.toggleDropDownExpansion(),
                       controller: controller,
@@ -140,14 +139,14 @@ class MidPageContentC extends StatelessWidget {
                   : customDropDownBtn(
                       color: blueDarkShade,
                       isExpanded: false,
-                      label:
-                          controller.selectedFeelingDuration.value == null
-                              ? tr('selection')
-                              : controller.selectedFeelingDuration.value
-                                  .durationDisplayName
-                                  .toUpperCase(),
+                      label: controller.selectedFeelingDuration.value == null
+                          ? tr('selection')
+                          : controller
+                              .selectedFeelingDuration.value.durationDisplayName
+                              .toUpperCase(),
                       // ignore: avoid_print
                       onPressed: () => controller.toggleDropDownExpansion(),
+                      controller: null, options: const [],
                       // ignore: avoid_print
                     ),
             ),

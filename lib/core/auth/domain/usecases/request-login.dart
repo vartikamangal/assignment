@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../entities/request-data.dart';
-import '../repositories/auth-repository.dart';
 import '../../../error/failures.dart';
 import '../../../usecase/usecase.dart';
+import '../entities/request-data.dart';
+import '../repositories/auth-repository.dart';
 
 class RequestLogin implements Usecase<RequestData, RequestLoginParams> {
   final AuthRepository repository;
