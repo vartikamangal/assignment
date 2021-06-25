@@ -49,6 +49,7 @@ class SaveFeedbackLocalServiceImpl implements SaveFeedbackLocalService {
       );
       await localClient.put(boxKey, feedback);
       log('feedback persisted');
+      log(feedback.toString());
       return unit;
     } catch (e) {
       throw CacheException();

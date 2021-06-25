@@ -6,15 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 
-import '../../../error/exceptions.dart';
 import '../../../persistence-consts.dart';
 import '../../../routes/api-routes/api-routes.dart';
 import '../../../secrets.dart';
-import '../../../session-manager/session-manager.dart';
 import '../../presentation/screens/auth-screen-test.dart';
 import '../models/request-data-model.dart';
 import '../models/user-data-model.dart';
@@ -97,6 +94,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
         accessToken: result.accessToken,
         refreshToken: result.refreshToken,
       );
+      log(requestData.toString());
       await _saveRefreshTokenToSecureStorage(
         requestData: requestData,
       );
