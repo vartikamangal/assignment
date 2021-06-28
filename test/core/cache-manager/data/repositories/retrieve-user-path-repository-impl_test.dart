@@ -8,6 +8,8 @@ import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 
 class MockRetrieveUserPathLocalDataSource extends Mock
     implements RetrieveUserPathLocalDataSource {}
@@ -19,10 +21,17 @@ void main() {
   MockNetworkInfo networkInfo;
   RetrieveUserPathRepositoryImpl repositoryImpl;
   BaseRepository baseRepository;
+  CallIfNetworkConnected callIfNetworkConnected;
+  HandleException handleException;
 
   setUp(() {
     localDataSource = MockRetrieveUserPathLocalDataSource();
     networkInfo = MockNetworkInfo();
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+        callIfNetworkConnected: callIfNetworkConnected,
+        handleException: handleException);
     repositoryImpl = RetrieveUserPathRepositoryImpl(
         localDataSource: localDataSource, baseRepository: baseRepository);
   });
@@ -40,12 +49,12 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.retrievePath();
-    //   //assert
-    //   verify(networkInfo.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //act
+      await repositoryImpl.retrievePath();
+      //assert
+      verify(networkInfo.isConnected);
+    });
     test(
         'should retrieve a path when coonection to local data source is successfull',
         () async {
@@ -57,15 +66,15 @@ void main() {
       verify(localDataSource.retrievePath());
       expect(result, tPath);
     });
-    // test('should return ServerFailure when the call to remoteService fails',
-    //     () async {
-    //   //arrange
-    //   when(localDataSource.retrievePath()).thenThrow(ServerException());
-    //   //act
-    //   final result = await repositoryImpl.retrievePath();
-    //   //assert
-    //   expect(result, Left(ServerFailure()));
-    // });
+    test('should return ServerFailure when the call to remoteService fails',
+        () async {
+      //arrange
+      when(localDataSource.retrievePath()).thenThrow(ServerException());
+      //act
+      final result = await repositoryImpl.retrievePath();
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
   test('DEVICE OFFLINE : retrievePath should return DeviceOfflineFailure',
       () async {

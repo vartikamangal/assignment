@@ -1,12 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:hive/hive.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/save-feedback-service-impl.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/save-feedback-local-service.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 
 class MockSaveFeedbackLocalService extends Mock
     implements SaveFeedbackLocalService {}
@@ -16,13 +17,21 @@ class MockNetworkInfo extends Mock implements NetworkInfo {}
 void main() {
   MockSaveFeedbackLocalService localService;
   MockNetworkInfo networkInfo;
-  SaveFeedbackLocalServiceImpl serviceImpl;
-  Box localClient;
+  SaveFeedbackServiceImpl serviceImpl;
+  BaseRepository baseRepository;
+  CallIfNetworkConnected callIfNetworkConnected;
+  HandleException handleException;
 
   setUp(() {
     localService = MockSaveFeedbackLocalService();
     networkInfo = MockNetworkInfo();
-    serviceImpl = SaveFeedbackLocalServiceImpl(localClient: localClient);
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+        callIfNetworkConnected: callIfNetworkConnected,
+        handleException: handleException);
+    serviceImpl = SaveFeedbackServiceImpl(
+        localService: localService, baseRepository: baseRepository);
   });
 
   const tUnit = unit;
@@ -38,18 +47,12 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.setFeeling(
-    //       subjetcId: '',
-    //       activityType: '',
-    //       textFeedback: '',
-    //       voiceNote: '',
-    //       timeOfCreation: '',
-    //       boxKey: '');
-    //   //assert
-    //   verify(networkInfo.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //act
+      await serviceImpl.saveFeedback();
+      //assert
+      verify(networkInfo.isConnected);
+    });
     test('should set feeling to a local data source', () async {
       //arrange
       when(localService.setFeeling(
@@ -90,13 +93,7 @@ void main() {
     //           boxKey: ''))
     //       .thenThrow(ServerException());
     //   //act
-    //   final result = await serviceImpl.setFeeling(
-    //       subjetcId: '',
-    //       activityType: '',
-    //       textFeedback: '',
-    //       voiceNote: '',
-    //       timeOfCreation: '',
-    //       boxKey: '');
+    //   final result = await serviceImpl.saveFeedback();
     //   //assert
     //   expect(result, Left(ServerFailure()));
     // });

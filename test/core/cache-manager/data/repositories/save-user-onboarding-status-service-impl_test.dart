@@ -8,6 +8,8 @@ import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 
 class MockUserOnboardingStatusLocalService extends Mock
     implements UserOnboardingStatusLocalService {}
@@ -15,14 +17,21 @@ class MockUserOnboardingStatusLocalService extends Mock
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  UserOnboardingStatusLocalService localService;
+  MockUserOnboardingStatusLocalService localService;
   MockNetworkInfo networkInfo;
   SaveUserOnboardingStatusServiceImpl serviceImpl;
   BaseRepository baseRepository;
+  CallIfNetworkConnected callIfNetworkConnected;
+  HandleException handleException;
 
   setUp(() {
     localService = MockUserOnboardingStatusLocalService();
     networkInfo = MockNetworkInfo();
+    baseRepository = BaseRepository(
+        callIfNetworkConnected: callIfNetworkConnected,
+        handleException: handleException);
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
     serviceImpl = SaveUserOnboardingStatusServiceImpl(
         localService: localService, baseRepository: baseRepository);
   });
@@ -39,12 +48,12 @@ void main() {
   }
 
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.fetchStatus();
-    //   //assert
-    //   verify(networkInfo.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //act
+      await localService.fetchStatus();
+      //assert
+      verifyNever(networkInfo.isConnected);
+    });
     test('should fetch user onboarding status', () async {
       //arrange
       when(localService.fetchStatus()).thenAnswer((_) async => tStatus);
@@ -54,15 +63,15 @@ void main() {
       verify(localService.fetchStatus());
       expect(result, tStatus);
     });
-    // test('should return ServerFailure when the call to localService fails',
-    //     () async {
-    //   //arrange
-    //   when(localService.fetchStatus()).thenThrow(ServerException());
-    //   //act
-    //   final result = await serviceImpl.fetchStatus();
-    //   //assert
-    //   expect(result, Left(ServerFailure()));
-    // });
+    test('should return ServerFailure when the call to localService fails',
+        () async {
+      //arrange
+      when(localService.fetchStatus()).thenThrow(ServerException());
+      //act
+      final result = await serviceImpl.fetchStatus();
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
   test('DEVICE OFFLINE : fetchActivity should return DeviceOfflineFailure',
       () async {

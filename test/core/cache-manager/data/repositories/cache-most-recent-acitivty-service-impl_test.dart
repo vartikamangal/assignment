@@ -1,38 +1,47 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:hive/hive.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cache-acitivity-model.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/cache-most-recent-acitivty-service-impl.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/cache-most-recent-activity-local-service.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/cache-most-recent-acitivity-service.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
+import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 
 class MockCacheMostRecentAcitivityLocalService extends Mock
-    implements CacheMostRecentAcitivtyService {}
+    implements CacheMostRecentAcitivityLocalService {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockCacheMostRecentAcitivityLocalService service;
+  MockCacheMostRecentAcitivityLocalService localService;
   MockNetworkInfo networkInfo;
-  CacheMostRecentAcitivityLocalServiceImpl serviceImpl;
-  CacheMostRecentAcitivityLocalService localService;
-  Box localClient;
-
-  const tActivity =
-      CacheAcitivityModel(id: '', title: '', subtitle: '', icon: '');
-
-  const tUnit = unit;
+  CacheMostRecentActivityServiceImpl serviceImpl;
+  BaseRepository baseRepository;
+  CallIfNetworkConnected callIfNetworkConnected;
+  HandleException handleException;
+  CacheAcitivityModel cacheActivityModel;
 
   setUp(() {
-    service = MockCacheMostRecentAcitivityLocalService();
+    localService = MockCacheMostRecentAcitivityLocalService();
     networkInfo = MockNetworkInfo();
-    serviceImpl =
-        CacheMostRecentAcitivityLocalServiceImpl(localClient: localClient);
+    callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
+    handleException = HandleException();
+    baseRepository = BaseRepository(
+        callIfNetworkConnected: callIfNetworkConnected,
+        handleException: handleException);
+    serviceImpl = CacheMostRecentActivityServiceImpl(
+        localService: localService, baseRepository: baseRepository);
   });
+
+  // const cacheActivityModel = CacheAcitivityModel(
+  //     id: 'id', title: 'title', subtitle: 'subtitle', icon: 'icon');
+
+  const tUnit = unit;
 
   void runTestOnline(Callback body) {
     setUp(() {
@@ -41,39 +50,40 @@ void main() {
     group('DEVICE ONLINE : cacheActivity', body);
   }
 
-  // runTestOnline(() {
-  //   test('should check if the device is online', () async {
-  //     //act
-  //     await serviceImpl.cacheActivity();
-  //     //assert
-  //     verify(networkInfo.isConnected);
-  //   });
-  //   test('should cache most recent acitivty service', () async {
-  //     when(service.cacheActivity(acitivity: tActivity))
-  //         .thenAnswer((_) async => const Right(tUnit));
+  runTestOnline(() {
+    test('should check if the device is online', () async {
+      //act
+      await serviceImpl.cacheActivity();
+      //assert
+      verify(networkInfo.isConnected);
+    });
+    test('should cache most recent acitivty service', () async {
+      when(localService.cacheActivity(acitivity: cacheActivityModel))
+          .thenAnswer((_) async => tUnit);
 
-  //     final result = await serviceImpl.cacheActivity();
-  //     verify(service.cacheActivity(acitivity: tActivity));
-  //     expect(result, const Right(tUnit));
-  //   });
-  //   test(
-  //       'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
-  //       () async {
-  //     //arrange
-  //     when(service.cacheActivity(acitivity: tActivity))
-  //         .thenThrow(ServerException());
-  //     //act
-  //     final result = await serviceImpl.cacheActivity();
-  //     //assert
-  //     expect(result, Left(ServerFailure()));
-  //   });
-  // });
+      final result = await serviceImpl.cacheActivity();
+      verify(localService.cacheActivity(acitivity: cacheActivityModel));
+      expect(result, const Right(tUnit));
+    });
+    test(
+        'should return a ServerFailure when call to local service is unsuccessfull.',
+        () async {
+      //arrange
+      when(localService.cacheActivity(acitivity: cacheActivityModel))
+          .thenThrow(ServerException());
+      //act
+      final result = await serviceImpl.cacheActivity();
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
+  });
 
   test('DEVICE OFFLINE : fetchActivity should return DeviceOfflineFailure',
       () async {
     when(networkInfo.isConnected).thenAnswer((_) async => false);
     //act
-    final result = await service.cacheActivity(acitivity: tActivity);
+    final result =
+        await localService.cacheActivity(acitivity: cacheActivityModel);
     //assert
     expect(result, null);
   });
