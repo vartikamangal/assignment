@@ -1,13 +1,13 @@
 import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound_lite/public/flutter_sound_player.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../../../error/exceptions.dart';
+import '../../../error/failures.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_platform_interface.dart';
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/data/source/voice-note-player-local-service.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/player-stats.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/voicenotes-player-repository.dart';
+import '../source/voice-note-player-local-service.dart';
+import '../../domain/entity/player-stats.dart';
+import '../../domain/repository/voicenotes-player-repository.dart';
 
 class VoiceNotePlayerRepositoryImpl implements VoiceNotesPlayerRepository {
   final VoiceNotePlayerLocalService voiceNotePlayerLocalService;

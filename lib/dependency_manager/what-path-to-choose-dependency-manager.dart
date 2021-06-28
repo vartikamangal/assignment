@@ -22,8 +22,7 @@ Future<void> initJourneyDependencies() async {
     () => ChoosePathController(
       getJourneyPathList: sl_journey(),
       startJourney: sl_journey(),
-      requestLogin: sl_journey(),
-      checkIfAlreadyLoggedIn: sl_journey(),
+      checkIfAuthenticated: sl_journey(),
     ),
   );
   // Usecases

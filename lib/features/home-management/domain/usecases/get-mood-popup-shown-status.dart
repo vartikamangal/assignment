@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../../../../core/error/failures.dart';
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/features/home-management/domain/repositories/mood-popup-shown-repository.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../repositories/mood-popup-shown-repository.dart';
 
 class GetIsMoodPopupShownStatus implements Usecase<bool, NoParams> {
   final MoodPopupShownRepository repository;

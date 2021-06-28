@@ -3,6 +3,7 @@ import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
+import 'package:tatsam_app_experimental/core/app-page-status/data/sources/app-page-status-local-data-source.dart';
 
 // Project imports:
 import '../../../rapport-building/data/models/subject-information-model.dart';
@@ -63,5 +64,21 @@ class HubStatusModel extends HubStatus {
           jsonMap['lifeSatisfactionRatings'] == null ? null : parsedLifeRatings,
       attemptedQuestions: jsonMap['attemptedQuestions'] as bool,
     );
+  }
+
+  AbandonedPageStates recentlyAbandonedPage() {
+    if (attemptedQuestions) {
+      return AbandonedPageStates.UNTILL_QUESTIONNAIRE;
+    } else if (targetFocus != null) {
+      return AbandonedPageStates.UNTILL_TARGETS;
+    } else if (lifeSatisfactionRatings != null) {
+      return AbandonedPageStates.UNTILL_RATINGS;
+    } else if (lifePriorities != null) {
+      return AbandonedPageStates.UNTILL_PRIORIITIES;
+    } else if (subjectInformation.nickName != null) {
+      return AbandonedPageStates.ONLY_NICKNAME;
+    } else {
+      return AbandonedPageStates.FALLBACK;
+    }
   }
 }

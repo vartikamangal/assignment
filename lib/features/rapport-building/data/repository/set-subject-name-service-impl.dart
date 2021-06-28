@@ -1,13 +1,12 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-information.dart';
 
 // Project imports:
 import '../../../../core/error/failures.dart';
-import '../../domain/entities/subject-information.dart';
 import '../../domain/repositories/set-subject-name-service.dart';
 import '../sources/set-subject-name-remote-service.dart';
 

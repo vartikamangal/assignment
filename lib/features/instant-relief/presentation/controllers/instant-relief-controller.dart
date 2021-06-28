@@ -6,7 +6,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
@@ -14,10 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
-import 'package:tatsam_app_experimental/core/auth/domain/usecases/request-login.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/retrieve-user-onboarding-status.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
@@ -25,7 +21,6 @@ import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/
 
 // Project imports:
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../domain/entities/emergency-number.dart';
 import '../../domain/entities/instant-relief-area.dart';
 import '../../domain/usecases/get-instant-relief-areas.dart';
@@ -36,15 +31,13 @@ class InstantReliefController extends GetxController {
   final GetInstantReliefAreas getInstantReliefAreas;
   final ListEmergencyNumbers listEmergencyNumbers;
   final GetInstantRecommendations getInstantRecommendations;
-  final RequestLogin requestLogin;
-  final CheckIfAlreadyLoggedIn checkIfAlreadyLoggedIn;
+  final CheckIfAuthenticated checkIfAuthenticated;
 
   InstantReliefController({
     @required this.getInstantReliefAreas,
     @required this.listEmergencyNumbers,
     @required this.getInstantRecommendations,
-    @required this.requestLogin,
-    @required this.checkIfAlreadyLoggedIn,
+    @required this.checkIfAuthenticated,
   });
 
   // Data containers
@@ -56,7 +49,7 @@ class InstantReliefController extends GetxController {
 
   // UI management variables
   RxBool isProcessing = RxBool(false);
-  Rx<InstantReliefArea> selectedArea = Rx<InstantReliefAreaModel>();
+  Rx<InstantReliefArea> selectedArea = Rx<InstantReliefAreaModel>(null);
 
   // UI management methods
   void toggleProcessor() {
@@ -111,7 +104,7 @@ class InstantReliefController extends GetxController {
 
   /// returns [Future] true if user is logged in in this device, else false
   Future<bool> checkUserLoginStatus() async {
-    final successOrFailure = await checkIfAlreadyLoggedIn(
+    final successOrFailure = await checkIfAuthenticated(
       NoParams(),
     );
     return successOrFailure.fold(
@@ -128,70 +121,22 @@ class InstantReliefController extends GetxController {
   Future<void> fetchInstantRecommendations({
     @required InstantReliefArea instantLifeArea,
   }) async {
-    if (await checkUserLoginStatus()) {
-      final recommendationsOrFailure = await getInstantRecommendations(
-        GetInstantRecommendationsParams(
-          instantLifeArea: instantLifeArea.instantReliefName,
-        ),
-      );
-      recommendationsOrFailure.fold(
-        (failure) {
-          if (failure is AuthFailure) {
-            // ignore: avoid_unnecessary_containers
-            Get.bottomSheet(
-              Obx(
-                () => BottomSheetWidget(
-                  onPressed: () async {
-                    await login();
-                  },
-                  isLoggingIn: isLoggingIn.value,
-                ),
-              ),
-            );
-          } else {
-            ErrorInfo.show(failure);
-          }
-        },
-        (fetchedRecommendations) {
-          instantRecommendations.assignAll(
-            fetchedRecommendations,
-          );
-          Get.toNamed(
-            RouteName.instantRecommendations,
-          );
-        },
-      );
-    } else {
-      // ignore: avoid_unnecessary_containers
-      Get.bottomSheet(
-        Obx(
-          () => BottomSheetWidget(
-            onPressed: () async {
-              await login();
-            },
-            isLoggingIn: isLoggingIn.value,
-          ),
-        ),
-      );
-    }
-  }
-
-  Future<void> login() async {
-    isLoggingIn.value = true;
-    final loggedInOrFailure = await requestLogin(
-      const RequestLoginParams(
-        isNewLogin: true,
+    final recommendationsOrFailure = await getInstantRecommendations(
+      GetInstantRecommendationsParams(
+        instantLifeArea: instantLifeArea.instantReliefName,
       ),
     );
-    isLoggingIn.value = false;
-    loggedInOrFailure.fold(
+    recommendationsOrFailure.fold(
       (failure) {
+        //! app should crash here
         ErrorInfo.show(failure);
       },
-      (status) {
-        Get.back();
-        log(
-          'user-logged-in',
+      (fetchedRecommendations) {
+        instantRecommendations.assignAll(
+          fetchedRecommendations,
+        );
+        Get.toNamed(
+          RouteName.instantRecommendations,
         );
       },
     );

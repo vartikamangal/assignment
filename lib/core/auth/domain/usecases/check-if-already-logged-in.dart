@@ -1,17 +1,18 @@
-import 'package:flutter/cupertino.dart';
-import '../repositories/auth-repository.dart';
-import '../../../error/failures.dart';
 import 'package:dartz/dartz.dart';
-import '../../../usecase/usecase.dart';
+import 'package:flutter/cupertino.dart';
 
-class CheckIfAlreadyLoggedIn implements Usecase<bool, NoParams> {
+import '../../../error/failures.dart';
+import '../../../usecase/usecase.dart';
+import '../repositories/auth-repository.dart';
+
+class CheckIfAuthenticated implements Usecase<bool, NoParams> {
   final AuthRepository repository;
 
-  CheckIfAlreadyLoggedIn({
+  CheckIfAuthenticated({
     @required this.repository,
   });
   @override
   Future<Either<Failure, bool>> call(NoParams params) async {
-    return repository.checkIfAlreadyLoggedIn();
+    return repository.checkIfAuthenticated();
   }
 }

@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-state.dart';
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
@@ -91,7 +92,12 @@ class GuidedPathPlanInside extends StatelessWidget {
                 ],
               ),
             ),
-            SliverPadding(
+            if (_controller.selectedDayPlan.value.recommendationList.isEmpty) SliverToBoxAdapter(child: Padding(
+              padding:  EdgeInsets.only(top: ScaleManager.spaceScale(spaceing: 34).value,
+                  left: ScaleManager.spaceScale(spaceing: 42).value,
+                  right: ScaleManager.spaceScale(spaceing: 57).value),
+              child: EmptyState(),
+            ),) else SliverPadding(
               padding: EdgeInsets.symmetric(
                 horizontal: ScaleManager.spaceScale(
                   spaceing: 28,

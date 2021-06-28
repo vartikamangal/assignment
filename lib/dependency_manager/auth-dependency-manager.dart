@@ -3,6 +3,7 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tatsam_app_experimental/core/auth/domain/usecases/oauth-signup.dart';
 import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 // Project imports:
@@ -10,7 +11,7 @@ import '../core/auth/data/repositories/auth-repository-impl.dart';
 import '../core/auth/data/sources/auth-remote-service.dart';
 import '../core/auth/domain/repositories/auth-repository.dart';
 import '../core/auth/domain/usecases/check-if-already-logged-in.dart';
-import '../core/auth/domain/usecases/request-login.dart';
+import '../core/auth/domain/usecases/oauth-login.dart';
 import '../core/auth/domain/usecases/request-logout.dart';
 import '../core/auth/domain/usecases/request-new-token.dart';
 import '../core/auth/presentation/controller/auth-controller.dart';
@@ -21,8 +22,9 @@ Future<void> initAuthDependencies() async {
   //Core
   Get.lazyPut(
     () => AuthController(
-      checkIfAlreadyLoggedIn: sl_auth(),
-      requestLogin: sl_auth(),
+      checkIfAuthenticated: sl_auth(),
+      oauthLogin: sl_auth(),
+      oAuthSignup: sl_auth(),
       requestLogout: sl_auth(),
       requestNewToken: sl_auth(),
       retrieveUserOnboardingStatus: sl_auth(),
@@ -30,12 +32,17 @@ Future<void> initAuthDependencies() async {
   );
   // Usecases
   sl_auth.registerLazySingleton(
-    () => CheckIfAlreadyLoggedIn(
+    () => CheckIfAuthenticated(
       repository: sl_auth(),
     ),
   );
   sl_auth.registerLazySingleton(
-    () => RequestLogin(
+    () => OauthLogin(
+      repository: sl_auth(),
+    ),
+  );
+  sl_auth.registerLazySingleton(
+    () => OAuthSignup(
       repository: sl_auth(),
     ),
   );

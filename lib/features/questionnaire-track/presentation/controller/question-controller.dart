@@ -3,14 +3,10 @@ import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
-// Project imports:
-import '../../../../core/routes/app-routes/app-routes.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../../hub/presentation/controller/hub-controller.dart';
 import '../../data/models/question-model.dart';
 import '../../data/models/question-option-model.dart';
@@ -31,7 +27,7 @@ class QuestionnaireConroller extends GetxController {
     @required this.atemptQuestions,
   });
   //////// Dynamic Data Holders ///////////
-  Rx<Questionnaire> questionnaire = Rx<QuestionnaireModel>();
+  Rx<Questionnaire> questionnaire = Rx<QuestionnaireModel>(null);
   RxMap<Question, dynamic> questionToAnswerMap = RxMap<QuestionModel, dynamic>(
     {},
   );

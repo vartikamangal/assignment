@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/focus/data/models/issue-model.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
+import '../../../focus/data/models/issue-model.dart';
+import '../../../what-path-to-choose/data/models/journey-model.dart';
 
 class ProfileData extends Equatable {
   final int subjectInformationId;

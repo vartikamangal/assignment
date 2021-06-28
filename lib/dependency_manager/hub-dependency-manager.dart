@@ -22,8 +22,7 @@ Future<void> initHubDependencies() async {
     () => HubController(
       getHubStatus: sl_hub(),
       createTraveller: sl_hub(),
-      requestLogin: sl_hub(),
-      checkIfAlreadyLoggedIn: sl_hub(),
+      checkIfAuthenticated: sl_hub(),
     ),
   );
 

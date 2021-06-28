@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
+import '../../../responsive/scale-manager.dart';
+import '../controller/voice-notes-controller.dart';
 
 class VoiceNoteModal extends StatelessWidget {
   final VoiceNoteController _controller = Get.find();

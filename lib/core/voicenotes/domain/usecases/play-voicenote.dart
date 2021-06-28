@@ -5,9 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/voicenotes-player-repository.dart';
+import '../../../error/failures.dart';
+import '../../../usecase/usecase.dart';
+import '../repository/voicenotes-player-repository.dart';
 
 class PlayVoiceNote implements Usecase<Unit, PlayVoiceNoteParams> {
   final VoiceNotesPlayerRepository voiceNotesPlayerRepository;

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/core/duration-tracker/domain/entities/app-duration.dart';
+import '../../domain/entities/app-duration.dart';
 
 class AppDurationModel extends AppDuration {
   const AppDurationModel({

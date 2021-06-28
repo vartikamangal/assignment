@@ -5,9 +5,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/save-feedback.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 
 // Project imports:
 import '../../../../core/activity-management/data/models/feedback-model.dart';
@@ -16,12 +13,13 @@ import '../../../../core/activity-management/domain/usecases/rate-recommendation
 import '../../../../core/cache-manager/data/models/cache-acitivity-model.dart';
 import '../../../../core/cache-manager/domain/usecases/cache-most-recent-acitivity.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-user-path.dart';
+import '../../../../core/cache-manager/domain/usecases/save-feedback.dart';
+import '../../../../core/error/display-error-info.dart';
 import '../../../../core/extensions/enum-to-string.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
-import '../../../persistence-consts.dart';
+import '../../../../core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import '../../data/models/activity-scedule-guided-model.dart';
 import '../../data/models/activity-status-model.dart';
 import '../../data/models/guided-activity-recommendation-model.dart';
@@ -86,9 +84,9 @@ class PathController extends GetxController {
   );
 
   //? From here we will get journeyId, actionId & recommendationId
-  Rx<ActivityStatus> currentOngoingActivity = Rx<ActivityStatusModel>();
+  Rx<ActivityStatus> currentOngoingActivity = Rx<ActivityStatusModel>(null);
 
-  Rx<ActivitySceduleGuided> guidedPlan = Rx<ActivityScheduleGuidedModel>();
+  Rx<ActivitySceduleGuided> guidedPlan = Rx<ActivityScheduleGuidedModel>(null);
 
   // data holder for user-selected-path
   RxString userSelectedPath = RxString('');
@@ -326,10 +324,10 @@ class PathController extends GetxController {
   RxString userName = RxString('');
   RxString userTextFeedback = RxString('');
   Rx<RecommendationCategoryModel> selectedCategory =
-      Rx<RecommendationCategoryModel>();
+      Rx<RecommendationCategoryModel>(null);
   RxInt maxActivityPerformingPages = RxInt(0);
   RxInt currentActivityPerformingPages = RxInt(0);
-  Rx<Recommendation> selectedActivity = Rx<RecommendationModel>();
+  Rx<Recommendation> selectedActivity = Rx<RecommendationModel>(null);
   // Above one was too diffenrent for GUIDED & S.D, that's why had to use this
   RxString selectedActivityTitle = RxString('');
   RxString selectedActivitySubtitle = RxString('');
@@ -339,7 +337,7 @@ class PathController extends GetxController {
   RxMap<String, RecommendationStep> templateToRecommendationMapperGuided =
       RxMap({});
   Rx<GuidedActivityRecommendation> selectedDayPlan =
-      Rx<GuidedActivityRecommendationModel>();
+      Rx<GuidedActivityRecommendationModel>(null);
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;

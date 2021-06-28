@@ -4,10 +4,10 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:tatsam_app_experimental/core/duration-tracker/data/models/app-duration-model.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/persistence-consts.dart';
-import 'package:tatsam_app_experimental/core/utils/helper_functions/generate-date-from-datetime.dart';
+import '../models/app-duration-model.dart';
+import '../../../error/exceptions.dart';
+import '../../../persistence-consts.dart';
+import '../../../utils/helper_functions/generate-date-from-datetime.dart';
 
 abstract class AppDurationLocalDataSource {
   Future<Unit> updateUserDurationOnApp({

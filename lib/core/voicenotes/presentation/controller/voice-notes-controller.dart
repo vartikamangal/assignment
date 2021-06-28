@@ -3,21 +3,22 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
-import 'package:tatsam_app_experimental/core/file-manager/file-manager.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/data/model/player-stats-model.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/player-stats.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/cancel-recording.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/clear-recording-data.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/get-player-stats.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/get-recorder-details.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/pause-voicenote.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/play-voicenote.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/start-recording-voice-note.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/stop-playing-voicenote.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/stop-recording.dart';
-import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
+
+import '../../../../dependency_manager/core_dependency_managers.dart';
+import '../../../error/display-error-info.dart';
+import '../../../file-manager/file-manager.dart';
+import '../../../usecase/usecase.dart';
+import '../../data/model/player-stats-model.dart';
+import '../../domain/entity/player-stats.dart';
+import '../../domain/usecases/cancel-recording.dart';
+import '../../domain/usecases/clear-recording-data.dart';
+import '../../domain/usecases/get-player-stats.dart';
+import '../../domain/usecases/get-recorder-details.dart';
+import '../../domain/usecases/pause-voicenote.dart';
+import '../../domain/usecases/play-voicenote.dart';
+import '../../domain/usecases/start-recording-voice-note.dart';
+import '../../domain/usecases/stop-playing-voicenote.dart';
+import '../../domain/usecases/stop-recording.dart';
 
 class VoiceNoteController extends GetxController {
   final StartRecordingVoiceNote startRecordingVoiceNote;
@@ -235,9 +236,9 @@ class VoiceNoteController extends GetxController {
   // UI managers
   RxBool isRecording = RxBool(false);
   RxBool isWaiting = RxBool(false);
-  RxString currentVoiceNotePath = RxString();
-  Rx<Duration> elapsedDuration = Rx<Duration>();
-  Rx<PlayerStats> currentPlayingFileStats = Rx<PlayerStatsModel>();
+  RxString currentVoiceNotePath = RxString(null);
+  Rx<Duration> elapsedDuration = Rx<Duration>(null);
+  Rx<PlayerStats> currentPlayingFileStats = Rx<PlayerStatsModel>(null);
 
   /// Helper getters for playback UI
   Stream<Duration> get currentPlayingFileDuration =>

@@ -13,6 +13,7 @@ import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/drop-down-button.dart';
 
+
 class  SettingScreen extends  GetWidget<ProfileController>  {
   String image=ImagePath.happyEmoji;
   @override
@@ -49,6 +50,8 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              //For change pic
               Row(
                 children: [
                   ClipRRect(
@@ -76,6 +79,9 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                   ))
                 ],
               ),
+
+              //For name
+
               Padding(
                 padding:  EdgeInsets.only(top:ScaleManager.spaceScale(
                   spaceing: 10,
@@ -94,6 +100,8 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                   ).value),),
                 ),
               ),
+
+              //for nickname
               Padding(
                 padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
                   spaceing: 10,
@@ -112,6 +120,8 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                         ).value),),
                 ),
               ),
+
+              //For Dob
               Padding(
                 padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
                   spaceing: 10,
@@ -136,6 +146,8 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                         ).value),),
                 ),
               ),
+
+              //For email id
               Padding(
                 padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
                   spaceing: 17,
@@ -158,25 +170,91 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                   ),
                 ),
               ),
-              Padding(
-                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
-                  spaceing: 22,
-                ).value),
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tr('gender'),
-                        textScaleFactor: textScaleFactor,
-                        style: AppTextStyle.hintStyle.copyWith(fontSize: 12),
-                      ),
 
-                      SizedBox(height: ScaleManager.spaceScale(
-                        spaceing: 11,
-                      ).value,),
-                      Obx(
-                            () => controller.isDropDownExpanded.value? DropDownBtn(
+              //For remaining item
+              Stack(
+                children: [
+                  Padding(
+                    padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                      spaceing: 105,
+                    ).value),
+                    child: Column(
+                      children: [
+
+                        //focus area chosen
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(tr('focus area'),
+                              textScaleFactor: textScaleFactor,
+                              style: AppTextStyle.hintStyle.copyWith(fontSize: 20),),
+                            TextButton(onPressed: () {print('first');},
+                                child: Row(children: [
+                                  Text('Sleep',
+                                    style: AppTextStyle.titlel.copyWith(fontSize: 19),
+                                    textScaleFactor: textScaleFactor,),
+                                  SizedBox(width: ScaleManager.spaceScale(
+                                    spaceing: 8,
+                                  ).value,),
+                                  SvgPicture.asset(ImagePath.forwardIcon,
+                                    height: ScaleManager.spaceScale(
+                                      spaceing: 16.3,
+                                    ).value,
+                                    color: blueDarkShade,)],))
+                          ],
+                        ),
+
+                        //path chosen
+                        Padding(
+                          padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                            spaceing: 1,
+                          ).value),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(tr('path'),
+                                textScaleFactor: textScaleFactor,
+                                style: AppTextStyle.hintStyle.copyWith(fontSize: 20),),
+                              TextButton(onPressed: () {print('second');},
+                                  child: Row(children: [
+                                    Text('Sleep',
+                                      style: AppTextStyle.titlel.copyWith(fontSize: 19),
+                                      textScaleFactor: textScaleFactor,),
+                                    SizedBox(width: ScaleManager.spaceScale(
+                                      spaceing: 8,
+                                    ).value,),
+                                    SvgPicture.asset(ImagePath.forwardIcon,
+                                      height: ScaleManager.spaceScale(
+                                        spaceing: 16.3,
+                                      ).value,
+                                      color: blueDarkShade,)],))
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  //gender selection
+                  Padding(
+                    padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
+                      spaceing: 22,
+                    ).value),
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            tr('gender'),
+                            textScaleFactor: textScaleFactor,
+                            style: AppTextStyle.hintStyle.copyWith(fontSize: 12),
+                          ),
+
+                          SizedBox(height: ScaleManager.spaceScale(
+                            spaceing: 11,
+                          ).value,),
+                          Obx(
+                                () => controller.isDropDownExpanded.value? DropDownBtn(
                               color: blueDarkShade,
                               isExpanded: true,
                               label:tr('selection'),
@@ -184,76 +262,29 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                               onPressed: () => controller.toggleDropDownExpansion(),
                               controller: controller,
                             )
-                            : DropDownBtn(
-                        color: blueDarkShade,
-                        isExpanded: false,
-                        label:tr('selection'),
-                        // ignore: avoid_print
-                        onPressed: () => controller.toggleDropDownExpansion(),
-                        // ignore: avoid_print
+                                : DropDownBtn(
+                              color: blueDarkShade,
+                              isExpanded: false,
+                              label:tr('selection'),
+                              // ignore: avoid_print
+                              onPressed: () => controller.toggleDropDownExpansion(),
+                              // ignore: avoid_print
+                            ),
+                          ),
+                        ],
                       ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-              Padding(
-                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
-                  spaceing: 15,
-                ).value),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(tr('focus area'),
-                    textScaleFactor: textScaleFactor,
-                    style: AppTextStyle.hintStyle.copyWith(fontSize: 20),),
-                    TextButton(onPressed: () {},
-                        child: Row(children: [
-                          Text('Sleep',
-                          style: AppTextStyle.titlel.copyWith(fontSize: 19),
-                          textScaleFactor: textScaleFactor,),
-                          SizedBox(width: ScaleManager.spaceScale(
-                            spaceing: 8,
-                          ).value,),
-                          SvgPicture.asset(ImagePath.forwardIcon,
-                            height: ScaleManager.spaceScale(
-                              spaceing: 16.3,
-                            ).value,
-                          color: blueDarkShade,)],))
-                  ],
-                ),
-              ),
-              Padding(
-                padding:  EdgeInsets.only(top: ScaleManager.spaceScale(
-                  spaceing: 1,
-                ).value),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(tr('path'),
-                      textScaleFactor: textScaleFactor,
-                      style: AppTextStyle.hintStyle.copyWith(fontSize: 20),),
-                    TextButton(onPressed: () {},
-                        child: Row(children: [
-                          Text('Sleep',
-                            style: AppTextStyle.titlel.copyWith(fontSize: 19),
-                            textScaleFactor: textScaleFactor,),
-                          SizedBox(width: ScaleManager.spaceScale(
-                            spaceing: 8,
-                          ).value,),
-                          SvgPicture.asset(ImagePath.forwardIcon,
-                            height: ScaleManager.spaceScale(
-                              spaceing: 16.3,
-                            ).value,
-                            color: blueDarkShade,)],))
-                  ],
-                ),
-              ),
+
               SizedBox(
                 height: ScaleManager.spaceScale(
-                  spaceing: 27,
+                  spaceing: 30,
                 ).value,
               ),
+
+              //Button
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -262,7 +293,7 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                       spaceing: 101,
                     ).value,
                     child: MiddleCallUsButton(
-                      title: 'Save',
+                      title: 'SAVE',
                       onPressed: (){},
                     ),
                   )

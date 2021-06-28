@@ -39,9 +39,7 @@ class MidPageContentA extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: ScaleManager.spaceScale(
-                  spaceing: 170,
-                ).value,
+                height: Get.height * 0.25,
               ),
 
                 SizedBox(

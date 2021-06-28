@@ -1,14 +1,13 @@
 // Flutter imports:
-import 'package:flutter/widgets.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-information.dart';
 
 // Project imports:
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../entities/subject-information.dart';
 import '../repositories/set-subject-name-service.dart';
 
 class SetSubjectName extends Usecase<SubjectInformation, SetSubjectNameParams> {

@@ -39,7 +39,6 @@ import '../../../../core/duration-tracker/domain/usecases/update-user-duration-o
 import '../../../../core/extensions/enum-to-string.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../../../features/home-management/data/models/post-onboparding-action-model.dart';
 import '../../../../features/home-management/domain/entities/post-onboarding-action.dart';
 import '../../../../features/home-management/domain/usecases/add-weekly-activity.dart';
@@ -114,7 +113,8 @@ class HomeController extends GetxController {
   });
   //! Dynamic Data Holders
   static const String activityTypeHomepage = 'APP_OPEN';
-  final Rx<CacheAcitivityModel> mostRecentAcitivity = Rx<CacheAcitivityModel>();
+  final Rx<CacheAcitivityModel> mostRecentAcitivity =
+      Rx<CacheAcitivityModel>(null);
   final RxList<ActivityRecommendation> recommendedActivities =
       RxList<ActivityRecommendationModel>(
     [],
@@ -572,12 +572,12 @@ class HomeController extends GetxController {
   RxBool haveChosenCategory = RxBool(false);
   RxString userNickname = RxString('');
   RxString chosenPath = RxString('');
-  Rx<CachedMood> userMood = Rx<CachedMoodModel>();
-  Rx<AppDuration> appDuration = Rx<AppDurationModel>();
+  Rx<CachedMood> userMood = Rx<CachedMoodModel>(null);
+  Rx<AppDuration> appDuration = Rx<AppDurationModel>(null);
 
   /// Gives the length of all the remaining feedback actions
   /// obtained via SCHJEDULED_FOR_LATER flag
-  RxInt totalFeedbackActions = RxInt();
+  RxInt totalFeedbackActions = RxInt(null);
   RxInt answeredFeedbackActions = RxInt(0);
 
   /// Reprsents the active indicator value
@@ -588,7 +588,7 @@ class HomeController extends GetxController {
 
   /// saves the current active feedback module
   Rx<PostOnboardingAction> currentActivePostOnboardingFeedbackAction =
-      Rx<PostOnboardingActionModel>();
+      Rx<PostOnboardingActionModel>(null);
 
   // For showing in ui
   final List<String> daysToBeShownInUI = [

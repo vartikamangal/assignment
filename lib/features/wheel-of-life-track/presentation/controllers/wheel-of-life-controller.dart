@@ -1,20 +1,16 @@
 // Dart imports:
 import 'dart:async';
-import 'dart:developer';
-
-// Flutter imports:
-import 'package:flutter/material.dart';
+import 'dart:math';
 
 // Package imports:
 import 'package:flip_card/flip_card.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
-// Project imports:
-import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../../hub/presentation/controller/hub-controller.dart';
 import '../../data/models/life-area-model-for-prioritization.dart';
 import '../../data/models/life-area-model.dart';
@@ -53,9 +49,9 @@ class WheelOfLifeController extends GetxController {
   ///////////////////                            ///////////////
   ///////////////////                            ///////////////
   final RxList<LifeArea> lifeAreas = RxList<LifeAreaModel>([]);
-  final Rx<RatingScale> ratingScale = Rx<RatingScaleModel>();
+  final Rx<RatingScale> ratingScale = Rx<RatingScaleModel>(null);
   final Rx<LifeAreaForPrioritization> lifeAreasForPrioritization =
-      Rx<LifeAreaModelForPrioritization>();
+      Rx<LifeAreaModelForPrioritization>(null);
   // Will help in constructing the final Ratings to be POSTED on API
   final RxList<SatisfactionRatingMapForTimeProvision> listForTimeProvision =
       RxList<SatisfactionRatingMapForTimeProvisionModel>([]);
@@ -145,7 +141,7 @@ class WheelOfLifeController extends GetxController {
         ErrorInfo.show(failure);
       },
       (prioritizeSuccess) {
-        log('Succesfully rated satisfactions');
+        //log('Succesfully rated satisfactions');
         // For refreshing the status of HubScreen
         Get.find<HubController>().fetchHubStatus();
         Get.back();
@@ -191,7 +187,7 @@ class WheelOfLifeController extends GetxController {
   int maxIntroPages = 2;
 
   // For making global widget changes as per the selected index
-  Rx<Widget> currentSelectedPage = Rx<Widget>();
+  Rx<Widget> currentSelectedPage = Rx<Widget>(null);
   RxBool showBottomButton = RxBool(false);
   //for scroll controller
   final ScrollController scrollController = ScrollController();
@@ -204,21 +200,30 @@ class WheelOfLifeController extends GetxController {
   RxBool isClickedOnInformation = false.obs;
   RxString userName = RxString('');
   RxBool isInformationButtontoggled = false.obs;
-  RxBool isToggled =false.obs;
+  RxBool isToggled = false.obs;
 
   /// will hold the state for the bottom Done button
   GlobalKey<FlipCardState> bottomBtnAnimState = GlobalKey<FlipCardState>();
 
   /// will hold the state for various life areas for flip animation
   RxList<GlobalKey<FlipCardState>> cardsElementsState = RxList([]);
+  RxBool isBack = true.obs;
+  RxDouble angle = 0.0.obs;
+  RxBool isIconChange = false.obs;
+  void flip() {
+    angle.value = (angle.value - pi) % (2 * pi);
+    Future.delayed(const Duration(milliseconds: 300), () async {
+      isIconChange.value = !isIconChange.value;
+    });
+  }
 
   void toggleAnimatableCard() {
     cardsElementsState.forEach((element) {
       element.currentState.toggleCard();
     });
     bottomBtnAnimState.currentState.toggleCard();
-    Future.delayed(const Duration(milliseconds: 300), () async{
-      isToggled.value=!isToggled.value;
+    Future.delayed(const Duration(milliseconds: 300), () async {
+      isToggled.value = !isToggled.value;
     });
   }
 

@@ -3,8 +3,8 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+import '../../../../core/data-source/api-client.dart';
+import '../../../../core/data-source/throw-exception-if-response-error.dart';
 import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
 import 'package:http/http.dart' as http;
 import '../../../../core/error/exceptions.dart';

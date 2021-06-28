@@ -39,6 +39,7 @@ class RateRecommendationFlowRemoteServiceImpl
     final body = jsonEncode(
       feedback.toJson(),
     );
+    log(body);
     final response = await client.post(
       uri: APIRoute.rateActivityFeedback,
       body: body,

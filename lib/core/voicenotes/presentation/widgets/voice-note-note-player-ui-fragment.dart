@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
-import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/data/model/player-stats-model.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/player-stats.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
+import '../../../asset-image-path/image-path.dart';
+import '../../../responsive/scale-manager.dart';
+import '../../../utils/app-text-style-components/app-text-styles.dart';
+import '../../../utils/color-pallete.dart';
+import '../../../utils/universal-widgets/empty-space.dart';
+import '../../data/model/player-stats-model.dart';
+import '../../domain/entity/player-stats.dart';
+import '../controller/voice-notes-controller.dart';
 
 class VoiceNotePlayer extends StatelessWidget {
   VoiceNotePlayer({Key key}) : super(key: key);

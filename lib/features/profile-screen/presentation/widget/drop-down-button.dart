@@ -20,7 +20,7 @@ Widget DropDownBtn({
 
 }) {
   final textScaleFactor = ScaleManager.textScale.value;
-  List<String> options=<String>['select','Male','Female','Others'];
+  List<String> options=<String>['select','Male','Female'];
   return isExpanded
       ? SizedBox(
     width: ScaleManager.spaceScale(spaceing: 151).value,

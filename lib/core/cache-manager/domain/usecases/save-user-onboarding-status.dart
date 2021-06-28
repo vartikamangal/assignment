@@ -6,13 +6,13 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/save-user-onboarding-status-service.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/user-onboarding-status-repository.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
 class SaveUserOnboardingStatus
     implements Usecase<Unit, SaveUserOnboardingStatusParams> {
-  final SaveUserOnboardingStatusService service;
+  final UserOnboardingStatusRepository service;
 
   SaveUserOnboardingStatus({
     @required this.service,

@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/linear-mood-chart.dart';
+import '../../../../core/asset-image-path/image-path.dart';
+import '../../../../core/responsive/scale-manager.dart';
+import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
+import '../../../../core/utils/color-pallete.dart';
+import 'linear-mood-chart.dart';
 
 
 class MoodProfileScreen extends StatelessWidget {

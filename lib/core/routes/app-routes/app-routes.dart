@@ -63,7 +63,6 @@ abstract class RouteName {
   static const onBoardingIncomplete = '/onboarding-screen';
   static const profileScreen = '/profile_screen';
   static const settingScreen='/setting_screen';
-
   RouteName._();
 }
 
@@ -215,6 +214,7 @@ class GenerateRoute {
     }
     if (route == RouteName.selfPathInfoSection1) {
       return PageRouteBuilder(
+        reverseTransitionDuration: const Duration(milliseconds: 0),
         transitionDuration: const Duration(milliseconds: 400),
         pageBuilder: (context, animation, secondaryAnimation) =>
             SelfPathInfoSection1(),
@@ -228,7 +228,8 @@ class GenerateRoute {
     }
     if (route == RouteName.pathInfoSection2) {
       return PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 20),
+        reverseTransitionDuration: const Duration(milliseconds: 0),
+        transitionDuration: const Duration(milliseconds: 0),
         pageBuilder: (context, animation, secondaryAnimation) =>
             PathInfoSection2(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
@@ -241,7 +242,8 @@ class GenerateRoute {
     }
     if (route == RouteName.pathInfoSection3) {
       return PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 50),
+        reverseTransitionDuration: const Duration(milliseconds: 0),
+        transitionDuration: const Duration(milliseconds: 0),
         pageBuilder: (context, animation, secondaryAnimation) =>
             PathInfoSection3(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>

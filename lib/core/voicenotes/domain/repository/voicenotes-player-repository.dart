@@ -3,8 +3,8 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_sound_lite/public/flutter_sound_player.dart';
 import 'package:flutter_sound_lite/public/tau.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/player-stats.dart';
+import '../../../error/failures.dart';
+import '../entity/player-stats.dart';
 
 abstract class VoiceNotesPlayerRepository {
   /// Holds the contract for making play the passed in audio path

@@ -24,8 +24,7 @@ Future<void> initInstantReliefDependencies() async {
       getInstantReliefAreas: sl_instant_relief(),
       listEmergencyNumbers: sl_instant_relief(),
       getInstantRecommendations: sl_instant_relief(),
-      requestLogin: sl_instant_relief(),
-      checkIfAlreadyLoggedIn: sl_instant_relief(),
+      checkIfAuthenticated: sl_instant_relief(),
     ),
   );
 

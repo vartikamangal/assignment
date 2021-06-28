@@ -1,14 +1,21 @@
 // Package imports:
 import 'package:cross_connectivity/cross_connectivity.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
-import 'package:smartlook/smartlook.dart';
 import 'package:tatsam_app_experimental/core/analytics/analytics-setup.dart';
+import 'package:tatsam_app_experimental/core/app-page-status/data/repository/app-page-status-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/app-page-status/data/sources/app-page-status-local-data-source.dart';
+import 'package:tatsam_app_experimental/core/app-page-status/domain/repository/app-page-status-repository.dart';
+import 'package:tatsam_app_experimental/core/app-page-status/domain/usecases/get-last-abandoned-page.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/cache-clearing-service-impl.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/data/services/cache-clearing-local-service.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/cache-clearing-service.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/check-if-first-time-user.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/clear-dirty-cache-on-first-run.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
@@ -30,7 +37,6 @@ import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/stop-pla
 
 import '../core/cache-manager/data/repositories/log-last-opened-app-service.dart';
 import '../core/cache-manager/data/repositories/mood-cache-service-impl.dart';
-
 // Project imports:
 import '../core/cache-manager/data/repositories/save-feedback-service-impl.dart';
 import '../core/cache-manager/data/services/app-last-opened-log-service.dart';
@@ -153,6 +159,11 @@ Future<void> initCoreDependencies() async {
     ),
   );
   sl_core_dependencies.registerLazySingleton(
+    () => CheckIfFirstTimeUser(
+      service: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
     () => PauseVoiceNote(
       voiceNotesPlayerRepository: sl_core_dependencies(),
     ),
@@ -170,6 +181,16 @@ Future<void> initCoreDependencies() async {
   sl_core_dependencies.registerLazySingleton(
     () => GetPlayerStats(
       voiceNotesPlayerRepository: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => ClearDirtyCacheOnFirstRun(
+      service: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton(
+    () => GetLastAbandonedPage(
+      repository: sl_core_dependencies(),
     ),
   );
 
@@ -223,6 +244,16 @@ Future<void> initCoreDependencies() async {
       voiceNotePlayerLocalService: sl_core_dependencies(),
     ),
   );
+  sl_core_dependencies.registerLazySingleton<CacheClearingService>(
+    () => CacheClearingServiceImpl(
+      localService: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton<AppPageStatusRepository>(
+    () => AppPageStatusRepositoryImpl(
+      localDataSource: sl_core_dependencies(),
+    ),
+  );
   // Sources
   sl_core_dependencies
       .registerLazySingleton<StartRecordingVoiceNoteLocalService>(
@@ -267,6 +298,15 @@ Future<void> initCoreDependencies() async {
       player: sl_core_dependencies(),
       fileUtils: sl_core_dependencies(),
     ),
+  );
+  sl_core_dependencies.registerLazySingleton<CacheClearingLocalService>(
+    () => CacheClearingLocalServiceImpl(
+      localClient: sl_core_dependencies(),
+      flutterSecureStorage: sl_core_dependencies(),
+    ),
+  );
+  sl_core_dependencies.registerLazySingleton<AppPageStatusLocalDataSource>(
+    () => AppPageStatusLocalDataSourceImpl(),
   );
   //Core
   sl_core_dependencies.registerLazySingleton(

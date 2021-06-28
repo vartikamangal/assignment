@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/data/sources/profile-details-remote-data-source.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/question-log.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/profile-data.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/hub-status.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../../../../core/repository/base-repository-impl.dart';
+import '../sources/profile-details-remote-data-source.dart';
+import '../../domain/entities/question-log.dart';
+import '../../domain/entities/profile-data.dart';
+import '../../../hub/domain/entities/hub-status.dart';
+import '../../../../core/error/failures.dart';
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/repositories/profile-details-repository.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
+import '../../domain/repositories/profile-details-repository.dart';
+import '../../../rapport-building/domain/entities/mood-tracking.dart';
 
 class ProfileDetailsRepositoryImpl implements ProfileDetailsRepository {
   final ProfileDetailsRemoteDataSource remoteDataSource;

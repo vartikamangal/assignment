@@ -42,5 +42,6 @@ class GetAllRecommendationCategoriesRemoteDataSourceImpl
           ),
         )
         .toList();
+
   }
 }

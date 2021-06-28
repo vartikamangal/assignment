@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
+import '../error/exceptions.dart';
 
 class ThrowExceptionIfResponseError {
   /// A Map of pre-conserved Exceptions

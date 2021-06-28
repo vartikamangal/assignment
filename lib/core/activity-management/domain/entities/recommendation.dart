@@ -27,7 +27,6 @@ class Recommendation extends Equatable {
       weight: weight ?? this.weight,
     );
   }
-
   @override
   bool get stringify => true;
 }

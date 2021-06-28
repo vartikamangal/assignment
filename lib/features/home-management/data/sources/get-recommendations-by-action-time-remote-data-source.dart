@@ -1,15 +1,14 @@
 // Dart imports:
 import 'dart:convert';
+import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
-
-// Package imports:
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
 import '../../../../core/routes/api-routes/api-routes.dart';
 
 abstract class GetRecommendationsByActionTimeRemoteDataSource {
@@ -34,6 +33,7 @@ class GetRecommendationsByActionTimeRemoteDataSourceImpl
     final response = await client.get(
       uri: "${APIRoute.getRecommendationByActionTime}${"/$actionTime"}",
     );
+    log(response.headers.toString());
     throwExceptionIfResponseError(statusCode: response.statusCode);
     final rawActivities = jsonDecode(response.body) as List;
     return rawActivities

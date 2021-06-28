@@ -6,26 +6,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+import 'package:tatsam_app_experimental/core/jwt/jwt-operation-helper.dart';
+import '../../../data-source/api-client.dart';
+import '../../../data-source/throw-exception-if-response-error.dart';
 
-import '../../../error/exceptions.dart';
 import '../../../persistence-consts.dart';
 import '../../../routes/api-routes/api-routes.dart';
 import '../../../secrets.dart';
-import '../../../session-manager/session-manager.dart';
 import '../../presentation/screens/auth-screen-test.dart';
-import '../models/request-data-model.dart';
+import '../models/oauth-data-model.dart';
 import '../models/user-data-model.dart';
 
 abstract class AuthRemoteService {
-  Future<RequestDataModel> requestLogin({
-    @required bool isNewLogin,
-  });
+  Future<OAuthDataModel> oauthLogin();
+  Future<OAuthDataModel> oauthSignup();
   Future<Unit> requestLogout();
-  Future<RequestDataModel> requestNewToken();
-  Future<bool> checkIfAlreadyLoggedIn();
+  Future<OAuthDataModel> requestNewToken();
+  Future<bool> checkIfAuthenticated();
   Future<UserDataModel> getUserDetails();
 }
 
@@ -41,29 +38,26 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
     @required this.apiClient,
     @required this.throwExceptionIfResponseError,
   });
+
+  /// If this returns false means user isn't authenticated and vice-versa
   @override
-  Future<bool> checkIfAlreadyLoggedIn() async {
+  Future<bool> checkIfAuthenticated() async {
     try {
-      final refreshToken = await secureStorage.read(
-        key: PersistenceConst.ACCESS_TOKEN,
-      );
+      final refreshToken =
+          await secureStorage.read(key: PersistenceConst.ACCESS_TOKEN);
       if (refreshToken == null) {
         return false;
       } else {
         return true;
       }
     } on PlatformException catch (e) {
-      log(
-        e.toString(),
-      );
+      log(e.toString());
       rethrow;
     }
   }
 
   @override
-  Future<RequestDataModel> requestLogin({
-    bool isNewLogin,
-  }) async {
+  Future<OAuthDataModel> oauthLogin() async {
     try {
       final List<String> _scopes = [
         'openid',
@@ -71,15 +65,50 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
         'offline_access',
         'api',
       ];
-      final Map<String, String> _params = isNewLogin
-          ? {
-              'audience': Secrets.AUTH0_AUDIENCE,
-              'screen_hint': 'signup',
-            }
-          : {
-              'audience': Secrets.AUTH0_AUDIENCE,
-            };
-      final AuthorizationTokenResponse result =
+      final Map<String, String> _params = {
+        'audience': Secrets.AUTH0_AUDIENCE,
+      };
+      final AuthorizationTokenResponse tokenResponse =
+          await flutterAppAuth.authorizeAndExchangeCode(
+        AuthorizationTokenRequest(
+          Secrets.AUTH0_CLIENT_ID, Secrets.AUTH0_REDIRECT_URI,
+          issuer: Secrets.AUTH0_ISSUER,
+          scopes: _scopes,
+          // If passing aud then no refresh token will come
+          additionalParameters: _params,
+          promptValues: ['login'],
+        ),
+      );
+      final OAuthData = OAuthDataModel.fromAuthTokenResponse(tokenResponse);
+      await _persistAccessToken(accessToken: OAuthData.accessToken);
+      // Make a method for persisting the user-data
+      final parsedUserdata = JWTOperationHelper.parseJwt(OAuthData.idToken);
+      final userDataModel = UserDataModel.fromJson(parsedUserdata);
+      await _persistUserdata(
+        userData: userDataModel,
+      );
+      await _loginRemoteApiHelper(user_id: userDataModel.sub);
+      return OAuthData;
+    } on PlatformException catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<OAuthDataModel> oauthSignup() async {
+    try {
+      final List<String> _scopes = [
+        'openid',
+        'email',
+        'offline_access',
+        'api',
+      ];
+      final Map<String, String> _params = {
+        'audience': Secrets.AUTH0_AUDIENCE,
+        'screen_hint': 'signup',
+      };
+      final AuthorizationTokenResponse tokenResponse =
           await flutterAppAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
           Secrets.AUTH0_CLIENT_ID,
@@ -92,31 +121,18 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
           promptValues: ['login'],
         ),
       );
-      final requestData = RequestDataModel(
-        idToken: result.idToken,
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
-      );
-      await _saveRefreshTokenToSecureStorage(
-        requestData: requestData,
-      );
+      final OAuthData = OAuthDataModel.fromAuthTokenResponse(tokenResponse);
+      await _persistAccessToken(accessToken: OAuthData.accessToken);
       // Make a method for persisting the user-data
-      final parsedUserdata = _parseJwt(result.idToken);
+      final parsedUserdata = JWTOperationHelper.parseJwt(OAuthData.idToken);
       final userDataModel = UserDataModel.fromJson(parsedUserdata);
       await _persistUserdata(
         userData: userDataModel,
       );
-      //* After login is completed, saved the parsed user_id_token to the tatsam_backend
-      //* will store the sub-part of userdatamodel on tatsam-backend
-      //* if isNew login --> means registration, else login
-      isNewLogin
-          ? await _registrationRemoteApiHelper(user_id: userDataModel.sub)
-          : await _loginRemoteApiHelper(user_id: userDataModel.sub);
-      return requestData;
+      await _registrationRemoteApiHelper(user_id: userDataModel.sub);
+      return OAuthData;
     } on PlatformException catch (e) {
-      log(
-        e.toString(),
-      );
+      log(e.toString());
       rethrow;
     }
   }
@@ -127,24 +143,22 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
       await secureStorage.delete(key: PersistenceConst.ACCESS_TOKEN);
       return unit;
     } on PlatformException catch (e) {
-      log(
-        e.toString(),
-      );
+      log(e.toString());
       rethrow;
     }
   }
 
   // Will be called when NewLogin is true
   @override
-  Future<RequestDataModel> requestNewToken() async {
+  Future<OAuthDataModel> requestNewToken() async {
     try {
-      final requestDataUnparsed = await secureStorage.read(
+      final authDataUnparsed = await secureStorage.read(
         key: PersistenceConst.ACCESS_TOKEN,
       );
-      final requestDataParsed = RequestDataModel.fromJson(
-        jsonDecode(requestDataUnparsed) as Map<String, dynamic>,
+      final authDataParsed = OAuthDataModel.fromJson(
+        jsonDecode(authDataUnparsed) as Map<String, dynamic>,
       );
-      final result = await appAuth.token(
+      final tokenResponse = await appAuth.token(
         TokenRequest(
           Secrets.AUTH0_CLIENT_ID,
           Secrets.AUTH0_REDIRECT_URI,
@@ -152,22 +166,14 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
           additionalParameters: {
             'audience': Secrets.AUTH0_AUDIENCE,
           },
-          refreshToken: requestDataParsed.refreshToken,
+          refreshToken: authDataParsed.refreshToken,
         ),
       );
-      final newRequestData = RequestDataModel(
-        idToken: result.idToken,
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
-      );
-      await _saveRefreshTokenToSecureStorage(
-        requestData: newRequestData,
-      );
-      return newRequestData;
+      final OAuthData = OAuthDataModel.fromTokenResponse(tokenResponse);
+      await _persistAccessToken(accessToken: OAuthData.accessToken);
+      return OAuthData;
     } on PlatformException catch (e) {
-      log(
-        e.toString(),
-      );
+      log(e.toString());
       rethrow;
     }
   }
@@ -203,54 +209,13 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
     log('user registsered successfully!');
   }
 
-  Future<void> _saveRefreshTokenToSecureStorage({
-    @required RequestDataModel requestData,
+  Future<void> _persistAccessToken({
+    @required String accessToken,
   }) async {
     await secureStorage.write(
       key: PersistenceConst.ACCESS_TOKEN,
-      value: requestData.accessToken,
+      value: accessToken,
     );
-  }
-
-  Map<String, dynamic> _parseJwt(String token) {
-    try {
-      final parts = token.split('.');
-      if (parts.length != 3) {
-        throw Exception('invalid token');
-      }
-
-      final payload = _decodeBase64(parts[1]);
-      final payloadMap = json.decode(payload);
-      if (payloadMap is! Map<String, dynamic>) {
-        throw Exception('invalid payload');
-      }
-
-      return payloadMap as Map<String, dynamic>;
-    } on PlatformException catch (e) {
-      log(
-        e.toString(),
-      );
-      rethrow;
-    }
-  }
-
-  String _decodeBase64(String str) {
-    String output = str.replaceAll('-', '+').replaceAll('_', '/');
-
-    switch (output.length % 4) {
-      case 0:
-        break;
-      case 2:
-        output += '==';
-        break;
-      case 3:
-        output += '=';
-        break;
-      default:
-        throw Exception('Illegal base64url string!"');
-    }
-
-    return utf8.decode(base64Url.decode(output));
   }
 
   Future<void> _persistUserdata({

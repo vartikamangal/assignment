@@ -1,6 +1,6 @@
 import 'package:app_settings/app_settings.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/utils/snackbars/snackbars.dart';
+import 'failures.dart';
+import '../utils/snackbars/snackbars.dart';
 
 class ErrorInfo {
   static void show(Failure f) {

@@ -7,11 +7,11 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 
 // Project imports:
 import '../../../../core/cache-manager/data/services/user-onboarding-status-local-service.dart';
-import '../../../../core/cache-manager/domain/repositories/save-user-onboarding-status-service.dart';
+import '../../domain/repositories/user-onboarding-status-repository.dart';
 import '../../../../core/error/failures.dart';
 
 class SaveUserOnboardingStatusServiceImpl
-    implements SaveUserOnboardingStatusService {
+    implements UserOnboardingStatusRepository {
   final UserOnboardingStatusLocalService localService;
   final BaseRepository baseRepository;
 

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/data/models/question-info-model.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/profile-question.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
+import '../../../../core/activity-management/data/models/tag-model.dart';
+import 'question-info-model.dart';
+import '../../domain/entities/profile-question.dart';
+import '../../../questionnaire-track/data/models/question-option-model.dart';
 
 class ProfileQuestionModel extends ProfileQuestion {
   const ProfileQuestionModel({

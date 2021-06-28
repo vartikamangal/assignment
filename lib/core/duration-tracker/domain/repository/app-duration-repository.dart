@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/duration-tracker/domain/entities/app-duration.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../entities/app-duration.dart';
+import '../../../error/failures.dart';
 
 abstract class AppDurationRepository {
   Future<Either<Failure, Unit>> updateUserDurationOnApp({

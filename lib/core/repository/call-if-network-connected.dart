@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/platform/network_info.dart';
+import '../error/failures.dart';
+import '../platform/network_info.dart';
 
 class CallIfNetworkConnected {
   final NetworkInfo networkInfo;

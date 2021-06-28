@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -13,149 +12,125 @@ import '../../../../core/utils/universal-widgets/empty-space.dart';
 import '../../domain/entities/feeling-duration.dart';
 import '../controllers/rapport-building-controller.dart.dart';
 
-class customDropDownBtn extends StatefulWidget {
-  const customDropDownBtn({
-    Key key,
-    @required this.options,
-    @required this.color,
-    @required this.controller,
-    @required this.isExpanded,
-    @required this.onPressed,
-    @required this.label,
-  }) : super(key: key);
-
-  final String label;
-  final   List<FeelingDuration> options;
-  final bool isExpanded;
-  final   Color color;
-  final Callback onPressed;
+Widget customDropDownBtn({
+  String label,
+  Callback onPressed,
   //TODO change this logic to a cleaner way in future
   // must pass to make onOptionPressed work
-  final   RapportBuildingController controller;
-
-  @override
-  _customDropDownBtnState createState() => _customDropDownBtnState();
-}
-
-// ignore: camel_case_types
-class _customDropDownBtnState extends State<customDropDownBtn> with TickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    final textScaleFactor = ScaleManager.textScale.value;
-    return AnimatedSizeAndFade(vsync: this,
-      fadeDuration: const Duration(milliseconds: 50),
-      sizeDuration: const Duration(milliseconds: 600),
-    child: widget.isExpanded
-        ? SizedBox(
-      width: ScaleManager.spaceScale(spaceing: 151).value,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          SingleChildScrollView(
-            child: Container(
-              decoration: BoxDecoration(
-                color: blueLightShade,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(
-                    ScaleManager.spaceScale(
-                      spaceing: 20,
-                    ).value,
-                  ),
-                  topRight: Radius.circular(
-                    ScaleManager.spaceScale(
-                      spaceing: 20,
-                    ).value,
-                  ),
-                  bottomLeft: Radius.circular(
-                    ScaleManager.spaceScale(
-                      spaceing: 20,
-                    ).value,
+  RapportBuildingController controller,
+  bool isExpanded,
+  List<FeelingDuration> options,
+  Color color,
+}) {
+  final textScaleFactor = ScaleManager.textScale.value;
+  return isExpanded
+      ? SizedBox(
+          width: ScaleManager.spaceScale(spaceing: 151).value,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: blueLightShade,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(
+                      ScaleManager.spaceScale(
+                        spaceing: 20,
+                      ).value,
+                    ),
+                    topRight: Radius.circular(
+                      ScaleManager.spaceScale(
+                        spaceing: 20,
+                      ).value,
+                    ),
+                    bottomLeft: Radius.circular(
+                      ScaleManager.spaceScale(
+                        spaceing: 20,
+                      ).value,
+                    ),
                   ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  for (int i = 0; i < widget.options.length; i++)
-                    GestureDetector(
-                      // ignore: void_checks
-                      onTap: () {
-                        widget.controller.setFeelingDuration(
-                          feelingDuration: widget.options[i],
-                        );
-                        widget.controller.toggleDropDownExpansion();
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: ScaleManager.spaceScale(
-                                spaceing: 6,
-                              ).value,
-                              bottom: ScaleManager.spaceScale(
-                                spaceing: i == widget.options.length - 1 ? 14 : 6,
-                              ).value,
-                              left: ScaleManager.spaceScale(
-                                spaceing: 21,
-                              ).value,
-                              right: ScaleManager.spaceScale(
-                                spaceing: 12,
-                              ).value,
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    widget.options[i]
-                                        .durationDisplayName
-                                        .toUpperCase(),
-                                    style:
-                                    AppTextStyle.dropDownStyle.copyWith(
-                                      fontSize: 14,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    for (int i = 0; i < options.length; i++)
+                      GestureDetector(
+                        // ignore: void_checks
+                        onTap: () {
+                          controller.setFeelingDuration(
+                            feelingDuration: options[i],
+                          );
+                          controller.toggleDropDownExpansion();
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: ScaleManager.spaceScale(
+                                  spaceing: 6,
+                                ).value,
+                                bottom: ScaleManager.spaceScale(
+                                  spaceing: i == options.length - 1 ? 14 : 6,
+                                ).value,
+                                left: ScaleManager.spaceScale(
+                                  spaceing: 21,
+                                ).value,
+                                right: ScaleManager.spaceScale(
+                                  spaceing: 12,
+                                ).value,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      options[i]
+                                          .durationDisplayName
+                                          .toUpperCase(),
+                                      style:
+                                          AppTextStyle.dropDownStyle.copyWith(
+                                        fontSize: 14,
+                                      ),
+                                      textScaleFactor: textScaleFactor,
                                     ),
-                                    textScaleFactor: textScaleFactor,
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          if (i == 0)
-                            const Divider(
-                              color: Colors.transparent,
-                            )
-                          else if (i <= widget.options.length - 2)
-                            const Divider(
-                              color: Colors.white,
-                            )
-                          else
-                            EmptySpacePlaceHolder(),
-                        ],
+                            if (i == 0)
+                              const Divider(
+                                color: Colors.transparent,
+                              )
+                            else if (i <= options.length - 2)
+                              const Divider(
+                                color: Colors.white,
+                              )
+                            else
+                              EmptySpacePlaceHolder(),
+                          ],
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
-            ),
+              _DropDownTopHeader(
+                textScaleFactor: textScaleFactor,
+                color: color,
+                onTap: onPressed,
+                label: label,
+                isExpanded: isExpanded,
+              ),
+            ],
           ),
-          _DropDownTopHeader(
-            textScaleFactor: textScaleFactor,
-            color: widget.color,
-            onTap: widget.onPressed,
-            label: widget.label,
-            isExpanded: widget.isExpanded,
-          ),
-        ],
-      ),
-    )
-        : _DropDownTopHeader(
-      textScaleFactor: textScaleFactor,
-      color: widget.color,
-      onTap: widget.onPressed,
-      isExpanded: widget.isExpanded,
-      label: widget.label,
-    ),);
-  }
+        )
+      : _DropDownTopHeader(
+          textScaleFactor: textScaleFactor,
+          color: color,
+          onTap: onPressed,
+          isExpanded: isExpanded,
+          label: label,
+        );
 }
 
 // Persistent Dropdown header

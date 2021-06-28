@@ -1,5 +1,7 @@
 // Flutter imports:
 // Package imports:
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/gestures.dart';
@@ -23,6 +25,16 @@ class WheelOfLifeBodyB extends StatefulWidget {
 }
 
 class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
+  bool isBack = true;
+  /*double angle = 0;
+  bool isIconChange=false;*/
+
+  /*void _flip() {
+    setState(() {
+        isIconChange=!isIconChange;
+      angle = (angle - pi) % (2 * pi);
+    });
+  }*/
   void reorderData(int oldindex, int newindex) {
     setState(() {
       if (newindex > oldindex) {
@@ -52,9 +64,9 @@ class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      onTap: widget.controller.toggleAnimatableCard,
+                      onTap:widget.controller.flip,
                       child: SvgPicture.asset(
-                          widget.controller.isToggled.value==true ? ImagePath.crossIcon
+                          widget.controller.isIconChange.value ? ImagePath.crossIcon
                           :ImagePath.connectionStatus,
                       height: ScaleManager.spaceScale(
                         spaceing: 29,
@@ -94,20 +106,33 @@ class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
                             for (int i = 0;
                                 i < widget.controller.lifeAreas.length;
                                 i++)
-                              FlipCard(
-                                key: widget.controller.cardsElementsState[i],
-                                flipOnTouch: false,
-
-                                /// adds 50ms of duration in each card
-                                speed: 600 + ((i + 1) * 50),
-                                back: WheelOfLifeAreaHolder(
-                                  title: widget.controller.lifeAreas[i].name,
-                                  subtitle: widget
-                                      .controller.lifeAreas[i].description,
-                                ),
-                                front: reorderableListItem(
-                                  widget.controller.lifeAreas[i].name,
-                                ),
+                              TweenAnimationBuilder(
+                                  key: widget.controller.cardsElementsState[i],
+                                tween: Tween<double>(begin: 0, end: widget.controller.angle.value),
+                                duration: Duration(milliseconds: 600+(i)*100),
+                                  builder: (BuildContext context, double val, __){
+                                    if (val >= (pi / 2)) {
+                                      isBack = false;
+                                    } else {
+                                      isBack = true;
+                                    }
+                                    return Transform(
+                                      alignment: Alignment.center,
+                                      transform: Matrix4.identity()
+                                        ..setEntry(3, 2, 0.001)
+                                        ..rotateY(val),
+                                      child: isBack?reorderableListItem(
+                                        widget.controller.lifeAreas[i].name,
+                                      ):Transform(
+                                        alignment: Alignment.center,
+                                        transform: Matrix4.rotationY(-pi),
+                                        child: WheelOfLifeAreaHolder(
+                                    title: widget.controller.lifeAreas[i].name,
+                                    subtitle: widget
+                                          .controller.lifeAreas[i].description),
+                                      ),
+                                    );
+                                  }
                               ),
                           ],
                         ),

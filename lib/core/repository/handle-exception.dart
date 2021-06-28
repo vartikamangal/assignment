@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../error/exceptions.dart';
+import '../error/failures.dart';
 
 /// base exception handler for every remote-repository-impl in project
 /// added [AuthFailure] because it will be of no effect in the non-tokened requests

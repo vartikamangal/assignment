@@ -34,13 +34,14 @@ class HubScreen extends StatelessWidget {
             () => _controller.userHubStatus.value ==
                     HubAnswerStatus.nothingAnswered
                 ? IconButton(
-                   padding:EdgeInsets.only(left: ScaleManager.spaceScale(
-                     spaceing: 10,
-                   ).value,
-                   top: ScaleManager.spaceScale(
-                     spaceing: 10,
-                   ).value,
-                   bottom: 0),
+                    padding: EdgeInsets.only(
+                        left: ScaleManager.spaceScale(
+                          spaceing: 10,
+                        ).value,
+                        top: ScaleManager.spaceScale(
+                          spaceing: 10,
+                        ).value,
+                        bottom: 0),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -76,7 +77,7 @@ class HubScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: Get.height*0.42,
+                  height: Get.height * 0.42,
                   child: Obx(
                     () => GestureDetector(
                       onTap: _controller.isLoading.value
@@ -258,7 +259,7 @@ class HubScreen extends StatelessWidget {
                         : BottomRightTextButton(
                             title: tr('pick a path'),
                             onPressed: () async =>
-                                _controller.checkForLoginAndProceed(),
+                                _controller.createNewTravellerAndMoveAhead(),
                           )
                     : EmptySpacePlaceHolder(),
               ),

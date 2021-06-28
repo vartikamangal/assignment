@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/wol-pie-chart.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import '../../../../core/responsive/scale-manager.dart';
+import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
+import '../controller/profile-controller.dart';
+import 'bottom-sheet.dart';
+import 'wol-pie-chart.dart';
 
 class WheelOfLifeProfile extends GetWidget<ProfileController> {
   @override
@@ -62,6 +64,19 @@ class WheelOfLifeProfile extends GetWidget<ProfileController> {
                 for (final area in controller
                     .hubStatus.value.lifePriorities.areasInOrderOfPriority)
                   WheelOfLifeArea(
+                    onPressed: (){
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        useRootNavigator: true,
+                        isScrollControlled: true,
+                        builder: (context) =>  InfoBottomSheet(
+                          selectedArea: area,
+                          description:
+                          'Your best self can only happen when you have access to  growth in different areas o',
+                        ),
+                      );
+                    },
                     wolAreaImage: 'assets/profile-icon/user-image.png',
                     title: area,
                     profileController: controller,
@@ -78,10 +93,12 @@ class WheelOfLifeProfile extends GetWidget<ProfileController> {
 class WheelOfLifeArea extends StatelessWidget {
   final String wolAreaImage;
   final String title;
+  final Callback onPressed;
   final ProfileController profileController;
   const WheelOfLifeArea({
     @required this.wolAreaImage,
     @required this.title,
+    @required this.onPressed,
     @required this.profileController,
   });
   @override
@@ -89,11 +106,12 @@ class WheelOfLifeArea extends StatelessWidget {
     final textScaleFactor = ScaleManager.textScale.value;
     final imageScaleFactor = ScaleManager.imageScale.value;
     return GestureDetector(
-      onTap: () {
+      onTap: onPressed,
+      /*() {
         profileController.addWolLifeToPieChart(
           lifeArea: title,
         );
-      },
+      },*/
       child: Column(
         children: [
           SizedBox(

@@ -67,15 +67,15 @@ class UserOnboardingStatusLocalServiceImpl
       final isFirstTimeUserCheckString = await localClient.get(
         PersistenceConst.IS_FIST_TIME_USER,
       ) as String;
-      if (isFirstTimeUserCheckString == 'YES') {
+      final bool _openedAppForFirstTime = isFirstTimeUserCheckString == 'YES' ||
+          isFirstTimeUserCheckString == null;
+      if (_openedAppForFirstTime) {
         return true;
       } else {
         return false;
       }
     } catch (e) {
-      log(
-        e.toString(),
-      );
+      log(e.toString());
       throw CacheException();
     }
   }

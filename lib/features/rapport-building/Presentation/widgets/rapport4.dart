@@ -1,23 +1,21 @@
 // Flutter imports:
+// Package imports:
+import 'package:animator/animator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-note-player-ui-fragment.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-recorder-ui-fragment.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-ui-fragment.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/temporary-step-data.dart';
+
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/responsive-builder.dart';
 import '../../../../core/responsive/scale-manager.dart';
-import '../../../../core/utils/animations/diagonal-animation-from-bottomright.dart';
+//import '../../../../core/utils/animations/diagonal-animation-from-bottomright.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/mic_button.dart';
 
@@ -39,14 +37,19 @@ class MidPageContentsD extends StatelessWidget {
             right: 1,
           ),
           width: Get.width,
+          height: Get.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
+              SizedBox(
+                height: ScaleManager.spaceScale(
+                  spaceing: 37,
+                ).value,
+              ),
               Padding(
                 padding: EdgeInsets.only(
                   top: ScaleManager.spaceScale(
-                    spaceing: 5,
+                    spaceing: 35,
                   ).value,
                 ),
                 child: SizedBox(
@@ -74,10 +77,7 @@ class MidPageContentsD extends StatelessWidget {
                   ).value,
                 ),
                 child: Text(
-                  rapportStepData[
-                          _onBoardingController.selectedMood.value.moodName]
-                      .feelingPageStepContent
-                      .textTop,
+                  tr('additional details text'),
                   style: AppTextStyle.titleM,
                   textScaleFactor: textScale,
                 ),
@@ -93,20 +93,20 @@ class MidPageContentsD extends StatelessWidget {
                     spaceing: 32,
                   ).value,
                 ),
-                child: DiagonalAnimation(
-                    0.6,
-                    Text(
-                      rapportStepData[
-                              _onBoardingController.selectedMood.value.moodName]
-                          .feelingPageStepContent
-                          .textMid,
-                      style: AppTextStyle.titleL,
-                      textScaleFactor: textScale,
+                child: Animator<double>(
+                  tween: Tween<double>(begin: 0, end: 1),
+                  duration: const Duration(milliseconds: 700),
+                  curve: Curves.easeInOut,
+                  builder: (context, animatorState, child) =>
+                    Opacity(
+                      opacity: animatorState.value,
+                      child: Text(
+                        tr('additional details title'),
+                        style: AppTextStyle.titleL,
+                        textScaleFactor: textScale,
+                      ),
                     ),
-                    1.0,
-                    1.0,
-                    1.0,
-                    1),
+                   ),
               ),
               SizedBox(
                 height: ScaleManager.spaceScale(
@@ -188,34 +188,36 @@ class MidPageContentsD extends StatelessWidget {
                   }),
                 ),
               ),
-              SizedBox(
-                height: ScaleManager.spaceScale(
-                  spaceing: 100,
-                ).value,
-              ),
-              DiagonalAnimation(
-                0.6,
-                Text(
-                  rapportStepData[_onBoardingController.selectedMood.value.moodName]
-                      .feelingPageStepContent
-                      .textBottom,
-                  style: AppTextStyle.titleM,
-                  textScaleFactor: textScale,
-                ),
-                1.0,
-                1.0,
-                1.0,
-                1,
-
-              ),
-              SizedBox(
-                height: ScaleManager.spaceScale(
-                  spaceing: 30,
-                ).value,
-              ),
             ],
           ),
         ),
+        Positioned(
+          left: ScaleManager.spaceScale(
+            spaceing: 32,
+          ).value,
+          right: ScaleManager.spaceScale(
+            spaceing: 34,
+          ).value,
+          bottom: ScaleManager.spaceScale(
+            spaceing: 110,
+          ).value,
+          child: Animator<double>(
+            tween: Tween<double>(begin: 0, end: 1),
+            duration: const Duration(milliseconds: 700),
+            curve: Curves.easeInOut,
+            builder: (context, animatorState, child) =>
+            Opacity(
+              opacity: animatorState.value,
+              child: Text(
+                tr(
+                  'Did you know: We cope better with problems when we observe ourselves and emotions, rather than participate in them',
+                ),
+                style: AppTextStyle.titleM,
+                textScaleFactor: textScale,
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
@@ -243,56 +245,58 @@ class _TextFormFieldComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DiagonalAnimation(
-      0.1,
-      TextField(
-        focusNode: _onBoardingController.focusNode,
-        keyboardType: TextInputType.emailAddress,
-        minLines: 1,
-        maxLines: 3,
-        style: AppTextStyle.hintStyleDarkerForTextInputs.copyWith(
-          color: blueDarkShade,
-          fontWeight: FontWeight.w500,
-          fontSize: ScaleManager.spaceScale(
-            spaceing: 18,
-          ).value,
-        ),
-        controller: _textController,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(
-              vertical: ScaleManager.spaceScale(
-            spaceing: 10,
-          ).value),
-          hintText: tr('additional details field'),
-          hintStyle: AppTextStyle.hintStyle.copyWith(
-            fontSize: fontSize,
-          ),
-          suffixIconConstraints: BoxConstraints(
-              minWidth: ScaleManager.spaceScale(
-                spaceing: 35,
+    return
+      Animator<double>(
+        tween: Tween<double>(begin: 0, end: 1),
+        duration: const Duration(milliseconds: 700),
+        curve: Curves.easeInOut,
+        builder: (context, animatorState, child) => Opacity(
+          opacity: animatorState.value,
+          child: TextField(
+            focusNode: _onBoardingController.focusNode,
+            keyboardType: TextInputType.emailAddress,
+            minLines: 1,
+            maxLines: 3,
+            style: AppTextStyle.hintStyleDarkerForTextInputs.copyWith(
+              color: blueDarkShade,
+              fontWeight: FontWeight.w500,
+              fontSize: ScaleManager.spaceScale(
+                spaceing: 18,
               ).value,
-              maxHeight: ScaleManager.spaceScale(
-                spaceing: 35,
-              ).value),
-          suffixIcon: SizedBox(
-            height: micIconSize,
-            width: micIconSize,
-            child: GestureDetector(
-              onTap: () async {
-                await voiceNoteController.recordVoiceNote();
-              },
-              child: const Mic_Button(),
             ),
-          ),
+            controller: _textController,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(
+                  vertical: ScaleManager.spaceScale(
+                spaceing: 10,
+              ).value),
+              hintText: tr('additional details field'),
+              hintStyle: AppTextStyle.hintStyle.copyWith(
+                fontSize: fontSize,
+              ),
+              suffixIconConstraints: BoxConstraints(
+                  minWidth: ScaleManager.spaceScale(
+                    spaceing: 35,
+                  ).value,
+                  maxHeight: ScaleManager.spaceScale(
+                    spaceing: 35,
+                  ).value),
+              suffixIcon: SizedBox(
+                height: micIconSize,
+                width: micIconSize,
+                child: GestureDetector(
+                  onTap: () async {
+                    await voiceNoteController.recordVoiceNote();
+                  },
+                  child: const Mic_Button(),
+                ),
+              ),
+            ),
+            onChanged: (feeling) {
+              _onBoardingController.userFeeling = feeling;
+            },
+    ),
         ),
-        onChanged: (feeling) {
-          _onBoardingController.userFeeling = feeling;
-        },
-      ),
-      1.0, //for animation
-      1.0, //for animation
-      1.0, //for animation
-      1,
-    );
+      );
   }
 }

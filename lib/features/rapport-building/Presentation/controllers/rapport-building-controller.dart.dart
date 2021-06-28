@@ -3,7 +3,6 @@ import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cached-mood-model.dart';
@@ -11,6 +10,7 @@ import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/cache
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-information.dart';
 
 // Project imports:
 import '../../../../core/cache-manager/domain/usecases/save-feedback.dart';
@@ -24,7 +24,6 @@ import '../../domain/entities/feeling-duration.dart';
 import '../../domain/entities/mood-tracking.dart';
 import '../../domain/entities/mood.dart';
 import '../../domain/entities/rapport-building-steps.dart';
-import '../../domain/entities/subject-information.dart';
 import '../../domain/usecases/get-all-moods.dart';
 import '../../domain/usecases/get-available-feeling-duration.dart';
 import '../../domain/usecases/get-rapport-building-steps.dart';
@@ -58,11 +57,12 @@ class RapportBuildingController extends GetxController {
 
   /// This will give us basic userInfo like subjectInfo
   /// Which is to be used in common-feedback persistence
-  Rx<SubjectInformation> subjectInfo = Rx<SubjectInformationModel>();
-  Rx<RapportBuildingSteps> rapportBuildingSteps = Rx<RapportBuildingSteps>();
+  Rx<SubjectInformation> subjectInfo = Rx<SubjectInformationModel>(null);
+  Rx<RapportBuildingSteps> rapportBuildingSteps =
+      Rx<RapportBuildingSteps>(null);
   RxList<FeelingDuration> availableDurations = RxList<FeelingDurationModel>([]);
-  Rx<MoodTracking> userMoodStatus = Rx<MoodTrackingModel>();
-  Rx<TextEditingController> controller = Rx<TextEditingController>();
+  Rx<MoodTracking> userMoodStatus = Rx<MoodTrackingModel>(null);
+  Rx<TextEditingController> controller = Rx<TextEditingController>(null);
 
   RapportBuildingController({
     @required this.setSubjectName,
@@ -154,10 +154,12 @@ class RapportBuildingController extends GetxController {
 
   Future<void> setSubjectMoodAndMoveOnwards() async {
     toggleProcessor();
-    final setMoodOrFailure = await setSubjectMood(SetSubjectMoodParams(
-      moodName: selectedEmotion.value.toUpperCase(),
-      activityType: activityTypeForRapportSection,
-    ));
+    final setMoodOrFailure = await setSubjectMood(
+      SetSubjectMoodParams(
+        moodName: selectedEmotion.value.toUpperCase(),
+        activityType: activityTypeForRapportSection,
+      ),
+    );
     toggleProcessor();
     setMoodOrFailure.fold(
       (failure) {
@@ -296,13 +298,13 @@ class RapportBuildingController extends GetxController {
   // for setting a nickName
   RxString userName = RxString('');
   // For making global widget changes as per the selected index
-  Rx<Widget> currentSelectedPage = Rx<Widget>();
+  Rx<Widget> currentSelectedPage = Rx<Widget>(null);
   // For setting up a global mood
-  Rx<Mood> selectedMood = Rx<Mood>();
+  Rx<Mood> selectedMood = Rx<Mood>(null);
   // For getting status of dropdown
   RxBool isDropDownExpanded = RxBool(false);
   // For persisting selected feelingDuration from dropDown
-  Rx<FeelingDuration> selectedFeelingDuration = Rx<FeelingDurationModel>();
+  Rx<FeelingDuration> selectedFeelingDuration = Rx<FeelingDurationModel>(null);
   //For valid name input
   RxInt validName = 0.obs;
   // For storing rapport last step feeling

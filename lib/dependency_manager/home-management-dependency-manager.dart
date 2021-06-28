@@ -11,7 +11,7 @@ import '../core/cache-manager/data/services/retrieve-user-path-local-data-source
 import '../core/cache-manager/data/services/user-onboarding-status-local-service.dart';
 import '../core/cache-manager/domain/repositories/retrieve-most-recent-activity-repository.dart';
 import '../core/cache-manager/domain/repositories/retrieve-user-path-repository.dart';
-import '../core/cache-manager/domain/repositories/save-user-onboarding-status-service.dart';
+import '../core/cache-manager/domain/repositories/user-onboarding-status-repository.dart';
 import '../core/cache-manager/domain/usecases/check-if-first-time-user.dart';
 import '../core/cache-manager/domain/usecases/retireve-most-recent-activity.dart';
 import '../core/cache-manager/domain/usecases/retireve-user-path.dart';
@@ -100,11 +100,7 @@ Future<void> initHomeManagementDependencies() async {
       repository: sl_home_manager(),
     ),
   );
-  sl_home_manager.registerLazySingleton(
-    () => CheckIfFirstTimeUser(
-      service: sl_home_manager(),
-    ),
-  );
+
   sl_home_manager.registerLazySingleton(
     () => SaveIsFirstTimeOnboardingStatus(
       service: sl_home_manager(),
@@ -143,7 +139,7 @@ Future<void> initHomeManagementDependencies() async {
       baseRepository: sl_core_dependencies(),
     ),
   );
-  sl_home_manager.registerLazySingleton<SaveUserOnboardingStatusService>(
+  sl_home_manager.registerLazySingleton<UserOnboardingStatusRepository>(
     () => SaveUserOnboardingStatusServiceImpl(
       localService: sl_home_manager(),
       baseRepository: sl_core_dependencies(),

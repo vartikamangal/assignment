@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
+import '../../responsive/scale-manager.dart';
 
 class BottomSheetFixedTop extends StatelessWidget {
   const BottomSheetFixedTop({

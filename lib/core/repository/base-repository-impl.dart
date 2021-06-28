@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
-import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
+import '../error/failures.dart';
+import 'call-if-network-connected.dart';
+import 'handle-exception.dart';
 
 class BaseRepository {
   final CallIfNetworkConnected callIfNetworkConnected;

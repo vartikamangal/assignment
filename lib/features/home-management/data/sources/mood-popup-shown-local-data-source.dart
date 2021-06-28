@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/persistence-consts.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/persistence-consts.dart';
 
 abstract class MoodPopupShownLocalDataSource {
   Future<bool> getMoodPopupShownStatus();

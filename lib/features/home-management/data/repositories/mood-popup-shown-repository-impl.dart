@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failures.dart';
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/features/home-management/data/sources/mood-popup-shown-local-data-source.dart';
-import 'package:tatsam_app_experimental/features/home-management/domain/repositories/mood-popup-shown-repository.dart';
+import '../sources/mood-popup-shown-local-data-source.dart';
+import '../../domain/repositories/mood-popup-shown-repository.dart';
 
 class MoodPopupShownRepositoryImpl implements MoodPopupShownRepository {
   final MoodPopupShownLocalDataSource localDataSource;

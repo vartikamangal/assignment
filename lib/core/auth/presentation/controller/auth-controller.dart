@@ -1,43 +1,65 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
+import 'package:tatsam_app_experimental/core/auth/domain/usecases/oauth-signup.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/retrieve-user-onboarding-status.dart';
+import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+import 'package:tatsam_app_experimental/features/root/presentation/controller/root-controller.dart';
 
-import '../../../cache-manager/domain/usecases/retrieve-user-onboarding-status.dart';
+import '../../../error/failures.dart';
 import '../../../routes/app-routes/app-routes.dart';
 import '../../../usecase/usecase.dart';
 import '../../../utils/snackbars/snackbars.dart';
-import '../../domain/usecases/check-if-already-logged-in.dart';
-import '../../domain/usecases/request-login.dart';
+import '../../domain/usecases/oauth-login.dart';
 import '../../domain/usecases/request-logout.dart';
 import '../../domain/usecases/request-new-token.dart';
 
 class AuthController extends GetxController {
   // Usecases
-  final CheckIfAlreadyLoggedIn checkIfAlreadyLoggedIn;
-  final RequestLogin requestLogin;
+  final CheckIfAuthenticated checkIfAuthenticated;
+  final OauthLogin oauthLogin;
+  final OAuthSignup oAuthSignup;
   final RequestLogout requestLogout;
   final RequestNewToken requestNewToken;
   final RetrieveUserOnboardingStatus retrieveUserOnboardingStatus;
 
   AuthController({
-    @required this.checkIfAlreadyLoggedIn,
-    @required this.requestLogin,
+    @required this.checkIfAuthenticated,
+    @required this.oauthLogin,
     @required this.requestLogout,
     @required this.requestNewToken,
     @required this.retrieveUserOnboardingStatus,
+    @required this.oAuthSignup,
   });
   // Dynamic data containers
 
   // Usecase helpers
   Future<void> login() async {
     toggleProcessor();
-    final loggedInOrFailure = await requestLogin(
-      const RequestLoginParams(
-        isNewLogin: false,
-      ),
-    );
+    final loggedInOrFailure = await oauthLogin(NoParams());
     toggleProcessor();
     loggedInOrFailure.fold(
+      (failure) {
+        ErrorInfo.show(failure);
+      },
+      (loginStatus) async {
+        await checkUserOnboardingStatus().then(
+          (value) {
+            navigateBasedOnOnboardingStatus(
+              isPreviouslyOnboarded: userPreviouslyOnboarded.value,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // Usecase helpers
+  Future<void> signup({@required String redirectRoute}) async {
+    toggleProcessor();
+    final failureOrResult = await oAuthSignup(NoParams());
+    toggleProcessor();
+    failureOrResult.fold(
       (failure) {
         final fNew = failure as AuthFailure;
         ShowSnackbar.rawSnackBar(
@@ -47,13 +69,10 @@ class AuthController extends GetxController {
           onActionPressed: () {},
         );
       },
-      (loginStatus) async {
-        await checkUserOnboardingStatus().then(
-          (value) {
-            navigateBasedOnOnboardingStatus(
-              isPreviouslyOnboarded: userPreviouslyOnboarded.value,
-            );
-          },
+      (status) async {
+        Navigator.of(Get.context).pushNamedAndRemoveUntil(
+          redirectRoute,
+          (_) => false,
         );
       },
     );
@@ -91,9 +110,9 @@ class AuthController extends GetxController {
         RouteName.onBoardingIncomplete,
       );
     } else {
-      Get.offAllNamed(
-        RouteName.rapportPages,
-      );
+      //!  Cases of Abandoned page will act here
+      final RootController _rootController = Get.find();
+      _rootController.gotoRecentlyLeftPage();
     }
   }
 

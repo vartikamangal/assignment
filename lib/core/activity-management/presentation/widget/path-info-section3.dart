@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-note-player-ui-fragment.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-recorder-ui-fragment.dart';
@@ -49,6 +50,14 @@ class PathInfoSection3 extends StatelessWidget {
                 height: ScaleManager.spaceScale(
                   spaceing: 26,
                 ).value,
+              ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: Size(Get.width, 2),
+              child: Obx(
+                    () => _controller.isProcessing.value
+                    ? const LinearProgressIndicator()
+                    : EmptySpacePlaceHolder(),
               ),
             ),
           ),
@@ -182,13 +191,13 @@ class PathInfoSection3 extends StatelessWidget {
               ),
               Positioned(
                 bottom: ScaleManager.spaceScale(
-                  spaceing: 16,
+                  spaceing: 14,
                 ).value,
                 left: ScaleManager.spaceScale(
                   spaceing: 32,
                 ).value,
                 right: ScaleManager.spaceScale(
-                  spaceing: 16,
+                  spaceing: 14,
                 ).value,
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
@@ -204,10 +213,15 @@ class PathInfoSection3 extends StatelessWidget {
                               spaceing: 9,
                             ).value,
                           ),
-                          child: Text(
-                            'End to end encrypted : Everything you write here will be only visible to your eyes. We won’t have access to it.',
-                            style: AppTextStyle.verySmallGreyText,
-                            textScaleFactor: textScaleFactor,
+                          child: Padding(
+                            padding:  EdgeInsets.only(bottom: ScaleManager.spaceScale(
+                              spaceing: 13,
+                            ).value),
+                            child: Text(
+                              'End to end encrypted : Everything you write here will be only visible to your eyes. We won’t have access to it.',
+                              style: AppTextStyle.verySmallGreyText,
+                              textScaleFactor: textScaleFactor,
+                            ),
                           ),
                         ),
                       ),

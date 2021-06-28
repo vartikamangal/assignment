@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../../../error/failures.dart';
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/success/success-interface.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/stop-recording-service.dart';
+import '../../../success/success-interface.dart';
+import '../../../usecase/usecase.dart';
+import '../repository/stop-recording-service.dart';
 
 class StopRecording implements Usecase<Success, NoParams> {
   final StopRecordingService service;

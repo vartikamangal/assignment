@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:smartlook/smartlook.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/secrets.dart';
+import '../error/failures.dart';
+import '../secrets.dart';
 
 abstract class SetupAnalytics {
   /// Holds the contract for initially setting up dependencies for the currently being used analytics service

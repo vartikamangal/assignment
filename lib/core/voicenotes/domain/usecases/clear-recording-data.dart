@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/voicenotes-player-repository.dart';
+import '../../../error/failures.dart';
+import '../../../usecase/usecase.dart';
+import '../repository/voicenotes-player-repository.dart';
 
 class ClearRecordingData implements Usecase<Unit, ClearRecordingDataPrams> {
   final VoiceNotesPlayerRepository voiceNotesPlayerRepository;

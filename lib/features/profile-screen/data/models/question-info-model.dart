@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/question-info.dart';
+import '../../domain/entities/question-info.dart';
 
 class QuestionInfoModel extends QuestionInfo {
   const QuestionInfoModel({

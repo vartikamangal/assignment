@@ -96,6 +96,7 @@ class _ResponsiveBottomBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: ScaleManager.spaceScale(spaceing: 56).value,
       padding: padding,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(

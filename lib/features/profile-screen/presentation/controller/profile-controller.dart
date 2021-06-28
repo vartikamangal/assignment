@@ -1,26 +1,20 @@
 // Flutter imports:
 
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-input-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-input.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/get-persisted-feedbacks.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
-import 'package:tatsam_app_experimental/features/home-management/data/models/post-onboparding-action-model.dart';
-import 'package:tatsam_app_experimental/features/home-management/domain/entities/post-onboarding-action.dart';
-import 'package:tatsam_app_experimental/features/home-management/domain/usecases/get-action-with-action-status.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/linear-mood-chart.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/wol-pie-chart.dart';
 
 // Project imports:
-import '../../../../core/error/failures.dart';
+import '../../../../core/activity-management/data/models/recommendation-input-model.dart';
+import '../../../../core/activity-management/domain/entities/recommendation-input.dart';
+import '../../../../core/activity-management/domain/usecases/get-persisted-feedbacks.dart';
+import '../../../../core/error/display-error-info.dart';
+import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
+import '../../../../features/home-management/data/models/post-onboparding-action-model.dart';
+import '../../../../features/home-management/domain/entities/post-onboarding-action.dart';
+import '../../../../features/home-management/domain/usecases/get-action-with-action-status.dart';
 import '../../../../features/hub/data/models/hub-status-model.dart';
 import '../../../../features/hub/domain/entities/hub-status.dart';
 import '../../../../features/profile-screen/data/models/profile-data-model.dart';
@@ -31,6 +25,8 @@ import '../../../../features/profile-screen/domain/usecases/get-basic-profile-de
 import '../../../../features/profile-screen/domain/usecases/get-mood-logs.dart';
 import '../../../../features/profile-screen/domain/usecases/get-profile-questions.dart';
 import '../../../../features/profile-screen/domain/usecases/get-profile-wheel-of-life-data.dart';
+import '../../../../features/profile-screen/presentation/widget/linear-mood-chart.dart';
+import '../../../../features/profile-screen/presentation/widget/wol-pie-chart.dart';
 import '../../../../features/rapport-building/data/models/mood-tracking-model.dart';
 import '../../../../features/rapport-building/domain/entities/mood-tracking.dart';
 
@@ -53,15 +49,18 @@ class ProfileController extends GetxController {
   });
 
   // Dynamic data holders
-  Rx<ProfileData> profileData = Rx<ProfileDataModel>();
-  Rx<HubStatus> hubStatus = Rx<HubStatusModel>();
+  Rx<ProfileData> profileData = Rx<ProfileDataModel>(null);
+  Rx<HubStatus> hubStatus = Rx<HubStatusModel>(null);
   RxList<MoodTracking> moodLogs = RxList<MoodTrackingModel>([]);
   RxList<QuestionLog> questionLogs = RxList<QuestionLogModel>([]);
   RxList<RecommendationInput> diaryLogs = RxList<RecommendationInputModel>([]);
   RxList<PostOnboardingAction> actions = RxList<PostOnboardingActionModel>([]);
-
   // For getting status of dropdown
   RxBool isDropDownExpanded = RxBool(false);
+
+  void toggleDropDownExpansion() {
+    isDropDownExpanded.value = !isDropDownExpanded.value;
+  }
 
   // Usecase helpers
   Future<void> fetchBasicProfileData() async {
@@ -88,9 +87,7 @@ class ProfileController extends GetxController {
       },
     );
   }
-  void toggleDropDownExpansion() {
-    isDropDownExpanded.value = !isDropDownExpanded.value;
-  }
+
   Future<void> fetchQuestionLogs() async {
     final failureOrResult = await getProfileQuestions(NoParams());
     failureOrResult.fold(
@@ -166,7 +163,7 @@ class ProfileController extends GetxController {
   RxBool isLoading = RxBool(false);
   RxBool isProcessing = RxBool(false);
   RxInt selectedScreenIndex = 0.obs;
-  Rx<Widget> currentSelectedPage = Rx<Widget>();
+  Rx<Widget> currentSelectedPage = Rx<Widget>(null);
   RxString userName = RxString('');
   RxMap<int, RecommendationInput> actionIdToDiaryLogMap =
       RxMap<int, RecommendationInputModel>();
@@ -281,6 +278,16 @@ class ProfileController extends GetxController {
     } else {
       displayedLifeAreas.add(lifeArea);
     }
+  }
+
+  /// Takes user to the good old Questionnaire screen, And when user submits the questionnaire
+  /// refreshes the answered questionnaires on the profile screen
+  Future<void> presentQuestionnaire() async {
+    toggleProcessor();
+    await Navigator.of(Get.context)
+        .pushNamed(RouteName.questionTrackScreen)
+        .then((value) => fetchQuestionLogs());
+    toggleProcessor();
   }
 
   /// Sets up the initialBindings for reactive changes

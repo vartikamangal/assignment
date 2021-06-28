@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/bottom-sheet.dart';
+import '../../../../core/responsive/scale-manager.dart';
+import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
+import '../../../../core/utils/color-pallete.dart';
+import '../controller/profile-controller.dart';
+import 'bottom-sheet.dart';
 
 class LandingProfileScreen extends GetWidget<ProfileController> {
   const LandingProfileScreen({Key key}) : super(key: key);
@@ -110,15 +110,41 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
                 children: [
                   InfoContainer(
                     image: 'assets/profile-icon/user-image.png',
-                    field: tr('ime taken'),
+                    field: tr('time taken'),
                     score: controller.profileData.value.timeOnActivitiesThisWeek
                         .toString(),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        useRootNavigator: true,
+                        isScrollControlled: true,
+                        builder: (context) => const InfoBottomSheet(
+                          selectedArea: 'What is my holistic score?',
+                          description:
+                          'Your best self can only happen when you have access to  growth in different areas o',
+                        ),
+                      );
+                    },
                   ),
                   InfoContainer(
                     image: 'assets/profile-icon/user-image.png',
                     field: tr('how many activity done'),
                     score: controller.profileData.value.activitiesThisWeek
                         .toString(),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        useRootNavigator: true,
+                        isScrollControlled: true,
+                        builder: (context) => const InfoBottomSheet(
+                          selectedArea: 'What is my holistic score?',
+                          description:
+                          'Your best self can only happen when you have access to  growth in different areas o',
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

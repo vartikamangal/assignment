@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/permission-manager/permission-manager.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/recording-started-status.dart';
+import '../../../error/exceptions.dart';
+import '../../../permission-manager/permission-manager.dart';
+import '../../domain/entity/recording-started-status.dart';
 
 abstract class StartRecordingVoiceNoteLocalService {
   Future<RecordingStarted> startRecording({

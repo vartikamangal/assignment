@@ -3,9 +3,9 @@ import 'dart:ui' as ui;
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/file-manager/file-manager.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/data/model/player-stats-model.dart';
+import '../../../error/exceptions.dart';
+import '../../../file-manager/file-manager.dart';
+import '../model/player-stats-model.dart';
 
 abstract class VoiceNotePlayerLocalService {
   /// Holds the contract for playing passed in audio file

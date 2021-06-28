@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../../../error/failures.dart';
 
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/stop-recording-service.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/stop-recording.dart';
+import '../../../usecase/usecase.dart';
+import '../repository/stop-recording-service.dart';
+import 'stop-recording.dart';
 
 class CancelRecording implements Usecase<Unit, CancelRecordingParams> {
   final StopRecordingService service;

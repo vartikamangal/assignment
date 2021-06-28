@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import '../../../repository/base-repository-impl.dart';
 import '../services/mood-cache-local-service.dart';
 import '../../domain/entities/cached-mood.dart';
 import '../models/cached-mood-model.dart';

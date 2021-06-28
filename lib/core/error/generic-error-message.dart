@@ -1,4 +1,4 @@
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'failures.dart';
 
 abstract class GenericErrorMessage {
   static const AuthFailure authFailure = AuthFailure(

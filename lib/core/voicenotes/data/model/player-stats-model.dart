@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/player-stats.dart';
+import '../../domain/entity/player-stats.dart';
 
 class PlayerStatsModel extends PlayerStats {
   const PlayerStatsModel({

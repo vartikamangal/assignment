@@ -1,15 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
-import '../entities/request-data.dart';
-import '../entities/user-data.dart';
+
 import '../../../error/failures.dart';
+import '../entities/oauth-data.dart';
+import '../entities/user-data.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, RequestData>> requestLogin({
-    @required bool isNewLogin,
-  });
+  Future<Either<Failure, OAuthData>> oauthLogin();
+  Future<Either<Failure, OAuthData>> oauthSignup();
   Future<Either<Failure, Unit>> requestLogout();
-  Future<Either<Failure, RequestData>> requestNewToken();
-  Future<Either<Failure, bool>> checkIfAlreadyLoggedIn();
+  Future<Either<Failure, OAuthData>> requestNewToken();
+  Future<Either<Failure, bool>> checkIfAuthenticated();
   Future<Either<Failure, UserData>> getUserDetails();
 }

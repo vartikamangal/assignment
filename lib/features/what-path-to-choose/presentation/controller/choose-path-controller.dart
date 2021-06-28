@@ -3,19 +3,15 @@ import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
-
 // Package imports:
 import 'package:get/get.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity-management/presentation/controller/path-controller.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
-import 'package:tatsam_app_experimental/core/auth/domain/usecases/request-login.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../data/models/journey-model.dart';
 import '../../domain/entites/journey.dart';
 import '../../domain/usecases/get-journey-path-list.dart';
@@ -25,20 +21,18 @@ class ChoosePathController extends GetxController {
   // Usecases
   final GetJourneyPathList getJourneyPathList;
   final StartJourney startJourney;
-  final RequestLogin requestLogin;
-  final CheckIfAlreadyLoggedIn checkIfAlreadyLoggedIn;
+  final CheckIfAuthenticated checkIfAuthenticated;
 
   ChoosePathController({
     @required this.getJourneyPathList,
     @required this.startJourney,
-    @required this.requestLogin,
-    @required this.checkIfAlreadyLoggedIn,
+    @required this.checkIfAuthenticated,
   });
   //////////                                      //////////////
   ////////// Dynamic Data Holders {For Usecases} ///////////////
   /////////                                     //////////////
   RxList<Journey> availableJournies = RxList<JourneyModel>([]);
-  Rx<Journey> selectedJourney = Rx<JourneyModel>();
+  Rx<Journey> selectedJourney = Rx<JourneyModel>(null);
 
   //////////                        //////////////
   ////////// Usecase helper methods ///////////////

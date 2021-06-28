@@ -410,7 +410,7 @@ class _ConfirmButtonManager extends StatelessWidget {
       child: Obx(
         () => controller.fulfilledAllPostOnboardingActions.value
             ? Container(
-                margin: EdgeInsets.only(
+                /*margin: EdgeInsets.only(
                   bottom: ScaleManager.spaceScale(
                     spaceing: 40,
                   ).value,
@@ -428,7 +428,7 @@ class _ConfirmButtonManager extends StatelessWidget {
                 child: BottomMiddleButton(
                   title: 'DONE FOR TODAY',
                   onPressed: () async {},
-                ),
+                ),*/
               )
             : EmptySpacePlaceHolder(),
       ),

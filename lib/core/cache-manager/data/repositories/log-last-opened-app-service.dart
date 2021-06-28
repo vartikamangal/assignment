@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/data/services/app-last-opened-log-service.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/log-last-opened-app-service.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import '../services/app-last-opened-log-service.dart';
+import '../../domain/repositories/log-last-opened-app-service.dart';
+import '../../../error/exceptions.dart';
+import '../../../error/failures.dart';
+import '../../../repository/base-repository-impl.dart';
 
 class LogLastOpenedAppServiceImpl implements LogLastOpenedAppService {
   final AppLastOpenedLogLocalService localService;

@@ -42,7 +42,6 @@ class StartActivityRemoteServiceImpl implements StartActivityRemoteService {
     final response = await client.get(
       uri: uri,
     );
-    log(response.statusCode.toString());
     log(response.body);
     throwExceptionIfResponseError(
       statusCode: response.statusCode,

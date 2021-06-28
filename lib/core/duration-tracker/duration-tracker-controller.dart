@@ -27,7 +27,7 @@ class DurationTrackerController extends GetxController {
   // Instance of stopwatch
   final Stopwatch _stopwatch = Stopwatch();
   // Reactive elapsed storage component
-  final Rx<Duration> _elapsed = Rx<Duration>();
+  final Rx<Duration> _elapsed = Rx<Duration>(null);
 
   // getter for duration
   int get durationInMinutes => _elapsed.value.inMinutes;

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-note-player-ui-fragment.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-recorder-ui-fragment.dart';
+import '../controller/voice-notes-controller.dart';
+import 'voice-note-note-player-ui-fragment.dart';
+import 'voice-note-recorder-ui-fragment.dart';
 
 class VoiceNoteFragment extends StatelessWidget {
   VoiceNoteFragment({

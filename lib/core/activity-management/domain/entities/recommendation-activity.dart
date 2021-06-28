@@ -22,7 +22,7 @@ class ActivityRecommendation extends Equatable {
   final String frequencyMetric;
   final int frequency;
   final String actionTime;
-  final String criticality;
+  final String criticality;    //creation time //tags are not sametype
   final RecommendationCategory categoryVO; //Modify
   final List<RecommendationStep> recommendationStepsVO; // Modify List<T>
   final List<Tag> tags; // Modify List<T>

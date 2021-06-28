@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/persistence-consts.dart';
+import '../../../error/exceptions.dart';
+import '../../../persistence-consts.dart';
 
 abstract class AppLastOpenedLogLocalService {
   Future<Unit> logStartDatetime();

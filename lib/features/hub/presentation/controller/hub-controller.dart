@@ -4,17 +4,14 @@ import 'dart:developer';
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
-import 'package:tatsam_app_experimental/core/auth/domain/usecases/request-login.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 
 // Project imports:
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../data/models/hub-status-model.dart';
 import '../../domain/entities/hub-status.dart';
 import '../../domain/usecases/create-travller.dart';
@@ -32,20 +29,18 @@ class HubController extends GetxController {
   // Usecases
   final GetHubStatus getHubStatus;
   final CreateTraveller createTraveller;
-  final RequestLogin requestLogin;
-  final CheckIfAlreadyLoggedIn checkIfAlreadyLoggedIn;
+  final CheckIfAuthenticated checkIfAuthenticated;
 
   HubController({
     @required this.getHubStatus,
     @required this.createTraveller,
-    @required this.checkIfAlreadyLoggedIn,
-    @required this.requestLogin,
+    @required this.checkIfAuthenticated,
   });
 
   //////////////// Dynamic Data Container ////////////////
-  Rx<HubStatus> hubStatus = Rx<HubStatusModel>();
+  Rx<HubStatus> hubStatus = Rx<HubStatusModel>(null);
   // Just a temporary repetition for checking wheather hub-refresh flaw goes
-  Rx<HubStatus> hubStatusFinal = Rx<HubStatusModel>();
+  Rx<HubStatus> hubStatusFinal = Rx<HubStatusModel>(null);
 
   /////////////// Usecase Helpers /////////////////
   Future<void> fetchHubStatus() async {
@@ -104,26 +99,8 @@ class HubController extends GetxController {
     );
   }
 
-  Future<void> login() async {
-    toggleLogger();
-    final loggedInOrFailure = await requestLogin(
-      const RequestLoginParams(
-        isNewLogin: true,
-      ),
-    );
-    toggleLogger();
-    loggedInOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
-      (loginStatus) async {
-        log('user logged in');
-      },
-    );
-  }
-
   Future<bool> isAlreadyLoggedInUser() async {
-    final alreadyLoggedInStatusOrFailure = await checkIfAlreadyLoggedIn(
+    final alreadyLoggedInStatusOrFailure = await checkIfAuthenticated(
       NoParams(),
     );
     return alreadyLoggedInStatusOrFailure.fold(
@@ -137,23 +114,6 @@ class HubController extends GetxController {
     );
   }
 
-  Future<void> checkForLoginAndProceed() async {
-    final isLoggedIn = await isAlreadyLoggedInUser();
-    if (isLoggedIn) {
-      await createNewTravellerAndMoveAhead();
-    } else {
-      try {
-        await login().then(
-          (value) async => createNewTravellerAndMoveAhead(),
-        );
-      } catch (e) {
-        log(
-          e.toString(),
-        );
-      }
-    }
-  }
-
   /////////////// UI helper vairables ///////////////
   RxBool isProcessing = RxBool(false);
   RxBool isLoggingIn = RxBool(false);
@@ -163,7 +123,8 @@ class HubController extends GetxController {
     HubAnswerStatus.nothingAnswered,
   );
   // Hub screen initial data when user hasn't answered anything
-  Rx<HubScreenStateObject> activeHubStateObject = Rx<HubScreenStateObject>();
+  Rx<HubScreenStateObject> activeHubStateObject =
+      Rx<HubScreenStateObject>(null);
 
   /////////////// UI Managers ///////////////
   void toggleProcessor() {

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/profile-question.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
+import 'profile-question.dart';
+import '../../../questionnaire-track/domain/entities/question-option.dart';
 
 class QuestionLog extends Equatable {
   final int id;

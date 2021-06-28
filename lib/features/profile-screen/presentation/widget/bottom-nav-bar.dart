@@ -2,10 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
+import '../../../../core/asset-image-path/image-path.dart';
+import '../../../../core/responsive/scale-manager.dart';
+import '../../../../core/utils/color-pallete.dart';
+import '../controller/profile-controller.dart';
 
 class BottomNavBar extends StatefulWidget {
   final ProfileController controller = Get.find();

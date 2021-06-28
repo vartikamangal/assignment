@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
+import '../../../error/exceptions.dart';
 
 abstract class GetRecorderStatsLocalDataSource {
   Future<Stream<RecordingDisposition>> getDetails();

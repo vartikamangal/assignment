@@ -3,11 +3,11 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
+import '../../../../core/asset-image-path/image-path.dart';
+import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
+import '../../../../core/utils/color-pallete.dart';
+import '../../../../core/responsive/scale-manager.dart';
+import '../controller/profile-controller.dart';
 
 class LinearChart extends StatefulWidget {
   @override

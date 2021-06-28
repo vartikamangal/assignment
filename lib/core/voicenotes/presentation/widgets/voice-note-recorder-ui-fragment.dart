@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
+import '../../../asset-image-path/image-path.dart';
+import '../../../responsive/scale-manager.dart';
+import '../../../utils/color-pallete.dart';
+import '../controller/voice-notes-controller.dart';
 
 class VoiceNoteRecorder extends StatelessWidget {
   VoiceNoteRecorder({

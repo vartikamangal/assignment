@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
-import 'package:tatsam_app_experimental/core/utils/universal-widgets/bottomsheet-fixed-top.dart';
-import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
-import 'package:tatsam_app_experimental/features/home-management/presentation/controller/home-controller.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/Presentation/widgets/emotion_selector.dart';
+import '../../../../core/responsive/scale-manager.dart';
+import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
+import '../../../../core/utils/universal-widgets/bottomsheet-fixed-top.dart';
+import '../../../../core/utils/universal-widgets/empty-space.dart';
+import '../controller/home-controller.dart';
+import '../../../rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
+import '../../../rapport-building/Presentation/widgets/emotion_selector.dart';
 
 class DailyMoodBottomSheet extends StatelessWidget {
   DailyMoodBottomSheet({Key key}) : super(key: key);

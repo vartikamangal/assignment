@@ -2,21 +2,23 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:smartlook/smartlook.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/clear-dirty-cache-service.dart';
-import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
-import 'package:tatsam_app_experimental/core/secrets.dart';
-import 'package:tatsam_app_experimental/core/utils/helper_functions/add-delay.dart';
+import 'package:tatsam_app_experimental/core/app-page-status/data/repository/app-page-status-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/app-page-status/domain/usecases/get-last-abandoned-page.dart';
+import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/clear-dirty-cache-on-first-run.dart';
+import 'package:tatsam_app_experimental/features/hub/data/models/hub-status-model.dart';
+import 'package:tatsam_app_experimental/features/hub/domain/entities/hub-status.dart';
+import 'package:tatsam_app_experimental/features/hub/domain/usecases/get-hub-status.dart';
 
-import '../../../../core/auth/domain/usecases/check-if-already-logged-in.dart';
 import '../../../../core/cache-manager/domain/usecases/log-app-start-time.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-last-logged-app-init.dart';
 import '../../../../core/cache-manager/domain/usecases/retrieve-user-onboarding-status.dart';
 import '../../../../core/cache-manager/domain/usecases/save-is-first-time-onboarding-status.dart';
+import '../../../../core/error/display-error-info.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';
+import '../../../../core/utils/helper_functions/add-delay.dart';
 import '../../../../core/utils/helper_functions/generate-date-from-datetime.dart';
-import '../../../../core/utils/snackbars/snackbars.dart';
 import '../../../../features/home-management/domain/usecases/get-mood-popup-shown-status.dart';
 import '../../../../features/home-management/domain/usecases/toggle-mood-popup-shown-state.dart';
 
@@ -24,26 +26,31 @@ class RootController extends GetxController {
   // UseCases
   final RetrieveUserOnboardingStatus retrieveUserOnboardingStatus;
   final SaveIsFirstTimeOnboardingStatus saveIsFirstTimeOnboardingStatus;
-  final CheckIfAlreadyLoggedIn checkIfAlreadyLoggedIn;
+  final CheckIfAuthenticated checkIfAuthenticated;
   final LogAppStartTime logAppStartTime;
   final GetIsMoodPopupShownStatus getIsMoodPopupShownStatus;
   final RetirieveLastLoggedAppInit retirieveLastLoggedAppInit;
   final ToggleMoodPopupShownState toggleMoodPopupShownState;
-  final ClearDirtyCacheService clearCache;
+  final ClearDirtyCacheOnFirstRun clearDirtyCacheOnFirstRun;
+  final GetLastAbandonedPage getLastAbandonedPage;
+  final GetHubStatus getHubStatus;
 
   RootController({
     @required this.retrieveUserOnboardingStatus,
     @required this.saveIsFirstTimeOnboardingStatus,
-    @required this.checkIfAlreadyLoggedIn,
+    @required this.checkIfAuthenticated,
     @required this.logAppStartTime,
     @required this.getIsMoodPopupShownStatus,
     @required this.retirieveLastLoggedAppInit,
     @required this.toggleMoodPopupShownState,
-    @required this.clearCache,
+    @required this.clearDirtyCacheOnFirstRun,
+    @required this.getLastAbandonedPage,
+    @required this.getHubStatus,
   });
 
   // Dynamic data holders
   RxBool hasOnboardedPreviously = RxBool(false);
+  Rx<HubStatus> hubStatus = Rx<HubStatusModel>(null);
 
   // Usecase assistors
   Future<void> checkIfAlreadyOnboarded() async {
@@ -66,7 +73,7 @@ class RootController extends GetxController {
           // On reinstall (uninstall then install), the access/refresh tokens
           // are still persisted in secure storage
           // So, clearing for the auth system to work
-          await clearCache.clearCache();
+          // await clearCache.clearCache();
           await updateIsFirstTimeIfOnBoarded(
             yesOrNo: 'YES',
           );
@@ -76,8 +83,17 @@ class RootController extends GetxController {
     );
   }
 
+  Future<void> clearInitialDirtyCache() async {
+    final failureOrResult = await clearDirtyCacheOnFirstRun(NoParams());
+    failureOrResult.fold(
+      (f) => ErrorInfo.show(f),
+      (r) => log('[PASSED]'),
+    );
+  }
+
+  /// for checking if the user is already authenticated or not
   Future<void> isAlreadyLoggedIn() async {
-    final isLoggedInStatusOrFailure = await checkIfAlreadyLoggedIn(
+    final isLoggedInStatusOrFailure = await checkIfAuthenticated(
       NoParams(),
     );
     isLoggedInStatusOrFailure.fold(
@@ -139,10 +155,7 @@ class RootController extends GetxController {
             (route) => false,
           );
         } else {
-          Navigator.of(Get.context).pushNamedAndRemoveUntil(
-            RouteName.rapportPages,
-            (route) => false,
-          );
+          gotoRecentlyLeftPage();
         }
       } else {
         Navigator.of(Get.context).pushNamedAndRemoveUntil(
@@ -229,13 +242,43 @@ class RootController extends GetxController {
     );
   }
 
+  /// Temp name for getHubStatus
+  /// To be renamed later
+  Future<void> getUserDetails() async {
+    final failureOrResult = await getHubStatus(NoParams());
+    failureOrResult.fold(
+      (f) => log("couln't hub details for navigating post-login", error: f),
+      (usrDetails) => hubStatus.value = usrDetails,
+    );
+  }
+
+  Future<void> gotoRecentlyLeftPage() async {
+    final failureOrResult = await getLastAbandonedPage(
+      GetLastAbandonedPageParams(
+        hubStatusModel: hubStatus.value as HubStatusModel,
+      ),
+    );
+    failureOrResult.fold(
+      (f) => log(
+        "couldn't get last abndoned page, Going to ${appFallbackRoute.name}",
+        error: f,
+      ),
+      (r) => Navigator.of(Get.context).pushNamedAndRemoveUntil(
+        r.name,
+        (route) => false,
+      ),
+    );
+  }
+
   // UI managers
-  Rx<Widget> screenToStartWith = Rx<Widget>();
-  Rx<String> appLastLoggedTime = Rx<String>();
+  Rx<Widget> screenToStartWith = Rx<Widget>(null);
+  Rx<String> appLastLoggedTime = Rx<String>(null);
   // initial setup
   Future<void> setup() async {
+    await clearInitialDirtyCache();
     await logAppInit();
     await getAppLastLoggedTime();
+    await getUserDetails();
     await checkIfAlreadyOnboarded();
     await isAlreadyLoggedIn();
     await checkIfMoodPopupShown();

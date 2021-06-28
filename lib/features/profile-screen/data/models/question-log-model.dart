@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/data/models/profile-question-model.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/question-log.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-model.dart';
-import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
+import 'profile-question-model.dart';
+import '../../domain/entities/question-log.dart';
+import '../../../questionnaire-track/data/models/question-model.dart';
+import '../../../questionnaire-track/data/models/question-option-model.dart';
 
 class QuestionLogModel extends QuestionLog {
   const QuestionLogModel({

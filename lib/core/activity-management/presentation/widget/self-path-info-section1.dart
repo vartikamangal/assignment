@@ -158,7 +158,7 @@ class SelfPathInfoSection1 extends StatelessWidget {
                       spaceing: 71,
                     ).value,
                     top: ScaleManager.spaceScale(
-                      spaceing: 9,
+                      spaceing: 15,
                     ).value,
                   ),
                   child: Obx(
@@ -180,8 +180,8 @@ class SelfPathInfoSection1 extends StatelessWidget {
               ],
             ),
             Positioned(
-              right: ScaleManager.spaceScale(spaceing: 12).value,
-              bottom: ScaleManager.spaceScale(spaceing: 13).value,
+              right: ScaleManager.spaceScale(spaceing: 14).value,
+              bottom: ScaleManager.spaceScale(spaceing: 14).value,
               child: BottomRightButton(
                 title: '',
                 onPressed: () {

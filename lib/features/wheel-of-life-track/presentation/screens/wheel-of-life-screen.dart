@@ -1,5 +1,6 @@
 // Dart imports:
 import 'dart:io';
+import 'dart:math';
 
 // Flutter imports:
 import 'package:flip_card/flip_card.dart';
@@ -19,6 +20,7 @@ import '../controllers/wheel-of-life-controller.dart';
 
 class WheelOfLifeScreen extends StatelessWidget {
   final _controller = Get.find<WheelOfLifeController>();
+  bool isBack = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,10 +85,11 @@ class WheelOfLifeScreen extends StatelessWidget {
                             spaceing: 16,
                           ).value,
                           right: ScaleManager.spaceScale(
-                            spaceing: 14,
+                            spaceing: 41,
                           ).value,
                         ),
                         child: Obx(() {
+
                           if(_controller.isLoading.value){
                             return Container();
                           }
@@ -102,21 +105,26 @@ class WheelOfLifeScreen extends StatelessWidget {
                             );
                           } else if (_controller.currentOnBoardPageCounter.value ==
                               1) {
-                            return FlipCard(
-                              flipOnTouch: false,
-                              key: _controller.bottomBtnAnimState,
-                              speed:
-                              600 + ((_controller.lifeAreas.length + 1) * 50),
-                              front: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  BottomMiddleButton(
-                                    title: 'DONE',
-                                    onPressed: () => _controller.changeScreen(),
-                                  ),
-                                ],
-                              ),
-                              back: EmptySpacePlaceHolder(),
+                            return TweenAnimationBuilder(
+                                tween: Tween<double>(begin: 0, end: _controller.angle.value),
+                                duration: Duration(milliseconds: 600+(_controller.lifeAreas.length + 1)*100),
+                                builder: (BuildContext context, double val, __){
+                                  if (val >= (pi / 2)) {
+                                    isBack = false;
+                                  } else {
+                                    isBack = true;
+                                  }
+                                  return Transform(
+                                    alignment: Alignment.center,
+                                    transform: Matrix4.identity()
+                                      ..setEntry(3, 2, 0.001)
+                                      ..rotateY(val),
+                                    child: isBack? BottomMiddleButton(
+                                      title: 'DONE',
+                                      onPressed: () => _controller.changeScreen(),
+                                    ):Container(),
+                                  );
+                                }
                             );
                           } else {
                             return BottomMiddleButton(

@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-input.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/persist-recommendation-feedback-service.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
+import '../entities/recommendation-input.dart';
+import '../repositories/persist-recommendation-feedback-service.dart';
+import '../../../error/failures.dart';
+import '../../../usecase/usecase.dart';
 
 class GetPersistedFeedbacks
     implements Usecase<List<RecommendationInput>, NoParams> {

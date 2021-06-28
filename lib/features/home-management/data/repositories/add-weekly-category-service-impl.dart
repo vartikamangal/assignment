@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+import '../../../../core/repository/base-repository-impl.dart';
 
 import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
 import '../../../../core/error/exceptions.dart';

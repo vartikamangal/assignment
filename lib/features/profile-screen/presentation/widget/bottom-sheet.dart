@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
-import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
+import '../../../../core/responsive/scale-manager.dart';
+import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
+import '../../../../core/utils/color-pallete.dart';
 
 class InfoBottomSheet extends StatelessWidget {
   final String selectedArea;

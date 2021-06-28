@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:tatsam_app_experimental/core/session-manager/session-manager.dart';
+
+import '../session-manager/session-manager.dart';
 
 class ApiClient {
   final http.Client client;

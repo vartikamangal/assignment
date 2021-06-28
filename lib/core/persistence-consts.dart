@@ -15,12 +15,8 @@ abstract class PersistenceConst {
   static String CORE_TRAVELLER_INFO_FOR_HEADER = "core-traveller-info-header";
   // Saves the feeling, that user typed inside the rapport-last-screen
   static String RAPPORT_FEELING_BOX = "rapport-feeling";
-  // Saves the (bool), which confirms wheather user saved anything in voice note of rapport or not
-  static String RAPPORT_IS_FEELING_VOICENOTE_EMPTY_BOX = "rapport-feeling";
-  // Saves the voiceNote{filePath} that user (if)spoke inside the rapport-last-screen
-  static String RAPPORT_FEELING_VOICENOTE_BOX = "rapport-feeling";
   // Holds the persisted data that user enetered after activity completion
-  static String RECOMMENDATION_INPUTS = "rapport-feeling";
+  static String RECOMMENDATION_INPUTS = "recommendation-inputs";
   // Holds the persisted value of path selected by user on what-path-to-choose screen
   static String USER_SELECTED_PATH = "user-path";
   // Stores the most recent activity completed by user
@@ -29,6 +25,8 @@ abstract class PersistenceConst {
   static String USER_ONBOARDING_STATUS = "user-onboarding-status";
   // Stores the user status on app, For showing onboarding screen for the first time
   static String IS_FIST_TIME_USER = "first-time-user";
+  // Stores the user status on app, For showing onboarding screen for the first time
+  static String IS_FIRST_RUN = "is-first-run";
   // Will store a bool value of have we shown today's mood popup to the user
   static String MOOD_POPUP_SHOWN = "is-mood-popup-shown";
   // Key value for the user mood store

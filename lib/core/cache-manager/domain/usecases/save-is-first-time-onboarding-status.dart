@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import '../repositories/save-user-onboarding-status-service.dart';
-import '../../../error/failures.dart';
 
+import '../../../error/failures.dart';
 import '../../../usecase/usecase.dart';
+import '../repositories/user-onboarding-status-repository.dart';
 
 class SaveIsFirstTimeOnboardingStatus
     implements Usecase<Unit, SaveIsFirstTimeOnboardingStatusParams> {
-  final SaveUserOnboardingStatusService service;
+  final UserOnboardingStatusRepository service;
 
   SaveIsFirstTimeOnboardingStatus({
     @required this.service,

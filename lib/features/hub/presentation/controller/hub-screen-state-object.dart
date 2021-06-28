@@ -64,7 +64,7 @@ Map<HubAnswerStatus, HubScreenStateObject> kHubScreenStateObjectMap = {
     subtitle:
         'Amazing! We now have a complete understanding of where you are currently in your journey. Now, lets start from here and take you to growth in all dimensions',
     onImageTap: () async {
-      await Get.find<HubController>().checkForLoginAndProceed();
+      await Get.find<HubController>().createNewTravellerAndMoveAhead();
     },
   ),
 };

@@ -2,11 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../../../error/failures.dart';
 
-import 'package:tatsam_app_experimental/core/success/success-interface.dart';
-import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/start-recording-voicenote-service.dart';
+import '../../../success/success-interface.dart';
+import '../../../usecase/usecase.dart';
+import '../repository/start-recording-voicenote-service.dart';
 
 class StartRecordingVoiceNote
     implements Usecase<Success, StartRecordingVoiceNoteParams> {

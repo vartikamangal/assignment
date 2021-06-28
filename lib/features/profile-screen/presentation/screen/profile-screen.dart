@@ -48,7 +48,6 @@ class ProfileScreen extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  //TODO SETTING FUNCTIONALITY
                   Navigator.pushNamed(context, RouteName.settingScreen);
                 },
                 icon: Image.asset(
@@ -74,35 +73,4 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-/*
-Obx(()=> BottomNavigationBar(
-currentIndex: controller.selectedScreenIndex.value,
-selectedItemColor: blueDarkShade,
-onTap: controller.selectScreen,
-type: BottomNavigationBarType.fixed,
-iconSize: 30,
-showSelectedLabels: false,   // <-- HERE
-showUnselectedLabels: false,
-items: const <BottomNavigationBarItem>[
-BottomNavigationBarItem(
-icon: SizedBox(width:30,child: ImageIcon(AssetImage("assets/profile-icon/profile.png"),)),
-label: 'profile',
-),
-BottomNavigationBarItem(
-icon: SizedBox(width:30,child: ImageIcon(AssetImage("assets/profile-icon/wheel.png"),)),
-label: 'wheel',
-),
-BottomNavigationBarItem(
-icon: SizedBox(width:30,child: ImageIcon(AssetImage("assets/profile-icon/mood.png"),)),
-label: 'mood',
-),
-BottomNavigationBarItem(
-icon: SizedBox(width:30,child: ImageIcon(AssetImage("assets/profile-icon/diary.png"),)),
-label: 'profile',
-),
-BottomNavigationBarItem(
-icon: SizedBox(width:30,child: ImageIcon(AssetImage("assets/profile-icon/profile_diary.png"),)),
-label: 'profile_diary',
-),
-],
-),)*/
+

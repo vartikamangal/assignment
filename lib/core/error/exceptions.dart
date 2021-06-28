@@ -11,3 +11,5 @@ class NotPermittedActionException implements Exception {}
 class AuthException implements Exception {}
 
 class PlayBackException implements Exception {}
+
+class AbandonedPageNotFoundException implements Exception {}

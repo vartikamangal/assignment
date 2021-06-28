@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import '../repositories/save-user-onboarding-status-service.dart';
+import '../repositories/user-onboarding-status-repository.dart';
 import '../../../error/failures.dart';
 import 'package:dartz/dartz.dart';
 import '../../../usecase/usecase.dart';
 
 class CheckIfFirstTimeUser implements Usecase<bool, NoParams> {
-  final SaveUserOnboardingStatusService service;
+  final UserOnboardingStatusRepository service;
 
   CheckIfFirstTimeUser({
     @required this.service,

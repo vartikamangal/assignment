@@ -100,13 +100,19 @@ class PersistRecommendationFeedbackLocalServiceImpl
       final result = await box.get(
         PersistenceConst.RECOMMENDATION_INPUTS,
       ) as String;
-      return (jsonDecode(result) as List)
-          .map(
-            (log) => RecommendationInputModel.fromJson(
-              jsonDecode(log as String) as Map<String, dynamic>,
-            ),
-          )
-          .toList();
+      if (result != null) {
+        /// valid for case if the any persisted activities are found
+        return (jsonDecode(result) as List)
+            .map(
+              (log) => RecommendationInputModel.fromJson(
+                jsonDecode(log as String) as Map<String, dynamic>,
+              ),
+            )
+            .toList();
+      } else {
+        /// valid for case if the user didn't completed any activity yet
+        return [];
+      }
     } catch (e) {
       log(e.toString());
       throw CacheException();

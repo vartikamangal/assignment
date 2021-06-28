@@ -49,118 +49,111 @@ class QuestionsTrackScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: ScaleManager.spaceScale(
-            spaceing: 42,
-          ).value,
-          right: ScaleManager.spaceScale(
-            spaceing: 41,
-          ).value,
-        ),
-        child: Stack(
-          children: [
-            Text(
-              tr('question screen title'),
-              style: AppTextStyle.titleLM,
-              textScaleFactor: textScaleFactor,
-            ),
-            SizedBox(
-              height: ScaleManager.spaceScale(
-                spaceing: 100,
-              ).value,
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: ScaleManager.spaceScale(
-                  spaceing: 104,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: ScaleManager.spaceScale(
+              spaceing: 42,
+            ).value,
+            right: ScaleManager.spaceScale(
+              spaceing: 41,
+            ).value,
+          ),
+          child: Column(
+            children: [
+              Text(
+                tr('question screen title'),
+                style: AppTextStyle.titleLM,
+                textScaleFactor: textScaleFactor,
+              ),
+              SizedBox(
+                height: ScaleManager.spaceScale(
+                  spaceing: 35,
                 ).value,
               ),
-              height: ScaleManager.spaceScale(
-                spaceing: Get.height,
-              ).value,
-              width: ScaleManager.spaceScale(
-                spaceing: Get.width,
-              ).value,
-              child: Obx(
-                () => controller.isLoading.value
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : ListView.builder(
-                        controller: controller.scrollController,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final question = controller.questionToAnswerMap.keys
-                              .toList()[index];
-                          final questionType = controller
-                              .questionToAnswerMap.keys
-                              .toList()[index]
-                              .questionType;
-                          // Find a way for dynamic rendering both types of fetched questions
-                          return questionType == 'SINGLE_CHOICE'
-                              ? MultipleChoiceTypeQuestionTile(
-                                  index: index,
-                                  question: question as QuestionModel,
-                                  conroller: controller,
-                                )
-                              : ScaleTypeQuestionTile(
-                                  question: question.questionText,
-                                  // 0 is used because in Scale Type questions, there is only one scale scale possible in response
-                                  min: question.questionOptionVO[0]
-                                      .additionalInformation[0].min
-                                      .toDouble(),
-                                  max: question.questionOptionVO[0]
-                                      .additionalInformation[0].max
-                                      .toDouble(),
-                                  onChanged: (double newVal) {
-                                    controller.updateQuizValues(
-                                      question: question,
-                                      option: newVal,
-                                    );
-                                  },
-                                  emotionValue: (controller
-                                          .questionToAnswerMap[question] as num)
-                                      .toDouble(),
-                                  index: 1,
-                                  value: (controller
-                                          .questionToAnswerMap[question] as num)
-                                      .roundToDouble(),
-                                );
-                        },
-                        itemCount:
-                            controller.questionToAnswerMap.keys.toList().length,
-                      ),
+              Container(
+                constraints: BoxConstraints(minHeight: Get.height*0.63),
+                child: Obx(
+                  () => controller.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                    shrinkWrap: true,
+                          controller: controller.scrollController,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final question = controller.questionToAnswerMap.keys
+                                .toList()[index];
+                            final questionType = controller
+                                .questionToAnswerMap.keys
+                                .toList()[index]
+                                .questionType;
+                            // Find a way for dynamic rendering both types of fetched questions
+                            return questionType == 'SINGLE_CHOICE'
+                                ? MultipleChoiceTypeQuestionTile(
+                                    index: index,
+                                    question: question as QuestionModel,
+                                    conroller: controller,
+                                  )
+                                : ScaleTypeQuestionTile(
+                                    question: question.questionText,
+                                    // 0 is used because in Scale Type questions, there is only one scale scale possible in response
+                                    min: question.questionOptionVO[0]
+                                        .additionalInformation[0].min
+                                        .toDouble(),
+                                    max: question.questionOptionVO[0]
+                                        .additionalInformation[0].max
+                                        .toDouble(),
+                                    onChanged: (double newVal) {
+                                      controller.updateQuizValues(
+                                        question: question,
+                                        option: newVal,
+                                      );
+                                    },
+                                    emotionValue: (controller
+                                            .questionToAnswerMap[question] as num)
+                                        .toDouble(),
+                                    index: 1,
+                                    value: (controller
+                                            .questionToAnswerMap[question] as num)
+                                        .roundToDouble(),
+                                  );
+                          },
+                          itemCount:
+                              controller.questionToAnswerMap.keys.toList().length,
+                        ),
+                ),
               ),
-            ),
-            Obx(() => Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      bottom: ScaleManager.spaceScale(
-                        spaceing: 10,
-                      ).value,
+              Obx(() => Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: ScaleManager.spaceScale(
+                          spaceing: 10,
+                        ).value,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if (controller.isAllQuestionAnswered.value == true)
+                            BottomRightButton(
+                              onPressed: () async {
+                                await controller.attempQuestionsTrigger();
+                              },
+                              title: '',
+                            )
+                          else
+                            InactiveBottomRightButton(
+                              title: '',
+                              onPressed: () {},
+                            ),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        if (controller.isAllQuestionAnswered.value == true)
-                          BottomRightButton(
-                            onPressed: () async {
-                              await controller.attempQuestionsTrigger();
-                            },
-                            title: '',
-                          )
-                        else
-                          InactiveBottomRightButton(
-                            title: '',
-                            onPressed: () {},
-                          ),
-                      ],
-                    ),
-                  ),
-                )),
-          ],
+                  )),
+            ],
+          ),
         ),
       ),
     );

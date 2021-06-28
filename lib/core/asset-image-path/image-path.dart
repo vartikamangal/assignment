@@ -48,6 +48,7 @@ class ImagePath {
   static final String forwardIcon='/universal_images/forward_icon.svg'.makePath();
   static final String playButton='/universal_images/play_icon.svg'.makePath();
   static final String crossButton='/universal_images/cross_button.svg'.makePath();
+  static final String emptyStateEmoji='/universal_images/empty-state-image.svg'.makePath();
 
   //Your Path screen
   //self driven path

@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:animator/animator.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -53,7 +54,7 @@ class PathInfoSection2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: ScaleManager.spaceScale(spaceing: 17).value,
+                  height: ScaleManager.spaceScale(spaceing: 15).value,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +114,7 @@ class PathInfoSection2 extends StatelessWidget {
                         spaceing: 71,
                       ).value,
                       top: ScaleManager.spaceScale(
-                        spaceing: 9,
+                        spaceing: 15,
                       ).value),
                   child: Obx(
                     () => Text(
@@ -135,23 +136,25 @@ class PathInfoSection2 extends StatelessWidget {
             ),
             Positioned(
               right: ScaleManager.spaceScale(
-                spaceing: 12,
+                spaceing: 14,
               ).value,
               bottom: ScaleManager.spaceScale(
                 spaceing: 14,
               ).value,
-              child: AnimatedSwitcher(
-                switchInCurve: Curves.easeIn,
-                duration: const Duration(
-                  milliseconds: 300,
-                ),
-                child: BottomRightTextButton(
-                  title: tr('i got it'),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      RouteName.pathInfoSection3,
-                    );
-                  },
+              child: Animator<double>(
+                curve: Curves.easeInOut,
+                tween: Tween<double>(begin: 0, end: 1),
+                duration: const Duration(milliseconds: 400),
+                builder: (context, animatorState, child) => Transform.translate (
+                 offset: Offset(animatorState.value, 1),
+                  child: BottomRightTextButton(
+                    title: tr('i got it'),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        RouteName.pathInfoSection3,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

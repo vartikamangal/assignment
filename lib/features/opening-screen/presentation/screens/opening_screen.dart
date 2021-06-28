@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tatsam_app_experimental/core/auth/presentation/controller/auth-controller.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/mini-loader.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/splash-screen-elements.dart';
 
@@ -47,15 +48,18 @@ class OpeningScreen extends StatelessWidget {
                     spaceing: 55,
                   ).value,
                 ),
-                child: RoundButton(
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      RouteName.rapportPages,
-                      (route) => false,
-                    );
-                  },
-                  title: "LET'S START",
+                child: Obx(
+                  () => _authController.isProcessing.value
+                      ? EmptySpacePlaceHolder()
+                      : RoundButton(
+                          color: Colors.white,
+                          onPressed: () async {
+                            await _authController.signup(
+                              redirectRoute: RouteName.rapportPages,
+                            );
+                          },
+                          title: "LET'S START",
+                        ),
                 ),
               ),
             ),

@@ -1,4 +1,4 @@
-package com.example.tatsam_app_experimental
+package `in`.tatsam.app
 
 import io.flutter.embedding.android.FlutterActivity
 

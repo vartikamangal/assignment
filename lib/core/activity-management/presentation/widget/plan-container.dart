@@ -58,7 +58,9 @@ class PlanContainer extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: hintshade,
-                      width: 2,
+                      width: ScaleManager.spaceScale(
+                        spaceing: 1,
+                      ).value,
                     ),
                     borderRadius: BorderRadius.all(
                       Radius.circular(

@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tatsam_app_experimental/core/app-page-status/domain/entities/app-route.dart';
 
 abstract class Failure extends Equatable {
   // ignore: avoid_unused_constructor_parameters
@@ -46,10 +47,7 @@ class AuthFailure extends Failure {
     @required this.details,
   });
   @override
-  List<Object> get props => [
-        title,
-        details,
-      ];
+  List<Object> get props => [title, details];
 }
 
 class PlaybackFailure extends Failure {
@@ -60,4 +58,13 @@ class PlaybackFailure extends Failure {
 class AnalyticsInitializationFailure extends Failure {
   @override
   List<Object> get props => [];
+}
+
+class AbandonedPageNotFoundFailure extends Failure {
+  final AppRoute fallbackRoute;
+
+  const AbandonedPageNotFoundFailure({@required this.fallbackRoute});
+
+  @override
+  List<Object> get props => [fallbackRoute];
 }

@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/features/hub/domain/entities/hub-status.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/profile-data.dart';
-import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/question-log.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
+import '../../../../core/error/failures.dart';
+import '../../../hub/domain/entities/hub-status.dart';
+import '../entities/profile-data.dart';
+import '../entities/question-log.dart';
+import '../../../rapport-building/domain/entities/mood-tracking.dart';
 
 abstract class ProfileDetailsRepository {
   /// supposed to provide [ProfileData] with basic user homepage details

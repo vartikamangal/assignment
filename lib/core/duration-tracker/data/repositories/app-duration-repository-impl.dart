@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/duration-tracker/data/models/app-duration-model.dart';
-import 'package:tatsam_app_experimental/core/duration-tracker/data/sources/app-duration-local-data-source.dart';
-import 'package:tatsam_app_experimental/core/duration-tracker/domain/entities/app-duration.dart';
+import '../models/app-duration-model.dart';
+import '../sources/app-duration-local-data-source.dart';
+import '../../domain/entities/app-duration.dart';
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/duration-tracker/domain/repository/app-duration-repository.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
+import '../../domain/repository/app-duration-repository.dart';
+import '../../../error/exceptions.dart';
+import '../../../error/failures.dart';
 
 class AppDurationRepositoryImpl implements AppDurationRepository {
   final AppDurationLocalDataSource localDataSource;

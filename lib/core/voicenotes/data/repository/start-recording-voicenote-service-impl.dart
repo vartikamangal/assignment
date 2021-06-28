@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
-import 'package:tatsam_app_experimental/core/error/exceptions.dart';
-import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/success/success-interface.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/data/source/start-recording-voicenote-local-service.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/recording-started-status.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/start-recording-voicenote-service.dart';
+import '../../../error/exceptions.dart';
+import '../../../error/failures.dart';
+import '../../../success/success-interface.dart';
+import '../source/start-recording-voicenote-local-service.dart';
+import '../../domain/entity/recording-started-status.dart';
+import '../../domain/repository/start-recording-voicenote-service.dart';
 
 class StartRecordingVoiceNoteServiceImpl
     implements StartRecordingVoiceNoteService {
