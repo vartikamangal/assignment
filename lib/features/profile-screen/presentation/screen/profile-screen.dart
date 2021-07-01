@@ -1,7 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/features/home-management/presentation/controller/home-controller.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/controller/profile-controller.dart';
@@ -14,7 +14,6 @@ import 'package:tatsam_app_experimental/features/profile-screen/presentation/wid
 import '../../../../core/asset-image-path/image-path.dart';
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
-import '../../../../core/utils/color-pallete.dart';
 import '../../../../features/profile-screen/presentation/widget/my-diary.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -34,17 +33,9 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: SvgPicture.asset(
-              ImagePath.backButton,
-              height: ScaleManager.spaceScale(
-                spaceing: 26,
-              ).value,
-            ),
-          ),
+          leading: TopAppBar(onPressed: () {
+            Navigator.of(context).pop();
+          }),
           actions: [
             IconButton(
                 onPressed: () {
@@ -66,11 +57,9 @@ class ProfileScreen extends StatelessWidget {
               : screens[controller.selectedScreenIndex.value],
         ),
         bottomNavigationBar: BottomNavBar(
-          mood: _homeController.userMood.value.moodName,
+          mood: _homeController.userMood.value,
         ),
       ),
     );
   }
 }
-
-

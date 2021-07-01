@@ -32,7 +32,7 @@ class ChoosePathController extends GetxController {
   ////////// Dynamic Data Holders {For Usecases} ///////////////
   /////////                                     //////////////
   RxList<Journey> availableJournies = RxList<JourneyModel>([]);
-  Rx<Journey> selectedJourney = Rx<JourneyModel>(null);
+  Rx<Journey> selectedJourney = Rx<JourneyModel>();
 
   //////////                        //////////////
   ////////// Usecase helper methods ///////////////

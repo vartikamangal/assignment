@@ -1,7 +1,6 @@
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/utils/animations/fade-animation-x-axis.dart';
@@ -15,7 +14,6 @@ import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
-import '../../../../core/utils/buttons/bottom-middle-button.dart';
 import '../../../../core/utils/color-pallete.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
 import '../../../../features/home-management/presentation/controller/home-controller.dart';
@@ -36,6 +34,7 @@ class _OnBoardingIncompleteState extends State<OnBoardingIncomplete> {
   final DurationTrackerController durationController = Get.find();
 
   final PathController pathController = Get.find();
+
   final RapportBuildingController rapportBuildingController = Get.find();
 
   @override
@@ -73,7 +72,7 @@ class _OnBoardingIncompleteState extends State<OnBoardingIncomplete> {
                       Obx(
                         () => _TopHalfComponent(
                           imageScaleFactor: imageScaleFactor,
-                          userMood: controller.userMood.value.moodName,
+                          userMood: controller.userMood.value,
                           textScaleFactor: textScaleFactor,
                           toShowCatgories: controller.toShowCategories.value,
                           whatToDoNextTitle: controller.chosenPath.value ==
@@ -429,7 +428,7 @@ class _ConfirmButtonManager extends StatelessWidget {
                   title: 'DONE FOR TODAY',
                   onPressed: () async {},
                 ),*/
-              )
+                )
             : EmptySpacePlaceHolder(),
       ),
     );

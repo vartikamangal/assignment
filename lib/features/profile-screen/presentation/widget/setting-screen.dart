@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
@@ -19,22 +20,13 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
+    controller.nicknameEditingController.value= TextEditingValue(text: controller.profileData.value.nickName);
     return SafeArea(child: Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: SvgPicture.asset(
-            ImagePath.backButton,
-            height: ScaleManager.spaceScale(
-              spaceing: 26,
-            ).value,
-          ),
-        ),
+        leading: TopAppBar(onPressed: (){Navigator.of(context).pop();}),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -42,11 +34,11 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
             spaceing: 14,
           ).value,
               left: ScaleManager.spaceScale(
-            spaceing: 44,
-          ).value,
-          right: ScaleManager.spaceScale(
-            spaceing: 43,
-          ).value),
+                spaceing: 44,
+              ).value,
+              right: ScaleManager.spaceScale(
+                spaceing: 43,
+              ).value),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -76,7 +68,7 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                       child: Text(tr('change your profile'),
                         style: AppTextStyle.titlel.copyWith(fontSize: 17),
                         textScaleFactor: textScaleFactor,
-                  ))
+                      ))
                 ],
               ),
 
@@ -87,6 +79,7 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                   spaceing: 10,
                 ).value),
                 child: TextField(
+                  controller: controller.nameEditingController,
                   style: AppTextStyle.titlel.copyWith(fontSize: ScaleManager.spaceScale(
                     spaceing: 26,
                   ).value),
@@ -94,10 +87,10 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                   decoration: InputDecoration(labelText: tr('name'),labelStyle: AppTextStyle.hintStyle.copyWith(fontSize: ScaleManager.spaceScale(
                     spaceing: 12,
                   ).value),
-                  contentPadding: EdgeInsets.symmetric(
-                  vertical: ScaleManager.spaceScale(
-                  spaceing: 10,
-                  ).value),),
+                      contentPadding:  EdgeInsets.symmetric(
+                          vertical: ScaleManager.spaceScale(
+                            spaceing: 10,
+                          ).value)),
                 ),
               ),
 
@@ -107,6 +100,7 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                   spaceing: 10,
                 ).value),
                 child: TextField(
+                  controller: controller.nicknameEditingController,
                   style: AppTextStyle.titlel.copyWith(fontSize: ScaleManager.spaceScale(
                     spaceing: 26,
                   ).value),
@@ -127,6 +121,7 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
                   spaceing: 10,
                 ).value),
                 child: TextField(
+                  controller: controller.dobEditingController,
                   style: AppTextStyle.titlel.copyWith(fontSize: ScaleManager.spaceScale(
                     spaceing: 26,
                   ).value),

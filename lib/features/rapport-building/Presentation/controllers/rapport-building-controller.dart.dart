@@ -57,12 +57,11 @@ class RapportBuildingController extends GetxController {
 
   /// This will give us basic userInfo like subjectInfo
   /// Which is to be used in common-feedback persistence
-  Rx<SubjectInformation> subjectInfo = Rx<SubjectInformationModel>(null);
-  Rx<RapportBuildingSteps> rapportBuildingSteps =
-      Rx<RapportBuildingSteps>(null);
+  Rx<SubjectInformation> subjectInfo = Rx<SubjectInformationModel>();
+  Rx<RapportBuildingSteps> rapportBuildingSteps = Rx<RapportBuildingSteps>();
   RxList<FeelingDuration> availableDurations = RxList<FeelingDurationModel>([]);
-  Rx<MoodTracking> userMoodStatus = Rx<MoodTrackingModel>(null);
-  Rx<TextEditingController> controller = Rx<TextEditingController>(null);
+  Rx<MoodTracking> userMoodStatus = Rx<MoodTrackingModel>();
+  Rx<TextEditingController> controller = Rx<TextEditingController>();
 
   RapportBuildingController({
     @required this.setSubjectName,
@@ -298,13 +297,13 @@ class RapportBuildingController extends GetxController {
   // for setting a nickName
   RxString userName = RxString('');
   // For making global widget changes as per the selected index
-  Rx<Widget> currentSelectedPage = Rx<Widget>(null);
+  Rx<Widget> currentSelectedPage = Rx<Widget>();
   // For setting up a global mood
-  Rx<Mood> selectedMood = Rx<Mood>(null);
+  Rx<Mood> selectedMood = Rx<Mood>();
   // For getting status of dropdown
   RxBool isDropDownExpanded = RxBool(false);
   // For persisting selected feelingDuration from dropDown
-  Rx<FeelingDuration> selectedFeelingDuration = Rx<FeelingDurationModel>(null);
+  Rx<FeelingDuration> selectedFeelingDuration = Rx<FeelingDurationModel>();
   //For valid name input
   RxInt validName = 0.obs;
   // For storing rapport last step feeling

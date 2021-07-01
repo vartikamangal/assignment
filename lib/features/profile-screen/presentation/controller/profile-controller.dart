@@ -49,14 +49,18 @@ class ProfileController extends GetxController {
   });
 
   // Dynamic data holders
-  Rx<ProfileData> profileData = Rx<ProfileDataModel>(null);
-  Rx<HubStatus> hubStatus = Rx<HubStatusModel>(null);
+  Rx<ProfileData> profileData = Rx<ProfileDataModel>();
+  Rx<HubStatus> hubStatus = Rx<HubStatusModel>();
   RxList<MoodTracking> moodLogs = RxList<MoodTrackingModel>([]);
   RxList<QuestionLog> questionLogs = RxList<QuestionLogModel>([]);
   RxList<RecommendationInput> diaryLogs = RxList<RecommendationInputModel>([]);
   RxList<PostOnboardingAction> actions = RxList<PostOnboardingActionModel>([]);
   // For getting status of dropdown
   RxBool isDropDownExpanded = RxBool(false);
+//text editing controller
+  final TextEditingController nameEditingController = TextEditingController();
+  final TextEditingController nicknameEditingController = TextEditingController();
+  final TextEditingController dobEditingController = TextEditingController();
 
   void toggleDropDownExpansion() {
     isDropDownExpanded.value = !isDropDownExpanded.value;
@@ -163,7 +167,7 @@ class ProfileController extends GetxController {
   RxBool isLoading = RxBool(false);
   RxBool isProcessing = RxBool(false);
   RxInt selectedScreenIndex = 0.obs;
-  Rx<Widget> currentSelectedPage = Rx<Widget>(null);
+  Rx<Widget> currentSelectedPage = Rx<Widget>();
   RxString userName = RxString('');
   RxMap<int, RecommendationInput> actionIdToDiaryLogMap =
       RxMap<int, RecommendationInputModel>();

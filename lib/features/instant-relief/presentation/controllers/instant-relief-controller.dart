@@ -49,7 +49,7 @@ class InstantReliefController extends GetxController {
 
   // UI management variables
   RxBool isProcessing = RxBool(false);
-  Rx<InstantReliefArea> selectedArea = Rx<InstantReliefAreaModel>(null);
+  Rx<InstantReliefArea> selectedArea = Rx<InstantReliefAreaModel>();
 
   // UI management methods
   void toggleProcessor() {

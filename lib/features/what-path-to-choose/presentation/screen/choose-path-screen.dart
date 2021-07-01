@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:animator/animator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
@@ -25,26 +26,9 @@ class ChoosePathScreen extends StatelessWidget {
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            leading: IconButton(
-              padding:EdgeInsets.only(left: ScaleManager.spaceScale(
-                spaceing: 10,
-              ).value,
-                  top: ScaleManager.spaceScale(
-                    spaceing: 10,
-                  ).value,
-                  bottom: 0),
-              icon:SvgPicture.asset(
-                ImagePath.backButton,
-                height: ScaleManager.spaceScale(
-                  spaceing: 26,
-                ).value,
-              ),
-              onPressed: () {
-                _controller.isJourneySelected.value
-                    ? _controller.navigateBack()
-                    : Navigator.of(context).pop();
-              },
-            )),
+            leading:TopAppBar(onPressed: (){_controller.isJourneySelected.value
+                ? _controller.navigateBack()
+                : Navigator.of(context).pop();})),
         body: Animator<double>(
           tween: Tween<double>(
             begin: 0,

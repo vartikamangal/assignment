@@ -37,6 +37,10 @@ void main() {
     lifePriorities: LifePriorities(id: 1, areasInOrderOfPriority: []),
     lifeSatisfactionRatings: {},
     attemptedQuestions: false,
+    userMood: null,
+    journey: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
   );
 
   group('Usecase: GetHubStatus', () {

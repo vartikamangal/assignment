@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
@@ -22,95 +23,113 @@ class MidPageContentA extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final scale = ScaleManager.imageScale.value;
     final textScaleFactor = ScaleManager.textScale.value;
-    return Stack(
-      children: [
-        Container(
-          padding: EdgeInsets.only(
-            left: ScaleManager.spaceScale(
-              spaceing: 30,
-            ).value,
-            right: ScaleManager.spaceScale(
-              spaceing: 1,
-            ).value,
+    final size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Stack(
+        children: [
+          Obx(
+                () => controller.isProcessing.value
+                ? const LinearProgressIndicator()
+                : Container(),
           ),
-          width: Get.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: Get.height * 0.25,
-              ),
+          Positioned(
+            right: 0,
+            child: Image.asset(
+              ImagePath.topRightLeaf,
+              width: size.width,
+              // fit: BoxFit.fitWidth,
+              scale: scale,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(
+              left: ScaleManager.spaceScale(
+                spaceing: 30,
+              ).value,
+              right: ScaleManager.spaceScale(
+                spaceing: 1,
+              ).value,
+            ),
+            width: Get.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: Get.height * 0.25,
+                ),
+
+                  SizedBox(
+                    width: Get.width * 0.75,
+                    child: Text(
+                      tr('ask name title'),
+                      textScaleFactor: textScaleFactor,
+                      style: AppTextStyle.titleL,
+                    ),
+                  ),
 
                 SizedBox(
-                  width: Get.width * 0.75,
-                  child: Text(
-                    tr('ask name title'),
-                    textScaleFactor: textScaleFactor,
-                    style: AppTextStyle.titleL,
-                  ),
+                  height: ScaleManager.spaceScale(
+                    spaceing: 20,
+                  ).value,
                 ),
-
-              SizedBox(
-                height: ScaleManager.spaceScale(
-                  spaceing: 20,
-                ).value,
-              ),
-                Obx(
-                  () => ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: ScaleManager.spaceScale(
-                        spaceing: 320,
-                      ).value,
-                    ),
-                    child: Responsive(
-                      mobile: _TextFormFieldComponent(
-                        controller: controller,
-                        fontSize: ScaleManager.spaceScale(
-                          spaceing: 18,
+                  Obx(
+                    () => ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: ScaleManager.spaceScale(
+                          spaceing: 320,
                         ).value,
-                        paddingFactor: EdgeInsets.only(
-                          left: ScaleManager.spaceScale(
-                            spaceing: 3,
-                          ).value,
-                          bottom: ScaleManager.spaceScale(
-                            spaceing: -12,
-                          ).value,
-                        ),
                       ),
-                      tablet: _TextFormFieldComponent(
-                        controller: controller,
-                        fontSize: 35,
-                        paddingFactor: EdgeInsets.only(
-                          left: ScaleManager.spaceScale(
-                            spaceing: 6,
+                      child: Responsive(
+                        mobile: _TextFormFieldComponent(
+                          controller: controller,
+                          fontSize: ScaleManager.spaceScale(
+                            spaceing: 18,
                           ).value,
-                          bottom: ScaleManager.spaceScale(
-                            spaceing: -1,
-                          ).value,
+                          paddingFactor: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(
+                              spaceing: 3,
+                            ).value,
+                            bottom: ScaleManager.spaceScale(
+                              spaceing: -12,
+                            ).value,
+                          ),
                         ),
-                      ),
-                      desktop: _TextFormFieldComponent(
-                        controller: controller,
-                        fontSize:  ScaleManager.spaceScale(
-                          spaceing: 18,
-                        ).value,
-                        paddingFactor: EdgeInsets.only(
-                          left: ScaleManager.spaceScale(
-                            spaceing: 3,
+                        tablet: _TextFormFieldComponent(
+                          controller: controller,
+                          fontSize: 35,
+                          paddingFactor: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(
+                              spaceing: 6,
+                            ).value,
+                            bottom: ScaleManager.spaceScale(
+                              spaceing: -1,
+                            ).value,
+                          ),
+                        ),
+                        desktop: _TextFormFieldComponent(
+                          controller: controller,
+                          fontSize:  ScaleManager.spaceScale(
+                            spaceing: 18,
                           ).value,
-                          bottom: ScaleManager.spaceScale(
-                            spaceing: -12,
-                          ).value,
+                          paddingFactor: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(
+                              spaceing: 3,
+                            ).value,
+                            bottom: ScaleManager.spaceScale(
+                              spaceing: -12,
+                            ).value,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

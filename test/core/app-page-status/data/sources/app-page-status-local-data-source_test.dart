@@ -12,6 +12,7 @@ import 'package:tatsam_app_experimental/features/hub/data/models/life-rating-res
 import 'package:tatsam_app_experimental/features/hub/data/models/target-focus-list-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-information-model.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
 
 void main() {
   AppPageStatusLocalDataSourceImpl localDataSourceImpl;
@@ -34,6 +35,30 @@ void main() {
     lifePriorities: null,
     lifeSatisfactionRatings: null,
     attemptedQuestions: false,
+    journeyPath: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
+    latestMood: null,
+  );
+  const tAppRouteForUptoMood = AppRouteModel(name: RouteName.rapportPages);
+  const tHubStatusUptoMood = HubStatusModel(
+    id: 1,
+    subjectInformation: SubjectInformationModel(
+      name: 'Test user',
+      nickName: 'testyy',
+      gender: null,
+      subjectId: SubjectIdModel(id: ''),
+      userID: '',
+      deviceIndentifier: 'test_device_id',
+    ),
+    targetFocus: null,
+    lifePriorities: null,
+    lifeSatisfactionRatings: null,
+    attemptedQuestions: false,
+    journeyPath: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
+    latestMood: 'GOOD',
   );
   const tAppRouteForOnlyNickname = AppRouteModel(name: RouteName.rapportPages);
   const tHubStatusUptoPriorities = HubStatusModel(
@@ -58,6 +83,10 @@ void main() {
     ]),
     lifeSatisfactionRatings: null,
     attemptedQuestions: false,
+    journeyPath: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
+    latestMood: null,
   );
   const tAppRouteForUptoPriorities = AppRouteModel(name: RouteName.hubScreen);
   final tHubStatusUptoSatisfactionRatings = HubStatusModel(
@@ -95,6 +124,10 @@ void main() {
       ),
     },
     attemptedQuestions: false,
+    journeyPath: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
+    latestMood: null,
   );
   const tAppRouteForUptoSatisfactionRatings =
       AppRouteModel(name: RouteName.hubScreen);
@@ -140,6 +173,10 @@ void main() {
       ),
     },
     attemptedQuestions: false,
+    journeyPath: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
+    latestMood: null,
   );
   const tAppRouteForUptoTarget = AppRouteModel(name: RouteName.hubScreen);
   final tHubStatusUptoQuestionnaire = HubStatusModel(
@@ -184,9 +221,69 @@ void main() {
       ),
     },
     attemptedQuestions: true,
+    journeyPath: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
+    latestMood: null,
   );
   const tAppRouteForUptoQuestionnaire =
       AppRouteModel(name: RouteName.hubScreen);
+  final tHubStatusForOnboarded = HubStatusModel(
+    id: 1,
+    subjectInformation: const SubjectInformationModel(
+      name: 'Test user',
+      nickName: 'testyy',
+      gender: null,
+      subjectId: SubjectIdModel(id: ''),
+      userID: '',
+      deviceIndentifier: 'test_device_id',
+    ),
+    targetFocus: const TargetFocusListModel(id: 1, targetFocusList: [
+      IssueModel(
+          issueId: 1,
+          focusName: 'Test_Focus',
+          displayName: 'Test Focus',
+          messageOnSelection: 'something!!!',
+          issueIcon: null),
+    ]),
+    lifePriorities: const LifePrioritiesModel(id: 1, areasInOrderOfPriority: [
+      'Test Life Area',
+      'Test Life Area',
+      'Test Life Area',
+      'Test Life Area',
+      'Test Life Area',
+      'Test Life Area',
+      'Test Life Area',
+    ]),
+    lifeSatisfactionRatings: {
+      'Test Life Area': LifeRatingResultModel(
+        id: 1,
+        subjectId: const SubjectIdModel(id: ''),
+        wolArea: 'Test Life Area',
+        rating: const IndividualSatisfactionRatingResultModel(
+          id: 1,
+          rating: 3,
+          scale: DefaultRatingScaleModel(
+              id: 1, ratingScaleName: '', minValue: 1, maxValue: 5, icon: null),
+        ),
+        createdWhen: DateTime.now(),
+      ),
+    },
+    attemptedQuestions: true,
+    journeyPath: const JourneyModel(
+      id: 1,
+      title: 'TEST',
+      subtitle: 'TEST',
+      description: 'SSSS',
+      icon: null,
+      pathName: 'TEST_PATH',
+    ),
+    journeyStartedAt: DateTime.now(),
+    journeyStatus: 'STARTED',
+    latestMood: 'GOOD',
+  );
+  const tAppRouteForOnboarded =
+      AppRouteModel(name: RouteName.onBoardingIncomplete);
   const tEmptyHub = HubStatusModel(
     id: null,
     subjectInformation: SubjectInformationModel(
@@ -200,6 +297,10 @@ void main() {
     lifePriorities: null,
     lifeSatisfactionRatings: null,
     attemptedQuestions: false,
+    journeyPath: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
+    latestMood: null,
   );
 
   group('DATA SOURCE', () {
@@ -212,6 +313,16 @@ void main() {
       );
       //assert
       expect(result, tAppRouteForOnlyNickname);
+    });
+    test(
+        'If HubStatus is filled upto mood then return /rapport as Abandoned route',
+        () async {
+      //act
+      final result = await localDataSourceImpl.getLastAbandonedPage(
+        hubStatusModel: tHubStatusUptoMood,
+      );
+      //assert
+      expect(result, tAppRouteForUptoMood);
     });
     test(
         'If HubStatus has data untill priorities in it then return /hub as Abandoned route',
@@ -252,6 +363,16 @@ void main() {
       );
       //assert
       expect(result, tAppRouteForUptoQuestionnaire);
+    });
+    test(
+        'If HubStatus has all the needed data then return /onboardingIncomplete as Abandoned route',
+        () async {
+      //act
+      final result = await localDataSourceImpl.getLastAbandonedPage(
+        hubStatusModel: tHubStatusForOnboarded,
+      );
+      //assert
+      expect(result, tAppRouteForOnboarded);
     });
     test(
         'If HubStatus has no data in it then return fallback-route should be returned as Abandoned route',

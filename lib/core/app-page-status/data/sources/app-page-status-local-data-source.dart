@@ -11,10 +11,13 @@ import '../../../extensions/to-app-route.dart';
 
 enum AbandonedPageStates {
   ONLY_NICKNAME,
+  MOOD_ENTERED,
   UNTILL_PRIORIITIES,
   UNTILL_RATINGS,
   UNTILL_TARGETS,
   UNTILL_QUESTIONNAIRE,
+  //TRAVELLER_CREATED,
+  ONBOARDED,
   FALLBACK,
 }
 
@@ -34,6 +37,8 @@ class AppPageStatusLocalDataSourceImpl implements AppPageStatusLocalDataSource {
       switch (mostRecentPageState) {
         case AbandonedPageStates.ONLY_NICKNAME:
           return RouteName.rapportPages.makeAppRoute();
+        case AbandonedPageStates.MOOD_ENTERED:
+          return RouteName.rapportPages.makeAppRoute();
         case AbandonedPageStates.UNTILL_PRIORIITIES:
           return RouteName.hubScreen.makeAppRoute();
         case AbandonedPageStates.UNTILL_RATINGS:
@@ -42,6 +47,10 @@ class AppPageStatusLocalDataSourceImpl implements AppPageStatusLocalDataSource {
           return RouteName.hubScreen.makeAppRoute();
         case AbandonedPageStates.UNTILL_QUESTIONNAIRE:
           return RouteName.hubScreen.makeAppRoute();
+        // case AbandonedPageStates.TRAVELLER_CREATED:
+        //   return RouteName.whatPathChooseScreen.makeAppRoute();
+        case AbandonedPageStates.ONBOARDED:
+          return RouteName.onBoardingIncomplete.makeAppRoute();
         case AbandonedPageStates.FALLBACK:
           return appFallbackRoute;
         default:

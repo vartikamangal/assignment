@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:get/get.dart';
 
 import '../../../../dependency_manager/core_dependency_managers.dart';
@@ -121,10 +121,10 @@ class VoiceNoteController extends GetxController {
   }
 
   /// UI -> Usecase implementation
-  Future<void> playVoicenoteUI() async {
+  Future<void> playVoicenoteUI({@required String audioSource}) async {
     final failureOrResult = await playVoiceNote(
       PlayVoiceNoteParams(
-        fileToPlay: currentVoiceNotePath.value,
+        fileToPlay: audioSource,
         codec: defaultCodec,
         numChannels: defaultNumChannel,
         smapleRate: defaultSampleRate,
@@ -236,9 +236,9 @@ class VoiceNoteController extends GetxController {
   // UI managers
   RxBool isRecording = RxBool(false);
   RxBool isWaiting = RxBool(false);
-  RxString currentVoiceNotePath = RxString(null);
-  Rx<Duration> elapsedDuration = Rx<Duration>(null);
-  Rx<PlayerStats> currentPlayingFileStats = Rx<PlayerStatsModel>(null);
+  RxString currentVoiceNotePath = RxString();
+  Rx<Duration> elapsedDuration = Rx<Duration>();
+  Rx<PlayerStats> currentPlayingFileStats = Rx<PlayerStatsModel>();
 
   /// Helper getters for playback UI
   Stream<Duration> get currentPlayingFileDuration =>
@@ -249,13 +249,6 @@ class VoiceNoteController extends GetxController {
       currentPlayingFileStats.map(
         (event) => event.currentPosition,
       );
-
-  /// for calculating postiion for the progress bar
-  double calculatePosition(Duration currentPos, Duration maxPos) {
-    return (currentPos.inMilliseconds / maxPos.inMilliseconds)
-        .clamp(0, 1)
-        .toDouble();
-  }
 
   @override
   Future<void> onInit() async {

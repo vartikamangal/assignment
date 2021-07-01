@@ -1,8 +1,9 @@
 import 'dart:ui' as ui;
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_sound_lite/public/flutter_sound_player.dart';
-import 'package:flutter_sound_lite/public/tau.dart';
+import 'package:flutter_sound/public/tau.dart';
+
 import '../../../error/failures.dart';
 import '../entity/player-stats.dart';
 

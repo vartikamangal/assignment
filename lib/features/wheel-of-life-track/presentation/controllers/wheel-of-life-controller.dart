@@ -49,9 +49,9 @@ class WheelOfLifeController extends GetxController {
   ///////////////////                            ///////////////
   ///////////////////                            ///////////////
   final RxList<LifeArea> lifeAreas = RxList<LifeAreaModel>([]);
-  final Rx<RatingScale> ratingScale = Rx<RatingScaleModel>(null);
+  final Rx<RatingScale> ratingScale = Rx<RatingScaleModel>();
   final Rx<LifeAreaForPrioritization> lifeAreasForPrioritization =
-      Rx<LifeAreaModelForPrioritization>(null);
+      Rx<LifeAreaModelForPrioritization>();
   // Will help in constructing the final Ratings to be POSTED on API
   final RxList<SatisfactionRatingMapForTimeProvision> listForTimeProvision =
       RxList<SatisfactionRatingMapForTimeProvisionModel>([]);
@@ -187,7 +187,7 @@ class WheelOfLifeController extends GetxController {
   int maxIntroPages = 2;
 
   // For making global widget changes as per the selected index
-  Rx<Widget> currentSelectedPage = Rx<Widget>(null);
+  Rx<Widget> currentSelectedPage = Rx<Widget>();
   RxBool showBottomButton = RxBool(false);
   //for scroll controller
   final ScrollController scrollController = ScrollController();

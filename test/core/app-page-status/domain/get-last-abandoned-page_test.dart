@@ -36,6 +36,10 @@ void main() {
     lifePriorities: LifePrioritiesModel(id: 1, areasInOrderOfPriority: []),
     lifeSatisfactionRatings: {},
     attemptedQuestions: false,
+    journeyPath: null,
+    journeyStartedAt: null,
+    journeyStatus: null,
+    latestMood: 'GOOD',
   );
 
   const tAppRoute = AppRoute(name: '/rapport');

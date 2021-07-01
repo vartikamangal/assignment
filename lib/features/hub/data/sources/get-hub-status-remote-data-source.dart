@@ -1,9 +1,9 @@
 // Dart imports:
 import 'dart:convert';
+import 'dart:developer';
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
@@ -31,6 +31,7 @@ class GetHubStatusRemoteDataSourceImpl implements GetHubStatusRemoteDataSource {
     );
     throwExceptionIfResponseError(statusCode: response.statusCode);
     final jsonMap = jsonDecode(response.body) as Map;
+    log(jsonMap.toString());
     return HubStatusModel.fromJson(
       jsonMap as Map<String, dynamic>,
     );

@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:ui' as ui;
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import '../../../error/exceptions.dart';
 import '../../../file-manager/file-manager.dart';
 import '../model/player-stats-model.dart';

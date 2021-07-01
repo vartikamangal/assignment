@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/color-pallete.dart';
@@ -75,7 +76,7 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
               ).value,
             ),
             InfoContainer(
-              image: 'assets/profile-icon/user-image.png',
+              image: 'assets/choose-path-screen/BIG_GOALS.png',
               field: tr('holistic score'),
               score: controller.profileData.value.holisticScore.toString(),
               onPressed: () {
@@ -109,7 +110,7 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InfoContainer(
-                    image: 'assets/profile-icon/user-image.png',
+                    image: 'assets/choose-path-screen/BIG_GOALS.png',
                     field: tr('time taken'),
                     score: controller.profileData.value.timeOnActivitiesThisWeek
                         .toString(),
@@ -122,13 +123,13 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
                         builder: (context) => const InfoBottomSheet(
                           selectedArea: 'What is my holistic score?',
                           description:
-                          'Your best self can only happen when you have access to  growth in different areas o',
+                              'Your best self can only happen when you have access to  growth in different areas o',
                         ),
                       );
                     },
                   ),
                   InfoContainer(
-                    image: 'assets/profile-icon/user-image.png',
+                    image: 'assets/choose-path-screen/BIG_GOALS.png',
                     field: tr('how many activity done'),
                     score: controller.profileData.value.activitiesThisWeek
                         .toString(),
@@ -141,7 +142,7 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
                         builder: (context) => const InfoBottomSheet(
                           selectedArea: 'What is my holistic score?',
                           description:
-                          'Your best self can only happen when you have access to  growth in different areas o',
+                              'Your best self can only happen when you have access to  growth in different areas o',
                         ),
                       );
                     },

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import '../../../error/exceptions.dart';
 import '../../../file-manager/file-manager.dart';
 import '../../domain/entity/recording-stopped.dart';
@@ -58,7 +58,7 @@ class StopRecordingLocalServiceImpl implements StopRecordingLocalService {
           await recorder.deleteRecord(
             fileName: partialRecordingFileToDelete,
           );
-        }  else {
+        } else {
           fileUtils.deleteFile(partialRecordingFileToDelete);
         }
         log("deleted $partialRecordingFileToDelete & cancelled recording");

@@ -91,7 +91,7 @@ class FocusController extends GetxController {
   String text1 = tr('focus title1');
   List<String> cart = [];
   bool optionSelected = false;
-  Rx<Issue> selectedIssue = Rx<IssueModel>(null);
+  Rx<Issue> selectedIssue = Rx<IssueModel>();
   RxInt count = 0.obs;
   RxList<Issue> removedItem = RxList<IssueModel>([]);
 

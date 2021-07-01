@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
@@ -28,24 +29,9 @@ class QuestionsTrackScreen extends StatelessWidget {
     final textScaleFactor = ScaleManager.textScale.value;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          padding:EdgeInsets.only(left: ScaleManager.spaceScale(
-            spaceing: 10,
-          ).value,
-              top: ScaleManager.spaceScale(
-                spaceing: 10,
-              ).value,
-              bottom: 0),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: SvgPicture.asset(
-            ImagePath.backButton,
-            height: ScaleManager.spaceScale(
-              spaceing: 26,
-            ).value,
-          ),
-        ),
+        leading: TopAppBar(onPressed: (){
+          Navigator.of(context).pop();
+        }),
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 0,
       ),

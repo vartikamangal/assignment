@@ -40,164 +40,116 @@ class RapportScreen extends StatelessWidget {
       SystemUiOverlay.top,
     ]);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      //resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () {
           _onBoardingController.focusNode.unfocus();
         },
         child: SafeArea(
-          child: SizedBox(
-            height: size.height,
-            width: size.width,
-            child: Stack(
-              children: [
-                Positioned(
-                  right: 0,
-                  child: Image.asset(
-                    ImagePath.topRightLeaf,
-                    width: size.width,
-                    // fit: BoxFit.fitWidth,
-                    scale: scale,
-                  ),
-                ),
-                // Top Left Call button
-                Positioned(
-                  bottom: ScaleManager.spaceScale(
-                    spaceing: 14,
-                  ).value,
-                  left: ScaleManager.spaceScale(
-                    spaceing: 14,
-                  ).value,
-                  child: BottomLeftGradientButton(
-                    // ignore: avoid_print
-                    onPressed: () => Navigator.of(context).pushNamed(
-                      RouteName.instantRelief,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  child: Obx(
-                    () => _onBoardingController.isLoadComplete.value
+          child: SingleChildScrollView(
+            child: Container(
+              constraints: BoxConstraints(
+                minHeight: size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(
+                        () => _onBoardingController.isLoadComplete.value
                         ? _onBoardingController.currentSelectedPage.value
                         : const _LoadingWidget(),
                   ),
-                ),
-
-                Positioned(
-                  right: ScaleManager.spaceScale(
-                    spaceing: 12,
-                  ).value,
-                  bottom: ScaleManager.spaceScale(
-                    spaceing: 14,
-                  ).value,
-                  child: Obx(
-                    () => _onBoardingController
-                                .currentOnBoardPageCounter.value ==
-                            0
-                        ? (_onBoardingController.userName.value.isNotEmpty
-                            ?  BottomRightButton(
-                                    title: '',
-                                    onPressed: () {
-                                      _onBoardingController.switchButtonStatus
-                                                      .value ==
-                                                  true &&
-                                              _onBoardingController
-                                                  .userName.value.isNotEmpty && !_onBoardingController.isProcessing.value
-                                          ? _onBoardingController
-                                              .changeNickNameAndMoveOnwards()
-                                          : Container();
-                                    })
-                            : const InactiveBottomRightButton(
-                                title: '',
-                              ))
-                        : _onBoardingController
-                                    .currentOnBoardPageCounter.value ==
-                                _onBoardingController.maxIntroPages
-                            ?
-                        _onBoardingController
-                        .isProcessing.value ? BottomRightButton(title: '',):BottomRightTextButton(
-                              title: tr('done'),
-                              onPressed: () async {
-                                await _onBoardingController
-                                    .persistSubjectFeeing(
-                                      feeling: _onBoardingController
-                                          .feeling.value,
-                                    )
-                                    .then(
-                                      (value) => Navigator.push(
-                                          context,
-                                          EnterExitRoute(
-                                              exitPage: this,
-                                              enterPage: HubScreen())),
-                                    );
-                              },
-                            )
-                            : _onBoardingController
-                                        .currentOnBoardPageCounter.value ==
-                                    1
-                                ? Container()
-                                : _onBoardingController
-                                            .selectedFeelingDuration
-                                            .value !=
-                                        null
-                                    ?  BottomRightButton(
-                                            title: '',
-                                            onPressed: () =>
-                                                _onBoardingController
-                                                            .selectedFeelingDuration
+                  Padding(
+                    padding: EdgeInsets.only(right: ScaleManager.spaceScale(
+                      spaceing: 14,
+                    ).value,
+                        bottom: ScaleManager.spaceScale(
+                          spaceing: 14,
+                        ).value,
+                    left: ScaleManager.spaceScale(
+                      spaceing: 14,
+                    ).value),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        BottomLeftGradientButton(
+                          // ignore: avoid_print
+                          onPressed: () => Navigator.of(context).pushNamed(
+                            RouteName.instantRelief,
+                          ),
+                        ),
+                        Obx(
+                          () => _onBoardingController
+                                      .currentOnBoardPageCounter.value ==
+                                  0
+                              ? (_onBoardingController.userName.value.isNotEmpty
+                                  ?  BottomRightButton(
+                                          title: '',
+                                          onPressed: () {
+                                            _onBoardingController.switchButtonStatus
                                                             .value ==
-                                                        null && _onBoardingController
-                                                    .isProcessing.value
-                                                    ? Container()
-                                                    : _onBoardingController
-                                                        .changeScreen(),
+                                                        true &&
+                                                    _onBoardingController
+                                                        .userName.value.isNotEmpty && !_onBoardingController.isProcessing.value
+                                                ? _onBoardingController
+                                                    .changeNickNameAndMoveOnwards()
+                                                : Container();
+                                          })
+                                  : const InactiveBottomRightButton(
+                                      title: '',
+                                    ))
+                              : _onBoardingController
+                                          .currentOnBoardPageCounter.value ==
+                                      _onBoardingController.maxIntroPages
+                                  ?
+                              _onBoardingController
+                              .isProcessing.value ? BottomRightButton(title: '',):BottomRightTextButton(
+                                    title: tr('done'),
+                                    onPressed: () async {
+                                      await _onBoardingController
+                                          .persistSubjectFeeing(
+                                            feeling: _onBoardingController
+                                                .feeling.value,
                                           )
-                                    : const InactiveBottomRightButton(
-                                        title: '',
-                                      ),
+                                          .then(
+                                            (value) => Navigator.push(
+                                                context,
+                                                EnterExitRoute(
+                                                    exitPage: this,
+                                                    enterPage: HubScreen())),
+                                          );
+                                    },
+                                  )
+                                  : _onBoardingController
+                                              .currentOnBoardPageCounter.value ==
+                                          1
+                                      ? Container()
+                                      : _onBoardingController
+                                                  .selectedFeelingDuration
+                                                  .value !=
+                                              null
+                                          ?  BottomRightButton(
+                                                  title: '',
+                                                  onPressed: () =>
+                                                      _onBoardingController
+                                                                  .selectedFeelingDuration
+                                                                  .value ==
+                                                              null && _onBoardingController
+                                                          .isProcessing.value
+                                                          ? Container()
+                                                          : _onBoardingController
+                                                              .changeScreen(),
+                                                )
+                                          : const InactiveBottomRightButton(
+                                              title: '',
+                                            ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Obx(
-                  () => _onBoardingController.isProcessing.value
-                      ? const LinearProgressIndicator()
-                      : Container(),
-                ),
-                Positioned(
-                  left: ScaleManager.spaceScale(
-                    spaceing: 3,
-                  ).value,
-                  top: ScaleManager.spaceScale(
-                    spaceing: 9,
-                  ).value,
-                  child: Obx(
-                    () =>
-                        _onBoardingController.currentOnBoardPageCounter.value ==
-                                0
-                            ? EmptySpacePlaceHolder()
-                            : IconButton(
-                              padding:EdgeInsets.only(
-                                  left: ScaleManager.spaceScale(
-                                spaceing: 8,
-                                  ).value,
-                              top:ScaleManager.spaceScale(
-                                spaceing: 8,
-                              ).value,
-                              bottom: ScaleManager.spaceScale(
-                                spaceing: 0,
-                              ).value),
-                                onPressed: () {
-                                  _onBoardingController.navigateBack();
-                                },
-                              iconSize: ScaleManager.spaceScale(
-                                spaceing: 26,
-                              ).value,
-                                icon: SvgPicture.asset(
-                                  ImagePath.backButton,
-                                ),
-                              ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

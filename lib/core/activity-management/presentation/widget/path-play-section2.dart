@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/features/what-path-to-choose/presentation/controller/choose-path-controller.dart';
@@ -31,18 +32,8 @@ class PathPlaySection2 extends StatelessWidget {
             Positioned(
               top: ScaleManager.spaceScale(spaceing: 9).value,
               left: ScaleManager.spaceScale(spaceing: 9).value,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.popAndPushNamed(
-                      context, RouteName.pathInfoSection3);
-                },
-                icon: SvgPicture.asset(
-                  ImagePath.backButton,
-                  height: ScaleManager.spaceScale(
-                    spaceing: 26,
-                  ).value,
-                ),
-              ),
+              child: TopAppBar(onPressed: (){ Navigator.popAndPushNamed(
+                  context, RouteName.pathInfoSection3);})
             ),
             Container(
               margin: EdgeInsets.only(

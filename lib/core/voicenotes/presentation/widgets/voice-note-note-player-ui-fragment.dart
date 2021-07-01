@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/utils/helper_functions/get-formatted-player-position-string.dart';
+import 'package:tatsam_app_experimental/core/utils/helper_functions/player-position-calculator.dart';
+
 import '../../../asset-image-path/image-path.dart';
 import '../../../responsive/scale-manager.dart';
 import '../../../utils/app-text-style-components/app-text-styles.dart';
@@ -19,25 +22,29 @@ class VoiceNotePlayer extends StatelessWidget {
     final double textScale = ScaleManager.textScale.value;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(height:  ScaleManager.spaceScale(
-          spaceing: 25,
-        ).value,),
+        SizedBox(
+          height: ScaleManager.spaceScale(
+            spaceing: 25,
+          ).value,
+        ),
         Row(
           children: [
             Column(
               children: [
                 GestureDetector(
                   onTap: () async {
-                    _controller.playVoicenoteUI();
+                    _controller.playVoicenoteUI(
+                      audioSource: _controller.currentVoiceNotePath.value,
+                    );
                   },
-                  child:  SvgPicture.asset(ImagePath.playButton,
-                  height:  ScaleManager.spaceScale(
-                    spaceing: 22,
-                  ).value,),
+                  child: SvgPicture.asset(
+                    ImagePath.playButton,
+                    height: ScaleManager.spaceScale(
+                      spaceing: 22,
+                    ).value,
+                  ),
                 ),
-
               ],
             ),
             SizedBox(
@@ -58,10 +65,11 @@ class VoiceNotePlayer extends StatelessWidget {
                   );
                 } else {
                   /// active progress bar
-                  final PlayerStats duration = snapshot.data as PlayerStatsModel;
+                  final PlayerStats duration =
+                      snapshot.data as PlayerStatsModel;
                   return LinearProgressIndicator(
                     backgroundColor: greyLightShade,
-                    value: _controller.calculatePosition(
+                    value: calculatePosition(
                       duration.currentPosition,
                       duration.totalLength,
                     ),
@@ -75,20 +83,22 @@ class VoiceNotePlayer extends StatelessWidget {
               ).value,
             ),
             GestureDetector(
-              onTap: () async {
-                await _controller.stopPlayerAndCleanPreviousRecording();
-              },
-              child:
-              /* Icon(Icons.cancel_rounded,
+                onTap: () async {
+                  await _controller.stopPlayerAndCleanPreviousRecording();
+                },
+                child:
+                    /* Icon(Icons.cancel_rounded,
                 color: blueDarkShade,
                 size: ScaleManager.spaceScale(
                   spaceing: 30,
                 ).value,)*/
 
-               SvgPicture.asset(ImagePath.crossButton,height: ScaleManager.spaceScale(
-                 spaceing: 30,
-               ).value,)
-            ),
+                    SvgPicture.asset(
+                  ImagePath.crossButton,
+                  height: ScaleManager.spaceScale(
+                    spaceing: 30,
+                  ).value,
+                )),
           ],
         ),
         StreamBuilder(
@@ -99,12 +109,11 @@ class VoiceNotePlayer extends StatelessWidget {
               return EmptySpacePlaceHolder();
             } else {
               final Duration duration = snapshot.data as Duration;
-              return Text("${duration.inMinutes<10?"0${duration.inMinutes}":"${duration.inMinutes}"}"
-                  ":${duration.inSeconds-duration.inMinutes*60<10?"0${duration.inSeconds-duration.inMinutes*60}":"${duration.inSeconds-duration.inMinutes*60}"}",
-                style: AppTextStyle.verySmallGreyText.copyWith(
-                    fontSize: 12
-                ),
-              textScaleFactor: textScale,);
+              return Text(
+                getFormattedPlayerPosition(duration),
+                style: AppTextStyle.verySmallGreyText.copyWith(fontSize: 12),
+                textScaleFactor: textScale,
+              );
             }
           },
         ),

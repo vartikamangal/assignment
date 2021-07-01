@@ -4,6 +4,7 @@ import 'dart:developer';
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:tatsam_app_experimental/core/app-page-status/data/sources/app-page-status-local-data-source.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
 
 // Project imports:
 import '../../../rapport-building/data/models/subject-information-model.dart';
@@ -20,6 +21,10 @@ class HubStatusModel extends HubStatus {
     @required LifePrioritiesModel lifePriorities,
     @required Map<String, LifeRatingResultModel> lifeSatisfactionRatings,
     @required bool attemptedQuestions,
+    @required JourneyModel journeyPath,
+    @required DateTime journeyStartedAt,
+    @required String journeyStatus,
+    @required String latestMood,
   }) : super(
           subjectInformation: subjectInformation,
           id: id,
@@ -27,6 +32,10 @@ class HubStatusModel extends HubStatus {
           lifeSatisfactionRatings: lifeSatisfactionRatings,
           targetFocus: targetFocus,
           attemptedQuestions: attemptedQuestions,
+          journey: journeyPath,
+          journeyStartedAt: journeyStartedAt,
+          userMood: latestMood,
+          journeyStatus: journeyStatus,
         );
 
   factory HubStatusModel.fromJson(Map<String, dynamic> jsonMap) {
@@ -63,11 +72,30 @@ class HubStatusModel extends HubStatus {
       lifeSatisfactionRatings:
           jsonMap['lifeSatisfactionRatings'] == null ? null : parsedLifeRatings,
       attemptedQuestions: jsonMap['attemptedQuestions'] as bool,
+      journeyPath: jsonMap["journeyPath"] == null
+          ? null
+          : JourneyModel.fromJson(
+              jsonMap["journeyPath"] as Map<String, dynamic>),
+      journeyStartedAt: jsonMap['journeyStartedAt'] == null
+          ? null
+          : DateTime.parse(jsonMap['journeyStartedAt'] as String),
+      journeyStatus: jsonMap["journeyStatus"] == null
+          ? null
+          : jsonMap["journeyStatus"] as String,
+      latestMood: jsonMap["latestMood"] == null
+          ? null
+          : (jsonMap["latestMood"] as Map<String, dynamic>)["mood"] as String,
     );
   }
 
   AbandonedPageStates recentlyAbandonedPage() {
-    if (attemptedQuestions) {
+    if (journey != null && journeyStatus == "STARTED") {
+      return AbandonedPageStates.ONBOARDED;
+    }
+    // else if (journey == null && journeyStatus == "STARTED") {
+    //   return AbandonedPageStates.TRAVELLER_CREATED;
+    // }
+    else if (attemptedQuestions) {
       return AbandonedPageStates.UNTILL_QUESTIONNAIRE;
     } else if (targetFocus != null) {
       return AbandonedPageStates.UNTILL_TARGETS;
@@ -75,6 +103,10 @@ class HubStatusModel extends HubStatus {
       return AbandonedPageStates.UNTILL_RATINGS;
     } else if (lifePriorities != null) {
       return AbandonedPageStates.UNTILL_PRIORIITIES;
+    } else if (userMood != null) {
+      ///If user has entered mood on rapport screen
+      //TODO First figure out the deep-linking thing!!
+      return AbandonedPageStates.MOOD_ENTERED;
     } else if (subjectInformation.nickName != null) {
       return AbandonedPageStates.ONLY_NICKNAME;
     } else {

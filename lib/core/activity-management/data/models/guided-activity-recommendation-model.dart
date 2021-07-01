@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 // Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entities/guided-activity-recommendation.dart';
-import 'recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
 
 class GuidedActivityRecommendationModel extends GuidedActivityRecommendation {
   const GuidedActivityRecommendationModel({

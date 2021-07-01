@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 
 // Project imports:
 import '../../../../core/asset-image-path/image-path.dart';
@@ -27,18 +28,10 @@ class PathSelfDrivenPlan extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pop();
-            },
-            icon: SvgPicture.asset(
-              ImagePath.backButton,
-              height: ScaleManager.spaceScale(
-                spaceing: 26,
-              ).value,
-            ),
-          ),
+          leading: TopAppBar(onPressed: (){
+            Navigator.of(context)
+                .pop();
+          },),
           bottom: PreferredSize(
             preferredSize: Size(Get.width, 2),
             child: Obx(

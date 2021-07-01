@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../error/exceptions.dart';
 import '../../../permission-manager/permission-manager.dart';
@@ -43,12 +43,7 @@ class StartRecordingVoiceNoteLocalServiceImpl
           if (await permissionManager.requestPermission(
             permission: Permission.storage,
           )) {
-            return _startRecording(
-              recorder,
-              filePath,
-              codec,
-              CallbackPeriod
-            );
+            return _startRecording(recorder, filePath, codec, CallbackPeriod);
           } else {
             throw NotPermittedActionException();
           }
@@ -57,12 +52,7 @@ class StartRecordingVoiceNoteLocalServiceImpl
             permission: Permission.photos,
           );
           if (isiOSPermitted) {
-            return _startRecording(
-              recorder,
-              filePath,
-              codec,
-              CallbackPeriod
-            );
+            return _startRecording(recorder, filePath, codec, CallbackPeriod);
           } else {
             throw NotPermittedActionException();
           }

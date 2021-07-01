@@ -38,9 +38,9 @@ class HubController extends GetxController {
   });
 
   //////////////// Dynamic Data Container ////////////////
-  Rx<HubStatus> hubStatus = Rx<HubStatusModel>(null);
+  Rx<HubStatus> hubStatus = Rx<HubStatusModel>();
   // Just a temporary repetition for checking wheather hub-refresh flaw goes
-  Rx<HubStatus> hubStatusFinal = Rx<HubStatusModel>(null);
+  Rx<HubStatus> hubStatusFinal = Rx<HubStatusModel>();
 
   /////////////// Usecase Helpers /////////////////
   Future<void> fetchHubStatus() async {
@@ -123,8 +123,7 @@ class HubController extends GetxController {
     HubAnswerStatus.nothingAnswered,
   );
   // Hub screen initial data when user hasn't answered anything
-  Rx<HubScreenStateObject> activeHubStateObject =
-      Rx<HubScreenStateObject>(null);
+  Rx<HubScreenStateObject> activeHubStateObject = Rx<HubScreenStateObject>();
 
   /////////////// UI Managers ///////////////
   void toggleProcessor() {

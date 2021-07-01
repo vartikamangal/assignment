@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
+
 import '../error/exceptions.dart';
 
 class ThrowExceptionIfResponseError {
@@ -16,6 +19,7 @@ class ThrowExceptionIfResponseError {
       return null;
     } else {
       /// Checking if the proper exception is present or not
+      log(statusCode.toString());
       if (_exceptionMap.containsKey(statusCode)) {
         /// If yes, Then throw the mapped exception
         throw _exceptionMap[statusCode];

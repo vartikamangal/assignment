@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/buttons/add-button.dart';
 import '../../../../core/asset-image-path/image-path.dart';
@@ -28,28 +29,11 @@ class FocusScreen extends StatelessWidget {
           slivers: [
             SliverAppBar(
               backgroundColor: Colors.transparent,
-              leading: Obx(
-                    () => IconButton(
-                      padding:EdgeInsets.only(left: ScaleManager.spaceScale(
-                        spaceing: 0,
-                      ).value,
-                          top: ScaleManager.spaceScale(
-                            spaceing: 10,
-                          ).value,
-                          bottom: 0),
-                  icon: SvgPicture.asset(
-                    ImagePath.backButton,
-                    height: ScaleManager.spaceScale(
-                      spaceing: 26,
-                    ).value,
-                  ),
-                  onPressed: () {
-                    _controller.topExpandedContainer.value == 0.0
-                        ? Navigator.popAndPushNamed(context, RouteName.hubScreen)
-                        : _controller.navigateBack();
-                  },
-                ),
-              ),
+              leading: TopAppBar(onPressed: (){
+                _controller.topExpandedContainer.value == 0.0
+                    ? Navigator.popAndPushNamed(context, RouteName.hubScreen)
+                    : _controller.navigateBack();
+              }),
             ),
             SliverToBoxAdapter(
               child: Padding(

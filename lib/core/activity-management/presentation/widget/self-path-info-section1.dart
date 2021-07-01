@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 
 // Project imports:
 import '../../../../core/asset-image-path/image-path.dart';
@@ -65,133 +66,148 @@ class SelfPathInfoSection1 extends StatelessWidget {
     return WillPopScope(
       onWillPop: () => _onWillPop(context: context),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).canvasColor,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () async {
-              await _onWillPop(context: context) ? Get.back() : log('Nope');
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: blueDarkShade,
-              size: ScaleManager.spaceScale(spaceing: 26).value,
-            ),
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size(Get.width, 2),
-            child: Obx(
-              () => _controller.isProcessing.value
-                  ? const LinearProgressIndicator()
-                  : EmptySpacePlaceHolder(),
-            ),
-          ),
-        ),
-        body: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: ScaleManager.spaceScale(
-                    spaceing: 15,
-                  ).value,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //TODO change this after
-                    Hero(
-                      tag: '${ImagePath.selfDrivenOption}physical.png',
-                      child: Image.asset(
-                        '${ImagePath.selfDrivenOption}physical.png',
-                        height: ScaleManager.spaceScale(
-                          spaceing: 140,
-                        ).value,
-                        width: ScaleManager.spaceScale(
-                          spaceing: 138,
-                        ).value,
-                        scale: imageScaleFactor,
-                      ),
+        // appBar: AppBar(
+        //   backgroundColor: Theme.of(context).canvasColor,
+        //   elevation: 0,
+        //   leading: TopAppBar(onPressed: ()async{await _onWillPop(context: context) ? Get.back() : log('Nope');}),
+        //   bottom: PreferredSize(
+        //     preferredSize: Size(Get.width, 2),
+        //     child: Obx(
+        //       () => _controller.isProcessing.value
+        //           ? const LinearProgressIndicator()
+        //           : EmptySpacePlaceHolder(),
+        //     ),
+        //   ),
+        // ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              constraints: BoxConstraints(
+                minHeight: Get.height-
+                    MediaQuery.of(context).padding.top -
+                    MediaQuery.of(context).padding.bottom
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PreferredSize(
+                          preferredSize: Size(Get.width, 2),
+                          child: Obx(
+                                () => _controller.isProcessing.value
+                                ? const LinearProgressIndicator()
+                                : EmptySpacePlaceHolder(),
+                          ),
+                        ),
+                        TopAppBar(onPressed: ()async{await _onWillPop(context: context) ? Get.back() : log('Nope');}),
+                        SizedBox(
+                          height: ScaleManager.spaceScale(
+                            spaceing: 23,
+                          ).value,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //TODO change this after
+                            Hero(
+                              tag: '${ImagePath.selfDrivenOption}physical.png',
+                              child: Image.asset(
+                                '${ImagePath.selfDrivenOption}physical.png',
+                                height: ScaleManager.spaceScale(
+                                  spaceing: 140,
+                                ).value,
+                                width: ScaleManager.spaceScale(
+                                  spaceing: 138,
+                                ).value,
+                                scale: imageScaleFactor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: ScaleManager.spaceScale(
+                            spaceing: 30,
+                          ).value,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(
+                              spaceing: 44,
+                            ).value,
+                          ),
+                          child: Text(
+                            controller.userSelectedPath.value == 'BIG_GOALS'
+                                ? controller
+                                    .templateToRecommendationMapperGuided[
+                                        'DID_YOU_KNOW']
+                                    .stepTitle
+                                : controller
+                                    .templateToRecommendationMapperSelf['DID_YOU_KNOW']
+                                    .stepTitle,
+                            style: AppTextStyle.Askfeeling,
+                            textScaleFactor: textScaleFactor,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: ScaleManager.spaceScale(spaceing: 44).value),
+                          child: Text(
+                            'Takes ${controller.activityDuration} minutes',
+                            style: AppTextStyle.getTimerText,
+                            textScaleFactor: textScaleFactor,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(
+                              spaceing: 44,
+                            ).value,
+                            right: ScaleManager.spaceScale(
+                              spaceing: 71,
+                            ).value,
+                            top: ScaleManager.spaceScale(
+                              spaceing: 15,
+                            ).value,
+                          ),
+                          child: Obx(
+                            () => Text(
+                              controller.userSelectedPath.value == 'BIG_GOALS'
+                                  ? controller
+                                      .templateToRecommendationMapperGuided[
+                                          'DID_YOU_KNOW']
+                                      .stepContent
+                                  : controller
+                                      .templateToRecommendationMapperSelf[
+                                          'DID_YOU_KNOW']
+                                      .stepContent,
+                              style: AppTextStyle.growthtext,
+                              textScaleFactor: textScaleFactor,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: ScaleManager.spaceScale(
-                    spaceing: 30,
-                  ).value,
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: ScaleManager.spaceScale(
-                      spaceing: 44,
-                    ).value,
                   ),
-                  child: Text(
-                    controller.userSelectedPath.value == 'BIG_GOALS'
-                        ? controller
-                            .templateToRecommendationMapperGuided[
-                                'DID_YOU_KNOW']
-                            .stepTitle
-                        : controller
-                            .templateToRecommendationMapperSelf['DID_YOU_KNOW']
-                            .stepTitle,
-                    style: AppTextStyle.Askfeeling,
-                    textScaleFactor: textScaleFactor,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                      left: ScaleManager.spaceScale(spaceing: 44).value),
-                  child: Text(
-                    'Takes ${controller.activityDuration} minutes',
-                    style: AppTextStyle.getTimerText,
-                    textScaleFactor: textScaleFactor,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: ScaleManager.spaceScale(
-                      spaceing: 44,
-                    ).value,
-                    right: ScaleManager.spaceScale(
-                      spaceing: 71,
-                    ).value,
-                    top: ScaleManager.spaceScale(
-                      spaceing: 15,
-                    ).value,
-                  ),
-                  child: Obx(
-                    () => Text(
-                      controller.userSelectedPath.value == 'BIG_GOALS'
-                          ? controller
-                              .templateToRecommendationMapperGuided[
-                                  'DID_YOU_KNOW']
-                              .stepContent
-                          : controller
-                              .templateToRecommendationMapperSelf[
-                                  'DID_YOU_KNOW']
-                              .stepContent,
-                      style: AppTextStyle.growthtext,
-                      textScaleFactor: textScaleFactor,
+                  Padding(
+                    padding: EdgeInsets.only(right: ScaleManager.spaceScale(spaceing: 14).value,
+                      bottom: ScaleManager.spaceScale(spaceing: 14).value,),
+                    child: BottomRightButton(
+                      title: '',
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          RouteName.pathInfoSection2,
+                        );
+                      },
                     ),
                   ),
-                ),
-              ],
-            ),
-            Positioned(
-              right: ScaleManager.spaceScale(spaceing: 14).value,
-              bottom: ScaleManager.spaceScale(spaceing: 14).value,
-              child: BottomRightButton(
-                title: '',
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    RouteName.pathInfoSection2,
-                  );
-                },
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

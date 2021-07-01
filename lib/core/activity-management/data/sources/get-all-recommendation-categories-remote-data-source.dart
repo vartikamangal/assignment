@@ -13,7 +13,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
-import '../models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart';
 
 abstract class GetAllRecommendationCategoriesRemoteDataSource {
   Future<List<RecommendationCategoryModel>> getAllCategories();

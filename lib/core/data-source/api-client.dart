@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,9 +22,9 @@ class ApiClient {
       headers: _requestHeaders,
       body: body,
     );
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
+    log(response.headers.toString());
+    log(response.toString());
+    await SessionManager.setHeader(header: response.headers);
     return response;
   }
 
@@ -31,13 +33,13 @@ class ApiClient {
   }) async {
     final _requestUri = Uri.parse(uri);
     final _requestHeaders = await SessionManager.getHeader();
+    log(_requestHeaders.toString());
     final response = await http.get(
       _requestUri,
       headers: _requestHeaders,
     );
-    await SessionManager.setHeader(
-      header: response.headers,
-    );
+    log(response.toString());
+    await SessionManager.setHeader(header: response.headers);
     return response;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
@@ -9,7 +9,7 @@ import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/get-reco
 class MockGetRecorderDetailsRepository extends Mock
     implements GetRecorderStatsRepository {}
 
-void main(){
+void main() {
   MockGetRecorderDetailsRepository repository;
   GetRecorderDetails useCase;
 
@@ -18,7 +18,7 @@ void main(){
     useCase = GetRecorderDetails(repository: repository);
   });
 
-  const Stream<RecordingDisposition> tRecordingDisposition=null;
+  const Stream<RecordingDisposition> tRecordingDisposition = null;
 
   group('USECASE: getDetails()', () {
     test('Should get details of recorder from the repository', () async {

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
@@ -29,17 +30,7 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Theme.of(context).canvasColor,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: SvgPicture.asset(
-              ImagePath.backButton,
-              height: ScaleManager.spaceScale(
-                spaceing: 26,
-              ).value,
-            ),
-          ),
+          leading: TopAppBar(onPressed: (){Navigator.of(context).pop();},) ,
         ),
         body: CustomScrollView(
           slivers: [

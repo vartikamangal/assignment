@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import '../../../error/exceptions.dart';
 import '../../../error/failures.dart';
-import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:dartz/dartz.dart';
 import '../source/get-recorder-stats-local-data-source.dart';
 import '../../domain/repository/get-recorder-stats-repository.dart';

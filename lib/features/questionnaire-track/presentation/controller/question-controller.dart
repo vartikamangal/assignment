@@ -27,7 +27,7 @@ class QuestionnaireConroller extends GetxController {
     @required this.atemptQuestions,
   });
   //////// Dynamic Data Holders ///////////
-  Rx<Questionnaire> questionnaire = Rx<QuestionnaireModel>(null);
+  Rx<Questionnaire> questionnaire = Rx<QuestionnaireModel>();
   RxMap<Question, dynamic> questionToAnswerMap = RxMap<QuestionModel, dynamic>(
     {},
   );

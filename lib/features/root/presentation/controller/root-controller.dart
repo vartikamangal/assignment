@@ -50,7 +50,7 @@ class RootController extends GetxController {
 
   // Dynamic data holders
   RxBool hasOnboardedPreviously = RxBool(false);
-  Rx<HubStatus> hubStatus = Rx<HubStatusModel>(null);
+  Rx<HubStatus> hubStatus = Rx<HubStatusModel>();
 
   // Usecase assistors
   Future<void> checkIfAlreadyOnboarded() async {
@@ -264,15 +264,16 @@ class RootController extends GetxController {
         error: f,
       ),
       (r) => Navigator.of(Get.context).pushNamedAndRemoveUntil(
-        r.name,
+        //TODO change to r.name once api{/rapport/subject} gets fully stable
+        RouteName.rapportPages,
         (route) => false,
       ),
     );
   }
 
   // UI managers
-  Rx<Widget> screenToStartWith = Rx<Widget>(null);
-  Rx<String> appLastLoggedTime = Rx<String>(null);
+  Rx<Widget> screenToStartWith = Rx<Widget>();
+  Rx<String> appLastLoggedTime = Rx<String>();
   // initial setup
   Future<void> setup() async {
     await clearInitialDirtyCache();

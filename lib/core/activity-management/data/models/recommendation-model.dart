@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 
 // Project imports:
-import '../../domain/entities/recommendation.dart';
+import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation.dart';
 import 'recommendation-activity-model.dart';
 
 class RecommendationModel extends Recommendation {

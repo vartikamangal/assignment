@@ -49,6 +49,12 @@ enum ActionStatus {
   SCHEDULED_BUT_NOT_DONE,
 }
 
+enum ActivityType {
+  TEXT,
+  AUDIO,
+  VIDEO,
+}
+
 class PathController extends GetxController {
   /////// Usecases ////////////
   final GetAllRecommendationCategories getAllRecommendationCategories;
@@ -84,9 +90,9 @@ class PathController extends GetxController {
   );
 
   //? From here we will get journeyId, actionId & recommendationId
-  Rx<ActivityStatus> currentOngoingActivity = Rx<ActivityStatusModel>(null);
+  Rx<ActivityStatus> currentOngoingActivity = Rx<ActivityStatusModel>();
 
-  Rx<ActivitySceduleGuided> guidedPlan = Rx<ActivityScheduleGuidedModel>(null);
+  Rx<ActivitySceduleGuided> guidedPlan = Rx<ActivityScheduleGuidedModel>();
 
   // data holder for user-selected-path
   RxString userSelectedPath = RxString('');
@@ -324,10 +330,10 @@ class PathController extends GetxController {
   RxString userName = RxString('');
   RxString userTextFeedback = RxString('');
   Rx<RecommendationCategoryModel> selectedCategory =
-      Rx<RecommendationCategoryModel>(null);
+      Rx<RecommendationCategoryModel>();
   RxInt maxActivityPerformingPages = RxInt(0);
   RxInt currentActivityPerformingPages = RxInt(0);
-  Rx<Recommendation> selectedActivity = Rx<RecommendationModel>(null);
+  Rx<Recommendation> selectedActivity = Rx<RecommendationModel>();
   // Above one was too diffenrent for GUIDED & S.D, that's why had to use this
   RxString selectedActivityTitle = RxString('');
   RxString selectedActivitySubtitle = RxString('');
@@ -337,14 +343,42 @@ class PathController extends GetxController {
   RxMap<String, RecommendationStep> templateToRecommendationMapperGuided =
       RxMap({});
   Rx<GuidedActivityRecommendation> selectedDayPlan =
-      Rx<GuidedActivityRecommendationModel>(null);
+      Rx<GuidedActivityRecommendationModel>();
+
+  ///for focus on text field
+  RxBool isFocusOn=RxBool(false);
+
+  /// Video/Audio Helpers
+  final RxBool _isPlayableComplete = RxBool(false);
+
+  /// Once the Audio/Video is completed playing
+  /// The bottom Done btn will become visible
+  bool get footerVisibility => _isPlayableComplete.value;
+
+  void focusChanged(){
+    isFocusOn.value=true;
+  }
+  void focusCancelled(){
+    isFocusOn.value=false;
+  }
+  set footerVisibility(bool visibilty) {
+    _isPlayableComplete.value = visibilty;
+  }
+
+  void toggleLoader() {
+    isLoading.value = !isLoading.value;
+  }
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;
   }
 
-  void toggleLoader() {
-    isLoading.value = !isLoading.value;
+  /// During refactoring the [FocusNode] was needed to pass from
+  /// one class to another via multiple passes just for a simple
+  /// focus mechanism, So kept it isolated here
+  final FocusNode focusNode = FocusNode();
+  void unfocusAllFields() {
+    focusNode.unfocus();
   }
 
   //* for changing and storing the dynamically typed recommendation-text-feedback

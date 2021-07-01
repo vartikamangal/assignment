@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../../domain/entities/cached-mood.dart';
-import '../../../image/image.dart';
+import 'package:tatsam_app_experimental/core/image/image.dart';
 
 class CachedMoodModel extends CachedMood {
   const CachedMoodModel({

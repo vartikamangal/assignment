@@ -1,7 +1,7 @@
 // Package imports:
 import 'package:cross_connectivity/cross_connectivity.dart';
-import 'package:flutter_sound_lite/flutter_sound.dart';
-import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
@@ -70,7 +70,7 @@ import '../core/voicenotes/domain/usecases/start-recording-voice-note.dart';
 import '../core/voicenotes/domain/usecases/stop-recording.dart';
 import '../core/voicenotes/presentation/controller/voice-notes-controller.dart';
 
-//import 'package:flutter_sound_lite/flutter_sound.dart';
+//import 'package:flutter_sound/flutter_sound.dart';
 
 final sl_core_dependencies = GetIt.instance;
 

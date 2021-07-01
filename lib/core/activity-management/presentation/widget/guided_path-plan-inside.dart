@@ -1,20 +1,19 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-state.dart';
+
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
-import '../../../../core/utils/color-pallete.dart';
 import '../controller/path-controller.dart';
 import 'plan-container.dart';
 
@@ -32,17 +31,7 @@ class GuidedPathPlanInside extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: SvgPicture.asset(
-              ImagePath.backButton,
-              height: ScaleManager.spaceScale(
-                spaceing: 26,
-              ).value,
-            ),
-          ),
+          leading: TopAppBar(onPressed: (){Navigator.pop(context);}),
         ),
         body: CustomScrollView(
           slivers: [
@@ -92,23 +81,29 @@ class GuidedPathPlanInside extends StatelessWidget {
                 ],
               ),
             ),
-            if (_controller.selectedDayPlan.value.recommendationList.isEmpty) SliverToBoxAdapter(child: Padding(
-              padding:  EdgeInsets.only(top: ScaleManager.spaceScale(spaceing: 34).value,
-                  left: ScaleManager.spaceScale(spaceing: 42).value,
-                  right: ScaleManager.spaceScale(spaceing: 57).value),
-              child: EmptyState(),
-            ),) else SliverPadding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ScaleManager.spaceScale(
-                  spaceing: 28,
-                ).value,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: Column(
-                  children: _buildDayPlanInsiderActivities(),
+            if (_controller.selectedDayPlan.value.recommendationList.isEmpty)
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      top: ScaleManager.spaceScale(spaceing: 34).value,
+                      left: ScaleManager.spaceScale(spaceing: 42).value,
+                      right: ScaleManager.spaceScale(spaceing: 57).value),
+                  child: EmptyState(),
+                ),
+              )
+            else
+              SliverPadding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScaleManager.spaceScale(
+                    spaceing: 28,
+                  ).value,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    children: _buildDayPlanInsiderActivities(),
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),

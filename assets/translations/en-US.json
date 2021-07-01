@@ -6,7 +6,7 @@
   "ask name field" : "You can use your name or a nickname",
   "ask name title" : "Welcome to this journey! What should we call you?",
   "ask feeling text" : "Hi! {name}, we’d like to know a bit more about you",
-  "ask feeling title" : "How are you feeling today?",
+  "ask feeling title" : "How are you feeling?",
   "ask time text" : "Oh, we’re so sorry to hear that you’re feeling low.",
   "ask time title" : "How long have you been feeling this way?",
   "selection" : "SELECT",

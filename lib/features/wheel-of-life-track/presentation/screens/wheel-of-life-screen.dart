@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 
@@ -39,27 +40,11 @@ class WheelOfLifeScreen extends StatelessWidget {
                 slivers: [
                   SliverAppBar(
                     backgroundColor: Colors.transparent,
-                    leading: Obx(
-                          () => IconButton(
-                        padding:EdgeInsets.only(left: ScaleManager.spaceScale(
-                          spaceing: 10,
-                        ).value,
-                            top: ScaleManager.spaceScale(
-                              spaceing: 10,
-                            ).value,
-                            bottom: 0),
-                        icon: SvgPicture.asset(
-                          ImagePath.backButton,
-                          height: ScaleManager.spaceScale(
-                            spaceing: 26,
-                          ).value,
-                        ),
-                        onPressed: () {
-                          _controller.currentOnBoardPageCounter.value == 0
-                              ? Navigator.of(context).pop()
-                              : _controller.navigateBack();
-                        },
-                      ),
+                    leading: TopAppBar(onPressed: (){
+                            _controller.currentOnBoardPageCounter.value == 0
+                                ? Navigator.of(context).pop()
+                                : _controller.navigateBack();
+                          },
                     ),
                   ),
                   SliverToBoxAdapter(

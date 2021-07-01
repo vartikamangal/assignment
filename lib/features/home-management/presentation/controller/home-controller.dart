@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+import 'package:tatsam_app_experimental/features/hub/presentation/controller/hub-controller.dart';
 
 // Project imports:
 import '../../../../core/activity-management/data/models/feedback-model.dart';
@@ -22,8 +23,6 @@ import '../../../../core/activity-management/domain/usecases/rate-recommendation
 import '../../../../core/activity-management/domain/usecases/update-activity-status.dart';
 import '../../../../core/activity-management/presentation/controller/path-controller.dart';
 import '../../../../core/cache-manager/data/models/cache-acitivity-model.dart';
-import '../../../../core/cache-manager/data/models/cached-mood-model.dart';
-import '../../../../core/cache-manager/domain/entities/cached-mood.dart';
 import '../../../../core/cache-manager/domain/usecases/check-if-first-time-user.dart';
 import '../../../../core/cache-manager/domain/usecases/get-cached-mood.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-last-logged-app-init.dart';
@@ -113,8 +112,7 @@ class HomeController extends GetxController {
   });
   //! Dynamic Data Holders
   static const String activityTypeHomepage = 'APP_OPEN';
-  final Rx<CacheAcitivityModel> mostRecentAcitivity =
-      Rx<CacheAcitivityModel>(null);
+  final Rx<CacheAcitivityModel> mostRecentAcitivity = Rx<CacheAcitivityModel>();
   final RxList<ActivityRecommendation> recommendedActivities =
       RxList<ActivityRecommendationModel>(
     [],
@@ -140,20 +138,23 @@ class HomeController extends GetxController {
   //! Usecases helper functions
 
   Future<void> retrieveCachedMood() async {
-    final moodOrFailure = await getCachedMood(
-      NoParams(),
-    );
-    moodOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
-      (cachedMood) {
-        userMood.value = cachedMood;
-        log(
-          cachedMood.toString(),
-        );
-      },
-    );
+    // final moodOrFailure = await getCachedMood(
+    //   NoParams(),
+    // );
+    // moodOrFailure.fold(
+    //   (failure) {
+    //     ErrorInfo.show(failure);
+    //   },
+    //   (cachedMood) {
+    //     userMood.value = cachedMood;
+    //     log(
+    //       cachedMood.toString(),
+    //     );
+    //   },
+    // );
+    final HubController _controller = Get.find();
+    await _controller.fetchHubStatus();
+    userMood.value = _controller.hubStatus.value.userMood.toLowerCase();
   }
 
   /// Will give the persisted value of last successfull activity completed by user
@@ -572,12 +573,12 @@ class HomeController extends GetxController {
   RxBool haveChosenCategory = RxBool(false);
   RxString userNickname = RxString('');
   RxString chosenPath = RxString('');
-  Rx<CachedMood> userMood = Rx<CachedMoodModel>(null);
-  Rx<AppDuration> appDuration = Rx<AppDurationModel>(null);
+  RxString userMood = RxString('');
+  Rx<AppDuration> appDuration = Rx<AppDurationModel>();
 
   /// Gives the length of all the remaining feedback actions
   /// obtained via SCHJEDULED_FOR_LATER flag
-  RxInt totalFeedbackActions = RxInt(null);
+  RxInt totalFeedbackActions = RxInt();
   RxInt answeredFeedbackActions = RxInt(0);
 
   /// Reprsents the active indicator value
@@ -588,7 +589,7 @@ class HomeController extends GetxController {
 
   /// saves the current active feedback module
   Rx<PostOnboardingAction> currentActivePostOnboardingFeedbackAction =
-      Rx<PostOnboardingActionModel>(null);
+      Rx<PostOnboardingActionModel>();
 
   // For showing in ui
   final List<String> daysToBeShownInUI = [

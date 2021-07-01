@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import '../../../error/failures.dart';
 import '../../../usecase/usecase.dart';
 import '../repository/get-recorder-stats-repository.dart';
