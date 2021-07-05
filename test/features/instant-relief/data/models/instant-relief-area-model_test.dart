@@ -45,7 +45,7 @@ void main() {
       //arrange
       final expectedJson =
           jsonDecode(fixtureReader(filename: 'raw-instant-relief-area.json'))
-              as List;
+              as List?;
       //act
       final result = tInstantReliefAreaModel
           .map((area) => (area as InstantReliefAreaModel).toJson())

@@ -10,18 +10,18 @@ import 'path-information-guided.dart';
 import 'tag.dart';
 
 class ActivitySceduleGuided extends Equatable {
-  final int id;
+  final int? id;
   final PathInformation pathInformation;
   final List<GuidedActivityRecommendation> activitySchedule;
   final List<Tag> tags;
   const ActivitySceduleGuided({
-    @required this.id,
-    @required this.pathInformation,
-    @required this.activitySchedule,
-    @required this.tags,
+    required this.id,
+    required this.pathInformation,
+    required this.activitySchedule,
+    required this.tags,
   });
   @override
-  List<Object> get props => [id, pathInformation, activitySchedule, tags];
+  List<Object?> get props => [id, pathInformation, activitySchedule, tags];
 
   @override
   bool get stringify => true;

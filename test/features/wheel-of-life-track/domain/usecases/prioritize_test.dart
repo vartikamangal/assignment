@@ -2,19 +2,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/life-areas-for-prioritization.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/success-prioritize.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/prioritize-service.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/wheel-of-life-repository.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/usecases/prioritize.dart';
 
-class MockPrioritizeService extends Mock implements PrioritizeService {}
+class MockPrioritizeService extends Mock implements WheelOfLifeRepository {}
 
 void main() {
-  MockPrioritizeService service;
-  Prioritize useCase;
+  MockPrioritizeService? service;
+  late Prioritize useCase;
 
   setUp(() {
     service = MockPrioritizeService();
@@ -71,13 +70,13 @@ void main() {
     test('should set the lifeArea priorities of user through service',
         () async {
       //arrange
-      when(service.prioritize(lifeAreas: tPrioritizedAreas))
+      when(service!.prioritize(lifeAreas: tPrioritizedAreas))
           .thenAnswer((_) async => Right(tSuccess));
       //act
       final result =
           await useCase(const PrioritizeParams(priorities: tPrioritizedAreas));
       //assert
-      verify(service.prioritize(lifeAreas: tPrioritizedAreas));
+      verify(service!.prioritize(lifeAreas: tPrioritizedAreas));
       expect(result, Right(tSuccess));
     });
   });

@@ -2,7 +2,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -12,18 +11,18 @@ import 'package:tatsam_app_experimental/core/repository/call-if-network-connecte
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-information-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/repository/set-subject-name-service-impl.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/sources/set-subject-name-remote-service.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/repository/rapport-building-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
 
 class MockSetSubjectNameRemoteService extends Mock
-    implements SetSubjectNameRemoteService {}
+    implements RapportBuildingRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockNetworkInfo networkInfo;
-  MockSetSubjectNameRemoteService service;
-  SetSubjectNameServiceImpl impl;
+  MockNetworkInfo? networkInfo;
+  MockSetSubjectNameRemoteService? service;
+  late RapportBuildingRepositoryImpl impl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -37,8 +36,8 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    impl = SetSubjectNameServiceImpl(
-      service: service,
+    impl = RapportBuildingRepositoryImpl(
+      remoteDataSource: service,
       baseRepository: baseRepository,
     );
   });
@@ -61,7 +60,7 @@ void main() {
   //? Device Online Tests
   group('DEVICE ONLINE : SetSubjectName', () {
     setUp(() {
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
+      when(networkInfo!.isConnected).thenAnswer((_) async => true);
     });
     test('should check if the device is online', () async {
       //act
@@ -69,12 +68,12 @@ void main() {
         subjectName: tSubjectName,
       );
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test('should return SubjectInfoModel from data-source', () async {
       //arrange
       when(
-        service.setSubjectName(
+        service!.setSubjectName(
           name: tSubjectName,
         ),
       ).thenAnswer((_) async => tSubjectInfo);
@@ -84,7 +83,7 @@ void main() {
       );
       //assert
       verify(
-        service.setSubjectName(
+        service!.setSubjectName(
           name: tSubjectName,
         ),
       );
@@ -95,7 +94,7 @@ void main() {
         () async {
       //arrange
       when(
-        service.setSubjectName(
+        service!.setSubjectName(
           name: tSubjectName,
         ),
       ).thenThrow(ServerException());
@@ -111,15 +110,14 @@ void main() {
   //? Device Offline Tests
   group('DEVICE OFFLINE : SetSubjectName', () {
     setUp(() {
-      when(networkInfo.isConnected).thenAnswer((_) async => false);
+      when(networkInfo!.isConnected).thenAnswer((_) async => false);
     });
     test('should return a DeviceOfflineFailure', () async {
       //arrange
-      when(service.setSubjectName(name: tSubjectName))
+      when(service!.setSubjectName(name: tSubjectName))
           .thenAnswer((_) async => tSubjectInfo);
       //act
-      final result = await impl.setSubjectName(
-          subjectName: tSubjectName, deviceId: tDeviceID);
+      final result = await impl.setSubjectName(subjectName: tSubjectName);
       //assert
       verifyZeroInteractions(service);
       expect(result, Left(DeviceOfflineFailure()));

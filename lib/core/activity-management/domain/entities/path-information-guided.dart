@@ -5,23 +5,23 @@ import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 
 class PathInformation extends Equatable {
-  final int id;
-  final String description;
-  final String title;
-  final String subtitle;
-  final String helpContent;
-  final int lengthOfPlan;
+  final int? id;
+  final String? description;
+  final String? title;
+  final String? subtitle;
+  final String? helpContent;
+  final int? lengthOfPlan;
 
   const PathInformation({
-    @required this.id,
-    @required this.description,
-    @required this.title,
-    @required this.subtitle,
-    @required this.helpContent,
-    @required this.lengthOfPlan,
+    required this.id,
+    required this.description,
+    required this.title,
+    required this.subtitle,
+    required this.helpContent,
+    required this.lengthOfPlan,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       description,

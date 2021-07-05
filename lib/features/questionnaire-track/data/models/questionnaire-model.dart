@@ -7,12 +7,12 @@ import 'question-model.dart';
 
 class QuestionnaireModel extends Questionnaire {
   const QuestionnaireModel({
-    @required String id,
-    @required String name,
-    @required String title,
-    @required String description,
-    @required String creationDate,
-    @required List<QuestionModel> questionVO,
+    required String? id,
+    required String? name,
+    required String? title,
+    required String? description,
+    required String creationDate,
+    required List<QuestionModel> questionVO,
   }) : super(
           id: id,
           name: name,
@@ -24,11 +24,11 @@ class QuestionnaireModel extends Questionnaire {
 
   factory QuestionnaireModel.fromJson(Map<String, dynamic> jsonMap) {
     return QuestionnaireModel(
-      id: jsonMap['id'] as String,
-      name: jsonMap['name'] as String,
-      title: jsonMap['title'] as String,
-      description: jsonMap['description'] as String,
-      creationDate: jsonMap['creationDate'] as String ?? 'N/A',
+      id: jsonMap['id'] as String?,
+      name: jsonMap['name'] as String?,
+      title: jsonMap['title'] as String?,
+      description: jsonMap['description'] as String?,
+      creationDate: jsonMap['creationDate'] as String? ?? 'N/A',
       questionVO: (jsonMap['questionVO'] as List)
           .map(
             (question) => QuestionModel.fromJson(

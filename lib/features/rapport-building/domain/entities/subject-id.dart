@@ -2,9 +2,9 @@
 import 'package:equatable/equatable.dart';
 
 class SubjectId extends Equatable {
-  final String id;
+  final String? id;
 
   const SubjectId(this.id);
   @override
-  List<Object> get props => [id];
+  List<Object?> get props => [id];
 }

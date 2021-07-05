@@ -1,31 +1,29 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
+
 import '../../../../core/error/failures.dart';
 import '../../../../features/home-management/data/sources/get-recommendations-by-action-time-remote-data-source.dart';
 import '../../../../features/home-management/domain/repositories/get-recommendations-by-action-time-repository.dart';
 
 class GetRecommendationsByActionTimeRepositoryRepositoryImpl
     implements GetRecommendationsByActionTimeRepository {
-  final GetRecommendationsByActionTimeRemoteDataSource remoteDataSource;
+  final GetRecommendationsByActionTimeRemoteDataSource? remoteDataSource;
   final BaseRepository baseRepository;
 
   GetRecommendationsByActionTimeRepositoryRepositoryImpl({
-    @required this.remoteDataSource,
-    @required this.baseRepository,
+    required this.remoteDataSource,
+    required this.baseRepository,
   });
   @override
-  Future<Either<Failure, List<ActivityRecommendation>>> getRecommendations({
-    String actionTime,
+  Future<Either<Failure, List<ActivityRecommendation>>?> getRecommendations({
+    String? actionTime,
   }) async {
     return baseRepository(
-      () => remoteDataSource.getRecommendations(
+      () => remoteDataSource!.getRecommendations(
         actionTime: actionTime,
       ),
     );

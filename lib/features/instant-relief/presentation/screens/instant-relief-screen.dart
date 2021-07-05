@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,17 +35,7 @@ class InstantReliefScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              ImagePath.backButton,
-              height: ScaleManager.spaceScale(
-                spaceing: 26,
-              ).value,
-            ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
+          leading: TopAppBar(onPressed: (){ Get.back();})
         ),
         body: CustomScrollView(
           physics: Platform.isIOS

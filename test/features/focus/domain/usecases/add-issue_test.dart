@@ -1,23 +1,24 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/add-issue-success.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue.dart';
-import 'package:tatsam_app_experimental/features/focus/domain/repositories/add-issue-service.dart';
+import 'package:tatsam_app_experimental/features/focus/domain/repositories/focus-repository.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/usecases/add-issue.dart';
 
-class MockSetTargetService extends Mock implements AddIssueService {}
+import 'add-issue_test.mocks.dart';
 
+@GenerateMocks([FocusRepository])
 void main() {
-  MockSetTargetService service;
-  SetTarget useCase;
+  late MockFocusRepository service;
+  late SetTarget useCase;
 
   setUp(() {
-    service = MockSetTargetService();
+    service = MockFocusRepository();
     useCase = SetTarget(service: service);
   });
 

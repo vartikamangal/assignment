@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../responsive/scale-manager.dart';
 import '../color-pallete.dart';
 
-Widget DividedImageComponent({@required String imgUrl}) {
+Widget DividedImageComponent({required String imgUrl}) {
   final imageScaleFactor = ScaleManager.imageScale.value;
   return SizedBox(
     height: ScaleManager.spaceScale(

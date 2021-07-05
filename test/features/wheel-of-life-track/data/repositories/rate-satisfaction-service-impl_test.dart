@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -15,19 +14,19 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/rating-scale-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/satisfaction-rating-map-for-time-provision-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/satisfaction-ratings-model.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/rate-satisfaction-ratings-service-impl.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/rate-satisfaction-remote-service.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/wheel-of-life-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/wheel-of-life-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rated-satisfaction-success.dart';
 
 class MockRateSatisfactionRemoteService extends Mock
-    implements RateSatisfactionRemoteService {}
+    implements WheelOfLifeRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockRateSatisfactionRemoteService remoteService;
-  MockNetworkInfo networkInfo;
-  RateSatisfactionServiceImpl serviceImpl;
+  MockRateSatisfactionRemoteService? remoteService;
+  MockNetworkInfo? networkInfo;
+  late WheelOfLifeRepositoryImpl serviceImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -41,8 +40,8 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    serviceImpl = RateSatisfactionServiceImpl(
-      remoteService: remoteService,
+    serviceImpl = WheelOfLifeRepositoryImpl(
+      remoteDataSource: remoteService,
       baseRepository: baseRepository,
     );
   });
@@ -161,7 +160,7 @@ void main() {
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : RateSatisfactionService', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       body();
     });
@@ -170,7 +169,7 @@ void main() {
   void runTestsOffline(Callback body) {
     group('DEVICE OFFLINE : RateSatisfactionService', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
       });
       body();
     });
@@ -183,31 +182,31 @@ void main() {
         satisfactionRatings: tSatisfactionRatings,
       );
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return SuccessRatedSatisfaction when the call to remote service is successfull',
         () async {
       //arrange
-      when(remoteService.rateSatisfaction(ratings: tSatisfactionRatings))
+      when(remoteService!.rateSatisfaction(ratings: tSatisfactionRatings))
           .thenAnswer((realInvocation) async => SuccessRatedSatisfaction());
       //act
       final result = await serviceImpl.rateSatisfactionService(
           satisfactionRatings: tSatisfactionRatings);
       //assert
-      verify(remoteService.rateSatisfaction(ratings: tSatisfactionRatings));
+      verify(remoteService!.rateSatisfaction(ratings: tSatisfactionRatings));
       expect(result, Right(SuccessRatedSatisfaction()));
     });
     test('should return ServerFailure when the call to remote service fails',
         () async {
       //arrange
-      when(remoteService.rateSatisfaction(ratings: tSatisfactionRatings))
+      when(remoteService!.rateSatisfaction(ratings: tSatisfactionRatings))
           .thenThrow(ServerException());
       //act
       final result = await serviceImpl.rateSatisfactionService(
           satisfactionRatings: tSatisfactionRatings);
       //assert
-      verify(remoteService.rateSatisfaction(ratings: tSatisfactionRatings));
+      verify(remoteService!.rateSatisfaction(ratings: tSatisfactionRatings));
       expect(result, Left(ServerFailure()));
     });
   });

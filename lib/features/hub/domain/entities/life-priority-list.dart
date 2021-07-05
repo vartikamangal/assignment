@@ -5,19 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:equatable/equatable.dart';
 
 class LifePriorities extends Equatable {
-  final int id;
+  final int? id;
   final List<String> areasInOrderOfPriority;
 
   const LifePriorities({
-    @required this.id,
-    @required this.areasInOrderOfPriority,
+    required this.id,
+    required this.areasInOrderOfPriority,
   });
   @override
-  List<Object> get props => [id, areasInOrderOfPriority];
+  List<Object?> get props => [id, areasInOrderOfPriority];
 
   LifePriorities copyWith({
-    int id,
-    List<String> areasInOrderOfPriority,
+    int? id,
+    List<String>? areasInOrderOfPriority,
   }) {
     return LifePriorities(
       id: id ?? this.id,

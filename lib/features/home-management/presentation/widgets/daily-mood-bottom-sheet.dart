@@ -10,7 +10,7 @@ import '../../../rapport-building/Presentation/controllers/rapport-building-cont
 import '../../../rapport-building/Presentation/widgets/emotion_selector.dart';
 
 class DailyMoodBottomSheet extends StatelessWidget {
-  DailyMoodBottomSheet({Key key}) : super(key: key);
+  DailyMoodBottomSheet({Key? key}) : super(key: key);
 
   final _rapportController = Get.find<RapportBuildingController>();
   final _homeController = Get.find<HomeController>();
@@ -60,7 +60,7 @@ class DailyMoodBottomSheet extends StatelessWidget {
                           children: _rapportController.moods
                               .map(
                                 (mood) => emotionSelector(
-                                  mood.moodName.toLowerCase(),
+                                  mood.moodName!.toLowerCase(),
                                   () async {
                                     await _homeController.popupSetMoodAssist(
                                       moodName: mood.moodName,

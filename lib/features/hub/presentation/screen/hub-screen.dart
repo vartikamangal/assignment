@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
 import '../../../../core/responsive/responsive-builder.dart';
@@ -66,7 +67,7 @@ class HubScreen extends StatelessWidget {
                       onTap: _controller.isLoading.value
                           // Do nothing untill some process is going on
                           ? () {}
-                          : _controller.activeHubStateObject.value.onImageTap,
+                          : _controller.activeHubStateObject.value!.onImageTap,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -103,7 +104,7 @@ class HubScreen extends StatelessWidget {
                   () => Text(
                     _controller.isLoading.value
                         ? 'Please hold on'
-                        : _controller.activeHubStateObject.value.title,
+                        : _controller.activeHubStateObject.value!.title,
                     style: AppTextStyle.lightbold,
                     textScaleFactor: textScale,
                   ),
@@ -158,21 +159,21 @@ class HubScreen extends StatelessWidget {
                       mobile: Text(
                         _controller.isLoading.value
                             ? 'Loading description'
-                            : _controller.activeHubStateObject.value.subtitle,
+                            : _controller.activeHubStateObject.value!.subtitle,
                         style: AppTextStyle.darkerBlueMedium,
                         textScaleFactor: textScale,
                       ),
                       tablet: Text(
                         _controller.isLoading.value
                             ? 'Loading description'
-                            : _controller.activeHubStateObject.value.subtitle,
+                            : _controller.activeHubStateObject.value!.subtitle,
                         style: AppTextStyle.darkerBlueMedium,
                         textScaleFactor: textScale * 0.95,
                       ),
                       desktop: Text(
                         _controller.isLoading.value
                             ? 'Loading description'
-                            : _controller.activeHubStateObject.value.subtitle,
+                            : _controller.activeHubStateObject.value!.subtitle,
                         style: AppTextStyle.darkerBlueMedium,
                         textScaleFactor: textScale * 0.95,
                       ),
@@ -183,7 +184,7 @@ class HubScreen extends StatelessWidget {
             ),
             Obx(
               () => _controller.isProcessing.value
-                  ? const LinearProgressIndicator()
+                  ? CustomizedLinearProgressIndicator()
                   : EmptySpacePlaceHolder(),
             ),
             Positioned(
@@ -258,9 +259,9 @@ class HubScreen extends StatelessWidget {
 
 class _MidImageDesktopComponent extends StatelessWidget {
   const _MidImageDesktopComponent({
-    Key key,
-    @required HubController controller,
-    @required this.imageScale,
+    Key? key,
+    required HubController controller,
+    required this.imageScale,
   })  : _controller = controller,
         super(key: key);
 
@@ -279,7 +280,7 @@ class _MidImageDesktopComponent extends StatelessWidget {
       child: _controller.isLoading.value
           ? CircularShimmerLoader()
           : Image.asset(
-              _controller.activeHubStateObject.value.heroImageUrl,
+              _controller.activeHubStateObject.value!.heroImageUrl,
               scale: imageScale,
             ),
     );
@@ -288,9 +289,9 @@ class _MidImageDesktopComponent extends StatelessWidget {
 
 class _MidImageMobileComponent extends StatelessWidget {
   const _MidImageMobileComponent({
-    Key key,
-    @required HubController controller,
-    @required this.imageScale,
+    Key? key,
+    required HubController controller,
+    required this.imageScale,
   })  : _controller = controller,
         super(key: key);
 
@@ -309,7 +310,7 @@ class _MidImageMobileComponent extends StatelessWidget {
       child: _controller.isLoading.value
           ? CircularShimmerLoader()
           : Image.asset(
-              _controller.activeHubStateObject.value.heroImageUrl,
+              _controller.activeHubStateObject.value!.heroImageUrl,
               scale: imageScale,
             ),
     );
@@ -318,9 +319,9 @@ class _MidImageMobileComponent extends StatelessWidget {
 
 class _MidImageTabletContent extends StatelessWidget {
   const _MidImageTabletContent({
-    Key key,
-    @required HubController controller,
-    @required this.imageScale,
+    Key? key,
+    required HubController controller,
+    required this.imageScale,
   })  : _controller = controller,
         super(key: key);
 
@@ -339,7 +340,7 @@ class _MidImageTabletContent extends StatelessWidget {
       child: _controller.isLoading.value
           ? CircularShimmerLoader()
           : Image.asset(
-              _controller.activeHubStateObject.value.heroImageUrl,
+              _controller.activeHubStateObject.value!.heroImageUrl,
               scale: imageScale,
             ),
     );

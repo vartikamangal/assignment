@@ -1,8 +1,6 @@
 // Dart imports:
 import 'dart:developer';
 
-// Flutter imports:
-import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
@@ -24,7 +22,6 @@ import '../../../../core/activity-management/domain/usecases/update-activity-sta
 import '../../../../core/activity-management/presentation/controller/path-controller.dart';
 import '../../../../core/cache-manager/data/models/cache-acitivity-model.dart';
 import '../../../../core/cache-manager/domain/usecases/check-if-first-time-user.dart';
-import '../../../../core/cache-manager/domain/usecases/get-cached-mood.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-last-logged-app-init.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-most-recent-activity.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-user-path.dart';
@@ -76,7 +73,6 @@ class HomeController extends GetxController {
   final GetCategoryActivities getCategoryActivities;
   final AddWeeklyCategory addWeeklyCategory;
   final AddWeeklyActivity addWeeklyActivity;
-  final GetCachedMood getCachedMood;
   final UpdateUserDurationOnApp userDurationOnApp;
   final GetAllMoods getAllMoods;
   final SetSubjectMood setSubjectMood;
@@ -87,32 +83,32 @@ class HomeController extends GetxController {
   final RetirieveLastLoggedAppInit retirieveLastLoggedAppInit;
 
   HomeController({
-    @required this.retrieveMostRecentActivity,
-    @required this.retrieveUserPath,
-    @required this.retrieveUserOnboardingStatus,
-    @required this.userOnboardingStatus,
-    @required this.getRecommendationsByActionTime,
-    @required this.getActionWithActionStatus,
-    @required this.saveIsFirstTimeOnboardingStatus,
-    @required this.checkIfFirstTimeUser,
-    @required this.rateRecommendationFlow,
-    @required this.updateActivityStatus,
-    @required this.getAllRecommendationCategories,
-    @required this.getCategoryActivities,
-    @required this.addWeeklyCategory,
-    @required this.addWeeklyActivity,
-    @required this.getCachedMood,
-    @required this.userDurationOnApp,
-    @required this.getLastLogin,
-    @required this.getAllMoods,
-    @required this.setSubjectMood,
-    @required this.getIsMoodPopupShownStatus,
-    @required this.toggleMoodPopupShownState,
-    @required this.retirieveLastLoggedAppInit,
+    required this.retrieveMostRecentActivity,
+    required this.retrieveUserPath,
+    required this.retrieveUserOnboardingStatus,
+    required this.userOnboardingStatus,
+    required this.getRecommendationsByActionTime,
+    required this.getActionWithActionStatus,
+    required this.saveIsFirstTimeOnboardingStatus,
+    required this.checkIfFirstTimeUser,
+    required this.rateRecommendationFlow,
+    required this.updateActivityStatus,
+    required this.getAllRecommendationCategories,
+    required this.getCategoryActivities,
+    required this.addWeeklyCategory,
+    required this.addWeeklyActivity,
+    required this.userDurationOnApp,
+    required this.getLastLogin,
+    required this.getAllMoods,
+    required this.setSubjectMood,
+    required this.getIsMoodPopupShownStatus,
+    required this.toggleMoodPopupShownState,
+    required this.retirieveLastLoggedAppInit,
   });
   //! Dynamic Data Holders
   static const String activityTypeHomepage = 'APP_OPEN';
-  final Rx<CacheAcitivityModel> mostRecentAcitivity = Rx<CacheAcitivityModel>();
+  final Rxn<CacheAcitivityModel> mostRecentAcitivity =
+      Rxn<CacheAcitivityModel>();
   final RxList<ActivityRecommendation> recommendedActivities =
       RxList<ActivityRecommendationModel>(
     [],
@@ -154,7 +150,7 @@ class HomeController extends GetxController {
     // );
     final HubController _controller = Get.find();
     await _controller.fetchHubStatus();
-    userMood.value = _controller.hubStatus.value.userMood.toLowerCase();
+    userMood.value = _controller.hubStatus.value!.userMood!.toLowerCase();
   }
 
   /// Will give the persisted value of last successfull activity completed by user
@@ -162,7 +158,7 @@ class HomeController extends GetxController {
     final mostRecentAcitivityOrFailure = await retrieveMostRecentActivity(
       NoParams(),
     );
-    mostRecentAcitivityOrFailure.fold(
+    mostRecentAcitivityOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -177,7 +173,7 @@ class HomeController extends GetxController {
     final optedPathOrFailure = await retrieveUserPath(
       NoParams(),
     );
-    optedPathOrFailure.fold(
+    optedPathOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -194,7 +190,7 @@ class HomeController extends GetxController {
         status: OnboardingStatus.COMPLETE.toString().enumToString(),
       ),
     );
-    cacheStausOrFailure.fold(
+    cacheStausOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -210,7 +206,7 @@ class HomeController extends GetxController {
         actionTime: 'DO_NOW',
       ),
     );
-    recommendedActivitiesOrFailure.fold(
+    recommendedActivitiesOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -239,7 +235,7 @@ class HomeController extends GetxController {
     final onBoardingStatusOrFailure = await retrieveUserOnboardingStatus(
       NoParams(),
     );
-    onBoardingStatusOrFailure.fold(
+    onBoardingStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -261,7 +257,7 @@ class HomeController extends GetxController {
             ActionStatus.SCHEDULED_FOR_LATER.toString().enumToString(),
       ),
     );
-    postOnboardingActionsOrFailure.fold(
+    postOnboardingActionsOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -283,7 +279,7 @@ class HomeController extends GetxController {
         onBoardingStatus: 'YES',
       ),
     );
-    markedOrFailure.fold(
+    markedOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -298,7 +294,7 @@ class HomeController extends GetxController {
     final markedOrFailure = await checkIfFirstTimeUser(
       NoParams(),
     );
-    markedOrFailure.fold(
+    markedOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -309,12 +305,12 @@ class HomeController extends GetxController {
     );
   }
 
-  Future<void> fulfillActionStatus({@required String mood}) async {
+  Future<void> fulfillActionStatus({required String? mood}) async {
     toggleProcessor();
     final ratedActionOrFailure = await rateRecommendationFlow(
       RateRecommendationFlowParams(
         feedback: FeedbackModel(
-          actionId: currentActivePostOnboardingFeedbackAction.value.actionId,
+          actionId: currentActivePostOnboardingFeedbackAction.value!.actionId,
           //! coz. not necessary
           recommendationId: '',
           feedbackThoughts: '',
@@ -328,7 +324,7 @@ class HomeController extends GetxController {
       ),
     );
     toggleProcessor();
-    ratedActionOrFailure.fold(
+    ratedActionOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -341,22 +337,22 @@ class HomeController extends GetxController {
     );
   }
 
-  Future<void> changeActionStatus({@required ActionStatus actionStatus}) async {
+  Future<void> changeActionStatus({required ActionStatus actionStatus}) async {
     toggleProcessor();
     final updatedActionStatusOrFailure = await updateActivityStatus(
       UpdateActivityStatusParams(
         status: actionStatus.toString().enumToString(),
-        actionId: currentActivePostOnboardingFeedbackAction.value.actionId,
+        actionId: currentActivePostOnboardingFeedbackAction.value!.actionId,
       ),
     );
     toggleProcessor();
-    updatedActionStatusOrFailure.fold(
+    updatedActionStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (modificationStatus) {
         log(
-          "${currentActivePostOnboardingFeedbackAction.value.actionId.toString()} modified to ${actionStatus.toString().enumToString()} successfully",
+          "${currentActivePostOnboardingFeedbackAction.value!.actionId.toString()} modified to ${actionStatus.toString().enumToString()} successfully",
         );
         updatePostOnboardingAction();
       },
@@ -373,7 +369,7 @@ class HomeController extends GetxController {
       final categoriesOrFailure = await getAllRecommendationCategories(
         NoParams(),
       );
-      categoriesOrFailure.fold(
+      categoriesOrFailure!.fold(
         (failure) {
           ErrorInfo.show(failure);
         },
@@ -393,7 +389,7 @@ class HomeController extends GetxController {
   /// Should be called when user clicks on any of the above obtained category pills
   /// Adds the category passed to the category list and Then fetches the activities for that category
   Future<void> fetchAcitivitiesForCategory({
-    @required RecommendationCategoryModel category,
+    required RecommendationCategoryModel category,
   }) async {
     toggleProcessor();
     await addToWeeklyCategory(
@@ -405,7 +401,7 @@ class HomeController extends GetxController {
         ),
       );
       toggleProcessor();
-      activitiesOrFailure.fold(
+      activitiesOrFailure!.fold(
         (failure) {
           ErrorInfo.show(failure);
         },
@@ -423,15 +419,15 @@ class HomeController extends GetxController {
   }
 
   Future<void> addToWeeklyCategory({
-    @required RecommendationCategoryModel category,
+    required RecommendationCategoryModel category,
   }) async {
     final statusOrFailure = await addWeeklyCategory(
       AddWeeklyCategoryParams(
-        weekNumber: appDuration.value.currentWeekday,
+        weekNumber: appDuration.value!.currentWeekday,
         category: category,
       ),
     );
-    statusOrFailure.fold(
+    statusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -444,8 +440,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> updateWeeklyActivity({
-    @required String category,
-    @required String recommendationId,
+    required String category,
+    required String? recommendationId,
   }) async {
     final statusOrFailure = await addWeeklyActivity(
       AddWeeklyActivityParams(
@@ -453,7 +449,7 @@ class HomeController extends GetxController {
         recommendationId: recommendationId,
       ),
     );
-    statusOrFailure.fold(
+    statusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -539,7 +535,7 @@ class HomeController extends GetxController {
     Get.bottomSheet(DailyMoodBottomSheet());
   }
 
-  Future<void> popupSetMoodAssist({@required String moodName}) async {
+  Future<void> popupSetMoodAssist({required String? moodName}) async {
     // Enable loader
     isRating.value = true;
     final resultOrFailure = await setSubjectMood(
@@ -549,7 +545,7 @@ class HomeController extends GetxController {
       ),
     );
     isRating.value = false;
-    resultOrFailure.fold(
+    resultOrFailure!.fold(
       (f) {
         log(f.toString());
         log('rating failed');
@@ -574,11 +570,11 @@ class HomeController extends GetxController {
   RxString userNickname = RxString('');
   RxString chosenPath = RxString('');
   RxString userMood = RxString('');
-  Rx<AppDuration> appDuration = Rx<AppDurationModel>();
+  Rxn<AppDuration> appDuration = Rxn<AppDurationModel>();
 
   /// Gives the length of all the remaining feedback actions
   /// obtained via SCHJEDULED_FOR_LATER flag
-  RxInt totalFeedbackActions = RxInt();
+  RxnInt totalFeedbackActions = RxnInt();
   RxInt answeredFeedbackActions = RxInt(0);
 
   /// Reprsents the active indicator value
@@ -588,8 +584,8 @@ class HomeController extends GetxController {
   RxBool isOnboarded = RxBool(false);
 
   /// saves the current active feedback module
-  Rx<PostOnboardingAction> currentActivePostOnboardingFeedbackAction =
-      Rx<PostOnboardingActionModel>();
+  Rxn<PostOnboardingAction> currentActivePostOnboardingFeedbackAction =
+      Rxn<PostOnboardingActionModel>();
 
   // For showing in ui
   final List<String> daysToBeShownInUI = [
@@ -626,7 +622,7 @@ class HomeController extends GetxController {
   }
 
   void setupPostActionFeedbacks({
-    @required List<PostOnboardingActionModel> actions,
+    required List<PostOnboardingActionModel> actions,
   }) {
     fulfilledAllPostOnboardingActions.value = false;
     totalFeedbackActions.value = actions.length;
@@ -640,7 +636,7 @@ class HomeController extends GetxController {
   }
 
   void updatePostOnboardingAction() {
-    if (answeredFeedbackActions.value < totalFeedbackActions.value - 1) {
+    if (answeredFeedbackActions.value < totalFeedbackActions.value! - 1) {
       answeredFeedbackActions.value++;
       currentActivePostOnboardingFeedbackAction.value =
           actionsIfOnboarded[answeredFeedbackActions.value];

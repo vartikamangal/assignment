@@ -17,12 +17,12 @@ class FeedbackView extends StatefulWidget {
   final PathController pathController;
   final RapportBuildingController rapportBuildingController;
   const FeedbackView({
-    Key key,
-    @required this.isGuidedPlan,
-    @required this.durationController,
-    @required this.homeController,
-    @required this.pathController,
-    @required this.rapportBuildingController,
+    Key? key,
+    required this.isGuidedPlan,
+    required this.durationController,
+    required this.homeController,
+    required this.pathController,
+    required this.rapportBuildingController,
   }) : super(key: key);
 
   @override
@@ -65,7 +65,7 @@ class _FeedbackViewState extends State<FeedbackView> {
                     child: Column(
                       children: [
                         Text(
-                          'How was your experience with ${widget.homeController.currentActivePostOnboardingFeedbackAction.value.title}',
+                          'How was your experience with ${widget.homeController.currentActivePostOnboardingFeedbackAction.value!.title}',
                           style: AppTextStyle.hintStyleDarkerForTextInputs,
                           textAlign: TextAlign.center,
                           textScaleFactor: textScale,
@@ -85,7 +85,7 @@ class _FeedbackViewState extends State<FeedbackView> {
                                       widget.rapportBuildingController.moods
                                           .map(
                                             (mood) => emotionSelector(
-                                              mood.moodName.toLowerCase(),
+                                              mood.moodName!.toLowerCase(),
                                               () async {
                                                 //TODO ADD THE RATE USECASE IN HOME-CONTROLLER TOO
                                                 //TODO and then implement similiar method for fulfilling the action

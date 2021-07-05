@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
-import '../../data/models/cached-mood-model.dart';
+
 import '../../../error/failures.dart';
+import '../../data/models/cached-mood-model.dart';
 
 abstract class MoodCacheService {
-  Future<Either<Failure, Unit>> cacheMood({
-    @required CachedMoodModel mood,
+  Future<Either<Failure, Unit>?> cacheMood({
+    required CachedMoodModel mood,
   });
-  Future<Either<Failure, CachedMoodModel>> getCacheMood();
+  Future<Either<Failure, CachedMoodModel>?> getCacheMood();
 }

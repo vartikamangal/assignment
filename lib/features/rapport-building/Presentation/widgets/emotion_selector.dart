@@ -8,8 +8,8 @@ import '../../../../core/responsive/scale-manager.dart';
 Widget emotionSelector(
   String emotion,
   Function() onPressed, {
-  @required double height,
-  @required double width,
+  required double height,
+  required double width,
 }) {
   return Container(
     margin: EdgeInsets.only(

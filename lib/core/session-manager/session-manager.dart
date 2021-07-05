@@ -26,7 +26,7 @@ abstract class SessionManager {
   }
 
   static Future<void> persistUsername({
-    @required String name,
+    required String name,
   }) async {
     final box = await Hive.openBox(
       PersistenceConst.CORE_BOX,
@@ -50,13 +50,13 @@ abstract class SessionManager {
     );
     final deviceID = await box.get(
       PersistenceConst.CORE_DEVICE_ID,
-    ) as String;
+    ) as String?;
     final subjectInfo = await box.get(
       PersistenceConst.CORE_SUBJECT_INFO_FOR_HEADER,
     );
     final travellerInfo = await box.get(
       PersistenceConst.CORE_TRAVELLER_INFO_FOR_HEADER,
-    ) as String;
+    ) as String?;
     final journey = await box.get(
       PersistenceConst.CORE_JOURNEY_FOR_HEADER,
     );
@@ -87,7 +87,7 @@ abstract class SessionManager {
           };
   }
 
-  static Future<void> setHeader({@required Map<String, dynamic> header}) async {
+  static Future<void> setHeader({required Map<String, dynamic> header}) async {
     final box = await Hive.openBox(PersistenceConst.CORE_BOX);
     try {
       final headerData = jsonDecode(
@@ -95,7 +95,7 @@ abstract class SessionManager {
       );
       box.put(
         PersistenceConst.CORE_DEVICE_ID,
-        headerData['deviceIdentifier'] as String,
+        headerData['deviceIdentifier'] as String?,
       );
       box.put(
         PersistenceConst.CORE_JOURNEY_FOR_HEADER,

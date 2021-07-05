@@ -40,7 +40,7 @@ class _OnBoardingIncompleteState extends State<OnBoardingIncomplete> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       controller.fetchMostRecentActivity();
       //! Uncomment if want immidieate actions after completing activity
       // controller.retrievePostOnboardingActions();
@@ -83,7 +83,7 @@ class _OnBoardingIncompleteState extends State<OnBoardingIncomplete> {
                           recentActivityTitle:
                               controller.mostRecentAcitivity.value == null
                                   ? ''
-                                  : controller.mostRecentAcitivity.value.title,
+                                  : controller.mostRecentAcitivity.value!.title,
                           userName: controller.userNickname.value,
                           userPath: controller.chosenPath.value,
                           daysInWeek: controller.daysToBeShownInUI,
@@ -117,19 +117,19 @@ class _OnBoardingIncompleteState extends State<OnBoardingIncomplete> {
 /// i.e: from Hello {userName} to above recommendations
 class _TopHalfComponent extends StatelessWidget {
   const _TopHalfComponent({
-    Key key,
-    @required this.imageScaleFactor,
-    @required this.textScaleFactor,
-    @required this.userName,
-    @required this.userMood,
-    @required this.userPath,
-    @required this.recentActivityTitle,
-    @required this.smallIntroText,
-    @required this.whatToDoNextTitle,
-    @required this.activeWeekday,
-    @required this.daysInWeek,
-    @required this.isFirstTimeUser,
-    @required this.toShowCatgories,
+    Key? key,
+    required this.imageScaleFactor,
+    required this.textScaleFactor,
+    required this.userName,
+    required this.userMood,
+    required this.userPath,
+    required this.recentActivityTitle,
+    required this.smallIntroText,
+    required this.whatToDoNextTitle,
+    required this.activeWeekday,
+    required this.daysInWeek,
+    required this.isFirstTimeUser,
+    required this.toShowCatgories,
   }) : super(key: key);
 
   final double imageScaleFactor;
@@ -138,7 +138,7 @@ class _TopHalfComponent extends StatelessWidget {
   final String userMood;
   final String userPath;
   final String smallIntroText;
-  final String recentActivityTitle;
+  final String? recentActivityTitle;
   final String whatToDoNextTitle;
   final String activeWeekday;
   final List<String> daysInWeek;
@@ -357,7 +357,7 @@ class _TopHalfComponent extends StatelessWidget {
 
             /// If user hasn't completed any activity recently
             /// No recent activity elemnt would be shown to him
-            if (recentActivityTitle.isNotEmpty)
+            if (recentActivityTitle!.isNotEmpty)
               RenderingConditionChecker(
                 whatToShow: Container(
                   margin: EdgeInsets.only(
@@ -397,8 +397,8 @@ class _TopHalfComponent extends StatelessWidget {
 /// Injects the buton done button by confirming wheater user has previously onboarded or not
 class _ConfirmButtonManager extends StatelessWidget {
   const _ConfirmButtonManager({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
   }) : super(key: key);
 
   final HomeController controller;

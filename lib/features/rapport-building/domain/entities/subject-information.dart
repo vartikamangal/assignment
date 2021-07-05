@@ -10,23 +10,23 @@ import 'subject-id.dart';
 enum Gender { Male, Female }
 
 class SubjectInformation extends Equatable {
-  final SubjectId subjectId;
-  final String userID;
-  final String name;
-  final String nickName;
-  final String deviceIndentifier;
-  final Gender gender;
+  final SubjectId? subjectId;
+  final String? userID;
+  final String? name;
+  final String? nickName;
+  final String? deviceIndentifier;
+  final Gender? gender;
 
   const SubjectInformation({
     this.subjectId,
     this.userID,
-    @required this.name,
-    @required this.deviceIndentifier,
+    required this.name,
+    required this.deviceIndentifier,
     this.gender,
     this.nickName,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       subjectId,
       userID,

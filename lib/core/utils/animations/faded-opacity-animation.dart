@@ -9,9 +9,9 @@ class FadedOpacityAnimation extends StatelessWidget {
   final Widget child;
 
   const FadedOpacityAnimation({
-    Key key,
+    Key? key,
     this.duration = const Duration(milliseconds: 600),
-    @required this.child,
+    required this.child,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

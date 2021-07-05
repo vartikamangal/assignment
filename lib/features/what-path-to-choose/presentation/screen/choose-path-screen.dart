@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
@@ -53,7 +54,7 @@ class ChoosePathScreen extends StatelessWidget {
                 ),
                 Obx(
                   () => _controller.isProcessing.value
-                      ? const LinearProgressIndicator()
+                      ? CustomizedLinearProgressIndicator()
                       : EmptySpacePlaceHolder(),
                 ),
               ],

@@ -13,18 +13,18 @@ import '../../../../core/utils/helper_functions/getSliderEmotionImage.dart';
 
 class ScaleTypeQuestionTile extends StatelessWidget {
   const ScaleTypeQuestionTile({
-    Key key,
-    @required this.index,
-    @required this.max,
-    @required this.min,
-    @required this.onChanged,
-    @required this.value,
-    @required this.emotionValue,
-    @required this.question,
+    Key? key,
+    required this.index,
+    required this.max,
+    required this.min,
+    required this.onChanged,
+    required this.value,
+    required this.emotionValue,
+    required this.question,
   }) : super(key: key);
 
   final int index;
-  final String question;
+  final String? question;
   final double emotionValue;
   final double min;
   final double max;
@@ -55,7 +55,7 @@ class ScaleTypeQuestionTile extends StatelessWidget {
                     spaceing: Get.width,
                   ).value,
                   child: Text(
-                    question,
+                    question!,
                     style: AppTextStyle.suggestionononwol,
                     textScaleFactor: textScale,
                   ),

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart' hide Router;
 import '../../responsive/scale-manager.dart';
 
 class ErrorScreenState extends StatelessWidget {
-  final String errorMessage;
+  final String? errorMessage;
 
-  const ErrorScreenState({Key key, this.errorMessage}) : super(key: key);
+  const ErrorScreenState({Key? key, this.errorMessage}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;

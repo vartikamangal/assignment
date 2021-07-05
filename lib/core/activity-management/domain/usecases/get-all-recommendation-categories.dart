@@ -1,6 +1,4 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 
@@ -15,10 +13,10 @@ class GetAllRecommendationCategories
   final GetAllRecommendationCategoriesRepository repository;
 
   GetAllRecommendationCategories({
-    @required this.repository,
+    required this.repository,
   });
   @override
-  Future<Either<Failure, List<RecommendationCategory>>> call(
+  Future<Either<Failure, List<RecommendationCategory>>?> call(
       NoParams params) async {
     return repository.getAllCategories();
   }

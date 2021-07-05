@@ -5,8 +5,8 @@ import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/color-pallete.dart';
 
 class AnsweredQuestion extends StatelessWidget {
-  final String question;
-  final String answer;
+  final String? question;
+  final String? answer;
   const AnsweredQuestion({this.question, this.answer});
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class AnsweredQuestion extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            question,
+            question!,
             textScaleFactor: textScaleFactor,
             style: AppTextStyle.lightbold.copyWith(color: blueDarkerShade),
           ),
@@ -37,7 +37,7 @@ class AnsweredQuestion extends StatelessWidget {
             ).value,
           ),
           Text(
-            answer,
+            answer!,
             textScaleFactor: textScaleFactor,
             style: AppTextStyle.lightbold.copyWith(fontSize: 14),
           )

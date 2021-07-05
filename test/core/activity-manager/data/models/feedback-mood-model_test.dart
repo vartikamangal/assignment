@@ -37,7 +37,7 @@ void main(){
       //arrange
       final expectedJson =
       jsonDecode(fixtureReader(filename: 'feedback-mood.json'))
-      as List;
+      as List?;
       //act
       final result = tFeedbackMood
           .map((area) => (area as FeedbackMoodModel).toJson())

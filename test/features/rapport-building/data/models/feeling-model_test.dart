@@ -34,7 +34,7 @@ void main() {
       //arrange
       final expectedJson =
           jsonDecode(fixtureReader(filename: 'feeling-raw.json'))
-              as Map<String, dynamic>;
+              as Map<String, dynamic>?;
       //act
       final result = tFeelingModel.toJson();
       //assert

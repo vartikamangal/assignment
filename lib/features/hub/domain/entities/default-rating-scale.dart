@@ -8,20 +8,20 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/image/image.dart';
 
 class DefaultRatingScale extends Equatable {
-  final int id;
-  final String ratingScaleName;
-  final int minValue;
-  final int maxValue;
-  final ImageProp icon;
+  final int? id;
+  final String? ratingScaleName;
+  final int? minValue;
+  final int? maxValue;
+  final ImageProp? icon;
   const DefaultRatingScale({
-    @required this.id,
-    @required this.ratingScaleName,
-    @required this.minValue,
-    @required this.maxValue,
-    @required this.icon,
+    required this.id,
+    required this.ratingScaleName,
+    required this.minValue,
+    required this.maxValue,
+    required this.icon,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       ratingScaleName,
@@ -35,11 +35,11 @@ class DefaultRatingScale extends Equatable {
   bool get stringify => true;
 
   DefaultRatingScale copyWith({
-    int id,
-    String ratingScaleName,
-    int minValue,
-    int maxValue,
-    ImageProp icon,
+    int? id,
+    String? ratingScaleName,
+    int? minValue,
+    int? maxValue,
+    ImageProp? icon,
   }) {
     return DefaultRatingScale(
       id: id ?? this.id,

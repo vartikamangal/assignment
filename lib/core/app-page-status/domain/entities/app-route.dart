@@ -5,7 +5,7 @@ class AppRoute extends Equatable {
   final String name;
 
   const AppRoute({
-    @required this.name,
+    required this.name,
   });
 
   @override

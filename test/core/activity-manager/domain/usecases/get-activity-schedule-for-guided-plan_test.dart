@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/entities/activity-schedule-guided.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/entities/guided-activity-recommendation.dart';
@@ -12,15 +13,15 @@ import 'package:tatsam_app_experimental/core/activity-management/domain/reposito
 import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/get-activity-schedule-for-guided-plan.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
-class MockGetActivityScheduleForGuidedPlanRepository extends Mock
-    implements GetActivitySceduleForGuidedPlanRepository {}
+import 'get-activity-schedule-for-guided-plan_test.mocks.dart';
 
+@GenerateMocks([GetActivitySceduleForGuidedPlanRepository])
 void main() {
-  MockGetActivityScheduleForGuidedPlanRepository repository;
-  GetActivityScheduleForGuidedPlan useCase;
+  late MockGetActivitySceduleForGuidedPlanRepository repository;
+  late GetActivityScheduleForGuidedPlan useCase;
 
   setUp(() {
-    repository = MockGetActivityScheduleForGuidedPlanRepository();
+    repository = MockGetActivitySceduleForGuidedPlanRepository();
     useCase = GetActivityScheduleForGuidedPlan(repository: repository);
   });
 

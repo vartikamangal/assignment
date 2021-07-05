@@ -12,11 +12,11 @@ import '../../../../core/utils/color-pallete.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
 
 Widget DropDownBtn({
-  String label,
-  ProfileController controller,
-  Callback onPressed,
-  bool isExpanded,
-  Color color,
+  String? label,
+  ProfileController? controller,
+  Callback? onPressed,
+  required bool isExpanded,
+  Color? color,
 
 }) {
   final textScaleFactor = ScaleManager.textScale.value;
@@ -57,7 +57,7 @@ Widget DropDownBtn({
                   // ignore: void_checks
                   onTap: () {
                     ///have set gender
-                    controller.toggleDropDownExpansion();
+                    controller!.toggleDropDownExpansion();
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,19 +131,19 @@ Widget DropDownBtn({
 // Persistent Dropdown header
 class _DropDownTopHeader extends StatelessWidget {
   const _DropDownTopHeader({
-    Key key,
-    @required this.textScaleFactor,
-    @required this.color,
-    @required this.label,
-    @required this.isExpanded,
-    @required this.onTap,
+    Key? key,
+    required this.textScaleFactor,
+    required this.color,
+    required this.label,
+    required this.isExpanded,
+    required this.onTap,
   }) : super(key: key);
 
   final double textScaleFactor;
-  final Color color;
-  final String label;
+  final Color? color;
+  final String? label;
   final bool isExpanded;
-  final Callback onTap;
+  final Callback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +192,7 @@ class _DropDownTopHeader extends StatelessWidget {
                       spaceing: 6,
                     ).value),
                 child: Text(
-                  label,
+                  label!,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyle.dropDownStyle,
                   textScaleFactor: textScaleFactor,

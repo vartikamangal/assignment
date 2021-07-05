@@ -1,16 +1,15 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
 
 // Project imports:
 import '../../../../core/cache-manager/domain/entities/common-input-feedback.dart';
 
 class CommonInputFeedbackModel extends CommonInputFeedback {
   const CommonInputFeedbackModel({
-    @required String subjectId,
-    @required String activityType,
-    @required String textFeedback,
-    @required String voiceNote,
-    @required String timeOfCreation,
+    required String? subjectId,
+    required String? activityType,
+    required String? textFeedback,
+    required String? voiceNote,
+    required String? timeOfCreation,
   }) : super(
           voiceNote: voiceNote,
           subjectId: subjectId,
@@ -21,11 +20,11 @@ class CommonInputFeedbackModel extends CommonInputFeedback {
 
   factory CommonInputFeedbackModel.fromJson(Map<String, dynamic> jsonMap) {
     return CommonInputFeedbackModel(
-      subjectId: jsonMap['subjectId'] as String,
-      activityType: jsonMap['activityType'] as String,
-      textFeedback: jsonMap['textFeedback'] as String,
-      voiceNote: jsonMap['voiceNote'] as String,
-      timeOfCreation: jsonMap['timeOfCreation'] as String,
+      subjectId: jsonMap['subjectId'] as String?,
+      activityType: jsonMap['activityType'] as String?,
+      textFeedback: jsonMap['textFeedback'] as String?,
+      voiceNote: jsonMap['voiceNote'] as String?,
+      timeOfCreation: jsonMap['timeOfCreation'] as String?,
     );
   }
 

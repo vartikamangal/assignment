@@ -1,16 +1,10 @@
 // Flutter imports:
+// Package imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-// Package imports:
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-
-// Project imports:
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/responsive/responsive-builder.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
@@ -18,11 +12,12 @@ import 'package:tatsam_app_experimental/core/utils/animations/enter-exit-root-an
 import 'package:tatsam_app_experimental/core/utils/buttons/bottom-left-gradient-button.dart';
 import 'package:tatsam_app_experimental/core/utils/buttons/bottom-right-text-button.dart';
 import 'package:tatsam_app_experimental/core/utils/buttons/bottomRightButton.dart';
-import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
+import 'package:tatsam_app_experimental/core/utils/buttons/inactive-bottom-right-button.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/loading-widget.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/mini-loader.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import 'package:tatsam_app_experimental/features/hub/presentation/screen/hub-screen.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
-import 'package:tatsam_app_experimental/core/utils/buttons/inactive-bottom-right-button.dart';
 
 class RapportScreen extends StatelessWidget {
   final RapportBuildingController _onBoardingController = Get.find();
@@ -49,26 +44,28 @@ class RapportScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Container(
               constraints: BoxConstraints(
-                minHeight: size.height-MediaQuery.of(context).padding.top-MediaQuery.of(context).padding.bottom
-              ),
+                  minHeight: size.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Obx(
-                        () => _onBoardingController.isLoadComplete.value
-                        ? _onBoardingController.currentSelectedPage.value
+                    () => _onBoardingController.isLoadComplete.value
+                        ? _onBoardingController.currentSelectedPage.value!
                         : const _LoadingWidget(),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: ScaleManager.spaceScale(
-                      spaceing: 14,
-                    ).value,
+                    padding: EdgeInsets.only(
+                        right: ScaleManager.spaceScale(
+                          spaceing: 14,
+                        ).value,
                         bottom: ScaleManager.spaceScale(
                           spaceing: 14,
                         ).value,
-                    left: ScaleManager.spaceScale(
-                      spaceing: 14,
-                    ).value),
+                        left: ScaleManager.spaceScale(
+                          spaceing: 14,
+                        ).value),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,63 +81,70 @@ class RapportScreen extends StatelessWidget {
                                       .currentOnBoardPageCounter.value ==
                                   0
                               ? (_onBoardingController.userName.value.isNotEmpty
-                                  ?  BottomRightButton(
-                                          title: '',
-                                          onPressed: () {
-                                            _onBoardingController.switchButtonStatus
-                                                            .value ==
-                                                        true &&
-                                                    _onBoardingController
-                                                        .userName.value.isNotEmpty && !_onBoardingController.isProcessing.value
-                                                ? _onBoardingController
-                                                    .changeNickNameAndMoveOnwards()
-                                                : Container();
-                                          })
+                                  ? BottomRightButton(
+                                      title: '',
+                                      onPressed: () {
+                                        _onBoardingController.switchButtonStatus
+                                                        .value ==
+                                                    true &&
+                                                _onBoardingController.userName
+                                                    .value.isNotEmpty &&
+                                                !_onBoardingController
+                                                    .isProcessing.value
+                                            ? _onBoardingController
+                                                .changeNickNameAndMoveOnwards()
+                                            : Container();
+                                      })
                                   : const InactiveBottomRightButton(
                                       title: '',
                                     ))
                               : _onBoardingController
                                           .currentOnBoardPageCounter.value ==
                                       _onBoardingController.maxIntroPages
-                                  ?
-                              _onBoardingController
-                              .isProcessing.value ? BottomRightButton(title: '',):BottomRightTextButton(
-                                    title: tr('done'),
-                                    onPressed: () async {
-                                      await _onBoardingController
-                                          .persistSubjectFeeing(
-                                            feeling: _onBoardingController
-                                                .feeling.value,
-                                          )
-                                          .then(
-                                            (value) => Navigator.push(
-                                                context,
-                                                EnterExitRoute(
+                                  ? _onBoardingController.isProcessing.value
+                                      ? const MiniLoader()
+                                      : BottomRightTextButton(
+                                          title: tr('done'),
+                                          onPressed: () async {
+                                            await _onBoardingController
+                                                .persistSubjectFeeing(
+                                              feeling: _onBoardingController
+                                                  .feeling.value,
+                                            )
+                                                .then((value) {
+                                              Get.find<VoiceNoteController>()
+                                                  .resetPlayerState();
+                                            }).then(
+                                              (value) => Navigator.push(
+                                                  context,
+                                                  EnterExitRoute(
                                                     exitPage: this,
-                                                    enterPage: HubScreen())),
-                                          );
-                                    },
-                                  )
+                                                    enterPage: HubScreen(),
+                                                  )),
+                                            );
+                                          },
+                                        )
                                   : _onBoardingController
-                                              .currentOnBoardPageCounter.value ==
+                                              .currentOnBoardPageCounter
+                                              .value ==
                                           1
                                       ? Container()
                                       : _onBoardingController
                                                   .selectedFeelingDuration
                                                   .value !=
                                               null
-                                          ?  BottomRightButton(
-                                                  title: '',
-                                                  onPressed: () =>
+                                          ? BottomRightButton(
+                                              title: '',
+                                              onPressed: () => _onBoardingController
+                                                              .selectedFeelingDuration
+                                                              .value ==
+                                                          null &&
                                                       _onBoardingController
-                                                                  .selectedFeelingDuration
-                                                                  .value ==
-                                                              null && _onBoardingController
                                                           .isProcessing.value
-                                                          ? Container()
-                                                          : _onBoardingController
-                                                              .changeScreen(),
-                                                )
+                                                  ? Container()
+                                                  : _onBoardingController
+                                                      .changeScreen(),
+                                            )
                                           : const InactiveBottomRightButton(
                                               title: '',
                                             ),
@@ -160,7 +164,7 @@ class RapportScreen extends StatelessWidget {
 
 class _LoadingWidget extends StatelessWidget {
   const _LoadingWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

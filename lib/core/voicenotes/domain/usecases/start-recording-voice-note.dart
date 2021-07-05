@@ -10,15 +10,15 @@ import '../repository/start-recording-voicenote-service.dart';
 
 class StartRecordingVoiceNote
     implements Usecase<Success, StartRecordingVoiceNoteParams> {
-  final StartRecordingVoiceNoteService service;
+  final StartRecordingVoiceNoteService? service;
 
   StartRecordingVoiceNote({
-    @required this.service,
+    required this.service,
   });
   @override
   Future<Either<Failure, Success>> call(
       StartRecordingVoiceNoteParams params) async {
-    return service.startRecodring(
+    return service!.startRecodring(
       filePath: params.filePath,
       codec: params.codec,
     );
@@ -26,12 +26,12 @@ class StartRecordingVoiceNote
 }
 
 class StartRecordingVoiceNoteParams extends Equatable {
-  final String filePath;
-  final Codec codec;
+  final String? filePath;
+  final Codec? codec;
   const StartRecordingVoiceNoteParams({
-    @required this.filePath,
-    @required this.codec,
+    required this.filePath,
+    required this.codec,
   });
   @override
-  List<Object> get props => [filePath, codec];
+  List<Object?> get props => [filePath, codec];
 }

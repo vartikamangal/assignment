@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -12,18 +11,18 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/emergency-number-model.dart';
-import 'package:tatsam_app_experimental/features/instant-relief/data/repositories/list-emergency-numbers-repository-impl.dart';
-import 'package:tatsam_app_experimental/features/instant-relief/data/sources/list-emergency-numbers-remote-service.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/data/repositories/instant-relief-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/data/sources/instant-relief-remote-data-source.dart';
 
 class MockListEmergencyNumberDataSource extends Mock
-    implements ListEmergencyNumberRemoteDataSource {}
+    implements InstantReliefRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockListEmergencyNumberDataSource remoteDataSource;
-  MockNetworkInfo networkInfo;
-  ListEmergencyNumbersRepositoryImpl repositoryImpl;
+  MockListEmergencyNumberDataSource? remoteDataSource;
+  MockNetworkInfo? networkInfo;
+  late InstantReliefRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -37,7 +36,7 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    repositoryImpl = ListEmergencyNumbersRepositoryImpl(
+    repositoryImpl = InstantReliefRepositoryImpl(
       remoteDataSource: remoteDataSource,
       baseRepository: baseRepository,
     );
@@ -49,7 +48,7 @@ void main() {
 
   void runTestOnline(Callback body) {
     setUp(() {
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
+      when(networkInfo!.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : GetEmergencyNumber', body);
   }
@@ -60,25 +59,25 @@ void main() {
       //act
       await repositoryImpl.fetchEmergencyNumbers();
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return a List<EmergencyNumber> when call to remote data source is successfull',
         () async {
       //arrange
-      when(remoteDataSource.fetchEmergencyNumbers())
+      when(remoteDataSource!.fetchEmergencyNumbers())
           .thenAnswer((_) async => tEmergencyNumbers);
       //act
       final result = await repositoryImpl.fetchEmergencyNumbers();
       //assert
-      verify(remoteDataSource.fetchEmergencyNumbers());
+      verify(remoteDataSource!.fetchEmergencyNumbers());
       expect(result, const Right(tEmergencyNumbers));
     });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
         () async {
       //arrange
-      when(remoteDataSource.fetchEmergencyNumbers())
+      when(remoteDataSource!.fetchEmergencyNumbers())
           .thenThrow(ServerException());
       //act
       final result = await repositoryImpl.fetchEmergencyNumbers();
@@ -90,7 +89,7 @@ void main() {
   //! For offline tests
   test('DEVICE OFFLINE : GetAllMoods should return DeviceOfflineFailure',
       () async {
-    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    when(networkInfo!.isConnected).thenAnswer((_) async => false);
     //act
     final result = await repositoryImpl.fetchEmergencyNumbers();
     //assert

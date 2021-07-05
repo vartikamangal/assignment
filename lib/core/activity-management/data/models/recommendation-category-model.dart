@@ -7,13 +7,13 @@ import '../../domain/entities/recommendation-category.dart';
 
 class RecommendationCategoryModel extends RecommendationCategory {
   const RecommendationCategoryModel({
-    @required int id,
-    @required String categoryName,
-    @required String displayTitle,
-    @required String displaySubtitle,
-    @required String categoryDetailedDescription,
-    @required String categoryShortDescription,
-    @required ImageProp iconVO,
+    required int? id,
+    required String? categoryName,
+    required String? displayTitle,
+    required String? displaySubtitle,
+    required String? categoryDetailedDescription,
+    required String? categoryShortDescription,
+    required ImageProp? iconVO,
   }) : super(
           id: id,
           categoryDetailedDescription: categoryDetailedDescription,
@@ -26,13 +26,13 @@ class RecommendationCategoryModel extends RecommendationCategory {
 
   factory RecommendationCategoryModel.fromJson(Map<String, dynamic> jsonMap) {
     return RecommendationCategoryModel(
-      id: jsonMap['id'] as int,
-      categoryName: jsonMap['categoryName'] as String,
-      displayTitle: jsonMap['displayTitle'] as String,
-      displaySubtitle: jsonMap['displaySubtitle'] as String,
+      id: jsonMap['id'] as int?,
+      categoryName: jsonMap['categoryName'] as String?,
+      displayTitle: jsonMap['displayTitle'] as String?,
+      displaySubtitle: jsonMap['displaySubtitle'] as String?,
       categoryDetailedDescription:
-          jsonMap['categoryDetailedDescription'] as String,
-      categoryShortDescription: jsonMap['categoryShortDescription'] as String,
+          jsonMap['categoryDetailedDescription'] as String?,
+      categoryShortDescription: jsonMap['categoryShortDescription'] as String?,
       //TODO Fix this once images are there on server
       iconVO: const ImageProp(),
     );

@@ -44,7 +44,7 @@ class ImagePath {
   static final String connectionStatus = "/universal_images/connection_status.svg".makePath();
   static final String crossIcon = "/universal_images/cross_icon.svg".makePath();
   static final String grid = "/universal_images/grid.svg".makePath();
-  static final String backButton='/universal_images/back_button.svg'.makePath();
+  static final String backButton='/universal_images/back_button.png'.makePath();
   static final String forwardIcon='/universal_images/forward_icon.svg'.makePath();
   static final String playButton='/universal_images/play_icon.svg'.makePath();
   static final String crossButton='/universal_images/cross_button.svg'.makePath();

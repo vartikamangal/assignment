@@ -62,7 +62,7 @@ class WheelOfLifeProfile extends GetWidget<ProfileController> {
               alignment: WrapAlignment.spaceBetween,
               children: [
                 for (final area in controller
-                    .hubStatus.value.lifePriorities.areasInOrderOfPriority)
+                    .hubStatus.value!.lifePriorities!.areasInOrderOfPriority)
                   WheelOfLifeArea(
                     onPressed: (){
                       showModalBottomSheet(
@@ -96,10 +96,10 @@ class WheelOfLifeArea extends StatelessWidget {
   final Callback onPressed;
   final ProfileController profileController;
   const WheelOfLifeArea({
-    @required this.wolAreaImage,
-    @required this.title,
-    @required this.onPressed,
-    @required this.profileController,
+    required this.wolAreaImage,
+    required this.title,
+    required this.onPressed,
+    required this.profileController,
   });
   @override
   Widget build(BuildContext context) {

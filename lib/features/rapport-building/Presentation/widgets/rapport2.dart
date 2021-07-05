@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
@@ -17,7 +18,7 @@ import 'emotion_selector.dart';
 class MidPageContentB extends StatelessWidget {
   final RapportBuildingController onBoardingController;
 
-  const MidPageContentB({Key key, @required this.onBoardingController})
+  const MidPageContentB({Key? key, required this.onBoardingController})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class MidPageContentB extends StatelessWidget {
         children: [
           Obx(
                 () => onBoardingController.isProcessing.value
-                ? const LinearProgressIndicator()
+                ?  CustomizedLinearProgressIndicator()
                 : Container(),
           ),
           Positioned(
@@ -124,11 +125,11 @@ class MidPageContentB extends StatelessWidget {
                         children: onBoardingController.moods.value
                             .map(
                               (mood) => emotionSelector(
-                                mood.moodName.toLowerCase(),
+                                mood.moodName!.toLowerCase(),
                                 () {
                                   !onBoardingController.isProcessing.value?
                                   onBoardingController.setEmotion(
-                                    mood.moodName.toLowerCase(),
+                                    mood.moodName!.toLowerCase(),
                                     mood,
                                   ): Container();
                                 },

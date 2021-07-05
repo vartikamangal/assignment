@@ -4,7 +4,7 @@ import 'rings.dart';
 import 'upper_layer.dart';
 
 class SplashScreenElements extends StatelessWidget {
-  const SplashScreenElements({Key key}) : super(key: key);
+  const SplashScreenElements({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

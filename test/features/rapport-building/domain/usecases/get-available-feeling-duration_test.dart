@@ -3,15 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/feeling-duration.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/get-available-feeling-duration-repository.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-available-feeling-duration.dart';
 
 class MockGetAvailableFeelingDurationRepository extends Mock
-    implements GetAvailableFeelingDurationRepository {}
+    implements RapportBuildingRepository {}
 
 void main() {
   MockGetAvailableFeelingDurationRepository repository;
-  GetAvailableFeelingDuration usecase;
+  late GetAvailableFeelingDuration usecase;
 
   setUp(() {
     repository = MockGetAvailableFeelingDurationRepository();

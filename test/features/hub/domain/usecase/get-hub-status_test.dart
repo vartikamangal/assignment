@@ -16,7 +16,7 @@ class MockGetHubStatusRepository extends Mock
 
 void main() {
   MockGetHubStatusRepository repository;
-  GetHubStatus usecase;
+  late GetHubStatus usecase;
 
   setUp(() {
     repository = MockGetHubStatusRepository();

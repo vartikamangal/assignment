@@ -10,14 +10,14 @@ import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app
 import 'package:tatsam_app_experimental/core/utils/buttons/mic_button.dart';
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/mini-loader.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-note-player-ui-fragment.dart';
-import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-recorder-ui-fragment.dart';
+import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-ui-fragment.dart';
 
 class TextBasedActivity extends StatelessWidget {
   TextBasedActivity({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final PathController _controller = Get.find();
@@ -27,88 +27,95 @@ class TextBasedActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageScaleFactor = ScaleManager.imageScale.value;
     final textScaleFactor = ScaleManager.textScale.value;
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TopAppBar(onPressed: (){Navigator.of(context).pop();}),
-      PreferredSize(
-          preferredSize: Size(Get.width, 2),
-          child: Obx(
-            () => _controller.isProcessing.value
-                ? const MiniLoader()
-                : EmptySpacePlaceHolder(),
-          ),
-        ),
-          SizedBox(
-            height: ScaleManager.spaceScale(spaceing: 23).value,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      children: [
+        SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Hero(
-                tag: '${ImagePath.selfDrivenOption}physical.png',
-                child: Image.asset(
-                  '${ImagePath.selfDrivenOption}physical.png',
-                  height: ScaleManager.spaceScale(
-                    spaceing: 140,
-                  ).value,
-                  width: ScaleManager.spaceScale(
-                    spaceing: 138,
-                  ).value,
-                  scale: imageScaleFactor,
+              TopAppBar(onPressed: () {
+                Navigator.of(context).pop();
+              }),
+              SizedBox(
+                height: ScaleManager.spaceScale(spaceing: 23).value,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: '${ImagePath.selfDrivenOption}physical.png',
+                    child: Image.asset(
+                      '${ImagePath.selfDrivenOption}physical.png',
+                      height: ScaleManager.spaceScale(
+                        spaceing: 140,
+                      ).value,
+                      width: ScaleManager.spaceScale(
+                        spaceing: 138,
+                      ).value,
+                      scale: imageScaleFactor,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: ScaleManager.spaceScale(spaceing: 28).value,
+                  right: ScaleManager.spaceScale(spaceing: 28).value,
+                  top: ScaleManager.spaceScale(spaceing: 30).value,
                 ),
+                child: Obx(
+                  () => Text(
+                    _controller.selectedActivityTitle.value,
+                    style: AppTextStyle.Askfeeling,
+                    textScaleFactor: textScaleFactor,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: ScaleManager.spaceScale(spaceing: 28).value,
+                  right: ScaleManager.spaceScale(spaceing: 28).value,
+                  top: ScaleManager.spaceScale(spaceing: 18).value,
+                ),
+                child: Obx(
+                  () => Text(
+                    _controller.userSelectedPath.value == 'BIG_GOALS'
+                        ? _controller
+                            .templateToRecommendationMapperGuided['CONTENT']!
+                            .stepContent!
+                        : _controller.templateToRecommendationMapperSelf['CONTENT']!
+                            .stepContent!,
+                    style: AppTextStyle.Darkbluebold,
+                    textScaleFactor: textScaleFactor,
+                  ),
+                ),
+              ),
+              _FeedbackComponent(
+                voiceNoteController: _voiceNoteController,
+                controller: _controller,
               ),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(
-              left: ScaleManager.spaceScale(spaceing: 28).value,
-              right: ScaleManager.spaceScale(spaceing: 28).value,
-              top: ScaleManager.spaceScale(spaceing: 30).value,
-            ),
-            child: Obx(
-                  () => Text(
-                _controller.selectedActivityTitle.value,
-                style: AppTextStyle.Askfeeling,
-                textScaleFactor: textScaleFactor,
-              ),
-            ),
+        ),
+        SafeArea(child:  PreferredSize(
+          preferredSize: Size(Get.width, 2),
+          child: Obx(
+                () => _controller.isProcessing.value
+                ?  CustomizedLinearProgressIndicator()
+                : EmptySpacePlaceHolder(),
           ),
-          Container(
-            margin: EdgeInsets.only(
-              left: ScaleManager.spaceScale(spaceing: 28).value,
-              right: ScaleManager.spaceScale(spaceing: 28).value,
-              top: ScaleManager.spaceScale(spaceing: 18).value,
-            ),
-            child: Obx(
-                  () => Text(
-                _controller.userSelectedPath.value == 'BIG_GOALS'
-                    ? _controller.templateToRecommendationMapperGuided['CONTENT']
-                    .stepContent
-                    : _controller.templateToRecommendationMapperSelf['CONTENT']
-                    .stepContent,
-                style: AppTextStyle.Darkbluebold,
-                textScaleFactor: textScaleFactor,
-              ),
-            ),
-          ),
-          _FeedbackComponent(
-            voiceNoteController: _voiceNoteController,
-            controller: _controller,
-          ),
-        ],
-      ),
+        ),)
+      ],
     );
   }
 }
 
 class _FeedbackComponent extends StatelessWidget {
   const _FeedbackComponent({
-    Key key,
-    @required VoiceNoteController voiceNoteController,
-    @required PathController controller,
-  })  : _voiceNoteController = voiceNoteController,
+    Key? key,
+    required VoiceNoteController voiceNoteController,
+    required PathController controller,
+  })   : _voiceNoteController = voiceNoteController,
         _controller = controller,
         super(key: key);
 
@@ -136,14 +143,10 @@ class _FeedbackComponent extends StatelessWidget {
           ).value,
         ),
         child: Obx(
-              () {
-            if (_voiceNoteController.isRecording.value) {
-              return VoiceNoteRecorder();
-            }
-
-            /// If current state is not recording and some file is present in controller for playing
-            if (_voiceNoteController.isPlayableFilePresent()) {
-              return VoiceNotePlayer();
+          () {
+            if (_voiceNoteController.playerState.value !=
+                VoiceNotePlayerUIState.IDLE) {
+              return VoiceNoteFragment();
             } else {
               return Responsive(
                 mobile: _TextInputComponent(
@@ -175,11 +178,11 @@ class _FeedbackComponent extends StatelessWidget {
 
 class _TextInputComponent extends StatelessWidget {
   const _TextInputComponent({
-    Key key,
-    @required this.micSize,
-    @required this.fontSize,
-    @required this.controller,
-    @required this.voiceNoteController,
+    Key? key,
+    required this.micSize,
+    required this.fontSize,
+    required this.controller,
+    required this.voiceNoteController,
   }) : super(key: key);
 
   final double micSize;

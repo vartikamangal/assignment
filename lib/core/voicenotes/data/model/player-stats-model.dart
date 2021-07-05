@@ -3,8 +3,8 @@ import '../../domain/entity/player-stats.dart';
 
 class PlayerStatsModel extends PlayerStats {
   const PlayerStatsModel({
-    @required Duration totalLength,
-    @required Duration currentPosition,
+    required Duration? totalLength,
+    required Duration? currentPosition,
   }) : super(
           totalLength: totalLength,
           currentPosition: currentPosition,

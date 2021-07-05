@@ -6,8 +6,8 @@ import '../../../../core/utils/buttons/bottom-left-gradient-button.dart';
 
 class HomScreenAppBar extends StatelessWidget {
   const HomScreenAppBar({
-    Key key,
-    @required this.imageScaleFactor,
+    Key? key,
+    required this.imageScaleFactor,
   }) : super(key: key);
 
   final double imageScaleFactor;

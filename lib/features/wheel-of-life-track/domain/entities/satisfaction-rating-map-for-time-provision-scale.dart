@@ -13,8 +13,8 @@ class SatisfactionRatingMapForTimeProvision extends Equatable {
   RatingScaleModel rating;
 
   SatisfactionRatingMapForTimeProvision({
-    @required this.lifeArea,
-    @required this.rating,
+    required this.lifeArea,
+    required this.rating,
   });
 
   @override

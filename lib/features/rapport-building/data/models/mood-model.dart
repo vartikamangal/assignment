@@ -7,10 +7,10 @@ import '../../domain/entities/mood.dart';
 
 class MoodModel extends Mood {
   const MoodModel({
-    @required int id,
-    @required String moodName,
-    @required String moodDescription,
-    @required ImageProp icon,
+    required int? id,
+    required String? moodName,
+    required String? moodDescription,
+    required ImageProp? icon,
   }) : super(
           moodName: moodName,
           moodId: id,
@@ -20,9 +20,9 @@ class MoodModel extends Mood {
 
   factory MoodModel.fromJson(Map<String, dynamic> jsonMap) {
     return MoodModel(
-      id: jsonMap['id'] as int,
-      moodName: jsonMap['moodName'] as String,
-      moodDescription: jsonMap['moodDescription'] as String,
+      id: jsonMap['id'] as int?,
+      moodName: jsonMap['moodName'] as String?,
+      moodDescription: jsonMap['moodDescription'] as String?,
       //todo To be change with real image logic later
       icon: const ImageProp(
         urlLarge: '',

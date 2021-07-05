@@ -6,5 +6,5 @@ import '../../../../core/error/failures.dart';
 import '../entities/activity-schedule-guided.dart';
 
 abstract class GetActivitySceduleForGuidedPlanRepository {
-  Future<Either<Failure, ActivitySceduleGuided>> getSchedule();
+  Future<Either<Failure, ActivitySceduleGuided>?> getSchedule();
 }

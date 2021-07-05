@@ -9,10 +9,10 @@ import '../../domain/entities/question-option.dart';
 
 class QuestionOptionModel extends QuestionOption {
   const QuestionOptionModel({
-    @required String id,
-    @required String optionText,
-    @required String optionCategory,
-    @required List<RatingScaleModel> additionalInformation,
+    required String? id,
+    required String? optionText,
+    required String? optionCategory,
+    required List<RatingScaleModel> additionalInformation,
   }) : super(
           id: id,
           additionalInformation: additionalInformation,
@@ -25,12 +25,12 @@ class QuestionOptionModel extends QuestionOption {
     // This case works for Profile screen
     try {
       final additionalInfo = jsonMap['additionalInformation'] != null
-          ? jsonDecode(jsonMap['additionalInformation'] as String) as List
+          ? (jsonDecode(jsonMap['additionalInformation'] as String) as List?)!
           : [];
       return QuestionOptionModel(
-        id: jsonMap['id'] as String,
-        optionText: jsonMap['optionText'] as String,
-        optionCategory: jsonMap['optionCategory'] as String,
+        id: jsonMap['id'] as String?,
+        optionText: jsonMap['optionText'] as String?,
+        optionCategory: jsonMap['optionCategory'] as String?,
         additionalInformation: additionalInfo
             .map(
               (addnInfo) => RatingScaleModel.fromJson(
@@ -42,9 +42,9 @@ class QuestionOptionModel extends QuestionOption {
     } catch (e) {
       // This case works for Questionnaire screen
       return QuestionOptionModel(
-        id: jsonMap['id'] as String,
-        optionText: jsonMap['optionText'] as String,
-        optionCategory: jsonMap['optionCategory'] as String,
+        id: jsonMap['id'] as String?,
+        optionText: jsonMap['optionText'] as String?,
+        optionCategory: jsonMap['optionCategory'] as String?,
         additionalInformation: (jsonMap['additionalInformation'] as List)
             .map(
               (addnInfo) => RatingScaleModel.fromJson(

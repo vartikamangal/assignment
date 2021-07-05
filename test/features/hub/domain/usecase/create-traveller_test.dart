@@ -11,7 +11,7 @@ class MockCreateTravellerRepository extends Mock
 
 void main() {
   MockCreateTravellerRepository repository;
-  CreateTraveller usecase;
+  late CreateTraveller usecase;
 
   setUp(() {
     repository = MockCreateTravellerRepository();
@@ -34,5 +34,3 @@ void main() {
     });
   });
 }
-
-

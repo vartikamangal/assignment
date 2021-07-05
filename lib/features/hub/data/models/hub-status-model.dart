@@ -1,8 +1,6 @@
 // Dart imports:
 import 'dart:developer';
 
-// Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:tatsam_app_experimental/core/app-page-status/data/sources/app-page-status-local-data-source.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
 
@@ -15,16 +13,16 @@ import 'target-focus-list-model.dart';
 
 class HubStatusModel extends HubStatus {
   const HubStatusModel({
-    @required int id,
-    @required SubjectInformationModel subjectInformation,
-    @required TargetFocusListModel targetFocus,
-    @required LifePrioritiesModel lifePriorities,
-    @required Map<String, LifeRatingResultModel> lifeSatisfactionRatings,
-    @required bool attemptedQuestions,
-    @required JourneyModel journeyPath,
-    @required DateTime journeyStartedAt,
-    @required String journeyStatus,
-    @required String latestMood,
+    required int? id,
+    required SubjectInformationModel subjectInformation,
+    required TargetFocusListModel? targetFocus,
+    required LifePrioritiesModel? lifePriorities,
+    required Map<String, LifeRatingResultModel>? lifeSatisfactionRatings,
+    required bool? attemptedQuestions,
+    required JourneyModel? journeyPath,
+    required DateTime? journeyStartedAt,
+    required String? journeyStatus,
+    required String? latestMood,
   }) : super(
           subjectInformation: subjectInformation,
           id: id,
@@ -42,7 +40,7 @@ class HubStatusModel extends HubStatus {
     final rawLifeRatings = jsonMap['lifeSatisfactionRatings'] == null
         ? jsonMap['lifeSatisfactionRatings']
         : jsonMap['lifeSatisfactionRatings']['lifeSatisfactionRatings']
-            as Map<String, dynamic>;
+            as Map<String, dynamic>?;
     final Map<String, LifeRatingResultModel> parsedLifeRatings = {};
     // Transforms the LifeRatings fetched from API as per our needs
     // ignore: avoid_function_literals_in_foreach_calls
@@ -59,19 +57,23 @@ class HubStatusModel extends HubStatus {
       log('seems like a new user');
     }
     return HubStatusModel(
-      id: jsonMap['id'] as int,
+      id: jsonMap['id'] as int?,
       subjectInformation: SubjectInformationModel.fromJson(
         jsonMap['subjectInformation'] as Map<String, dynamic>,
       ),
-      targetFocus: TargetFocusListModel.fromJson(
-        jsonMap['targetFocus'] as Map<String, dynamic>,
-      ),
-      lifePriorities: LifePrioritiesModel.fromJson(
-        jsonMap['lifePriorities'] as Map<String, dynamic>,
-      ),
+      targetFocus: jsonMap['targetFocus'] == null
+          ? null
+          : TargetFocusListModel.fromJson(
+              jsonMap['targetFocus'] as Map<String, dynamic>,
+            ),
+      lifePriorities: jsonMap['lifePriorities'] == null
+          ? null
+          : LifePrioritiesModel.fromJson(
+              jsonMap['lifePriorities'] as Map<String, dynamic>,
+            ),
       lifeSatisfactionRatings:
           jsonMap['lifeSatisfactionRatings'] == null ? null : parsedLifeRatings,
-      attemptedQuestions: jsonMap['attemptedQuestions'] as bool,
+      attemptedQuestions: jsonMap['attemptedQuestions'] as bool?,
       journeyPath: jsonMap["journeyPath"] == null
           ? null
           : JourneyModel.fromJson(
@@ -81,10 +83,10 @@ class HubStatusModel extends HubStatus {
           : DateTime.parse(jsonMap['journeyStartedAt'] as String),
       journeyStatus: jsonMap["journeyStatus"] == null
           ? null
-          : jsonMap["journeyStatus"] as String,
+          : jsonMap["journeyStatus"] as String?,
       latestMood: jsonMap["latestMood"] == null
           ? null
-          : (jsonMap["latestMood"] as Map<String, dynamic>)["mood"] as String,
+          : (jsonMap["latestMood"] as Map<String, dynamic>)["mood"] as String?,
     );
   }
 
@@ -95,7 +97,7 @@ class HubStatusModel extends HubStatus {
     // else if (journey == null && journeyStatus == "STARTED") {
     //   return AbandonedPageStates.TRAVELLER_CREATED;
     // }
-    else if (attemptedQuestions) {
+    else if (attemptedQuestions!) {
       return AbandonedPageStates.UNTILL_QUESTIONNAIRE;
     } else if (targetFocus != null) {
       return AbandonedPageStates.UNTILL_TARGETS;

@@ -2,22 +2,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/rating-scale-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rated-satisfaction-success.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/satisfaction-rating-map-for-time-provision-scale.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/satisfaction-ratings.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/rate-satisfaction-service.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/wheel-of-life-repository.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/usecases/rate-satisfaction.dart';
 
 class MockRateSatisfactionService extends Mock
-    implements RateSatisfactionService {}
+    implements WheelOfLifeRepository {}
 
 void main() {
-  MockRateSatisfactionService service;
-  RateSatisfaction useCase;
+  MockRateSatisfactionService? service;
+  late RateSatisfaction useCase;
 
   setUp(() {
     service = MockRateSatisfactionService();
@@ -132,12 +131,12 @@ void main() {
   group('USECASE : rateSatisfaction', () {
     test('should save userSatisfactionRatings using the service', () async {
       //arrange
-      when(service.rateSatisfactionService(satisfactionRatings: tRatings))
+      when(service!.rateSatisfactionService(satisfactionRatings: tRatings))
           .thenAnswer((_) async => Right(tSuccess));
       //act
       final result = await useCase(RateSatisfactionParams(ratings: tRatings));
       //assert
-      verify(service.rateSatisfactionService(satisfactionRatings: tRatings));
+      verify(service!.rateSatisfactionService(satisfactionRatings: tRatings));
       expect(result, Right(tSuccess));
     });
   });

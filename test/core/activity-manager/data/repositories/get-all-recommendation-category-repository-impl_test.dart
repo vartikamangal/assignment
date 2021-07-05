@@ -19,9 +19,9 @@ class MockGetAllRecommendationCategoriesRemoteDataSource extends Mock
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main(){
-  GetAllRecommendationCategoriesRemoteDataSource remoteDataSource;
-  MockNetworkInfo networkInfo;
-  GetAllRecommendationCategoriesRepositoryImpl repositoryImpl;
+  GetAllRecommendationCategoriesRemoteDataSource? remoteDataSource;
+  MockNetworkInfo? networkInfo;
+  late GetAllRecommendationCategoriesRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -55,7 +55,7 @@ RecommendationCategoryModel(id: 2,
 
   void runTestOnline(Callback body) {
     setUp(() {
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
+      when(networkInfo!.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : getAllCategories', body);
   }
@@ -66,25 +66,25 @@ RecommendationCategoryModel(id: 2,
       //act
       await repositoryImpl.getAllCategories();
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return a List<InstReliefArea> when call to remote data source is successfull',
             () async {
           //arrange
-          when(remoteDataSource.getAllCategories())
+          when(remoteDataSource!.getAllCategories())
               .thenAnswer((_) async => tRecommendationCategory);
           //act
           final result = await repositoryImpl.getAllCategories();
           //assert
-          verify(remoteDataSource.getAllCategories());
+          verify(remoteDataSource!.getAllCategories());
           expect(result, const Right(tRecommendationCategory));
         });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
             () async {
           //arrange
-          when(remoteDataSource.getAllCategories()).thenThrow(ServerException());
+          when(remoteDataSource!.getAllCategories()).thenThrow(ServerException());
           //act
           final result = await repositoryImpl.getAllCategories();
           //assert
@@ -93,7 +93,7 @@ RecommendationCategoryModel(id: 2,
   });
   test('DEVICE OFFLINE : GetAllCategory should return DeviceOfflineFailure',
           () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
         //act
         final result = await repositoryImpl.getAllCategories();
         //assert

@@ -6,19 +6,22 @@ import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 
 class TopAppBar extends StatelessWidget {
   final Callback onPressed;
-  TopAppBar({@required this.onPressed});
+  TopAppBar({required this.onPressed});
   @override
   Widget build(BuildContext context) {
+    final imageScaleFactor = ScaleManager.imageScale.value;
     return IconButton(
-      padding:EdgeInsets.only(left: ScaleManager.spaceScale(
-        spaceing: 10,
-      ).value,
+      padding: EdgeInsets.only(
+          left: ScaleManager.spaceScale(
+            spaceing: 10,
+          ).value,
           top: ScaleManager.spaceScale(
             spaceing: 10,
           ).value,
           bottom: 0),
-      icon: SvgPicture.asset(
+      icon: Image.asset(
         ImagePath.backButton,
+        scale: imageScaleFactor,
         height: ScaleManager.spaceScale(
           spaceing: 26,
         ).value

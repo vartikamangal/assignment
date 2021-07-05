@@ -43,7 +43,7 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
                         left: ScaleManager.spaceScale(spaceing: 42).value,
                         top: ScaleManager.spaceScale(spaceing: 2).value),
                     child: Text(
-                      _controller.selectedCategory.value.displayTitle,
+                      _controller.selectedCategory.value!.displayTitle!,
                       style: AppTextStyle.Askfeeling,
                       textScaleFactor: textScaleFactor,
                     ),
@@ -53,7 +53,7 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
                         left: ScaleManager.spaceScale(spaceing: 42).value),
                     child: Text(
                       _controller
-                          .selectedCategory.value.categoryDetailedDescription,
+                          .selectedCategory.value!.categoryDetailedDescription!,
                       style: AppTextStyle.pathdescription,
                       textScaleFactor: textScaleFactor,
                     ),
@@ -93,7 +93,7 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
                         description: "",
                         isFaded: false,
                         image:
-                            '${ImagePath.selfDrivenOption}${activity.activity.categoryVO.displayTitle.toLowerCase()}.png',
+                            '${ImagePath.selfDrivenOption}${activity.activity.categoryVO!.displayTitle!.toLowerCase()}.png',
                         onPressed: () async {
                           _controller.setRecommendation(
                             recommendation: activity as RecommendationModel,

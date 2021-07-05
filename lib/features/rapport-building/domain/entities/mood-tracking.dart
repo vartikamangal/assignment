@@ -9,21 +9,21 @@ import 'subject-id.dart';
 
 class MoodTracking extends Equatable {
   final SubjectId subjectId;
-  final int id;
-  String moodDuration;
-  final String activityType;
-  final String mood;
+  final int? id;
+  String? moodDuration;
+  final String? activityType;
+  final String? mood;
   final DateTime createdWhen;
   MoodTracking({
-    @required this.activityType,
-    @required this.createdWhen,
-    @required this.id,
-    @required this.mood,
-    @required this.moodDuration,
-    @required this.subjectId,
+    required this.activityType,
+    required this.createdWhen,
+    required this.id,
+    required this.mood,
+    required this.moodDuration,
+    required this.subjectId,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       subjectId,
       id,

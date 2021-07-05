@@ -6,7 +6,7 @@ import '../../../success/success-interface.dart';
 
 abstract class StartRecordingVoiceNoteService {
   Future<Either<Failure, Success>> startRecodring({
-    @required String filePath,
-    @required Codec codec,
+    required String? filePath,
+    required Codec? codec,
   });
 }

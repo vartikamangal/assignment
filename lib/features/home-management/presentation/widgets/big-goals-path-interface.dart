@@ -15,10 +15,10 @@ import '../../../../features/home-management/presentation/controller/home-contro
 
 class BigGoalsPath extends StatelessWidget {
   const BigGoalsPath({
-    Key key,
-    @required this.durationController,
-    @required this.homeController,
-    @required this.pathController,
+    Key? key,
+    required this.durationController,
+    required this.homeController,
+    required this.pathController,
   }) : super(key: key);
 
   final HomeController homeController;
@@ -34,7 +34,7 @@ class BigGoalsPath extends StatelessWidget {
   }
 
   List<Widget> _buildGuidedRecommendedActivites(
-      {@required BuildContext context}) {
+      {required BuildContext context}) {
     final List<Widget> plan = [];
     for (final activity in homeController.recommendedActivities) {
       plan.add(
@@ -51,7 +51,7 @@ class BigGoalsPath extends StatelessWidget {
             description: '',
             onPressed: () async {
               ///todo Do anything which will lead to start-of-activity
-              log(activity.title);
+              log(activity.title!);
               pathController.setGuidedActivityFlow(
                 recommendation: activity,
                 //TODO figure out a technique for fixing it out

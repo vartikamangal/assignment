@@ -1,17 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cache-acitivity-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/retrieve-most-recent-activity-repository.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/retireve-most-recent-activity.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
-class MockRetrieveMostRecentAcitivityRepository extends Mock
-    implements RetrieveMostRecentAcitivityRepository {}
+import 'retireve-most-recent-activity_test.mocks.dart';
 
+@GenerateMocks([RetrieveMostRecentAcitivityRepository])
 void main() {
-  MockRetrieveMostRecentAcitivityRepository repository;
-  RetrieveMostRecentActivity useCase;
+  late MockRetrieveMostRecentAcitivityRepository repository;
+  late RetrieveMostRecentActivity useCase;
 
   setUp(() {
     repository = MockRetrieveMostRecentAcitivityRepository();

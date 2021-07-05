@@ -11,7 +11,7 @@ import '../controller/profile-controller.dart';
 import 'bottom-sheet.dart';
 
 class LandingProfileScreen extends GetWidget<ProfileController> {
-  const LandingProfileScreen({Key key}) : super(key: key);
+  const LandingProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
@@ -39,7 +39,7 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
               ).value,
             ),
             Text(
-              controller.profileData.value.nickName,
+              controller.profileData.value!.nickName!,
               style: AppTextStyle.titleMDark,
               textScaleFactor: textScaleFactor,
             ),
@@ -49,12 +49,12 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
               ).value,
             ),
             Text(
-              "I want to ${controller.profileData.value.focusIssues.first.displayName} better",
+              "I want to ${controller.profileData.value!.focusIssues.first.displayName} better",
               style: AppTextStyle.Darkbluebold.copyWith(color: greyLightShade),
               textScaleFactor: textScaleFactor,
             ),
             Text(
-              controller.profileData.value.journeyPath.title,
+              controller.profileData.value!.journeyPath.title!,
               style: AppTextStyle.lightbold,
               textScaleFactor: textScaleFactor,
             ),
@@ -78,7 +78,7 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
             InfoContainer(
               image: 'assets/choose-path-screen/BIG_GOALS.png',
               field: tr('holistic score'),
-              score: controller.profileData.value.holisticScore.toString(),
+              score: controller.profileData.value!.holisticScore.toString(),
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
@@ -112,7 +112,7 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
                   InfoContainer(
                     image: 'assets/choose-path-screen/BIG_GOALS.png',
                     field: tr('time taken'),
-                    score: controller.profileData.value.timeOnActivitiesThisWeek
+                    score: controller.profileData.value!.timeOnActivitiesThisWeek
                         .toString(),
                     onPressed: () {
                       showModalBottomSheet(
@@ -131,7 +131,7 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
                   InfoContainer(
                     image: 'assets/choose-path-screen/BIG_GOALS.png',
                     field: tr('how many activity done'),
-                    score: controller.profileData.value.activitiesThisWeek
+                    score: controller.profileData.value!.activitiesThisWeek
                         .toString(),
                     onPressed: () {
                       showModalBottomSheet(
@@ -163,10 +163,10 @@ class LandingProfileScreen extends GetWidget<ProfileController> {
 }
 
 class InfoContainer extends StatelessWidget {
-  final String image;
-  final String field;
-  final String score;
-  final Callback onPressed;
+  final String? image;
+  final String? field;
+  final String? score;
+  final Callback? onPressed;
   const InfoContainer({this.image, this.field, this.score, this.onPressed});
   @override
   Widget build(BuildContext context) {
@@ -184,7 +184,7 @@ class InfoContainer extends StatelessWidget {
                 spaceing: 113,
               ).value,
               child: Image.asset(
-                image,
+                image!,
                 scale: imageScaleFactor,
               )),
           SizedBox(
@@ -193,12 +193,12 @@ class InfoContainer extends StatelessWidget {
             ).value,
           ),
           Text(
-            field,
+            field!,
             style: AppTextStyle.dayText.copyWith(fontSize: 14),
             textScaleFactor: textScaleFactor,
           ),
           Text(
-            score,
+            score!,
             textScaleFactor: textScaleFactor,
             style: AppTextStyle.ligntbluedescription.copyWith(fontSize: 18),
           ),

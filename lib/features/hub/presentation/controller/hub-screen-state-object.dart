@@ -17,10 +17,10 @@ class HubScreenStateObject extends Equatable {
   final String subtitle;
   final Callback onImageTap;
   const HubScreenStateObject({
-    @required this.heroImageUrl,
-    @required this.title,
-    @required this.subtitle,
-    @required this.onImageTap,
+    required this.heroImageUrl,
+    required this.title,
+    required this.subtitle,
+    required this.onImageTap,
   });
   @override
   List<Object> get props => [heroImageUrl, title, subtitle, onImageTap];

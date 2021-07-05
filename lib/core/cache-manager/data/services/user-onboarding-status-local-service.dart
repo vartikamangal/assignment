@@ -1,9 +1,6 @@
 // Dart imports:
 import 'dart:developer';
 
-// Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
@@ -14,11 +11,11 @@ import '../../../../core/persistence-consts.dart';
 
 abstract class UserOnboardingStatusLocalService {
   Future<Unit> saveStatus({
-    @required String status,
+    required String status,
   });
   Future<String> fetchStatus();
   Future<Unit> saveIsFirstTimeUser({
-    @required String onBoardingStatus,
+    required String? onBoardingStatus,
   });
   Future<bool> checkIsFirstTimeUser();
 }
@@ -28,15 +25,19 @@ class UserOnboardingStatusLocalServiceImpl
   final Box localClient;
 
   UserOnboardingStatusLocalServiceImpl({
-    @required this.localClient,
+    required this.localClient,
   });
   @override
   Future<String> fetchStatus() async {
+    log('entered here!!');
     try {
-      final onBoardingStatus = await localClient.get(
-        PersistenceConst.USER_ONBOARDING_STATUS,
-      ) as String;
-      return onBoardingStatus;
+      final onBoardingStatus =
+          await localClient.get(PersistenceConst.USER_ONBOARDING_STATUS);
+      if (onBoardingStatus != null) {
+        return onBoardingStatus as String;
+      } else {
+        return 'INCOMPLETE';
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -46,7 +47,7 @@ class UserOnboardingStatusLocalServiceImpl
   }
 
   @override
-  Future<Unit> saveStatus({String status}) async {
+  Future<Unit> saveStatus({required String status}) async {
     try {
       await localClient.put(
         PersistenceConst.USER_ONBOARDING_STATUS,
@@ -66,7 +67,7 @@ class UserOnboardingStatusLocalServiceImpl
     try {
       final isFirstTimeUserCheckString = await localClient.get(
         PersistenceConst.IS_FIST_TIME_USER,
-      ) as String;
+      ) as String?;
       final bool _openedAppForFirstTime = isFirstTimeUserCheckString == 'YES' ||
           isFirstTimeUserCheckString == null;
       if (_openedAppForFirstTime) {
@@ -81,7 +82,7 @@ class UserOnboardingStatusLocalServiceImpl
   }
 
   @override
-  Future<Unit> saveIsFirstTimeUser({String onBoardingStatus}) async {
+  Future<Unit> saveIsFirstTimeUser({String? onBoardingStatus}) async {
     try {
       await localClient.put(
         PersistenceConst.IS_FIST_TIME_USER,

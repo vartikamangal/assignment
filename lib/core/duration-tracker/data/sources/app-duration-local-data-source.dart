@@ -11,22 +11,22 @@ import '../../../utils/helper_functions/generate-date-from-datetime.dart';
 
 abstract class AppDurationLocalDataSource {
   Future<Unit> updateUserDurationOnApp({
-    @required AppDurationModel appDuration,
-    @required bool isNewUser,
+    required AppDurationModel? appDuration,
+    required bool? isNewUser,
   });
   Future<AppDurationModel> getLastLogin();
 }
 
 class AppDurationLocalDataSourceImpl implements AppDurationLocalDataSource {
-  final Box localClient;
+  final Box? localClient;
 
   AppDurationLocalDataSourceImpl({
-    @required this.localClient,
+    required this.localClient,
   });
   @override
   Future<AppDurationModel> getLastLogin() async {
     try {
-      final rawAppDuration = await localClient.get(
+      final rawAppDuration = await localClient!.get(
         PersistenceConst.USER_DURATION_ON_APP,
       );
       return AppDurationModel.frmoJson(
@@ -41,8 +41,8 @@ class AppDurationLocalDataSourceImpl implements AppDurationLocalDataSource {
   @override
   Future<Unit> updateUserDurationOnApp({
     //! This arguement not needed anymore
-    AppDurationModel appDuration,
-    bool isNewUser,
+    AppDurationModel? appDuration,
+    bool? isNewUser,
   }) async {
     try {
       final dateToday = generateDateFromDateTime(DateTime.now());
@@ -54,8 +54,8 @@ class AppDurationLocalDataSourceImpl implements AppDurationLocalDataSource {
         ).toJson(),
       );
       // If calling this for the first time
-      if (isNewUser) {
-        await localClient.put(
+      if (isNewUser!) {
+        await localClient!.put(
           PersistenceConst.USER_DURATION_ON_APP,
           initDurationSetter,
         );
@@ -70,13 +70,13 @@ class AppDurationLocalDataSourceImpl implements AppDurationLocalDataSource {
         // If today is weekday, and user is opening the app for the first time
         // weekDayCode : Sunday == 7
         if (weekDayToday == 2 && olderAppOpeningDate != dateToday) {
-          await localClient.put(
+          await localClient!.put(
             PersistenceConst.USER_DURATION_ON_APP,
             jsonEncode(
               olderDate
                   .copyWith(
                     lastLogin: DateTime.now(),
-                    currentWeekday: olderDate.currentWeekday + 1,
+                    currentWeekday: olderDate.currentWeekday! + 1,
                   )
                   .toJson(),
             ),

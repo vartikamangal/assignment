@@ -1,20 +1,19 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
+
 import '../../../focus/data/models/issue-model.dart';
-import '../../domain/entities/profile-data.dart';
 import '../../../what-path-to-choose/data/models/journey-model.dart';
+import '../../domain/entities/profile-data.dart';
 
 class ProfileDataModel extends ProfileData {
   const ProfileDataModel({
-    @required int subjectInformationId,
-    @required String travellerId,
-    @required int holisticScore,
-    @required int activitiesThisWeek,
-    @required int timeOnActivitiesThisWeek,
-    @required String nickName,
-    @required List<IssueModel> focusIssues,
-    @required JourneyModel journeyPath,
+    required int? subjectInformationId,
+    required String? travellerId,
+    required int? holisticScore,
+    required int? activitiesThisWeek,
+    required int? timeOnActivitiesThisWeek,
+    required String? nickName,
+    required List<IssueModel> focusIssues,
+    required JourneyModel journeyPath,
   }) : super(
           timeOnActivitiesThisWeek: timeOnActivitiesThisWeek,
           travellerId: travellerId,
@@ -28,12 +27,12 @@ class ProfileDataModel extends ProfileData {
 
   factory ProfileDataModel.fromJson(Map<String, dynamic> jsonMap) {
     return ProfileDataModel(
-      subjectInformationId: jsonMap['subjectInformationId'] as int,
-      travellerId: jsonMap['travellerId'] as String,
-      holisticScore: jsonMap['holisticScore'] as int,
-      activitiesThisWeek: jsonMap['activitiesThisWeek'] as int,
-      timeOnActivitiesThisWeek: jsonMap['timeOnActivitiesThisWeek'] as int,
-      nickName: jsonMap['nickName'] as String,
+      subjectInformationId: jsonMap['subjectInformationId'] as int?,
+      travellerId: jsonMap['travellerId'] as String?,
+      holisticScore: jsonMap['holisticScore'] as int?,
+      activitiesThisWeek: jsonMap['activitiesThisWeek'] as int?,
+      timeOnActivitiesThisWeek: jsonMap['timeOnActivitiesThisWeek'] as int?,
+      nickName: jsonMap['nickName'] as String?,
       focusIssues: (jsonMap['focusIssues'] as List)
           .map((issue) => IssueModel.fromJson(issue as Map<String, dynamic>))
           .toList(),

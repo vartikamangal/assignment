@@ -9,38 +9,43 @@ import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/utils/helper_functions/get-formatted-player-position-string.dart';
 import 'package:tatsam_app_experimental/core/utils/helper_functions/player-position-calculator.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/mini-loader.dart';
 
 class AudioBasedActivity extends StatelessWidget {
   AudioBasedActivity({
-    Key key,
+    Key? key,
   }) : super(key: key);
   final PathController _controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PreferredSize(
-            preferredSize: Size(Get.width, 2),
-            child: Obx(
-                  () => _controller.isProcessing.value
-                  ? const MiniLoader()
-                  : EmptySpacePlaceHolder(),
-            ),
-          ),
-          TopAppBar(onPressed: (){Navigator.of(context).pop();}),
+    return Stack(
+      children: [
+        SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TopAppBar(onPressed: (){Navigator.of(context).pop();}),
 
-          ListView(
-            shrinkWrap: true,
-            children: const [
-              /// Audio-visual content
-              _PlayableContent(videoUrl: testPlayable),
+              ListView(
+                shrinkWrap: true,
+                children: const [
+                  /// Audio-visual content
+                  _PlayableContent(videoUrl: testPlayable),
+                ],
+              ),
             ],
           ),
-        ],
-      ),
+        ),
+        SafeArea(child:   PreferredSize(
+          preferredSize: Size(Get.width, 2),
+          child: Obx(
+                () => _controller.isProcessing.value
+                ? CustomizedLinearProgressIndicator()
+                : EmptySpacePlaceHolder(),
+          ),
+        ),),
+      ],
     );
   }
 }
@@ -53,8 +58,8 @@ const String testLoopingAnimation =
 /// Actual Video Player Fragment
 class _PlayableContent extends StatefulWidget {
   const _PlayableContent({
-    Key key,
-    @required this.videoUrl,
+    Key? key,
+    required this.videoUrl,
   }) : super(key: key);
   final String videoUrl;
   @override
@@ -64,7 +69,7 @@ class _PlayableContent extends StatefulWidget {
 class __PlayableContentState extends State<_PlayableContent> {
   final BetterPlayerDataSource dataSource =
       BetterPlayerDataSource(BetterPlayerDataSourceType.network, testPlayable);
-  BetterPlayerController controller;
+  late BetterPlayerController controller;
 
   /// for linear progress indicator
   double playerPosition = 0.0;
@@ -95,10 +100,10 @@ class __PlayableContentState extends State<_PlayableContent> {
       /// And elapsedTime variable is refreshed
       if (event.betterPlayerEventType == BetterPlayerEventType.progress) {
         playerPosition = calculatePosition(
-          controller.videoPlayerController.value.position,
-          controller.videoPlayerController.value.duration,
+          controller.videoPlayerController!.value.position,
+          controller.videoPlayerController!.value.duration!,
         );
-        elapsedTime = controller.videoPlayerController.value.position;
+        elapsedTime = controller.videoPlayerController!.value.position;
         setState(() {});
       }
     });
@@ -111,7 +116,7 @@ class __PlayableContentState extends State<_PlayableContent> {
   }
 
   void _toggleControllerState() {
-    if (controller.isPlaying()) {
+    if (controller.isPlaying()!) {
       controller.pause();
     } else {
       controller.play();
@@ -147,7 +152,7 @@ class __PlayableContentState extends State<_PlayableContent> {
         SizedBox(
           height: ScaleManager.spaceScale(spaceing: 24).value,
         ),
-        if (!controller.isVideoInitialized())
+        if (!controller.isVideoInitialized()!)
           Container(
             height: ScaleManager.spaceScale(spaceing: 78).value,
             width: ScaleManager.spaceScale(spaceing: 78).value,
@@ -173,7 +178,7 @@ class __PlayableContentState extends State<_PlayableContent> {
               ),
               child: Center(
                 child: Icon(
-                  controller.isPlaying() ? Icons.pause : Icons.play_arrow,
+                  controller.isPlaying()! ? Icons.pause : Icons.play_arrow,
                   size: ScaleManager.spaceScale(spaceing: 55).value,
                   color: Theme.of(context).canvasColor,
                 ),

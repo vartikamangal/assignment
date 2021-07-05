@@ -10,8 +10,8 @@ import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 
 class BottomMiddleButton extends StatelessWidget {
-  final String title;
-  final Callback onPressed;
+  final String? title;
+  final Callback? onPressed;
   const BottomMiddleButton({this.onPressed, this.title});
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class BottomMiddleButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            title,
+            title!,
             style: AppTextStyle.buttonTextStyle,
             textScaleFactor: textScaleFactor,
           ),

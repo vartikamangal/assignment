@@ -13,7 +13,7 @@ class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
   UpdateActivityStatusRemoteServiceImpl remoteDataSourceImpl;
-  MockCustomApiClient client;
+  MockCustomApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
@@ -31,7 +31,7 @@ Future<void> main() async {
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client.get( uri:
+    when(client!.get( uri:
     "${APIRoute.updateActionStatus}/$tActionId/status/${tStatus.toUpperCase()}")).thenAnswer(
           (_) async => http.Response(
           fixtureReader(filename: 'activity-status.json'), 200) ,
@@ -39,7 +39,7 @@ Future<void> main() async {
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
+    when(client!.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
           (_) async => http.Response('Oops! page not found', 404),
     );
   }

@@ -62,7 +62,7 @@ abstract class RouteName {
   static const pathPlaySection2 = '/path-play-section2';
   static const onBoardingIncomplete = '/onboarding-screen';
   static const profileScreen = '/profile_screen';
-  static const settingScreen='/setting_screen';
+  static const settingScreen = '/setting_screen';
   RouteName._();
 }
 
@@ -214,7 +214,7 @@ class GenerateRoute {
     }
     if (route == RouteName.selfPathInfoSection1) {
       return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(milliseconds: 0),
+        reverseTransitionDuration: const Duration(),
         transitionDuration: const Duration(milliseconds: 400),
         pageBuilder: (context, animation, secondaryAnimation) =>
             SelfPathInfoSection1(),
@@ -228,8 +228,8 @@ class GenerateRoute {
     }
     if (route == RouteName.pathInfoSection2) {
       return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(milliseconds: 0),
-        transitionDuration: const Duration(milliseconds: 0),
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
         pageBuilder: (context, animation, secondaryAnimation) =>
             PathInfoSection2(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
@@ -242,8 +242,8 @@ class GenerateRoute {
     }
     if (route == RouteName.pathInfoSection3) {
       return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(milliseconds: 0),
-        transitionDuration: const Duration(milliseconds: 0),
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
         pageBuilder: (context, animation, secondaryAnimation) =>
             PathInfoSection3(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
@@ -357,6 +357,11 @@ class GenerateRoute {
     if (route == RouteName.settingScreen) {
       return CupertinoPageRoute(
         builder: (context) => SettingScreen(),
+      );
+    } else {
+      return PageTransition(
+        child: OpeningScreen(),
+        type: PageTransitionType.fade,
       );
     }
   }

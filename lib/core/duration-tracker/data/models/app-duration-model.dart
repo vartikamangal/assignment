@@ -3,8 +3,8 @@ import '../../domain/entities/app-duration.dart';
 
 class AppDurationModel extends AppDuration {
   const AppDurationModel({
-    @required DateTime lastLogin,
-    @required int currentWeekday,
+    required DateTime lastLogin,
+    required int? currentWeekday,
   }) : super(
           currentWeekday: currentWeekday,
           lastLogin: lastLogin,
@@ -13,7 +13,7 @@ class AppDurationModel extends AppDuration {
   factory AppDurationModel.frmoJson(Map<String, dynamic> jsonMap) {
     return AppDurationModel(
       lastLogin: DateTime.parse(jsonMap['lastLogin'] as String),
-      currentWeekday: jsonMap['currentWeekday'] as int,
+      currentWeekday: jsonMap['currentWeekday'] as int?,
     );
   }
 
@@ -25,8 +25,8 @@ class AppDurationModel extends AppDuration {
   }
 
   AppDurationModel copyWith({
-    DateTime lastLogin,
-    int currentWeekday,
+    DateTime? lastLogin,
+    int? currentWeekday,
   }) {
     return AppDurationModel(
       lastLogin: lastLogin ?? this.lastLogin,

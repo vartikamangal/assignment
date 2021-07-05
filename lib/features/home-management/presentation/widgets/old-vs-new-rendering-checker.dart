@@ -6,10 +6,10 @@ class UiForOldAndNewUserRenderer extends StatelessWidget {
   final Widget widgetForOldUser;
 
   const UiForOldAndNewUserRenderer({
-    Key key,
-    @required this.isNewUser,
-    @required this.widgetForNewUser,
-    @required this.widgetForOldUser,
+    Key? key,
+    required this.isNewUser,
+    required this.widgetForNewUser,
+    required this.widgetForOldUser,
   }) : super(key: key);
 
   @override

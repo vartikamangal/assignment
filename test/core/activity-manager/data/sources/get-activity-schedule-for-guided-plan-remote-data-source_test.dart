@@ -18,7 +18,7 @@ class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
   GetActivityScheduleForGuidedPlanRemoteDataSourceImpl remoteDataSourceImpl;
-  MockCustomApiClient client;
+  MockCustomApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
@@ -55,7 +55,7 @@ Future<void> main() async {
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client.get(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
+    when(client!.get(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
       (_) async => http.Response(
           fixtureReader(
               filename: 'raw-activity-scheduled-for-guided-plan.json'),
@@ -64,7 +64,7 @@ Future<void> main() async {
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
+    when(client!.get(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }

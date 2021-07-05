@@ -12,7 +12,6 @@ import '../core/cache-manager/data/services/user-onboarding-status-local-service
 import '../core/cache-manager/domain/repositories/retrieve-most-recent-activity-repository.dart';
 import '../core/cache-manager/domain/repositories/retrieve-user-path-repository.dart';
 import '../core/cache-manager/domain/repositories/user-onboarding-status-repository.dart';
-import '../core/cache-manager/domain/usecases/check-if-first-time-user.dart';
 import '../core/cache-manager/domain/usecases/retireve-most-recent-activity.dart';
 import '../core/cache-manager/domain/usecases/retireve-user-path.dart';
 import '../core/cache-manager/domain/usecases/retrieve-user-onboarding-status.dart';
@@ -59,7 +58,6 @@ Future<void> initHomeManagementDependencies() async {
       getCategoryActivities: sl_home_manager(),
       addWeeklyCategory: sl_home_manager(),
       addWeeklyActivity: sl_home_manager(),
-      getCachedMood: sl_home_manager(),
       userDurationOnApp: sl_home_manager(),
       getLastLogin: sl_home_manager(),
       setSubjectMood: sl_home_manager(),

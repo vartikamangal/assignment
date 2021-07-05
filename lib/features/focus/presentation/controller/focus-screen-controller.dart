@@ -3,8 +3,6 @@ import 'dart:developer';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
-// Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
@@ -24,21 +22,21 @@ class FocusController extends GetxController {
   final SetTarget setTarget;
 
   FocusController({
-    @required this.getIssues,
-    @required this.setTarget,
+    required this.getIssues,
+    required this.setTarget,
   });
 
   ///////////               ////////////
   ///////////  Dynamic Data Helpers ////
   ///////////               ///////////
-  final RxList<Issue> issues = RxList<IssueModel>([]);
+  final RxList<Issue?> issues = RxList<IssueModel?>([]);
 
   ///////////               ////////////
   /////////// UseCase helpers //////////
   ///////////               ///////////
   Future<void> fetchIssues() async {
     final gottenIssueOrFailure = await getIssues(NoParams());
-    gottenIssueOrFailure.fold(
+    gottenIssueOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -57,7 +55,7 @@ class FocusController extends GetxController {
       ),
     );
     toggleProcessor();
-    issueAddedOrFailure.fold(
+    issueAddedOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -91,9 +89,9 @@ class FocusController extends GetxController {
   String text1 = tr('focus title1');
   List<String> cart = [];
   bool optionSelected = false;
-  Rx<Issue> selectedIssue = Rx<IssueModel>();
+  Rxn<Issue> selectedIssue = Rxn<IssueModel>();
   RxInt count = 0.obs;
-  RxList<Issue> removedItem = RxList<IssueModel>([]);
+  RxList<Issue?> removedItem = RxList<IssueModel?>([]);
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;
@@ -103,16 +101,16 @@ class FocusController extends GetxController {
     isLoading.value = !isLoading.value;
   }
 
-  void removeIssue(Issue issue) {
+  void removeIssue(Issue? issue) {
     count++;
-    issues.removeWhere((element) => element.focusName == issue.focusName);
+    issues.removeWhere((element) => element!.focusName == issue!.focusName);
     count > 1
         ? issues.add(removedItem.value[removedItem.length - 1])
         : print("");
     removedItem.add(selectedIssue.value);
   }
 
-  void getDescription(String image, Issue issue) {
+  void getDescription(String image, Issue? issue) {
     if (topExpandedContainer.value != Get.height * 0.5) {
       topExpandedContainer.value = Get.height * 0.5;
     } else {

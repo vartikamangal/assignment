@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../../error/failures.dart';
 import '../../../usecase/usecase.dart';
@@ -9,7 +8,7 @@ class CheckIfAuthenticated implements Usecase<bool, NoParams> {
   final AuthRepository repository;
 
   CheckIfAuthenticated({
-    @required this.repository,
+    required this.repository,
   });
   @override
   Future<Either<Failure, bool>> call(NoParams params) async {

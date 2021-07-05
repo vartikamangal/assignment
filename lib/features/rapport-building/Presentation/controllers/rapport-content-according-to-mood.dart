@@ -7,8 +7,8 @@ class RapportData extends Equatable {
   final FeelingPageContent feelingPageContent;
 
   const RapportData({
-    @required this.dropPageContent,
-    @required this.feelingPageContent,
+    required this.dropPageContent,
+    required this.feelingPageContent,
   });
 
   @override
@@ -22,9 +22,9 @@ class FeelingPageContent extends Equatable {
   final String textBottom;
 
   const FeelingPageContent({
-    @required this.textTop,
-    @required this.textMid,
-    @required this.textBottom,
+    required this.textTop,
+    required this.textMid,
+    required this.textBottom,
   });
   @override
   List<Object> get props => [textTop, textMid, textBottom];

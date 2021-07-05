@@ -4,15 +4,15 @@ import '../error/failures.dart';
 import '../platform/network_info.dart';
 
 class CallIfNetworkConnected {
-  final NetworkInfo networkInfo;
+  final NetworkInfo? networkInfo;
 
   CallIfNetworkConnected({
-    @required this.networkInfo,
+    required this.networkInfo,
   });
 
   Future<Either<Failure, T>> call<T>(
       Future<Either<Failure, T>> Function() x) async {
-    if (await networkInfo.isConnected) {
+    if (await networkInfo!.isConnected) {
       final result = await x();
       return result;
     } else {

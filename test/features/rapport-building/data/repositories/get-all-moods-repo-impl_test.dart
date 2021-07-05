@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -12,18 +11,18 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/repository/get-all-moods-repository-impl.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/sources/get-all-moods-remote-data-source.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/repository/rapport-building-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
 
 class MockGetAllMoodsRemoteDataSource extends Mock
-    implements GetAllMoodsRemoteDataSource {}
+    implements RapportBuildingRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockGetAllMoodsRemoteDataSource remoteDataSource;
-  MockNetworkInfo networkInfo;
-  GetAllMoodsRepositoryImpl repositoryImpl;
+  MockGetAllMoodsRemoteDataSource? remoteDataSource;
+  MockNetworkInfo? networkInfo;
+  late RapportBuildingRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -74,16 +73,16 @@ void main() {
         callIfNetworkConnected: callIfNetworkConnected,
         handleException: handleException,
       );
-      repositoryImpl = GetAllMoodsRepositoryImpl(
-        source: remoteDataSource,
+      repositoryImpl = RapportBuildingRepositoryImpl(
         baseRepository: baseRepository,
+        remoteDataSource: remoteDataSource,
       );
     },
   );
 
   void runTestOnline(Callback body) {
     setUp(() {
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
+      when(networkInfo!.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : GetAllMoods', body);
   }
@@ -94,24 +93,24 @@ void main() {
       //act
       await repositoryImpl.getAllMoods();
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return a List<MoodModel> when call to remote data source is successfull',
         () async {
       //arrange
-      when(remoteDataSource.getMoods()).thenAnswer((_) async => tMoods);
+      when(remoteDataSource!.getMoods()).thenAnswer((_) async => tMoods);
       //act
       final result = await repositoryImpl.getAllMoods();
       //assert
-      verify(remoteDataSource.getMoods());
+      verify(remoteDataSource!.getMoods());
       expect(result, const Right(tMoods));
     });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
         () async {
       //arrange
-      when(remoteDataSource.getMoods()).thenThrow(ServerException());
+      when(remoteDataSource!.getMoods()).thenThrow(ServerException());
       //act
       final result = await repositoryImpl.getAllMoods();
       //assert
@@ -122,7 +121,7 @@ void main() {
   //! For offline tests
   test('DEVICE OFFLINE : GetAllMoods should return DeviceOfflineFailure',
       () async {
-    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    when(networkInfo!.isConnected).thenAnswer((_) async => false);
     //act
     final result = await repositoryImpl.getAllMoods();
     //assert

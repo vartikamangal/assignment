@@ -1,14 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/save-feedback-service.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/save-feedback.dart';
 
-class MockSaveFeedbackService extends Mock implements SaveFeedbackService {}
+import 'save-feedback_test.mocks.dart';
 
+@GenerateMocks([SaveFeedbackService])
 void main() {
-  MockSaveFeedbackService service;
-  SaveFeedback useCase;
+  late MockSaveFeedbackService service;
+  late SaveFeedback useCase;
 
   setUp(() {
     service = MockSaveFeedbackService();

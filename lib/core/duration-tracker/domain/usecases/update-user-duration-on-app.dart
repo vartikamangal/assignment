@@ -1,18 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 
-import '../entities/app-duration.dart';
-import '../repository/app-duration-repository.dart';
 import '../../../error/failures.dart';
 import '../../../usecase/usecase.dart';
+import '../entities/app-duration.dart';
+import '../repository/app-duration-repository.dart';
 
 class UpdateUserDurationOnApp
     implements Usecase<Unit, UpdateUserDurationOnAppParams> {
   final AppDurationRepository repository;
 
   UpdateUserDurationOnApp({
-    @required this.repository,
+    required this.repository,
   });
   @override
   Future<Either<Failure, Unit>> call(
@@ -28,8 +27,8 @@ class UpdateUserDurationOnAppParams extends Equatable {
   final AppDuration userDurationOnApp;
   final bool isNewUser;
   const UpdateUserDurationOnAppParams({
-    @required this.userDurationOnApp,
-    @required this.isNewUser,
+    required this.userDurationOnApp,
+    required this.isNewUser,
   });
 
   @override

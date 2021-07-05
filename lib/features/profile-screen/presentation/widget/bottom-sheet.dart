@@ -9,9 +9,9 @@ class InfoBottomSheet extends StatelessWidget {
   final String selectedArea;
   final String description;
   const InfoBottomSheet({
-    Key key,
-   @required this.selectedArea,
-    @required this.description
+    Key? key,
+   required this.selectedArea,
+    required this.description
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

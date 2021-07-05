@@ -15,7 +15,7 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/models/su
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
 
 void main() {
-  AppPageStatusLocalDataSourceImpl localDataSourceImpl;
+  late AppPageStatusLocalDataSourceImpl localDataSourceImpl;
 
   setUp(() {
     localDataSourceImpl = AppPageStatusLocalDataSourceImpl();

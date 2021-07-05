@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -13,19 +12,19 @@ import 'package:tatsam_app_experimental/core/repository/call-if-network-connecte
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model-for-prioritization.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/prioritize-service-impl.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/prioritize-remote-service.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/wheel-of-life-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/wheel-of-life-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/success-prioritize.dart';
 
 class MockPrioritizeRemoteService extends Mock
-    implements PrioritizeRemoteService {}
+    implements WheelOfLifeRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockPrioritizeRemoteService remoteService;
-  MockNetworkInfo networkInfo;
-  PrioritizeServiceImpl serviceImpl;
+  MockPrioritizeRemoteService? remoteService;
+  MockNetworkInfo? networkInfo;
+  late WheelOfLifeRepositoryImpl serviceImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -39,8 +38,8 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    serviceImpl = PrioritizeServiceImpl(
-      remoteService: remoteService,
+    serviceImpl = WheelOfLifeRepositoryImpl(
+      remoteDataSource: remoteService,
       baseRepository: baseRepository,
     );
   });
@@ -94,7 +93,7 @@ void main() {
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : PrioritizeService[WOL]', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       body();
     });
@@ -103,7 +102,7 @@ void main() {
   void runTestsOffline(Callback body) {
     group('DEVICE OFFLINE : PrioritizeService[WOL]', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
       });
       body();
     });
@@ -115,26 +114,26 @@ void main() {
       //act
       await serviceImpl.prioritize(lifeAreas: tLifeAreaPrioritizationModel);
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return SuccessPriotize when the call to remote resource is successfull',
         () async {
       //arrange
-      when(remoteService.prioritize(lifeAreas: tLifeAreaPrioritizationModel))
+      when(remoteService!.prioritize(lifeAreas: tLifeAreaPrioritizationModel))
           .thenAnswer((realInvocation) async => SuccessPrioritize());
       //act
       final result =
           await serviceImpl.prioritize(lifeAreas: tLifeAreaPrioritizationModel);
       //assert
-      verify(remoteService.prioritize(lifeAreas: tLifeAreaPrioritizationModel));
+      verify(remoteService!.prioritize(lifeAreas: tLifeAreaPrioritizationModel));
       expect(result, Right(SuccessPrioritize()));
     });
     test(
         'should return ServerFailure when the call to remote resource is unsuccessfull',
         () async {
       //arrange
-      when(remoteService.prioritize(lifeAreas: tLifeAreaPrioritizationModel))
+      when(remoteService!.prioritize(lifeAreas: tLifeAreaPrioritizationModel))
           .thenThrow(ServerException());
       //act
       final result = await serviceImpl.prioritize(

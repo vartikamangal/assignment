@@ -1,18 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/user-onboarding-status-repository.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/save-is-first-time-onboarding-status.dart';
 
-class MockSaveUserOnboardingStatusService extends Mock
-    implements UserOnboardingStatusRepository {}
+import 'check-if-first-time-user_test.mocks.dart';
 
 void main() {
-  MockSaveUserOnboardingStatusService service;
-  SaveIsFirstTimeOnboardingStatus useCase;
+  late MockUserOnboardingStatusRepository service;
+  late SaveIsFirstTimeOnboardingStatus useCase;
 
   setUp(() {
-    service = MockSaveUserOnboardingStatusService();
+    service = MockUserOnboardingStatusRepository();
     useCase = SaveIsFirstTimeOnboardingStatus(service: service);
   });
 

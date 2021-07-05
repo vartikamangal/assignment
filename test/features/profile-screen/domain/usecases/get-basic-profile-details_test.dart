@@ -2,7 +2,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
@@ -17,7 +16,7 @@ class MockProfileDetailsRepository extends Mock
 
 void main() {
   MockProfileDetailsRepository repository;
-  GetBasicProfileDetails useCase;
+  late GetBasicProfileDetails useCase;
 
   setUp(() {
     repository = MockProfileDetailsRepository();

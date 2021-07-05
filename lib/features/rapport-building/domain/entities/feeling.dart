@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:equatable/equatable.dart';
 
 class Feeling extends Equatable {
-  final String feeling;
+  final String? feeling;
 
-  const Feeling({@required this.feeling});
+  const Feeling({required this.feeling});
   @override
-  List<Object> get props => [feeling];
+  List<Object?> get props => [feeling];
 }

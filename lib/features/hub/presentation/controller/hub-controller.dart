@@ -32,27 +32,27 @@ class HubController extends GetxController {
   final CheckIfAuthenticated checkIfAuthenticated;
 
   HubController({
-    @required this.getHubStatus,
-    @required this.createTraveller,
-    @required this.checkIfAuthenticated,
+    required this.getHubStatus,
+    required this.createTraveller,
+    required this.checkIfAuthenticated,
   });
 
   //////////////// Dynamic Data Container ////////////////
-  Rx<HubStatus> hubStatus = Rx<HubStatusModel>();
+  Rxn<HubStatus> hubStatus = Rxn<HubStatusModel>();
   // Just a temporary repetition for checking wheather hub-refresh flaw goes
-  Rx<HubStatus> hubStatusFinal = Rx<HubStatusModel>();
+  Rxn<HubStatus> hubStatusFinal = Rxn<HubStatusModel>();
 
   /////////////// Usecase Helpers /////////////////
   Future<void> fetchHubStatus() async {
     final hubStatusOrFailure = await getHubStatus(NoParams());
-    hubStatusOrFailure.fold(
+    hubStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (fetchedHubStatus) {
         hubStatus.value = fetchedHubStatus;
         log(
-          hubStatus.value.attemptedQuestions.toString(),
+          hubStatus.value!.attemptedQuestions.toString(),
         );
         log('fetched hub status');
         // Refreshes the state of hubScreen as per the answers ansered
@@ -66,14 +66,14 @@ class HubController extends GetxController {
   // Assistor of above commented dynamic container
   Future<void> fetchHubStatusFinal() async {
     final hubStatusOrFailure = await getHubStatus(NoParams());
-    hubStatusOrFailure.fold(
+    hubStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (fetchedHubStatus) {
         hubStatusFinal.value = fetchedHubStatus;
         log(
-          hubStatusFinal.value.attemptedQuestions.toString(),
+          hubStatusFinal.value!.attemptedQuestions.toString(),
         );
         log('fetched hub status');
         // Refreshes the state of hubScreen as per the answers ansered
@@ -88,13 +88,13 @@ class HubController extends GetxController {
     toggleProcessor();
     final travellerCreatedOrFailure = await createTraveller(NoParams());
     toggleProcessor();
-    travellerCreatedOrFailure.fold(
+    travellerCreatedOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (travellerCreatedStatus) {
         log(travellerCreatedStatus.message);
-        Navigator.of(Get.context).pushNamed(RouteName.whatPathChooseScreen);
+        Navigator.of(Get.context!).pushNamed(RouteName.whatPathChooseScreen);
       },
     );
   }
@@ -119,11 +119,11 @@ class HubController extends GetxController {
   RxBool isLoggingIn = RxBool(false);
 
   RxBool isLoading = RxBool(false);
-  Rx<HubAnswerStatus> userHubStatus = Rx<HubAnswerStatus>(
+  Rxn<HubAnswerStatus> userHubStatus = Rxn<HubAnswerStatus>(
     HubAnswerStatus.nothingAnswered,
   );
   // Hub screen initial data when user hasn't answered anything
-  Rx<HubScreenStateObject> activeHubStateObject = Rx<HubScreenStateObject>();
+  Rxn<HubScreenStateObject> activeHubStateObject = Rxn<HubScreenStateObject>();
 
   /////////////// UI Managers ///////////////
   void toggleProcessor() {
@@ -139,14 +139,14 @@ class HubController extends GetxController {
   }
 
   // Conditions for dynamicaly updating hub
-  void _updateHubScreenState({@required Rx<HubStatus> hubStatus}) {
-    if (hubStatus.value.lifePriorities != null &&
-        hubStatus.value.lifeSatisfactionRatings != null) {
+  void _updateHubScreenState({required Rxn<HubStatus> hubStatus}) {
+    if (hubStatus.value!.lifePriorities != null &&
+        hubStatus.value!.lifeSatisfactionRatings != null) {
       userHubStatus.value = HubAnswerStatus.wheelOfLifeAnswered;
-      if (hubStatus.value.targetFocus != null) {
+      if (hubStatus.value!.targetFocus != null) {
         userHubStatus.value = HubAnswerStatus.targetAnswered;
         log('upto target answered');
-        if (hubStatus.value.attemptedQuestions == true) {
+        if (hubStatus.value!.attemptedQuestions == true) {
           userHubStatus.value = HubAnswerStatus.allAnswered;
         } else {
           log('upto target-part answered');
@@ -178,6 +178,8 @@ class HubController extends GetxController {
       case HubAnswerStatus.allAnswered:
         activeHubStateObject.value =
             kHubScreenStateObjectMap[HubAnswerStatus.allAnswered];
+        break;
+      default:
         break;
     }
   }

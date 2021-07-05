@@ -13,28 +13,28 @@ import '../../../../core/routes/api-routes/api-routes.dart';
 
 abstract class GetRecommendationsByActionTimeRemoteDataSource {
   Future<List<ActivityRecommendationModel>> getRecommendations({
-    @required String actionTime,
+    required String? actionTime,
   });
 }
 
 class GetRecommendationsByActionTimeRemoteDataSourceImpl
     implements GetRecommendationsByActionTimeRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final ApiClient? client;
+  final ThrowExceptionIfResponseError? throwExceptionIfResponseError;
 
   GetRecommendationsByActionTimeRemoteDataSourceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    required this.client,
+    required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<ActivityRecommendationModel>> getRecommendations({
-    String actionTime,
+    String? actionTime,
   }) async {
-    final response = await client.get(
+    final response = await client!.get(
       uri: "${APIRoute.getRecommendationByActionTime}${"/$actionTime"}",
     );
     log(response.headers.toString());
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    throwExceptionIfResponseError!(statusCode: response.statusCode);
     final rawActivities = jsonDecode(response.body) as List;
     return rawActivities
         .map(

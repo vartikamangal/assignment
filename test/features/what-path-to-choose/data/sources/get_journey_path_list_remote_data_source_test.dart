@@ -1,30 +1,36 @@
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/get_journey_path_list_remote_data_source.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/path-operations-remote-data-source.dart';
+
 import '../../../../fixtures/fixture-reader.dart';
 
 class MockCustomApiClient extends Mock implements ApiClient {}
 
+class MockBox extends Mock implements Box {}
+
 Future<void> main() async {
-  MockCustomApiClient client;
+  MockCustomApiClient? client;
+  MockBox localClient;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
-  GetJourneyPathListRemoteDataSourceImpl remoteDataSourceImpl;
+  late PathOperationsRemoteDataSourceImpl remoteDataSourceImpl;
 
   setUp(() {
     client = MockCustomApiClient();
+    localClient = MockBox();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
-    remoteDataSourceImpl = GetJourneyPathListRemoteDataSourceImpl(
+    remoteDataSourceImpl = PathOperationsRemoteDataSourceImpl(
+      localClient: localClient,
       client: client,
       throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
@@ -61,7 +67,7 @@ Future<void> main() async {
 
   void setupHttpSuccessClient200() {
     when(
-      client.get(uri: APIRoute.getJourneyPathList),
+      client!.get(uri: APIRoute.getJourneyPathList),
     ).thenAnswer(
       (_) async => http.Response(
         fixtureReader(filename: 'raw-journey.json'),
@@ -72,7 +78,7 @@ Future<void> main() async {
 
   void setupHttpFailureClient404() {
     when(
-      client.get(uri: APIRoute.getJourneyPathList),
+      client!.get(uri: APIRoute.getJourneyPathList),
     ).thenAnswer(
       (_) async => http.Response(
         'Oops! page not found',
@@ -90,7 +96,7 @@ Future<void> main() async {
       await remoteDataSourceImpl.getJourneys();
       //assert
       verify(
-        client.get(uri: APIRoute.getJourneyPathList),
+        client!.get(uri: APIRoute.getJourneyPathList),
       );
     });
     test('should return List<JourneyModel> when call statusCode is 200',

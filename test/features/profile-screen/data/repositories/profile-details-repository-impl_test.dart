@@ -21,9 +21,9 @@ class MockProfileDetailsRemoteDataSource extends Mock
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockProfileDetailsRemoteDataSource remoteDataSource;
-  MockNetworkInfo networkInfo;
-  ProfileDetailsRepositoryImpl repositoryImpl;
+  MockProfileDetailsRemoteDataSource? remoteDataSource;
+  MockNetworkInfo? networkInfo;
+  late ProfileDetailsRepositoryImpl repositoryImpl;
   BaseRepository baseRepository;
   CallIfNetworkConnected callIfNetworkConnected;
   HandleException handleException;
@@ -67,7 +67,7 @@ void main() {
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : getBasicProfileDetails', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       group('DEVICE ONLINE : getBasicProfileDetails', body);
     });
@@ -85,18 +85,18 @@ void main() {
         'should get basic profile details when coonection to remote data source is successfull',
         () async {
       //arrange
-      when(remoteDataSource.getBasicProfileDetails())
+      when(remoteDataSource!.getBasicProfileDetails())
           .thenAnswer((_) async => tProfileData);
       //act
-      final result = await remoteDataSource.getBasicProfileDetails();
+      final result = await remoteDataSource!.getBasicProfileDetails();
       //assert
-      verify(remoteDataSource.getBasicProfileDetails());
+      verify(remoteDataSource!.getBasicProfileDetails());
       expect(result, tProfileData);
     });
     test('should return ServerFailure when the call to remoteDataSource fails',
         () async {
       //arrange
-      when(remoteDataSource.getBasicProfileDetails())
+      when(remoteDataSource!.getBasicProfileDetails())
           .thenThrow(ServerException());
       //act
       final result = await repositoryImpl.getBasicProfileDetails();
@@ -107,9 +107,9 @@ void main() {
   test(
       'DEVICE OFFLINE : getBasicProfileDetails should return DeviceOfflineFailure',
       () async {
-    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    when(networkInfo!.isConnected).thenAnswer((_) async => false);
     //act
-    final result = await remoteDataSource.getBasicProfileDetails();
+    final result = await remoteDataSource!.getBasicProfileDetails();
     //assert
     expect(result, null);
   });

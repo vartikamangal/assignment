@@ -6,13 +6,13 @@ import '../../../usecase/usecase.dart';
 import '../repository/stop-recording-service.dart';
 
 class StopRecording implements Usecase<Success, NoParams> {
-  final StopRecordingService service;
+  final StopRecordingService? service;
 
   StopRecording({
-    @required this.service,
+    required this.service,
   });
   @override
   Future<Either<Failure, Success>> call(NoParams params) async {
-    return service.stopRecording();
+    return service!.stopRecording();
   }
 }

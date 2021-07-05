@@ -5,8 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/data/models/cached-mood-model.dart';
-import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/cache-mood.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/presentation/controllers/mood-data-cache-controller.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
@@ -46,7 +45,6 @@ class RapportBuildingController extends GetxController {
   final GetRapportBuildingSteps getRapportBuildingSteps;
   final GetAvailableFeelingDuration getAvailableFeelingDuration;
   final TrackSubjectMood trackSubjectMood;
-  final CacheMood cacheMood;
   final TextEditingController textEditingController = TextEditingController();
 
   RxBool isLoadComplete = false.obs;
@@ -57,21 +55,20 @@ class RapportBuildingController extends GetxController {
 
   /// This will give us basic userInfo like subjectInfo
   /// Which is to be used in common-feedback persistence
-  Rx<SubjectInformation> subjectInfo = Rx<SubjectInformationModel>();
-  Rx<RapportBuildingSteps> rapportBuildingSteps = Rx<RapportBuildingSteps>();
+  Rxn<SubjectInformation> subjectInfo = Rxn<SubjectInformationModel>();
+  Rxn<RapportBuildingSteps> rapportBuildingSteps = Rxn<RapportBuildingSteps>();
   RxList<FeelingDuration> availableDurations = RxList<FeelingDurationModel>([]);
-  Rx<MoodTracking> userMoodStatus = Rx<MoodTrackingModel>();
-  Rx<TextEditingController> controller = Rx<TextEditingController>();
+  Rxn<MoodTracking> userMoodStatus = Rxn<MoodTrackingModel>();
+  Rxn<TextEditingController> controller = Rxn<TextEditingController>();
 
   RapportBuildingController({
-    @required this.setSubjectName,
-    @required this.getAllMoods,
-    @required this.setSubjectMood,
-    @required this.saveFeedback,
-    @required this.getRapportBuildingSteps,
-    @required this.getAvailableFeelingDuration,
-    @required this.trackSubjectMood,
-    @required this.cacheMood,
+    required this.setSubjectName,
+    required this.getAllMoods,
+    required this.setSubjectMood,
+    required this.saveFeedback,
+    required this.getRapportBuildingSteps,
+    required this.getAvailableFeelingDuration,
+    required this.trackSubjectMood,
   });
 
   // ignore: type_annotate_public_apis
@@ -100,7 +97,7 @@ class RapportBuildingController extends GetxController {
       ),
     );
     toggleProcessor();
-    userNameSetOrFailure.fold(
+    userNameSetOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -116,7 +113,7 @@ class RapportBuildingController extends GetxController {
 
   Future<void> getAllAvailableMoods() async {
     final moodsOrFailure = await getAllMoods(NoParams());
-    moodsOrFailure.fold(
+    moodsOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -160,23 +157,17 @@ class RapportBuildingController extends GetxController {
       ),
     );
     toggleProcessor();
-    setMoodOrFailure.fold(
+    setMoodOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (fetchedUserMoodStatus) async {
-        //TODO Currently we are only caching the moodName
-        //TODO Change selectedEmotion to selectedMood for enhanced caching
-        await cacheUserMood(
-          mood: MoodModel(
-            id: 1,
-            moodName: selectedEmotion.value,
-            moodDescription: '',
-            icon: null,
-          ),
-        ).then((value) {
+        await Get.find<MoodDataCacheController>()
+            .cacheGivenMood(
+          moodModel: selectedMood.value as MoodModel,
+        )
+            .then((value) {
           userMoodStatus.value = fetchedUserMoodStatus;
-          // await fetchRapportBuildingSteps();
           currentOnBoardPageCounter.value += 1;
           currentSelectedPage.value = MidPageContentC(
             selectedEmotion: selectedEmotion.value,
@@ -190,7 +181,7 @@ class RapportBuildingController extends GetxController {
   Future<void> fetchAvailableDurations() async {
     final availableDurationsOrFailure =
         await getAvailableFeelingDuration(NoParams());
-    availableDurationsOrFailure.fold(
+    availableDurationsOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -214,14 +205,14 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     // TODO reduce this complexity
     final newTrackDuration = userMoodStatus.value as MoodTrackingModel;
-    newTrackDuration.moodDuration = selectedFeelingDuration.value.durationName;
+    newTrackDuration.moodDuration = selectedFeelingDuration.value!.durationName;
     final moodTrackingStatusOrFailure = await trackSubjectMood(
       TrackSubjectMoodParams(
         mood: newTrackDuration,
       ),
     );
     toggleProcessor();
-    moodTrackingStatusOrFailure.fold(
+    moodTrackingStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -232,11 +223,11 @@ class RapportBuildingController extends GetxController {
     );
   }
 
-  Future<void> persistSubjectFeeing({@required String feeling}) async {
+  Future<void> persistSubjectFeeing({required String feeling}) async {
     toggleProcessor();
     final persistStatus = await saveFeedback(
       SaveFeedbackParams(
-        subjetcId: subjectInfo.value.subjectId.id,
+        subjetcId: subjectInfo.value!.subjectId!.id,
         activityType: 'ONBOARDING',
         textFeedback: feeling,
         voiceNote: _voiceNoteController.currentVoiceNotePath.value,
@@ -245,40 +236,13 @@ class RapportBuildingController extends GetxController {
       ),
     );
     toggleProcessor();
-    persistStatus.fold(
+    persistStatus!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (persistenceMessage) async {
         log('feeling persisted');
         _voiceNoteController.cleanVoiceFilePath();
-      },
-    );
-  }
-
-  Future<void> cacheUserMood({
-    @required MoodModel mood,
-  }) async {
-    //TODO Replace the Mood model and enitiy being used here in core with the CcaheMoodModel and entity
-    //TODO For sake of cleaner code
-    toggleProcessor();
-    final statusOrFailure = await cacheMood(
-      CacheMoodParams(
-        mood: CachedMoodModel(
-          moodId: mood.moodId,
-          moodName: mood.moodName,
-          moodDescription: mood.moodDescription,
-          moodIcon: mood.moodIcon,
-        ),
-      ),
-    );
-    toggleProcessor();
-    statusOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
-      (persistenceMessage) async {
-        log('mood cached');
       },
     );
   }
@@ -297,13 +261,13 @@ class RapportBuildingController extends GetxController {
   // for setting a nickName
   RxString userName = RxString('');
   // For making global widget changes as per the selected index
-  Rx<Widget> currentSelectedPage = Rx<Widget>();
+  Rxn<Widget> currentSelectedPage = Rxn<Widget>();
   // For setting up a global mood
-  Rx<Mood> selectedMood = Rx<Mood>();
+  Rxn<Mood> selectedMood = Rxn<Mood>();
   // For getting status of dropdown
   RxBool isDropDownExpanded = RxBool(false);
   // For persisting selected feelingDuration from dropDown
-  Rx<FeelingDuration> selectedFeelingDuration = Rx<FeelingDurationModel>();
+  Rxn<FeelingDuration> selectedFeelingDuration = Rxn<FeelingDurationModel>();
   //For valid name input
   RxInt validName = 0.obs;
   // For storing rapport last step feeling
@@ -324,7 +288,7 @@ class RapportBuildingController extends GetxController {
 
   // For setting the selected feeling durationModel
   // ignore: use_setters_to_change_properties
-  void setFeelingDuration({@required FeelingDuration feelingDuration}) {
+  void setFeelingDuration({required FeelingDuration feelingDuration}) {
     selectedFeelingDuration.value = feelingDuration;
   }
 

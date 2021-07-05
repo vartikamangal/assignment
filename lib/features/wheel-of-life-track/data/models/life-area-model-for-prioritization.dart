@@ -7,7 +7,7 @@ import 'life-area-model.dart';
 
 class LifeAreaModelForPrioritization extends LifeAreaForPrioritization {
   const LifeAreaModelForPrioritization({
-    @required List<LifeAreaModel> lifeaAreas,
+    required List<LifeAreaModel> lifeaAreas,
   }) : super(
           lifeaAreas: lifeaAreas,
         );

@@ -14,19 +14,19 @@ import 'package:tatsam_app_experimental/core/error/failures.dart';
 
 class RecommendationFeedbackServiceImpl
     implements RecommendationFeedbackService {
-  final PersistRecommendationFeedbackLocalService localService;
+  final PersistRecommendationFeedbackLocalService? localService;
 
   RecommendationFeedbackServiceImpl({
-    @required this.localService,
+    required this.localService,
   });
   @override
   Future<Either<Failure, Unit>> persistFeedback({
-    ActivityStatusModel activityStatusModel,
-    String textInput,
-    String voiceNoteInput,
+    ActivityStatusModel? activityStatusModel,
+    String? textInput,
+    String? voiceNoteInput,
   }) async {
     try {
-      final status = await localService.persistFeedback(
+      final status = await localService!.persistFeedback(
         activityStatusModel: activityStatusModel,
         textInput: textInput,
         voiceNoteInput: voiceNoteInput,
@@ -41,7 +41,7 @@ class RecommendationFeedbackServiceImpl
   Future<Either<Failure, List<RecommendationInput>>>
       getpersistedFeedbacks() async {
     try {
-      final result = await localService.getPersistedFeedbacks();
+      final result = await localService!.getPersistedFeedbacks();
       return Right(result);
     } on CacheException {
       return Left(CacheFailure());

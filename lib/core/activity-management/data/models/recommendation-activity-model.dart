@@ -10,21 +10,21 @@ import 'tag-model.dart';
 
 class ActivityRecommendationModel extends ActivityRecommendation {
   const ActivityRecommendationModel({
-    @required String id,
-    @required String title,
-    @required String subtitle,
-    @required ImageProp iconVO,
-    @required int durationInMinutes,
-    @required String messageOnReceivingFeedback,
-    @required String messageOnCompletion,
-    @required String recommendationStatus,
-    @required String frequencyMetric,
-    @required int frequency,
-    @required String actionTime,
-    @required String criticality,
-    @required RecommendationCategoryModel categoryVO,
-    @required List<RecommendationStepModel> recommendationStepsVO,
-    @required List<TagModel> tags,
+    required String? id,
+    required String? title,
+    required String? subtitle,
+    required ImageProp iconVO,
+    required int? durationInMinutes,
+    required String? messageOnReceivingFeedback,
+    required String? messageOnCompletion,
+    required String? recommendationStatus,
+    required String? frequencyMetric,
+    required int? frequency,
+    required String? actionTime,
+    required String? criticality,
+    required RecommendationCategoryModel? categoryVO,
+    required List<RecommendationStepModel>? recommendationStepsVO,
+    required List<TagModel> tags,
   }) : super(
           frequency: frequency,
           recommendationStatus: recommendationStatus,
@@ -45,19 +45,19 @@ class ActivityRecommendationModel extends ActivityRecommendation {
 
   factory ActivityRecommendationModel.fromJson(Map<String, dynamic> jsonMap) {
     return ActivityRecommendationModel(
-      id: jsonMap['id'] as String,
-      title: jsonMap['title'] as String,
-      subtitle: jsonMap['subtitle'] as String,
+      id: jsonMap['id'] as String?,
+      title: jsonMap['title'] as String?,
+      subtitle: jsonMap['subtitle'] as String?,
       iconVO: const ImageProp(),
-      durationInMinutes: jsonMap['durationInMinutes'] as int,
+      durationInMinutes: jsonMap['durationInMinutes'] as int?,
       messageOnReceivingFeedback:
-          jsonMap['messageOnReceivingFeedback'] as String,
-      messageOnCompletion: jsonMap['messageOnCompletion'] as String,
-      recommendationStatus: jsonMap['recommendationStatus'] as String,
-      frequencyMetric: jsonMap['frequencyMetric'] as String,
-      frequency: jsonMap['frequency'] as int,
-      actionTime: jsonMap['actionTime'] as String,
-      criticality: jsonMap['criticality'] as String,
+          jsonMap['messageOnReceivingFeedback'] as String?,
+      messageOnCompletion: jsonMap['messageOnCompletion'] as String?,
+      recommendationStatus: jsonMap['recommendationStatus'] as String?,
+      frequencyMetric: jsonMap['frequencyMetric'] as String?,
+      frequency: jsonMap['frequency'] as int?,
+      actionTime: jsonMap['actionTime'] as String?,
+      criticality: jsonMap['criticality'] as String?,
       //! Due to change in varNames in GUIDED AND SELF-DRIVEN RESPONSE
       categoryVO: (jsonMap['categoryVO'] != null)
           ? RecommendationCategoryModel.fromJson(
@@ -110,7 +110,7 @@ class ActivityRecommendationModel extends ActivityRecommendation {
       "actionTime": actionTime,
       "criticality": criticality,
       "categoryVO": (categoryVO as RecommendationStepModel).toJson(),
-      "recommendationStepsVO": recommendationStepsVO
+      "recommendationStepsVO": recommendationStepsVO!
           .map(
             (step) => (step as RecommendationStepModel).toJson(),
           )

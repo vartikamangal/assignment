@@ -18,7 +18,7 @@ class MockProfileDetailsRepository extends Mock
 
 void main() {
   MockProfileDetailsRepository repository;
-  GetProfileQuestions useCase;
+  late GetProfileQuestions useCase;
 
   setUp(() {
     repository = MockProfileDetailsRepository();

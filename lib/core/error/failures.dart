@@ -40,14 +40,14 @@ class NotPermittedActionFailure extends Failure {
 
 class AuthFailure extends Failure {
   final String title;
-  final String details;
+  final String? details;
 
   const AuthFailure({
-    @required this.title,
-    @required this.details,
+    required this.title,
+    required this.details,
   });
   @override
-  List<Object> get props => [title, details];
+  List<Object?> get props => [title, details];
 }
 
 class PlaybackFailure extends Failure {
@@ -63,7 +63,7 @@ class AnalyticsInitializationFailure extends Failure {
 class AbandonedPageNotFoundFailure extends Failure {
   final AppRoute fallbackRoute;
 
-  const AbandonedPageNotFoundFailure({@required this.fallbackRoute});
+  const AbandonedPageNotFoundFailure({required this.fallbackRoute});
 
   @override
   List<Object> get props => [fallbackRoute];

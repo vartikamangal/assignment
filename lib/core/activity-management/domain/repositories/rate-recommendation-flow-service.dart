@@ -9,7 +9,7 @@ import 'package:tatsam_app_experimental/core/activity-management/data/models/fee
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 
 abstract class RateRecommendationFlowService {
-  Future<Either<Failure, Unit>> rateRecommendation({
-    @required FeedbackModel feedback,
+  Future<Either<Failure, Unit>?> rateRecommendation({
+    required FeedbackModel feedback,
   });
 }

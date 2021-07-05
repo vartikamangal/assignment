@@ -12,10 +12,10 @@ import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 
 class RadialBoxForPathSelection extends StatelessWidget {
-  final Callback onPressed;
-  final String title;
-  final String subtitle;
-  final String imgUrl;
+  final Callback? onPressed;
+  final String? title;
+  final String? subtitle;
+  final String? imgUrl;
   const RadialBoxForPathSelection({
     this.onPressed,
     this.title,
@@ -60,7 +60,7 @@ class RadialBoxForPathSelection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    title,
+                    title!,
                     style: AppTextStyle.choosePathOption,
                     textScaleFactor: textScaleFactor,
                   ),
@@ -75,7 +75,7 @@ class RadialBoxForPathSelection extends StatelessWidget {
                             ).value,
                           ),
                           child: Text(
-                            subtitle,
+                            subtitle!,
                             style: AppTextStyle.choosepathSubtitle,
                             textAlign: TextAlign.justify,
                             textScaleFactor: textScaleFactor,
@@ -106,7 +106,7 @@ class RadialBoxForPathSelection extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Image.asset(
-                  imgUrl,
+                  imgUrl!,
                   scale: imageScaleFactor,
                 ),
               ),

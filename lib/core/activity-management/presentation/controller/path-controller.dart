@@ -69,16 +69,16 @@ class PathController extends GetxController {
   final SaveFeedback saveFeedback;
 
   PathController({
-    @required this.getAllRecommendationCategories,
-    @required this.getCategoryActivities,
-    @required this.startActivity,
-    @required this.updateActivityStatus,
-    @required this.getActivityScheduleForGuidedPlan,
-    @required this.persistRecommendationFeedback,
-    @required this.rateRecommendationFlow,
-    @required this.cacheMostRecentAcitivity,
-    @required this.retrieveUserPath,
-    @required this.saveFeedback,
+    required this.getAllRecommendationCategories,
+    required this.getCategoryActivities,
+    required this.startActivity,
+    required this.updateActivityStatus,
+    required this.getActivityScheduleForGuidedPlan,
+    required this.persistRecommendationFeedback,
+    required this.rateRecommendationFlow,
+    required this.cacheMostRecentAcitivity,
+    required this.retrieveUserPath,
+    required this.saveFeedback,
   });
   /////// Dynamic Data Containers ////////////
   RxList<RecommendationCategory> recommendationCategories =
@@ -90,9 +90,9 @@ class PathController extends GetxController {
   );
 
   //? From here we will get journeyId, actionId & recommendationId
-  Rx<ActivityStatus> currentOngoingActivity = Rx<ActivityStatusModel>();
+  Rxn<ActivityStatus> currentOngoingActivity = Rxn<ActivityStatusModel>();
 
-  Rx<ActivitySceduleGuided> guidedPlan = Rx<ActivityScheduleGuidedModel>();
+  Rxn<ActivitySceduleGuided> guidedPlan = Rxn<ActivityScheduleGuidedModel>();
 
   // data holder for user-selected-path
   RxString userSelectedPath = RxString('');
@@ -107,7 +107,7 @@ class PathController extends GetxController {
   Future<void> fetchCategories() async {
     final fetchedCategoriesOrFailure =
         await getAllRecommendationCategories(NoParams());
-    fetchedCategoriesOrFailure.fold(
+    fetchedCategoriesOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -124,7 +124,7 @@ class PathController extends GetxController {
   Future<void> fetchGuidedPlanSchedule() async {
     final fetchedActivitiesOrFailure =
         await getActivityScheduleForGuidedPlan(NoParams());
-    fetchedActivitiesOrFailure.fold(
+    fetchedActivitiesOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -136,7 +136,7 @@ class PathController extends GetxController {
   }
 
   Future<void> fetchCategoryActivitiesAndProceed({
-    @required RecommendationCategoryModel categoryModel,
+    required RecommendationCategoryModel categoryModel,
   }) async {
     toggleProcessor();
     final fetchedCategoryActivitiesOrFailure = await getCategoryActivities(
@@ -145,7 +145,7 @@ class PathController extends GetxController {
       ),
     );
     toggleProcessor();
-    fetchedCategoryActivitiesOrFailure.fold(
+    fetchedCategoryActivitiesOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -161,7 +161,7 @@ class PathController extends GetxController {
   }
 
   Future<void> startActivityTrigger(
-      {@required String activityId, @required bool isInstantActivity}) async {
+      {required String? activityId, required bool isInstantActivity}) async {
     toggleProcessor();
     final activityStatusOrFailure = await startActivity(
       StartAcitvityParams(
@@ -170,7 +170,7 @@ class PathController extends GetxController {
       ),
     );
     toggleProcessor();
-    activityStatusOrFailure.fold(
+    activityStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -182,17 +182,17 @@ class PathController extends GetxController {
   }
 
   Future<void> updateActivityStatusTrigger({
-    @required ActionStatus actionStatus,
+    required ActionStatus actionStatus,
   }) async {
     toggleProcessor();
     final activityStatusOrFailure = await updateActivityStatus(
       UpdateActivityStatusParams(
         status: actionStatus.toString().enumToString(),
-        actionId: currentOngoingActivity.value.id,
+        actionId: currentOngoingActivity.value!.id,
       ),
     );
     toggleProcessor();
-    activityStatusOrFailure.fold(
+    activityStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -204,7 +204,7 @@ class PathController extends GetxController {
           log('not caching due to Status == !COMPLETE');
         }
         currentOngoingActivity.value = activityStatus;
-        log('updated activity status to ${currentOngoingActivity.value.actionStatus}');
+        log('updated activity status to ${currentOngoingActivity.value!.actionStatus}');
       },
     );
   }
@@ -214,7 +214,7 @@ class PathController extends GetxController {
       CacheMostRecentAcitivityParams(
         acitivity: CacheAcitivityModel(
           //! Currenlty set to actionId
-          id: currentOngoingActivity.value.id.toString(),
+          id: currentOngoingActivity.value!.id.toString(),
           title: selectedActivityTitle.value,
           subtitle: selectedActivitySubtitle.value,
           //TODO to be added later
@@ -222,7 +222,7 @@ class PathController extends GetxController {
         ),
       ),
     );
-    activityCachedOrFailure.fold(
+    activityCachedOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -237,7 +237,7 @@ class PathController extends GetxController {
     final persistedInputOrFailure = await persistRecommendationFeedback(
       PersistRecommendationFeedbackParams(
         activityStatusModel:
-            currentOngoingActivity.value as ActivityStatusModel,
+            currentOngoingActivity.value as ActivityStatusModel?,
         textInput: userTextFeedback.value,
         voiceNoteInput: _voiceNoteController.currentVoiceNotePath.value,
       ),
@@ -270,8 +270,8 @@ class PathController extends GetxController {
   }
 
   Future<void> rateActivity({
-    @required String mood,
-    @required int elapsedTime,
+    required String? mood,
+    required int elapsedTime,
   }) async {
     toggleProcessor();
     final ratedActivityOrFailure = await rateRecommendationFlow(
@@ -284,13 +284,13 @@ class PathController extends GetxController {
           // Change this to a time tracker
           minutesSpent: elapsedTime,
           feedbackThoughts: userTextFeedback.value,
-          recommendationId: currentOngoingActivity.value.recommendationId,
-          actionId: currentOngoingActivity.value.id,
+          recommendationId: currentOngoingActivity.value!.recommendationId,
+          actionId: currentOngoingActivity.value!.id,
         ),
       ),
     );
     toggleProcessor();
-    ratedActivityOrFailure.fold(
+    ratedActivityOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -309,7 +309,7 @@ class PathController extends GetxController {
     final userPathOrFailure = await retrieveUserPath(
       NoParams(),
     );
-    userPathOrFailure.fold(
+    userPathOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -329,24 +329,24 @@ class PathController extends GetxController {
   RxString selectedOption = RxString('');
   RxString userName = RxString('');
   RxString userTextFeedback = RxString('');
-  Rx<RecommendationCategoryModel> selectedCategory =
-      Rx<RecommendationCategoryModel>();
+  Rxn<RecommendationCategoryModel> selectedCategory =
+      Rxn<RecommendationCategoryModel>();
   RxInt maxActivityPerformingPages = RxInt(0);
   RxInt currentActivityPerformingPages = RxInt(0);
-  Rx<Recommendation> selectedActivity = Rx<RecommendationModel>();
+  Rxn<Recommendation> selectedActivity = Rxn<RecommendationModel>();
   // Above one was too diffenrent for GUIDED & S.D, that's why had to use this
   RxString selectedActivityTitle = RxString('');
   RxString selectedActivitySubtitle = RxString('');
-  Rx<Widget> currentOngoingActivityScreen = Rx<Widget>(Container());
+  Rxn<Widget> currentOngoingActivityScreen = Rxn<Widget>(Container());
   RxMap<String, RecommendationStep> templateToRecommendationMapperSelf =
       RxMap({});
   RxMap<String, RecommendationStep> templateToRecommendationMapperGuided =
       RxMap({});
-  Rx<GuidedActivityRecommendation> selectedDayPlan =
-      Rx<GuidedActivityRecommendationModel>();
+  Rxn<GuidedActivityRecommendation> selectedDayPlan =
+      Rxn<GuidedActivityRecommendationModel>();
 
   ///for focus on text field
-  RxBool isFocusOn=RxBool(false);
+  RxBool isFocusOn = RxBool(false);
 
   /// Video/Audio Helpers
   final RxBool _isPlayableComplete = RxBool(false);
@@ -355,12 +355,14 @@ class PathController extends GetxController {
   /// The bottom Done btn will become visible
   bool get footerVisibility => _isPlayableComplete.value;
 
-  void focusChanged(){
-    isFocusOn.value=true;
+  void focusChanged() {
+    isFocusOn.value = true;
   }
-  void focusCancelled(){
-    isFocusOn.value=false;
+
+  void focusCancelled() {
+    isFocusOn.value = false;
   }
+
   set footerVisibility(bool visibilty) {
     _isPlayableComplete.value = visibilty;
   }
@@ -389,20 +391,20 @@ class PathController extends GetxController {
 
   // ignore: use_setters_to_change_properties
   //TODO Remove duplicacy for this content-mapping
-  void setRecommendation({@required RecommendationModel recommendation}) {
+  void setRecommendation({required RecommendationModel recommendation}) {
     maxActivityPerformingPages.value =
-        recommendation.activity.recommendationStepsVO.length;
+        recommendation.activity.recommendationStepsVO!.length;
     currentActivityPerformingPages.value = 0;
     selectedActivity.value = recommendation;
-    selectedActivityTitle.value = recommendation.activity.title;
-    selectedActivitySubtitle.value = recommendation.activity.subtitle;
+    selectedActivityTitle.value = recommendation.activity.title!;
+    selectedActivitySubtitle.value = recommendation.activity.subtitle!;
     activityDuration.value =
         recommendation.activity.durationInMinutes.toString();
     // Below will add the activitySteps in a relational-mapper
     // This will avoid the problem of loops and WillPopScope on each page
     // And managing different states of index
     for (final activitySteps
-        in selectedActivity.value.activity.recommendationStepsVO) {
+        in selectedActivity.value!.activity.recommendationStepsVO!) {
       templateToRecommendationMapperSelf.addIf(
         activitySteps.stepName == 'CONTENT',
         'CONTENT',
@@ -422,14 +424,14 @@ class PathController extends GetxController {
   }
 
   void setGuidedActivityFlow({
-    @required ActivityRecommendation recommendation,
+    required ActivityRecommendation recommendation,
     // helper for setting which activity is user performing currently
-    @required int selectedActivityIndex,
+    required int selectedActivityIndex,
   }) {
     activityDuration.value = recommendation.durationInMinutes.toString();
-    selectedActivityTitle.value = recommendation.title;
-    selectedActivitySubtitle.value = recommendation.subtitle;
-    for (final activityFlowData in recommendation.recommendationStepsVO) {
+    selectedActivityTitle.value = recommendation.title!;
+    selectedActivitySubtitle.value = recommendation.subtitle!;
+    for (final activityFlowData in recommendation.recommendationStepsVO!) {
       templateToRecommendationMapperGuided.addIf(
         activityFlowData.stepName == 'CONTENT',
         'CONTENT',

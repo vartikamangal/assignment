@@ -23,7 +23,7 @@ class PathPlaySection2 extends StatelessWidget {
     final imageScaleFactor = ScaleManager.imageScale.value;
     final textScaleFactor = ScaleManager.textScale.value;
     final bool _isSmallWinsActivity =
-        Get.find<ChoosePathController>().selectedJourney.value.pathName ==
+        Get.find<ChoosePathController>().selectedJourney.value!.pathName ==
             'SMALL_WINS';
     return SafeArea(
       child: Scaffold(
@@ -65,8 +65,8 @@ class PathPlaySection2 extends StatelessWidget {
                         top: ScaleManager.spaceScale(spaceing: 20).value),
                     child: Text(
                       _isSmallWinsActivity
-                          ? _controller.selectedActivity.value.activity.title
-                          : _controller.selectedDayPlan.value.title,
+                          ? _controller.selectedActivity.value!.activity.title!
+                          : _controller.selectedDayPlan.value!.title!,
                     ),
                   ),
                   Container(

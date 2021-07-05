@@ -12,13 +12,13 @@ class WeekendWidgetInjector extends StatelessWidget {
   final String userPath;
 
   const WeekendWidgetInjector({
-    Key key,
-    @required this.weekDay,
-    @required this.placeHolderWidget,
-    @required this.toShowCatgories,
-    @required this.userPath,
-    @required this.widgetToShow,
-    @required this.isNewUser,
+    Key? key,
+    required this.weekDay,
+    required this.placeHolderWidget,
+    required this.toShowCatgories,
+    required this.userPath,
+    required this.widgetToShow,
+    required this.isNewUser,
   }) : super(key: key);
 
   @override

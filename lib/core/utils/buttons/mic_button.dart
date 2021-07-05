@@ -12,7 +12,7 @@ import '../../responsive/scale-manager.dart';
 import '../color-pallete.dart';
 
 class Mic_Button extends StatelessWidget {
-  final Callback onpressed;
+  final Callback? onpressed;
   const Mic_Button({this.onpressed});
   @override
   Widget build(BuildContext context) {

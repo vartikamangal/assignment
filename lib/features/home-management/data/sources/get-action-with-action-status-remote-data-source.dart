@@ -12,27 +12,27 @@ import '../models/post-onboparding-action-model.dart';
 
 abstract class GetActionWithActionStatusRemoteDataSource {
   Future<List<PostOnboardingActionModel>> getAction({
-    @required String actionStatus,
+    required String? actionStatus,
   });
 }
 
 class GetActionWithActionStatusRemoteDataSourceImpl
     implements GetActionWithActionStatusRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final ApiClient? client;
+  final ThrowExceptionIfResponseError? throwExceptionIfResponseError;
 
   GetActionWithActionStatusRemoteDataSourceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    required this.client,
+    required this.throwExceptionIfResponseError,
   });
   @override
   Future<List<PostOnboardingActionModel>> getAction({
-    String actionStatus,
+    String? actionStatus,
   }) async {
-    final response = await client.get(
+    final response = await client!.get(
       uri: "${APIRoute.getActionWithActionStatus}${"/$actionStatus"}",
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    throwExceptionIfResponseError!(statusCode: response.statusCode);
     final actionsRaw = jsonDecode(response.body) as List;
     return actionsRaw
         .map(

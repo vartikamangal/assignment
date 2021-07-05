@@ -14,8 +14,8 @@ class TopLeftGradientButtonExtended extends StatelessWidget {
   final Callback onPressed;
   final String label;
   const TopLeftGradientButtonExtended({
-    @required this.onPressed,
-    @required this.label,
+    required this.onPressed,
+    required this.label,
   });
   @override
   Widget build(BuildContext context) {

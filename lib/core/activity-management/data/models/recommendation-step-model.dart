@@ -7,14 +7,14 @@ import '../../domain/entities/recommendation-step.dart';
 
 class RecommendationStepModel extends RecommendationStep {
   const RecommendationStepModel({
-    @required int id,
-    @required String stepTitle,
-    @required String stepHelp,
-    @required String stepName,
-    @required int stepSequence,
-    @required ImageProp iconVO,
-    @required String templateName,
-    @required String stepContent,
+    required int? id,
+    required String? stepTitle,
+    required String? stepHelp,
+    required String? stepName,
+    required int? stepSequence,
+    required ImageProp iconVO,
+    required String? templateName,
+    required String? stepContent,
   }) : super(
           templateName: templateName,
           stepContent: stepContent,
@@ -28,14 +28,14 @@ class RecommendationStepModel extends RecommendationStep {
 
   factory RecommendationStepModel.fromJson(Map<String, dynamic> jsonMap) {
     return RecommendationStepModel(
-      id: jsonMap['id'] as int,
-      stepTitle: jsonMap['stepTitle'] as String,
-      stepHelp: jsonMap['stepHelp'] as String,
-      stepName: jsonMap['stepName'] as String,
-      stepSequence: jsonMap['stepSequence'] as int,
+      id: jsonMap['id'] as int?,
+      stepTitle: jsonMap['stepTitle'] as String?,
+      stepHelp: jsonMap['stepHelp'] as String?,
+      stepName: jsonMap['stepName'] as String?,
+      stepSequence: jsonMap['stepSequence'] as int?,
       iconVO: const ImageProp(),
-      templateName: jsonMap['templateName'] as String,
-      stepContent: jsonMap['stepContent'] as String,
+      templateName: jsonMap['templateName'] as String?,
+      stepContent: jsonMap['stepContent'] as String?,
     );
   }
 

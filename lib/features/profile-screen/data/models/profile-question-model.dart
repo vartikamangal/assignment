@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
+
 import '../../../../core/activity-management/data/models/tag-model.dart';
-import 'question-info-model.dart';
-import '../../domain/entities/profile-question.dart';
 import '../../../questionnaire-track/data/models/question-option-model.dart';
+import '../../domain/entities/profile-question.dart';
+import 'question-info-model.dart';
 
 class ProfileQuestionModel extends ProfileQuestion {
   const ProfileQuestionModel({
-    @required String id,
-    @required String questionType,
-    @required String status,
-    @required DateTime creationTime,
-    @required DateTime lastModifiedTime,
-    @required String name,
-    @required List<TagModel> tags,
-    @required List<QuestionOptionModel> questionOptions,
-    @required QuestionInfoModel questionInformation,
+    required String? id,
+    required String? questionType,
+    required String? status,
+    required DateTime creationTime,
+    required DateTime lastModifiedTime,
+    required String? name,
+    required List<TagModel> tags,
+    required List<QuestionOptionModel> questionOptions,
+    required QuestionInfoModel questionInformation,
   }) : super(
           name: name,
           status: status,
@@ -29,12 +30,12 @@ class ProfileQuestionModel extends ProfileQuestion {
 
   factory ProfileQuestionModel.fromJson(Map<String, dynamic> jsonMap) {
     return ProfileQuestionModel(
-      id: jsonMap['id'] as String,
-      questionType: jsonMap['questionType'] as String,
-      status: jsonMap['status'] as String,
+      id: jsonMap['id'] as String?,
+      questionType: jsonMap['questionType'] as String?,
+      status: jsonMap['status'] as String?,
       creationTime: DateTime.parse(jsonMap['creationTime'] as String),
       lastModifiedTime: DateTime.parse(jsonMap['lastModifiedTime'] as String),
-      name: jsonMap['name'] as String,
+      name: jsonMap['name'] as String?,
       tags: (jsonMap['tags'] as List)
           .map(
             (tag) => TagModel.fromJson(tag as Map<String, dynamic>),

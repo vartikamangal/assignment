@@ -14,8 +14,8 @@ class MockAppPageStatusLocalDataSource extends Mock
     implements AppPageStatusLocalDataSource {}
 
 void main() {
-  MockAppPageStatusLocalDataSource localDataSource;
-  AppPageStatusRepositoryImpl repositoryImpl;
+  MockAppPageStatusLocalDataSource? localDataSource;
+  late AppPageStatusRepositoryImpl repositoryImpl;
 
   setUp(() {
     localDataSource = MockAppPageStatusLocalDataSource();
@@ -50,7 +50,7 @@ void main() {
     test('should get the [AppRouteModel] with the help of localDataSource',
         () async {
       //arrange
-      when(localDataSource.getLastAbandonedPage(
+      when(localDataSource!.getLastAbandonedPage(
         hubStatusModel: anyNamed("hubStatusModel"),
       )).thenAnswer((_) async => tAppRouteModel);
       //act
@@ -58,7 +58,7 @@ void main() {
         hubStatusModel: tHubStatus,
       );
       //assert
-      verify(localDataSource.getLastAbandonedPage(hubStatusModel: tHubStatus));
+      verify(localDataSource!.getLastAbandonedPage(hubStatusModel: tHubStatus));
       expect(result, const Right(tAppRouteModel));
     });
     // test(

@@ -11,14 +11,14 @@ import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 
 class ReliefAreaCard extends StatelessWidget {
   const ReliefAreaCard({
-    Key key,
-    @required this.imageAddress,
-    @required this.title,
-    @required this.onTap,
+    Key? key,
+    required this.imageAddress,
+    required this.title,
+    required this.onTap,
   }) : super(key: key);
 
   final String imageAddress;
-  final String title;
+  final String? title;
   final Callback onTap;
 
   @override
@@ -58,7 +58,7 @@ class ReliefAreaCard extends StatelessWidget {
                 ).value,
               ),
               child: Text(
-                title,
+                title!,
                 style: AppTextStyle.greysmall,
                 textAlign: TextAlign.center,
                 textScaleFactor: textScaleFactor,

@@ -24,12 +24,12 @@ class AuthController extends GetxController {
   final RetrieveUserOnboardingStatus retrieveUserOnboardingStatus;
 
   AuthController({
-    @required this.checkIfAuthenticated,
-    @required this.oauthLogin,
-    @required this.requestLogout,
-    @required this.requestNewToken,
-    @required this.retrieveUserOnboardingStatus,
-    @required this.oAuthSignup,
+    required this.checkIfAuthenticated,
+    required this.oauthLogin,
+    required this.requestLogout,
+    required this.requestNewToken,
+    required this.retrieveUserOnboardingStatus,
+    required this.oAuthSignup,
   });
   // Dynamic data containers
 
@@ -55,7 +55,7 @@ class AuthController extends GetxController {
   }
 
   // Usecase helpers
-  Future<void> signup({@required String redirectRoute}) async {
+  Future<void> signup({required String redirectRoute}) async {
     toggleProcessor();
     final failureOrResult = await oAuthSignup(NoParams());
     toggleProcessor();
@@ -70,7 +70,7 @@ class AuthController extends GetxController {
         );
       },
       (status) async {
-        Navigator.of(Get.context).pushNamedAndRemoveUntil(
+        Navigator.of(Get.context!).pushNamedAndRemoveUntil(
           redirectRoute,
           (_) => false,
         );
@@ -79,10 +79,8 @@ class AuthController extends GetxController {
   }
 
   Future<void> checkUserOnboardingStatus() async {
-    final statusOrFailure = await retrieveUserOnboardingStatus(
-      NoParams(),
-    );
-    statusOrFailure.fold(
+    final statusOrFailure = await retrieveUserOnboardingStatus(NoParams());
+    statusOrFailure!.fold(
       (failure) {},
       (status) {
         if (status == 'COMPLETE') {
@@ -103,7 +101,7 @@ class AuthController extends GetxController {
   }
 
   void navigateBasedOnOnboardingStatus({
-    @required bool isPreviouslyOnboarded,
+    required bool isPreviouslyOnboarded,
   }) {
     if (isPreviouslyOnboarded) {
       Get.offAllNamed(

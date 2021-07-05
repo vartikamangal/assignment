@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 
 class EmergencyNumber extends Equatable {
-  final String number;
+  final String? number;
 
-  const EmergencyNumber({@required this.number});
+  const EmergencyNumber({required this.number});
   @override
-  List<Object> get props => [number];
+  List<Object?> get props => [number];
 }

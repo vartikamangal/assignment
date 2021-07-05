@@ -36,28 +36,27 @@ class RootController extends GetxController {
   final GetHubStatus getHubStatus;
 
   RootController({
-    @required this.retrieveUserOnboardingStatus,
-    @required this.saveIsFirstTimeOnboardingStatus,
-    @required this.checkIfAuthenticated,
-    @required this.logAppStartTime,
-    @required this.getIsMoodPopupShownStatus,
-    @required this.retirieveLastLoggedAppInit,
-    @required this.toggleMoodPopupShownState,
-    @required this.clearDirtyCacheOnFirstRun,
-    @required this.getLastAbandonedPage,
-    @required this.getHubStatus,
+    required this.retrieveUserOnboardingStatus,
+    required this.saveIsFirstTimeOnboardingStatus,
+    required this.checkIfAuthenticated,
+    required this.logAppStartTime,
+    required this.getIsMoodPopupShownStatus,
+    required this.retirieveLastLoggedAppInit,
+    required this.toggleMoodPopupShownState,
+    required this.clearDirtyCacheOnFirstRun,
+    required this.getLastAbandonedPage,
+    required this.getHubStatus,
   });
 
   // Dynamic data holders
   RxBool hasOnboardedPreviously = RxBool(false);
-  Rx<HubStatus> hubStatus = Rx<HubStatusModel>();
+  Rxn<HubStatus> hubStatus = Rxn<HubStatusModel>();
 
   // Usecase assistors
   Future<void> checkIfAlreadyOnboarded() async {
-    final onBoardingStatusOrFailure = await retrieveUserOnboardingStatus(
-      NoParams(),
-    );
-    onBoardingStatusOrFailure.fold(
+    final onBoardingStatusOrFailure =
+        await retrieveUserOnboardingStatus(NoParams());
+    onBoardingStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -128,13 +127,12 @@ class RootController extends GetxController {
   //   );
   // }
 
-  Future<void> updateIsFirstTimeIfOnBoarded({@required String yesOrNo}) async {
+  Future<void> updateIsFirstTimeIfOnBoarded({required String yesOrNo}) async {
     final onBoardingStatusOrFailure = await saveIsFirstTimeOnboardingStatus(
-      SaveIsFirstTimeOnboardingStatusParams(
-        onBoardingStatus: yesOrNo,
-      ),
-    );
-    onBoardingStatusOrFailure.fold(
+        SaveIsFirstTimeOnboardingStatusParams(
+      onBoardingStatus: yesOrNo,
+    ));
+    onBoardingStatusOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -145,12 +143,12 @@ class RootController extends GetxController {
   }
 
   Future<void> navigateBasedOnLoginStatus({
-    @required bool isLoggedIn,
+    required bool isLoggedIn,
   }) async {
     addDelay(() {
       if (isLoggedIn) {
         if (hasOnboardedPreviously.value) {
-          Navigator.of(Get.context).pushNamedAndRemoveUntil(
+          Navigator.of(Get.context!).pushNamedAndRemoveUntil(
             RouteName.onBoardingIncomplete,
             (route) => false,
           );
@@ -158,7 +156,7 @@ class RootController extends GetxController {
           gotoRecentlyLeftPage();
         }
       } else {
-        Navigator.of(Get.context).pushNamedAndRemoveUntil(
+        Navigator.of(Get.context!).pushNamedAndRemoveUntil(
           RouteName.origin,
           (route) => false,
         );
@@ -167,10 +165,8 @@ class RootController extends GetxController {
   }
 
   Future<void> logAppInit() async {
-    final failureOrResult = await logAppStartTime(
-      NoParams(),
-    );
-    failureOrResult.fold(
+    final failureOrResult = await logAppStartTime(NoParams());
+    failureOrResult!.fold(
       (f) {
         ErrorInfo.show(f);
       },
@@ -181,10 +177,8 @@ class RootController extends GetxController {
   }
 
   Future<void> getAppLastLoggedTime() async {
-    final failureOrResult = await retirieveLastLoggedAppInit(
-      NoParams(),
-    );
-    failureOrResult.fold(
+    final failureOrResult = await retirieveLastLoggedAppInit(NoParams());
+    failureOrResult!.fold(
       (f) {
         log(f.toString());
       },
@@ -195,9 +189,7 @@ class RootController extends GetxController {
   }
 
   Future<void> toggleMoodPopup() async {
-    final failureOrResult = await toggleMoodPopupShownState(
-      NoParams(),
-    );
+    final failureOrResult = await toggleMoodPopupShownState(NoParams());
     failureOrResult.fold(
       (f) {
         log(f.toString());
@@ -210,9 +202,7 @@ class RootController extends GetxController {
 
   Future<void> checkIfMoodPopupShown() async {
     final dateToday = generateDateFromDateTime(DateTime.now());
-    final failureOrResult = await getIsMoodPopupShownStatus(
-      NoParams(),
-    );
+    final failureOrResult = await getIsMoodPopupShownStatus(NoParams());
     failureOrResult.fold(
       (f) {
         log("couldn't get the log-duration");
@@ -246,7 +236,7 @@ class RootController extends GetxController {
   /// To be renamed later
   Future<void> getUserDetails() async {
     final failureOrResult = await getHubStatus(NoParams());
-    failureOrResult.fold(
+    failureOrResult!.fold(
       (f) => log("couln't hub details for navigating post-login", error: f),
       (usrDetails) => hubStatus.value = usrDetails,
     );
@@ -263,7 +253,7 @@ class RootController extends GetxController {
         "couldn't get last abndoned page, Going to ${appFallbackRoute.name}",
         error: f,
       ),
-      (r) => Navigator.of(Get.context).pushNamedAndRemoveUntil(
+      (r) => Navigator.of(Get.context!).pushNamedAndRemoveUntil(
         //TODO change to r.name once api{/rapport/subject} gets fully stable
         RouteName.rapportPages,
         (route) => false,
@@ -272,14 +262,15 @@ class RootController extends GetxController {
   }
 
   // UI managers
-  Rx<Widget> screenToStartWith = Rx<Widget>();
-  Rx<String> appLastLoggedTime = Rx<String>();
+  Rxn<Widget> screenToStartWith = Rxn<Widget>();
+  Rxn<String> appLastLoggedTime = Rxn<String>();
   // initial setup
   Future<void> setup() async {
     await clearInitialDirtyCache();
     await logAppInit();
     await getAppLastLoggedTime();
     await getUserDetails();
+    // Errored Sequence!!
     await checkIfAlreadyOnboarded();
     await isAlreadyLoggedIn();
     await checkIfMoodPopupShown();

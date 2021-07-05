@@ -15,19 +15,19 @@ abstract class GetActivityScheduleForGuidedPlanRemoteDataSource {
 
 class GetActivityScheduleForGuidedPlanRemoteDataSourceImpl
     implements GetActivityScheduleForGuidedPlanRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final ApiClient? client;
+  final ThrowExceptionIfResponseError? throwExceptionIfResponseError;
 
   GetActivityScheduleForGuidedPlanRemoteDataSourceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    required this.client,
+    required this.throwExceptionIfResponseError,
   });
   @override
   Future<ActivityScheduleGuidedModel> getSchedule() async {
-    final response = await client.post(
+    final response = await client!.post(
       uri: APIRoute.getActivityScheduleForGuided,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    throwExceptionIfResponseError!(statusCode: response.statusCode);
     final rawSchedule = jsonDecode(response.body) as Map;
     return ActivityScheduleGuidedModel.fromJson(
       rawSchedule as Map<String, dynamic>,

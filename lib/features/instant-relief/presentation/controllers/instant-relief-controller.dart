@@ -34,10 +34,10 @@ class InstantReliefController extends GetxController {
   final CheckIfAuthenticated checkIfAuthenticated;
 
   InstantReliefController({
-    @required this.getInstantReliefAreas,
-    @required this.listEmergencyNumbers,
-    @required this.getInstantRecommendations,
-    @required this.checkIfAuthenticated,
+    required this.getInstantReliefAreas,
+    required this.listEmergencyNumbers,
+    required this.getInstantRecommendations,
+    required this.checkIfAuthenticated,
   });
 
   // Data containers
@@ -49,7 +49,7 @@ class InstantReliefController extends GetxController {
 
   // UI management variables
   RxBool isProcessing = RxBool(false);
-  Rx<InstantReliefArea> selectedArea = Rx<InstantReliefAreaModel>();
+  Rxn<InstantReliefArea> selectedArea = Rxn<InstantReliefAreaModel>();
 
   // UI management methods
   void toggleProcessor() {
@@ -74,7 +74,7 @@ class InstantReliefController extends GetxController {
     final emergencyNumbersOrFailure = await listEmergencyNumbers(
       NoParams(),
     );
-    emergencyNumbersOrFailure.fold(
+    emergencyNumbersOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -89,7 +89,7 @@ class InstantReliefController extends GetxController {
 
   Future<void> fetchInstantActivities() async {
     final activitiesOrFailure = await getInstantReliefAreas(NoParams());
-    activitiesOrFailure.fold(
+    activitiesOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -119,14 +119,14 @@ class InstantReliefController extends GetxController {
   }
 
   Future<void> fetchInstantRecommendations({
-    @required InstantReliefArea instantLifeArea,
+    required InstantReliefArea instantLifeArea,
   }) async {
     final recommendationsOrFailure = await getInstantRecommendations(
       GetInstantRecommendationsParams(
         instantLifeArea: instantLifeArea.instantReliefName,
       ),
     );
-    recommendationsOrFailure.fold(
+    recommendationsOrFailure!.fold(
       (failure) {
         //! app should crash here
         ErrorInfo.show(failure);
@@ -151,9 +151,9 @@ class InstantReliefController extends GetxController {
 
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({
-    Key key,
-    @required this.onPressed,
-    @required this.isLoggingIn,
+    Key? key,
+    required this.onPressed,
+    required this.isLoggingIn,
   }) : super(key: key);
 
   final Callback onPressed;

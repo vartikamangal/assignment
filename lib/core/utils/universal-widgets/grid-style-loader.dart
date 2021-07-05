@@ -10,7 +10,7 @@ import '../../responsive/scale-manager.dart';
 
 class GridLoaderScreen extends StatelessWidget {
   const GridLoaderScreen({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

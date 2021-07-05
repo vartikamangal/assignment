@@ -39,19 +39,19 @@ class WheelOfLifeController extends GetxController {
   final RateSatisfaction rateSatisfaction;
 
   WheelOfLifeController({
-    @required this.getLifeAreas,
-    @required this.getRatingScale,
-    @required this.prioritize,
-    @required this.rateSatisfaction,
+    required this.getLifeAreas,
+    required this.getRatingScale,
+    required this.prioritize,
+    required this.rateSatisfaction,
   });
 
   ///////////////////    Dyanmic Data Container   ///////////////
   ///////////////////                            ///////////////
   ///////////////////                            ///////////////
   final RxList<LifeArea> lifeAreas = RxList<LifeAreaModel>([]);
-  final Rx<RatingScale> ratingScale = Rx<RatingScaleModel>();
-  final Rx<LifeAreaForPrioritization> lifeAreasForPrioritization =
-      Rx<LifeAreaModelForPrioritization>();
+  final Rxn<RatingScale> ratingScale = Rxn<RatingScaleModel>();
+  final Rxn<LifeAreaForPrioritization> lifeAreasForPrioritization =
+      Rxn<LifeAreaModelForPrioritization>();
   // Will help in constructing the final Ratings to be POSTED on API
   final RxList<SatisfactionRatingMapForTimeProvision> listForTimeProvision =
       RxList<SatisfactionRatingMapForTimeProvisionModel>([]);
@@ -63,7 +63,7 @@ class WheelOfLifeController extends GetxController {
   ///////////////////                            ///////////////
   Future<void> fetchLifeAreas() async {
     final lifeAreasOrFailure = await getLifeAreas(NoParams());
-    lifeAreasOrFailure.fold(
+    lifeAreasOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -76,15 +76,15 @@ class WheelOfLifeController extends GetxController {
 
   Future<void> fetchRatingScale() async {
     final ratingScaleOrFailure = await getRatingScale(NoParams());
-    ratingScaleOrFailure.fold(
+    ratingScaleOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (fetchedRatingScale) {
         ratingScale.value = fetchedRatingScale;
         //to display average value
-        ratingScale.value.ratingValue =
-            ((ratingScale.value.max) / 2 + (ratingScale.value.min) / 2).round();
+        ratingScale.value!.ratingValue =
+            (ratingScale.value!.max! / 2 + ratingScale.value!.min! / 2).round();
 
         // Below condition makes sure that all the initial ratings are aligned to the possible minimum ratings
         /*
@@ -107,7 +107,7 @@ class WheelOfLifeController extends GetxController {
       ),
     );
     toggleProcessor();
-    prioritizeSuccessOrFailure.fold(
+    prioritizeSuccessOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -124,7 +124,7 @@ class WheelOfLifeController extends GetxController {
         uiHelperListForTimeProvision.addIf(
           true,
           lifeArea,
-          ratingScale.value.ratingValue.toDouble(),
+          ratingScale.value!.ratingValue!.toDouble(),
         );
       },
     );
@@ -136,7 +136,7 @@ class WheelOfLifeController extends GetxController {
       _getRatingParams(),
     );
     toggleProcessor();
-    ratedSatisfactionOrFailure.fold(
+    ratedSatisfactionOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -158,10 +158,10 @@ class WheelOfLifeController extends GetxController {
           SatisfactionRatingMapForTimeProvisionModel(
             lifeArea: lifeRating as LifeAreaModel,
             rating: RatingScaleModel(
-              max: ratingScale.value.max,
-              ratingScaleName: ratingScale.value.ratingScaleName,
-              ratingValue: uiHelperListForTimeProvision[lifeRating].toInt(),
-              min: ratingScale.value.min,
+              max: ratingScale.value!.max,
+              ratingScaleName: ratingScale.value!.ratingScaleName,
+              ratingValue: uiHelperListForTimeProvision[lifeRating]!.toInt(),
+              min: ratingScale.value!.min,
             ),
           ),
         );
@@ -187,7 +187,7 @@ class WheelOfLifeController extends GetxController {
   int maxIntroPages = 2;
 
   // For making global widget changes as per the selected index
-  Rx<Widget> currentSelectedPage = Rx<Widget>();
+  Rxn<Widget> currentSelectedPage = Rxn<Widget>();
   RxBool showBottomButton = RxBool(false);
   //for scroll controller
   final ScrollController scrollController = ScrollController();
@@ -219,9 +219,9 @@ class WheelOfLifeController extends GetxController {
 
   void toggleAnimatableCard() {
     cardsElementsState.forEach((element) {
-      element.currentState.toggleCard();
+      element.currentState!.toggleCard();
     });
-    bottomBtnAnimState.currentState.toggleCard();
+    bottomBtnAnimState.currentState!.toggleCard();
     Future.delayed(const Duration(milliseconds: 300), () async {
       isToggled.value = !isToggled.value;
     });
@@ -235,7 +235,8 @@ class WheelOfLifeController extends GetxController {
     isLoading.value = !isLoading.value;
   }
 
-  void toggleBottomButtonVisibility({double position, double maxPageLimit}) {
+  void toggleBottomButtonVisibility(
+      {required double position, required double maxPageLimit}) {
     if (position < maxPageLimit) {
       showBottomButton.value = false;
     } else {
@@ -331,10 +332,5 @@ class WheelOfLifeController extends GetxController {
         maxPageLimit: scrollController.position.maxScrollExtent,
       );
     });*/
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 }

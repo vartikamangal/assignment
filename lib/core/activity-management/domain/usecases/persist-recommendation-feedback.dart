@@ -13,15 +13,15 @@ import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
 class PersistRecommendationFeedback
     implements Usecase<Unit, PersistRecommendationFeedbackParams> {
-  final RecommendationFeedbackService service;
+  final RecommendationFeedbackService? service;
 
   PersistRecommendationFeedback({
-    @required this.service,
+    required this.service,
   });
   @override
   Future<Either<Failure, Unit>> call(
       PersistRecommendationFeedbackParams params) async {
-    return service.persistFeedback(
+    return service!.persistFeedback(
       activityStatusModel: params.activityStatusModel,
       textInput: params.textInput,
       voiceNoteInput: params.voiceNoteInput,
@@ -30,16 +30,16 @@ class PersistRecommendationFeedback
 }
 
 class PersistRecommendationFeedbackParams extends Equatable {
-  final ActivityStatusModel activityStatusModel;
+  final ActivityStatusModel? activityStatusModel;
   final String textInput;
-  final String voiceNoteInput;
+  final String? voiceNoteInput;
   const PersistRecommendationFeedbackParams({
-    @required this.activityStatusModel,
-    @required this.textInput,
-    @required this.voiceNoteInput,
+    required this.activityStatusModel,
+    required this.textInput,
+    required this.voiceNoteInput,
   });
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         activityStatusModel,
         textInput,
         voiceNoteInput,

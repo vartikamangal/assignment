@@ -4,15 +4,15 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/rapport-building-steps.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/rapport-step.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/get-rapport-building-steps-repository.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-rapport-building-steps.dart';
 
 class MockGetRapportBuildingStepsRepository extends Mock
-    implements GetRapportBuildingStepsRepository {}
+    implements RapportBuildingRepository {}
 
 void main() {
   MockGetRapportBuildingStepsRepository repository;
-  GetRapportBuildingSteps usecase;
+  late GetRapportBuildingSteps usecase;
   setUp(() {
     repository = MockGetRapportBuildingStepsRepository();
     usecase = GetRapportBuildingSteps(repository: repository);

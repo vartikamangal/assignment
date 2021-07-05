@@ -3,16 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/persistence-consts.dart';
 
-class MockBox extends Mock implements Box {}
+import '../features/what-path-to-choose/data/sources/get_journey_path_list_remote_data_source_test.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
 
-  MockBox box;
+  late MockBox box;
 
   setUp(() {
     box = MockBox();

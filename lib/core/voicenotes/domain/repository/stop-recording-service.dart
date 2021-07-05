@@ -6,6 +6,6 @@ import '../../../success/success-interface.dart';
 abstract class StopRecordingService {
   Future<Either<Failure, Success>> stopRecording();
   Future<Either<Failure, Unit>> cancelRecording({
-    @required String partialRecordingFileToDelete,
+    required String? partialRecordingFileToDelete,
   });
 }

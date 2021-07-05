@@ -6,13 +6,13 @@ import 'package:permission_handler/permission_handler.dart';
 
 abstract class PermissionManager {
   Future<bool> requestPermission({
-    @required Permission permission,
+    required Permission permission,
   });
 }
 
 class PermissionManagerImpl implements PermissionManager {
   @override
-  Future<bool> requestPermission({Permission permission}) async {
+  Future<bool> requestPermission({required Permission permission}) async {
     if (await permission.isGranted) {
       return true;
     } else {

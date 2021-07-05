@@ -8,14 +8,14 @@ import 'package:tatsam_app_experimental/core/activity-management/data/models/rec
 
 class GuidedActivityRecommendationModel extends GuidedActivityRecommendation {
   const GuidedActivityRecommendationModel({
-    @required int id,
-    @required int dayNumber,
-    @required ImageProp icon,
-    @required String description,
-    @required String title,
-    @required String subtitle,
-    @required String helpContent,
-    @required List<ActivityRecommendationModel> recommendationList,
+    required int? id,
+    required int? dayNumber,
+    required ImageProp? icon,
+    required String? description,
+    required String? title,
+    required String? subtitle,
+    required String? helpContent,
+    required List<ActivityRecommendationModel> recommendationList,
   }) : super(
           subtitle: subtitle,
           icon: icon,
@@ -30,14 +30,14 @@ class GuidedActivityRecommendationModel extends GuidedActivityRecommendation {
   factory GuidedActivityRecommendationModel.fromJson(
       Map<String, dynamic> jsonMap) {
     return GuidedActivityRecommendationModel(
-      id: jsonMap['id'] as int,
-      dayNumber: jsonMap['dayNumber'] as int,
+      id: jsonMap['id'] as int?,
+      dayNumber: jsonMap['dayNumber'] as int?,
       //TODO to be implemented once image is done
       icon: const ImageProp(),
-      description: jsonMap['description'] as String,
-      title: jsonMap['title'] as String,
-      subtitle: jsonMap['subtitle'] as String,
-      helpContent: jsonMap['helpContent'] as String,
+      description: jsonMap['description'] as String?,
+      title: jsonMap['title'] as String?,
+      subtitle: jsonMap['subtitle'] as String?,
+      helpContent: jsonMap['helpContent'] as String?,
       recommendationList: (jsonMap['recommendationList'] as List)
           .map(
             (recommendation) => ActivityRecommendationModel.fromJson(

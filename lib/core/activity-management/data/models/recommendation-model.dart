@@ -7,8 +7,8 @@ import 'recommendation-activity-model.dart';
 
 class RecommendationModel extends Recommendation {
   const RecommendationModel({
-    @required ActivityRecommendationModel activity,
-    @required double weight,
+    required ActivityRecommendationModel activity,
+    required double weight,
   }) : super(
           activity: activity,
           weight: weight,

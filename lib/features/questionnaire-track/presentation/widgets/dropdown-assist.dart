@@ -19,21 +19,21 @@ import '../controller/question-controller.dart';
 
 class dropDownAssistor extends StatefulWidget  {
   const dropDownAssistor({
-    Key key,
-    @required this.options,
-    @required this.color,
-    @required this.conroller,
-    @required this.isExpanded,
-    @required this.onTap,
-    @required this.questionIdModel,
-    @required this.label,
+    Key? key,
+    required this.options,
+    required this.color,
+    required this.conroller,
+    required this.isExpanded,
+    required this.onTap,
+    required this.questionIdModel,
+    required this.label,
   }) : super(key: key);
 
-  final String label;
+  final String? label;
   //TODO change this logic to a cleaner way in future
   // must pass to make onOptionPressed work
-  final   List<String> options;
-  final bool isExpanded;
+  final   List<String?> options;
+  final bool? isExpanded;
   final   Color color;
   final Callback onTap;
   final   QuestionnaireConroller conroller;
@@ -51,7 +51,7 @@ class _dropDownAssistorState extends State<dropDownAssistor> with TickerProvider
         vsync: this,
         fadeDuration: const Duration(milliseconds: 50),
         sizeDuration: const Duration(milliseconds: 600),
-        child: !widget.isExpanded
+        child: !widget.isExpanded!
             ?_DropDownTopHeader(
           textScaleFactor: textScaleFactor,
           color: widget.color,
@@ -139,7 +139,7 @@ class _dropDownAssistorState extends State<dropDownAssistor> with TickerProvider
                                   ).value,
                                 ),
                                 child: Text(
-                                  widget.options[i - 1],
+                                  widget.options[i - 1]!,
                                   style: AppTextStyle.dropDownStyle.copyWith(
                                     fontSize: 14,
                                   ),
@@ -349,18 +349,18 @@ Widget dropDownAssistor({
 // Persistent Dropdown header
 class _DropDownTopHeader extends StatelessWidget {
   const _DropDownTopHeader({
-    Key key,
-    @required this.textScaleFactor,
-    @required this.color,
-    @required this.label,
-    @required this.isExpanded,
-    @required this.onTap,
+    Key? key,
+    required this.textScaleFactor,
+    required this.color,
+    required this.label,
+    required this.isExpanded,
+    required this.onTap,
   }) : super(key: key);
 
   final double textScaleFactor;
   final Color color;
-  final String label;
-  final bool isExpanded;
+  final String? label;
+  final bool? isExpanded;
   final Callback onTap;
 
   @override
@@ -410,7 +410,7 @@ class _DropDownTopHeader extends StatelessWidget {
                       spaceing: 6,
                     ).value),
                 child: Text(
-                  label,
+                  label!,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyle.dropDownStyle,
                   textScaleFactor: textScaleFactor,
@@ -422,7 +422,7 @@ class _DropDownTopHeader extends StatelessWidget {
                 spaceing: 12,
               ).value,
             ),
-            if (isExpanded)
+            if (isExpanded!)
               Icon(
                 Icons.arrow_drop_up,
                 color: Theme.of(context).canvasColor,

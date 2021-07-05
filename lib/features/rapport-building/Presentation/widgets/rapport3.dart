@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
 import '../../../../core/asset-image-path/image-path.dart';
@@ -24,8 +25,8 @@ class MidPageContentC extends StatelessWidget {
   final String selectedEmotion;
   final RapportBuildingController controller;
   const MidPageContentC({
-    @required this.selectedEmotion,
-    @required this.controller,
+    required this.selectedEmotion,
+    required this.controller,
   });
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class MidPageContentC extends StatelessWidget {
         children: [
           Obx(
                 () => controller.isProcessing.value
-                ? const LinearProgressIndicator()
+                ?  CustomizedLinearProgressIndicator()
                 : Container(),
           ),
           Positioned(
@@ -115,7 +116,7 @@ class MidPageContentC extends StatelessWidget {
                       builder: (context, animatorState, child) =>Opacity(
                         opacity: animatorState.value,
                       child: Text(
-                        rapportData[controller.selectedMood.value.moodName]
+                        rapportData[controller.selectedMood.value!.moodName!]!
                             .dropPageContent.toString(),
                         style: AppTextStyle.titleM,
                         textScaleFactor: textScale,
@@ -168,8 +169,8 @@ class MidPageContentC extends StatelessWidget {
                               label:
                                   controller.selectedFeelingDuration.value == null
                                       ? tr('selection')
-                                      : controller.selectedFeelingDuration.value
-                                          .durationDisplayName
+                                      : controller.selectedFeelingDuration.value!
+                                          .durationDisplayName!
                                           .toUpperCase(),
                               // ignore: avoid_print
                               onPressed: () => controller.toggleDropDownExpansion(),
@@ -181,8 +182,8 @@ class MidPageContentC extends StatelessWidget {
                               label:
                                   controller.selectedFeelingDuration.value == null
                                       ? tr('selection')
-                                      : controller.selectedFeelingDuration.value
-                                          .durationDisplayName
+                                      : controller.selectedFeelingDuration.value!
+                                          .durationDisplayName!
                                           .toUpperCase(),
                               // ignore: avoid_print
                               onPressed: () => controller.toggleDropDownExpansion(),

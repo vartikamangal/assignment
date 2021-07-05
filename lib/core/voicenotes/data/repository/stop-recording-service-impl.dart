@@ -8,15 +8,15 @@ import '../../domain/entity/recording-stopped.dart';
 import '../../domain/repository/stop-recording-service.dart';
 
 class StopRecordingServiceImpl implements StopRecordingService {
-  final StopRecordingLocalService localService;
+  final StopRecordingLocalService? localService;
 
   StopRecordingServiceImpl({
-    @required this.localService,
+    required this.localService,
   });
   @override
   Future<Either<Failure, Success>> stopRecording() async {
     try {
-      await localService.stopRecording();
+      await localService!.stopRecording();
       return const Right(
         RecordingStopped(status: 'Stoppped'),
       );
@@ -29,10 +29,10 @@ class StopRecordingServiceImpl implements StopRecordingService {
 
   @override
   Future<Either<Failure, Unit>> cancelRecording({
-    String partialRecordingFileToDelete,
+    String? partialRecordingFileToDelete,
   }) async {
     try {
-      final result = await localService.cancelRecording(
+      final result = await localService!.cancelRecording(
         partialRecordingFileToDelete: partialRecordingFileToDelete,
       );
       return Right(

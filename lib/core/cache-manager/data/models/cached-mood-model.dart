@@ -1,13 +1,14 @@
-import 'package:flutter/foundation.dart';
-import '../../domain/entities/cached-mood.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
+
+import '../../domain/entities/cached-mood.dart';
 
 class CachedMoodModel extends CachedMood {
   const CachedMoodModel({
-    @required int moodId,
-    @required String moodName,
-    @required String moodDescription,
-    @required ImageProp moodIcon,
+    required int? moodId,
+    required String? moodName,
+    required String? moodDescription,
+    required ImageProp? moodIcon,
   }) : super(
           moodDescription: moodDescription,
           moodIcon: moodIcon,
@@ -17,11 +18,20 @@ class CachedMoodModel extends CachedMood {
 
   factory CachedMoodModel.fromJson(Map<String, dynamic> jsonMap) {
     return CachedMoodModel(
-      moodId: jsonMap['moodId'] as int,
-      moodName: jsonMap['moodName'] as String,
-      moodDescription: jsonMap['moodDescription'] as String,
+      moodId: jsonMap['moodId'] as int?,
+      moodName: jsonMap['moodName'] as String?,
+      moodDescription: jsonMap['moodDescription'] as String?,
       //TODO to be added the imagemodel impl later
       moodIcon: null,
+    );
+  }
+
+  factory CachedMoodModel.fromMood(MoodModel mood) {
+    return CachedMoodModel(
+      moodId: mood.moodId,
+      moodName: mood.moodName,
+      moodDescription: mood.moodDescription,
+      moodIcon: mood.moodIcon,
     );
   }
 

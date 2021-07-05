@@ -12,15 +12,15 @@ import '../entities/activity-status.dart';
 import '../repositories/start-activity-service.dart';
 
 class StartActivity implements Usecase<ActivityStatus, StartAcitvityParams> {
-  final StartActivityService service;
+  final StartActivityService? service;
 
   StartActivity({
-    @required this.service,
+    required this.service,
   });
   @override
-  Future<Either<Failure, ActivityStatus>> call(
+  Future<Either<Failure, ActivityStatus>?> call(
       StartAcitvityParams params) async {
-    return service.startActivity(
+    return service!.startActivity(
       recommendationId: params.recommendationId,
       isInstantActivity: params.isInstantActivity,
     );
@@ -28,13 +28,13 @@ class StartActivity implements Usecase<ActivityStatus, StartAcitvityParams> {
 }
 
 class StartAcitvityParams extends Equatable {
-  final String recommendationId;
+  final String? recommendationId;
   final bool isInstantActivity;
 
   const StartAcitvityParams({
-    @required this.recommendationId,
-    @required this.isInstantActivity,
+    required this.recommendationId,
+    required this.isInstantActivity,
   });
   @override
-  List<Object> get props => [recommendationId];
+  List<Object?> get props => [recommendationId];
 }

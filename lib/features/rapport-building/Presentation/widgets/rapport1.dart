@@ -8,6 +8,7 @@ import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 import '../../../../core/responsive/responsive-builder.dart';
 import '../../../../core/responsive/scale-manager.dart';
@@ -18,8 +19,8 @@ class MidPageContentA extends StatelessWidget {
   final RapportBuildingController controller;
   final TextEditingController textEditingController = TextEditingController();
   MidPageContentA({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class MidPageContentA extends StatelessWidget {
         children: [
           Obx(
                 () => controller.isProcessing.value
-                ? const LinearProgressIndicator()
+                ?  CustomizedLinearProgressIndicator()
                 : Container(),
           ),
           Positioned(
@@ -137,10 +138,10 @@ class MidPageContentA extends StatelessWidget {
 ///// Responsive Assistors ///////
 class _TextFormFieldComponent extends StatelessWidget {
   const _TextFormFieldComponent({
-    Key key,
-    @required this.controller,
-    @required this.fontSize,
-    @required this.paddingFactor,
+    Key? key,
+    required this.controller,
+    required this.fontSize,
+    required this.paddingFactor,
   }) : super(key: key);
 
   final RapportBuildingController controller;
@@ -169,7 +170,7 @@ class _TextFormFieldComponent extends StatelessWidget {
         ),
       ),
       onChanged: (name) => controller.nickName = name,
-      validator: (name) => nameValidation(value: name, controller: controller),
+      validator: (name) => nameValidation(value: name!, controller: controller),
     );
   }
 }

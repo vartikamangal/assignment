@@ -11,7 +11,7 @@ class PiChart extends GetWidget<ProfileController> {
   final List<WOLAreaData> chartData;
 
   const PiChart({
-    @required this.chartData,
+    required this.chartData,
   });
   @override
   Widget build(BuildContext context) {
@@ -85,5 +85,5 @@ class WOLAreaData {
   WOLAreaData(this.x, this.y, [this.color]);
   final String x;
   final double y;
-  final Color color;
+  final Color? color;
 }

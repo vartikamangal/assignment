@@ -2,20 +2,11 @@
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/wheel-of-life-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/wheel-of-life-remote-data-source.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/wheel-of-life-repository.dart';
 
 // Project imports:
-import '../features/wheel-of-life-track/data/repository/get-life-areas-repository-impl.dart';
-import '../features/wheel-of-life-track/data/repository/get-rating-scale-repository-impl.dart';
-import '../features/wheel-of-life-track/data/repository/prioritize-service-impl.dart';
-import '../features/wheel-of-life-track/data/repository/rate-satisfaction-ratings-service-impl.dart';
-import '../features/wheel-of-life-track/data/sources/get-life-areas-remote-data-source.dart';
-import '../features/wheel-of-life-track/data/sources/get-rating-scale-remote-data-source.dart';
-import '../features/wheel-of-life-track/data/sources/prioritize-remote-service.dart';
-import '../features/wheel-of-life-track/data/sources/rate-satisfaction-remote-service.dart';
-import '../features/wheel-of-life-track/domain/repositories/get-life-areas-repository.dart';
-import '../features/wheel-of-life-track/domain/repositories/get-rating-scale-repository.dart';
-import '../features/wheel-of-life-track/domain/repositories/prioritize-service.dart';
-import '../features/wheel-of-life-track/domain/repositories/rate-satisfaction-service.dart';
 import '../features/wheel-of-life-track/domain/usecases/get-life-areas.dart';
 import '../features/wheel-of-life-track/domain/usecases/get-rating-scale.dart';
 import '../features/wheel-of-life-track/domain/usecases/prioritize.dart';
@@ -56,51 +47,15 @@ Future<void> initWheelOfLifeDependencies() async {
     ),
   );
   // Repositories & Services
-  sl_wol.registerLazySingleton<GetLifeAreasRepository>(
-    () => GetLifeAreasRepositoryImpl(
-      source: sl_wol(),
+  sl_wol.registerLazySingleton<WheelOfLifeRepository>(
+    () => WheelOfLifeRepositoryImpl(
       baseRepository: sl_core_dependencies(),
-    ),
-  );
-  sl_wol.registerLazySingleton<GetRatingScaleRepository>(
-    () => GetRatingScaleRepositoryImpl(
       remoteDataSource: sl_wol(),
-      baseRepository: sl_core_dependencies(),
-    ),
-  );
-  sl_wol.registerLazySingleton<PrioritizeService>(
-    () => PrioritizeServiceImpl(
-      baseRepository: sl_core_dependencies(),
-      remoteService: sl_wol(),
-    ),
-  );
-  sl_wol.registerLazySingleton<RateSatisfactionService>(
-    () => RateSatisfactionServiceImpl(
-      baseRepository: sl_core_dependencies(),
-      remoteService: sl_wol(),
     ),
   );
   // Sources
-  sl_wol.registerLazySingleton<GetLifeAreasRemoteDataSource>(
-    () => GetLifeAreasRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
-    ),
-  );
-  sl_wol.registerLazySingleton<GetRatingScaleRemoteDataSource>(
-    () => GetRatingScaleRemoteDataSourceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
-    ),
-  );
-  sl_wol.registerLazySingleton<PrioritizeRemoteService>(
-    () => PrioritizeRemoteServiceImpl(
-      client: sl_core_dependencies(),
-      throwExceptionIfResponseError: sl_core_dependencies(),
-    ),
-  );
-  sl_wol.registerLazySingleton<RateSatisfactionRemoteService>(
-    () => RateSatisfactionRemoteServiceImpl(
+  sl_wol.registerLazySingleton<WheelOfLifeRemoteDataSource>(
+    () => WheelOfLifeRemoteDataSourceImpl(
       client: sl_core_dependencies(),
       throwExceptionIfResponseError: sl_core_dependencies(),
     ),

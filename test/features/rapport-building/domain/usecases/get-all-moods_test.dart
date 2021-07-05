@@ -2,19 +2,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/get-all-moods-repository.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-all-moods.dart';
 
-class MockGetAllMoodsRepository extends Mock implements GetAllMoodsRepository {}
+class MockGetAllMoodsRepository extends Mock
+    implements RapportBuildingRepository {}
 
 void main() {
   MockGetAllMoodsRepository repository;
-  GetAllMoods useCase;
+  late GetAllMoods useCase;
 
   setUp(() {
     repository = MockGetAllMoodsRepository();

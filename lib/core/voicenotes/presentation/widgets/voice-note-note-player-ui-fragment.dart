@@ -15,7 +15,7 @@ import '../../domain/entity/player-stats.dart';
 import '../controller/voice-notes-controller.dart';
 
 class VoiceNotePlayer extends StatelessWidget {
-  VoiceNotePlayer({Key key}) : super(key: key);
+  VoiceNotePlayer({Key? key}) : super(key: key);
   final VoiceNoteController _controller = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -69,9 +69,10 @@ class VoiceNotePlayer extends StatelessWidget {
                       snapshot.data as PlayerStatsModel;
                   return LinearProgressIndicator(
                     backgroundColor: greyLightShade,
+                    valueColor: AlwaysStoppedAnimation<Color>(blueDarkShade),
                     value: calculatePosition(
-                      duration.currentPosition,
-                      duration.totalLength,
+                      duration.currentPosition!,
+                      duration.totalLength!,
                     ),
                   );
                 }

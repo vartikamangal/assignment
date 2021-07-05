@@ -3,16 +3,14 @@ import 'dart:developer';
 /// -----------------------------------
 ///          External Packages
 /// -----------------------------------
-
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:tatsam_app_experimental/core/secrets.dart';
 
 final FlutterAppAuth appAuth = FlutterAppAuth();
-final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+const FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
 /// -----------------------------------
 ///           Profile Widget
@@ -37,7 +35,7 @@ class Profile extends StatelessWidget {
             shape: BoxShape.circle,
             image: DecorationImage(
               fit: BoxFit.fill,
-              image: NetworkImage(picture ?? ''),
+              image: NetworkImage(picture),
             ),
           ),
         ),
@@ -79,7 +77,7 @@ class Login extends StatelessWidget {
           },
           child: Text('Login'),
         ),
-        Text(loginError ?? ''),
+        Text(loginError),
       ],
     );
   }
@@ -101,9 +99,9 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   bool isBusy = false;
   bool isLoggedIn = false;
-  String errorMessage;
-  String name;
-  String picture;
+  String? errorMessage;
+  String? name;
+  String? picture;
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +117,7 @@ class _AuthScreenState extends State<AuthScreen> {
               onPressed: () async {
                 try {
                   final AuthorizationTokenResponse result =
-                      await appAuth.authorizeAndExchangeCode(
+                      await (appAuth.authorizeAndExchangeCode(
                     AuthorizationTokenRequest(
                       Secrets.AUTH0_CLIENT_ID,
                       Secrets.AUTH0_REDIRECT_URI,
@@ -137,11 +135,11 @@ class _AuthScreenState extends State<AuthScreen> {
                       promptValues: ['login'],
                       // promptValues: ['login']
                     ),
-                  );
+                  ) as Future<AuthorizationTokenResponse>);
                   await testLogin(
                     accessToken: result.accessToken,
                   );
-                  log(result.accessToken);
+                  log(result.accessToken!);
                 } catch (e) {
                   log(
                     e.toString(),
@@ -179,7 +177,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Future<void> testLogin({
-    @required String accessToken,
+    required String? accessToken,
   }) async {
     try {
       final response = await http.get(

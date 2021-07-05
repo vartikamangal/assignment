@@ -1,25 +1,24 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/log-last-opened-app-service.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/app-last-opened-log-service.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 
-class MockAppLastOpenedLogLocalService extends Mock
-    implements AppLastOpenedLogLocalService {}
+import '../../../core_mock_generator_test.mocks.dart';
+import 'log-last-opened-app-service_test.mocks.dart';
 
-class MockNetworkInfo extends Mock implements NetworkInfo {}
-
+@GenerateMocks([AppLastOpenedLogLocalService])
 void main() {
-  MockAppLastOpenedLogLocalService localService;
-  MockNetworkInfo networkInfo;
-  LogLastOpenedAppServiceImpl serviceImpl;
+  late MockAppLastOpenedLogLocalService localService;
+  late MockNetworkInfo networkInfo;
+  late LogLastOpenedAppServiceImpl serviceImpl;
   BaseRepository baseRepository;
   CallIfNetworkConnected callIfNetworkConnected;
   HandleException handleException;
@@ -73,14 +72,14 @@ void main() {
       expect(result, const Right(tUnit));
     });
     test('should return ServerFailure when the call to localService fails',
-            () async {
-          //arrange
-          when(localService.logStartDatetime()).thenThrow(ServerException());
-          //act
-          final result = await serviceImpl.logStartDatetime();
-          //assert
-          expect(result, Left(ServerFailure()));
-        });
+        () async {
+      //arrange
+      when(localService.logStartDatetime()).thenThrow(ServerException());
+      //act
+      final result = await serviceImpl.logStartDatetime();
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
   runTestsOffline(() {
     test('should return DeviceOfflineFailure', () async {

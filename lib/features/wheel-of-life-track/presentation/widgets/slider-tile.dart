@@ -13,22 +13,22 @@ import '../../../../core/utils/helper_functions/getSliderEmotionImage.dart';
 
 class SliderTile extends StatelessWidget {
   const SliderTile({
-    Key key,
-    @required this.index,
-    @required this.max,
-    @required this.min,
-    @required this.onChanged,
-    @required this.value,
-    @required this.emotionValue,
-    @required this.label,
+    Key? key,
+    required this.index,
+    required this.max,
+    required this.min,
+    required this.onChanged,
+    required this.value,
+    required this.emotionValue,
+    required this.label,
   }) : super(key: key);
 
   final int index;
-  final String label;
-  final double emotionValue;
+  final String? label;
+  final double? emotionValue;
   final double min;
   final double max;
-  final double value;
+  final double? value;
   final Function(double) onChanged;
 
   @override
@@ -53,13 +53,13 @@ class SliderTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    label,
+                    label!,
                     style: AppTextStyle.titleMDark,
                     textScaleFactor: textScale,
                   ),
                   Image.asset(
                     getSliderEmotion(
-                      value: emotionValue,
+                      value: emotionValue!,
                       lowerLimit: min,
                       upperLimit: max,
                     ),
@@ -78,34 +78,34 @@ class SliderTile extends StatelessWidget {
                 child: Slider(
                   min: min,
                   max: max,
-                  value: value,
+                  value: value!,
                   divisions: 60,
                   onChanged: onChanged,
                 ),
               ),
               Row(
                 children: [
-                  if (value<(min.round()+max.round())/2) SizedBox(width: ScaleManager.spaceScale(
+                  if (value!<(min.round()+max.round())/2) SizedBox(width: ScaleManager.spaceScale(
                     spaceing: 6,
                   ).value) else Container(),
-                  if (value>(min.round()+max.round())/2) SizedBox(
+                  if (value!>(min.round()+max.round())/2) SizedBox(
                     width: (ScaleManager.spaceScale(
                       spaceing: 325,
                     ).value *
-                        ((value - min) / (max - min)))-ScaleManager.spaceScale(
+                        ((value! - min) / (max - min)))-ScaleManager.spaceScale(
                       spaceing: 6,
                     ).value,
                   ) else SizedBox(
                     width: ScaleManager.spaceScale(
                           spaceing: 325,
                         ).value *
-                        ((value - min) / (max - min)),
+                        ((value! - min) / (max - min)),
                   ),
-                  if (value <= min.round() + 0.4 || value >= max - 0.4)
+                  if (value! <= min.round() + 0.4 || value! >= max - 0.4)
                     Container()
                   else
                     Text(
-                      '${value.round()}',
+                      '${value!.round()}',
                       style: AppTextStyle.sliderValue,
                       textScaleFactor: textScale,
                     ),

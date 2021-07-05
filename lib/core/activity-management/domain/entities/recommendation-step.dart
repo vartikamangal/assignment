@@ -8,26 +8,26 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/image/image.dart';
 
 class RecommendationStep extends Equatable {
-  final int id;
-  final String stepTitle;
-  final String stepHelp;
-  final String stepName;
-  final int stepSequence;
-  final ImageProp iconVO;
-  final String templateName;
-  final String stepContent;
+  final int? id;
+  final String? stepTitle;
+  final String? stepHelp;
+  final String? stepName;
+  final int? stepSequence;
+  final ImageProp? iconVO;
+  final String? templateName;
+  final String? stepContent;
   const RecommendationStep({
-    @required this.id,
-    @required this.stepTitle,
-    @required this.stepHelp,
-    @required this.stepName,
-    @required this.stepSequence,
-    @required this.iconVO,
-    @required this.templateName,
-    @required this.stepContent,
+    required this.id,
+    required this.stepTitle,
+    required this.stepHelp,
+    required this.stepName,
+    required this.stepSequence,
+    required this.iconVO,
+    required this.templateName,
+    required this.stepContent,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       stepTitle,
@@ -41,14 +41,14 @@ class RecommendationStep extends Equatable {
   }
 
   RecommendationStep copyWith({
-    int id,
-    String stepTitle,
-    String stepHelp,
-    String stepName,
-    int stepSequence,
-    ImageProp iconVO,
-    String templateName,
-    String stepContent,
+    int? id,
+    String? stepTitle,
+    String? stepHelp,
+    String? stepName,
+    int? stepSequence,
+    ImageProp? iconVO,
+    String? templateName,
+    String? stepContent,
   }) {
     return RecommendationStep(
       id: id ?? this.id,

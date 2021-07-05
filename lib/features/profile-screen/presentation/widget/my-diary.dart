@@ -66,9 +66,9 @@ Widget _buildDiary(
   logs.forEach(
     (diaryLog) {
       final selectedMoodImage =
-          '${ImagePath.lightBlueEmoji}${'${controller.actionIdToActionMap[int.parse(diaryLog.actionId)].feedbackMood.toLowerCase()}.png'}';
+          '${ImagePath.lightBlueEmoji}${'${controller.actionIdToActionMap[int.parse(diaryLog.actionId!)]!.feedbackMood!.toLowerCase()}.png'}';
       final activityPerformed =
-          controller.actionIdToActionMap[int.parse(diaryLog.actionId)].title;
+          controller.actionIdToActionMap[int.parse(diaryLog.actionId!)]!.title;
       _contents.add(
         DiaryContent(
           imageAddress: 'assets/profile-icon/user-image.png',
@@ -77,7 +77,7 @@ Widget _buildDiary(
           selectedMoodImage: selectedMoodImage,
           date: generateDateFromDateTime(
             DateTime.parse(
-              diaryLog.timeOfCreation,
+              diaryLog.timeOfCreation!,
             ),
           ),
         ),
@@ -91,17 +91,17 @@ Widget _buildDiary(
 
 class DiaryContent extends StatelessWidget {
   final String imageAddress;
-  final String selectedActivityName;
+  final String? selectedActivityName;
   final String date;
   final String selectedMoodImage;
-  final String enteredThought;
+  final String? enteredThought;
 
   const DiaryContent({
-    @required this.imageAddress,
-    @required this.selectedActivityName,
-    @required this.date,
-    @required this.selectedMoodImage,
-    @required this.enteredThought,
+    required this.imageAddress,
+    required this.selectedActivityName,
+    required this.date,
+    required this.selectedMoodImage,
+    required this.enteredThought,
   });
   @override
   Widget build(BuildContext context) {
@@ -142,7 +142,7 @@ class DiaryContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      selectedActivityName,
+                      selectedActivityName!,
                       style: AppTextStyle.Darkbluebold.copyWith(
                           fontWeight: FontWeight.w400, fontSize: 20),
                       textScaleFactor: textScaleFactor,
@@ -180,7 +180,7 @@ class DiaryContent extends StatelessWidget {
           ).value,
         ),
         Text(
-          enteredThought,
+          enteredThought!,
           style: AppTextStyle.titleS.copyWith(color: greyDarkShade),
           textScaleFactor: textScaleFactor,
         ),

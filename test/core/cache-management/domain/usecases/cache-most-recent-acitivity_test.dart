@@ -1,19 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cache-acitivity-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/cache-most-recent-acitivity-service.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/cache-most-recent-acitivity.dart';
 
-class MockCacheMostRecentActivityService extends Mock
-    implements CacheMostRecentAcitivtyService {}
+import 'cache-most-recent-acitivity_test.mocks.dart';
 
+@GenerateMocks([CacheMostRecentAcitivtyService])
 void main() {
-  MockCacheMostRecentActivityService service;
-  CacheMostRecentAcitivity useCase;
+  late MockCacheMostRecentAcitivtyService service;
+  late CacheMostRecentAcitivity useCase;
 
   setUp(() {
-    service = MockCacheMostRecentActivityService();
+    service = MockCacheMostRecentAcitivtyService();
     useCase = CacheMostRecentAcitivity(service: service);
   });
 

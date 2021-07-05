@@ -8,7 +8,7 @@ import 'rapport-step-model.dart';
 
 class RapportBuildingStepsModel extends RapportBuildingSteps {
   const RapportBuildingStepsModel({
-    @required List<RapportStep> rapportSteps,
+    required List<RapportStep> rapportSteps,
   }) : super(
           rapportSteps: rapportSteps,
         );

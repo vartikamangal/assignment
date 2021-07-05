@@ -7,12 +7,12 @@ import '../../domain/entities/satisfaction-ratings.dart';
 
 class SatisfactionRatingsModel extends SatisfactionRatings {
   const SatisfactionRatingsModel({
-    @required
+    required
         final List<SatisfactionRatingMapForTimeProvision> satisfactionRatings,
   }) : super(satisfactionRatings: satisfactionRatings);
 
-  Map<String, Map> toJson() {
-    final Map<String, Map<String, dynamic>> jsonMap = {};
+  Map<String?, Map> toJson() {
+    final Map<String?, Map<String, dynamic>> jsonMap = {};
     // ignore: avoid_function_literals_in_foreach_calls
     satisfactionRatings.forEach((satisfactionRating) {
       jsonMap.addAll({

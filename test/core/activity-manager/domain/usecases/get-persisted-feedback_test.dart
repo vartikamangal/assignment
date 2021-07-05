@@ -1,24 +1,26 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-input.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/persist-recommendation-feedback-service.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/get-persisted-feedbacks.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/get-persisted-feedbacks.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
-class MockGetPersistedFeedbacksServices extends Mock implements RecommendationFeedbackService {}
+import 'get-persisted-feedback_test.mocks.dart';
 
-void main(){
-  MockGetPersistedFeedbacksServices service;
-  GetPersistedFeedbacks useCase;
+@GenerateMocks([RecommendationFeedbackService])
+void main() {
+  MockRecommendationFeedbackService? service;
+  late GetPersistedFeedbacks useCase;
 
   setUp(() {
-    service = MockGetPersistedFeedbacksServices();
+    service = MockRecommendationFeedbackService();
     useCase = GetPersistedFeedbacks(service: service);
   });
 
-  const tRecommendationInput=<RecommendationInput>[
+  const tRecommendationInput = <RecommendationInput>[
     RecommendationInput(
         recommendationId: null,
         actionId: "19351",
@@ -38,14 +40,14 @@ void main(){
   group('USECASE : setTarget', () {
     test('should set the user_targets with the help of service', () async {
       //arrange
-      when(service.getpersistedFeedbacks())
+      when(service!.getpersistedFeedbacks())
           .thenAnswer((_) async => const Right(tRecommendationInput));
       //act
-      final result = await useCase(NoParams());
+      final Either<Failure, List<RecommendationInput>> result =
+          await useCase(NoParams());
       //assert
-      verify(service.getpersistedFeedbacks());
+      verify(service!.getpersistedFeedbacks());
       expect(result, const Right(tRecommendationInput));
     });
   });
-
 }

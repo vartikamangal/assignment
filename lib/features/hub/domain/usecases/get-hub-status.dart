@@ -1,6 +1,4 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 
@@ -14,10 +12,10 @@ class GetHubStatus implements Usecase<HubStatus, NoParams> {
   final GetHubStatusRepository repository;
 
   GetHubStatus({
-    @required this.repository,
+    required this.repository,
   });
   @override
-  Future<Either<Failure, HubStatus>> call(NoParams params) async {
+  Future<Either<Failure, HubStatus>?> call(NoParams params) async {
     return repository.getHubStatus();
   }
 }

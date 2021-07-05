@@ -10,10 +10,10 @@ import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 
 Widget customDropDownBtnWithIcon({
-  String label,
-  Callback onPressed,
-  Color color,
-  Icon icon,
+  required String label,
+  Callback? onPressed,
+  Color? color,
+  Icon? icon,
 }) {
   final textScaleFactor = ScaleManager.textScale.value;
   return GestureDetector(
@@ -44,7 +44,7 @@ Widget customDropDownBtnWithIcon({
           SizedBox(
             width: Get.width * 0.02,
           ),
-          icon
+          icon!
         ],
       ),
     ),

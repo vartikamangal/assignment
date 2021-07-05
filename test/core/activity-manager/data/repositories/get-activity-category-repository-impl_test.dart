@@ -22,9 +22,9 @@ class MockGetCategoryActivitiesRemoteDataSource extends Mock implements GetCateg
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main(){
-  MockNetworkInfo networkInfo;
-  MockGetCategoryActivitiesRemoteDataSource remoteService;
-  GetCategoryActivitiesRepositoryImpl repositoryImpl;
+  MockNetworkInfo? networkInfo;
+  MockGetCategoryActivitiesRemoteDataSource? remoteService;
+  late GetCategoryActivitiesRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -137,7 +137,7 @@ void main(){
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : get-activity-category', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       group('DEVICE ONLINE : getactivities', body);
     });
@@ -158,24 +158,24 @@ void main(){
       //act
       await repositoryImpl.getActivities(category: tCategoryModel);
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return a List<Recommendation> when call to remote data source is successfull',
             () async {
           //arrange
-          when(remoteService.getActivities(category: tCategoryModel))
+          when(remoteService!.getActivities(category: tCategoryModel))
               .thenAnswer((_) async => tRecommendations);
           //act
-          final result = await remoteService.getActivities(category: tCategoryModel);
+          final result = await remoteService!.getActivities(category: tCategoryModel);
           //assert
-          verify(remoteService.getActivities(category: tCategoryModel));
+          verify(remoteService!.getActivities(category: tCategoryModel));
           expect(result,  tRecommendations);
         });
     test('should return ServerFailure when the call to remoteService fails',
             () async {
           //arrange
-          when(remoteService.getActivities(category: tCategoryModel)).thenThrow(ServerException());
+          when(remoteService!.getActivities(category: tCategoryModel)).thenThrow(ServerException());
           //act
           final result = await repositoryImpl.getActivities(category: tCategoryModel);
           //assert
@@ -184,9 +184,9 @@ void main(){
   });
   test('DEVICE OFFLINE : getactivity should return DeviceOfflineFailure',
           () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
         //act
-        final result = await remoteService.getActivities(category: tCategoryModel);
+        final result = await remoteService!.getActivities(category: tCategoryModel);
         //assert
         expect(result, null);
       });

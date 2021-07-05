@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+
 import '../../../error/exceptions.dart';
 import '../../../persistence-consts.dart';
 
@@ -15,7 +15,7 @@ class AppLastOpenedLogLocalServiceImpl implements AppLastOpenedLogLocalService {
   final Box localClient;
 
   AppLastOpenedLogLocalServiceImpl({
-    @required this.localClient,
+    required this.localClient,
   });
   @override
   Future<Unit> logStartDatetime() async {

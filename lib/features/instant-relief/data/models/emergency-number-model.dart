@@ -6,7 +6,7 @@ import '../../domain/entities/emergency-number.dart';
 
 class EmergencyNumberModel extends EmergencyNumber {
   const EmergencyNumberModel({
-    @required String number,
+    required String? number,
   }) : super(
           number: number,
         );
@@ -15,7 +15,7 @@ class EmergencyNumberModel extends EmergencyNumber {
     return EmergencyNumberModel(
       //TODO If getEmergencyNumber module gives any error make sure to also check this model once
       // because I guess if the current API response will be there in  form of List then .fromJson would not neded
-      number: jsonMap["number"] as String,
+      number: jsonMap["number"] as String?,
     );
   }
 

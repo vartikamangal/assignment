@@ -5,20 +5,20 @@ import 'package:flutter_sound/flutter_sound.dart';
 import '../../../error/exceptions.dart';
 
 abstract class GetRecorderStatsLocalDataSource {
-  Future<Stream<RecordingDisposition>> getDetails();
+  Future<Stream<RecordingDisposition>?> getDetails();
 }
 
 class GetRecorderStatsLocalDataSourceImpl
     implements GetRecorderStatsLocalDataSource {
-  final FlutterSoundRecorder recorder;
+  final FlutterSoundRecorder? recorder;
 
   GetRecorderStatsLocalDataSourceImpl({
-    @required this.recorder,
+    required this.recorder,
   });
   @override
-  Future<Stream<RecordingDisposition>> getDetails() async {
+  Future<Stream<RecordingDisposition>?> getDetails() async {
     try {
-      return recorder.onProgress;
+      return recorder!.onProgress;
     } catch (e) {
       log(e.toString());
       throw VoiceNoteExceptionOperationException();

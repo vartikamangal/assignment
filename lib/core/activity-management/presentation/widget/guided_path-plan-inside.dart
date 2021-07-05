@@ -24,7 +24,7 @@ class GuidedPathPlanInside extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
-    final dayPlan = _controller.selectedDayPlan.value;
+    final dayPlan = _controller.selectedDayPlan.value!;
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -49,7 +49,7 @@ class GuidedPathPlanInside extends StatelessWidget {
                       ).value,
                     ),
                     child: Text(
-                      dayPlan.title,
+                      dayPlan.title!,
                       style: AppTextStyle.Askfeeling,
                       textScaleFactor: textScaleFactor,
                     ),
@@ -58,7 +58,7 @@ class GuidedPathPlanInside extends StatelessWidget {
                     margin: EdgeInsets.only(
                         left: ScaleManager.spaceScale(spaceing: 42).value),
                     child: Text(
-                      dayPlan.subtitle,
+                      dayPlan.subtitle!,
                       style: AppTextStyle.pathdescription,
                       textScaleFactor: textScaleFactor,
                     ),
@@ -81,7 +81,7 @@ class GuidedPathPlanInside extends StatelessWidget {
                 ],
               ),
             ),
-            if (_controller.selectedDayPlan.value.recommendationList.isEmpty)
+            if (_controller.selectedDayPlan.value!.recommendationList.isEmpty)
               SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -113,9 +113,9 @@ class GuidedPathPlanInside extends StatelessWidget {
   List<PlanContainer> _buildDayPlanInsiderActivities() {
     final List<PlanContainer> _insiderPlanActivities = [];
     for (int i = 0;
-        i < _controller.selectedDayPlan.value.recommendationList.length;
+        i < _controller.selectedDayPlan.value!.recommendationList.length;
         i++) {
-      final activity = _controller.selectedDayPlan.value.recommendationList[i];
+      final activity = _controller.selectedDayPlan.value!.recommendationList[i];
       _insiderPlanActivities.add(
         PlanContainer(
           isFaded: false,

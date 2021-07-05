@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -12,20 +11,19 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/repository/set-subject-mood-service-impl.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/sources/set-subject-mood-remote-service.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/set-mood-success.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/repository/rapport-building-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
 
 class MockSetSubjectMoodRemoteService extends Mock
-    implements SetSubjectMoodRemoteService {}
+    implements RapportBuildingRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockNetworkInfo networkInfo;
-  MockSetSubjectMoodRemoteService remoteService;
-  SetSubjectMoodServiceImpl serviceImpl;
+  MockNetworkInfo? networkInfo;
+  MockSetSubjectMoodRemoteService? remoteService;
+  late RapportBuildingRepositoryImpl serviceImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -39,8 +37,8 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    serviceImpl = SetSubjectMoodServiceImpl(
-      service: remoteService,
+    serviceImpl = RapportBuildingRepositoryImpl(
+      remoteDataSource: remoteService,
       baseRepository: baseRepository,
     );
   });
@@ -61,7 +59,7 @@ void main() {
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : SetSubjectMood', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       body();
     });
@@ -70,7 +68,7 @@ void main() {
   void runTestsOffline(Callback body) {
     group('DEVICE OFFLINE : SetSubjectMood', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
       });
       body();
     });
@@ -85,13 +83,13 @@ void main() {
         moodName: tMood,
       );
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return SetMoodSuccess if call to remote data source is successfull',
         () async {
       //arrange
-      when(remoteService.setMood(
+      when(remoteService!.setMood(
         moodName: tMood,
         activityType: tActivityType,
       )).thenAnswer(
@@ -103,7 +101,7 @@ void main() {
         activityType: tActivityType,
       );
       //assert
-      verify(remoteService.setMood(
+      verify(remoteService!.setMood(
         moodName: tMood,
         activityType: tActivityType,
       ));
@@ -112,7 +110,7 @@ void main() {
     test('should return ServerFailure when the call to remoteService fails',
         () async {
       //arrange
-      when(remoteService.setMood(
+      when(remoteService!.setMood(
         moodName: tMood,
         activityType: tActivityType,
       )).thenThrow(ServerException());

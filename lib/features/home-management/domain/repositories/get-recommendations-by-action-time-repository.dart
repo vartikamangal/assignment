@@ -9,7 +9,7 @@ import 'package:tatsam_app_experimental/core/activity-management/domain/entities
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 
 abstract class GetRecommendationsByActionTimeRepository {
-  Future<Either<Failure, List<ActivityRecommendation>>> getRecommendations({
-    @required String actionTime,
+  Future<Either<Failure, List<ActivityRecommendation>>?> getRecommendations({
+    required String actionTime,
   });
 }

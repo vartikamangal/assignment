@@ -9,11 +9,11 @@ import '../../../rapport-building/Presentation/controllers/rapport-building-cont
 
 class ViewInjector extends StatelessWidget {
   const ViewInjector({
-    Key key,
-    @required this.homeController,
-    @required this.durationController,
-    @required this.pathController,
-    @required this.rapportBuildingController,
+    Key? key,
+    required this.homeController,
+    required this.durationController,
+    required this.pathController,
+    required this.rapportBuildingController,
   }) : super(key: key);
 
   final HomeController homeController;

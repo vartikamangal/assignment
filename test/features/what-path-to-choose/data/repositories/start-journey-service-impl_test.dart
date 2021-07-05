@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -13,19 +12,19 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/repositories/start-journey-service-impl.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/start-journey-remote-service.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/repositories/path-operations-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/path-operations-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
 
 class MockStartJourneyRemoteService extends Mock
-    implements StartJourneyRemoteService {}
+    implements PathOperationsRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockNetworkInfo networkInfo;
-  MockStartJourneyRemoteService remoteService;
-  StartJourneyServiceImpl serviceImpl;
+  MockNetworkInfo? networkInfo;
+  MockStartJourneyRemoteService? remoteService;
+  late PathOperationsRepositoryImpl serviceImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -39,8 +38,8 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    serviceImpl = StartJourneyServiceImpl(
-      remoteService: remoteService,
+    serviceImpl = PathOperationsRepositoryImpl(
+      remoteDataSource: remoteService,
       baseRepository: baseRepository,
     );
   });
@@ -61,7 +60,7 @@ void main() {
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : RemoveIssue', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       body();
     });
@@ -70,7 +69,7 @@ void main() {
   void runTestsOffline(Callback body) {
     group('DEVICE OFFLINE : RemoveIssue', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
       });
       body();
     });
@@ -82,25 +81,25 @@ void main() {
       //act
       await serviceImpl.startJourney(journey: tJourney);
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return startJourneySuccess if call to remote data source is successfull',
         () async {
       //arrange
-      when(remoteService.startJourney(journey: tJourney))
+      when(remoteService!.startJourney(journey: tJourney))
           .thenAnswer((_) async => SuccessJourneyStart());
       //act
       final result = await serviceImpl.startJourney(journey: tJourney);
       //assert
-      verify(remoteService.startJourney(journey: tJourney));
+      verify(remoteService!.startJourney(journey: tJourney));
       expect(result, Right(SuccessJourneyStart()));
     });
 
     test('should return ServerFailure when the call to remoteService fails',
         () async {
       //arrange
-      when(remoteService.startJourney(journey: tJourney))
+      when(remoteService!.startJourney(journey: tJourney))
           .thenThrow(ServerException());
       //act
       final result = await serviceImpl.startJourney(journey: tJourney);

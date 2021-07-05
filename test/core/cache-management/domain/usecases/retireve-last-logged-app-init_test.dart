@@ -9,15 +9,15 @@ class MockLogLastOpenedAppService extends Mock
     implements LogLastOpenedAppService {}
 
 void main() {
-  MockLogLastOpenedAppService service;
-  RetirieveLastLoggedAppInit useCase;
+  late MockLogLastOpenedAppService service;
+  late RetirieveLastLoggedAppInit useCase;
 
   setUp(() {
     service = MockLogLastOpenedAppService();
     useCase = RetirieveLastLoggedAppInit(service: service);
   });
 
-  var tLastLog = DateTime.now();
+  final tLastLog = DateTime.now();
   group('USECASE: service.retrieveLastLog()', () {
     test('should retireve last logged app init ...', () async {
       when(service.retrieveLastLog()).thenAnswer((_) async => Right(tLastLog));

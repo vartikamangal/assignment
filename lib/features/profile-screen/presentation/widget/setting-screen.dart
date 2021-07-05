@@ -20,7 +20,7 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
-    controller.nicknameEditingController.value= TextEditingValue(text: controller.profileData.value.nickName);
+    controller.nicknameEditingController.value= TextEditingValue(text: controller.profileData.value!.nickName!);
     return SafeArea(child: Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -312,12 +312,12 @@ class  SettingScreen extends  GetWidget<ProfileController>  {
 // Persistent Dropdown header
 class _DropDownTopHeader extends StatelessWidget {
   const _DropDownTopHeader({
-    Key key,
-    @required this.textScaleFactor,
-    @required this.color,
-    @required this.label,
-    @required this.isExpanded,
-    @required this.onTap,
+    Key? key,
+    required this.textScaleFactor,
+    required this.color,
+    required this.label,
+    required this.isExpanded,
+    required this.onTap,
   }) : super(key: key);
 
   final double textScaleFactor;

@@ -49,7 +49,7 @@ class SelectedIssueDetails extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      _controller.selectedIssue.value.displayName,
+                      _controller.selectedIssue.value!.displayName!,
                       style: AppTextStyle.lightblueheader.copyWith(
                         fontSize: 24,
                         height: 2.6,
@@ -68,7 +68,7 @@ class SelectedIssueDetails extends StatelessWidget {
                         ).value,
                       ),
                       child: Text(
-                        _controller.selectedIssue.value.messageOnSelection,
+                        _controller.selectedIssue.value!.messageOnSelection!,
                         style: AppTextStyle.descriptiontext.copyWith(
                           fontSize: 17,
                           height: 1.3,

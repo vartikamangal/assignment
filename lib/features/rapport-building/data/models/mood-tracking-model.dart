@@ -9,12 +9,12 @@ import 'subject-id-model.dart';
 // ignore: must_be_immutable
 class MoodTrackingModel extends MoodTracking {
   MoodTrackingModel({
-    @required SubjectId subjectId,
-    @required int id,
-    @required String moodDuration,
-    @required String activityType,
-    @required String mood,
-    @required DateTime createdWhen,
+    required SubjectId subjectId,
+    required int? id,
+    required String? moodDuration,
+    required String? activityType,
+    required String? mood,
+    required DateTime createdWhen,
   }) : super(
           subjectId: subjectId,
           moodDuration: moodDuration,
@@ -29,10 +29,10 @@ class MoodTrackingModel extends MoodTracking {
       subjectId: SubjectIdModel.fromJson(
         jsonMap: jsonMap['subjectId'] as Map<String, dynamic>,
       ),
-      id: jsonMap['id'] as int,
-      moodDuration: jsonMap['moodDuration'] as String,
-      activityType: jsonMap['activityType'] as String,
-      mood: jsonMap['mood'] as String,
+      id: jsonMap['id'] as int?,
+      moodDuration: jsonMap['moodDuration'] as String?,
+      activityType: jsonMap['activityType'] as String?,
+      mood: jsonMap['mood'] as String?,
       createdWhen: DateTime.parse(
         jsonMap['createdWhen'] as String,
       ),

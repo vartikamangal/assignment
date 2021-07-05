@@ -17,7 +17,7 @@ abstract class JWTOperationHelper {
         throw Exception('invalid payload');
       }
 
-      return payloadMap as Map<String, dynamic>;
+      return payloadMap;
     } on PlatformException catch (e) {
       log(
         e.toString(),

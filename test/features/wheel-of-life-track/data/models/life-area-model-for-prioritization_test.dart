@@ -70,7 +70,7 @@ void main() {
         result,
         jsonDecode(
           fixtureReader(filename: 'get-wol-areas-raw-repsonse.json'),
-        ) as List,
+        ) as List?,
       );
     });
   });

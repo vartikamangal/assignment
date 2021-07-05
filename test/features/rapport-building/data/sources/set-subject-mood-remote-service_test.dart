@@ -3,7 +3,6 @@ import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
-
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -11,25 +10,25 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/sources/set-subject-mood-remote-service.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
+
 import '../../../../fixtures/fixture-reader.dart';
 
 class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  SetSubjectMoodRemoteServiceImpl remoteServiceImpl;
-  MockCustomApiClient client;
+  late RapportBuildingRemoteDataSourceImpl remoteServiceImpl;
+  MockCustomApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   setUp(() {
     client = MockCustomApiClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
-    remoteServiceImpl = SetSubjectMoodRemoteServiceImpl(
+    remoteServiceImpl = RapportBuildingRemoteDataSourceImpl(
         client: client,
         throwExceptionIfResponseError: throwExceptionIfResponseError);
   });
@@ -47,16 +46,16 @@ Future<void> main() async {
   );
 
   //? helper functions
-  void setupHttpSuccessClient200({@required String testFileName}) {
+  void setupHttpSuccessClient200({required String testFileName}) {
     when(
-      client.post(uri: APIRoute.setMood, body: anyNamed('body')),
+      client!.post(uri: APIRoute.setMood, body: anyNamed('body')),
     ).thenAnswer(
       (_) async => http.Response(fixtureReader(filename: testFileName), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.post(uri: APIRoute.setMood, body: anyNamed('body'))).thenAnswer(
+    when(client!.post(uri: APIRoute.setMood, body: anyNamed('body'))).thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }
@@ -72,7 +71,7 @@ Future<void> main() async {
         activityType: tActivityType,
       );
       //assert
-      verify(client.post(
+      verify(client!.post(
         uri: APIRoute.setMood,
         body: jsonEncode(
           {
@@ -98,7 +97,7 @@ Future<void> main() async {
       //arrange
       setupHttpFailureClient404();
       //act
-      final call = remoteServiceImpl.setMood;
+      final Future<MoodTrackingModel> Function({String activityType, String moodName}) call = remoteServiceImpl.setMood;
       //assert
       expect(
         () => call(

@@ -7,11 +7,11 @@ class PathChecker extends StatelessWidget {
   final bool isNewUser;
 
   const PathChecker({
-    Key key,
-    @required this.userPath,
-    @required this.widgetForBigGoals,
-    @required this.widgetForSmallWins,
-    @required this.isNewUser,
+    Key? key,
+    required this.userPath,
+    required this.widgetForBigGoals,
+    required this.widgetForSmallWins,
+    required this.isNewUser,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

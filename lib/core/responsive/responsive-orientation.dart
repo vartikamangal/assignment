@@ -6,9 +6,9 @@ class ResponsiveOrientation extends StatelessWidget {
   final Widget landscape;
 
   const ResponsiveOrientation({
-    Key key,
-    @required this.potrait,
-    @required this.landscape,
+    Key? key,
+    required this.potrait,
+    required this.landscape,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

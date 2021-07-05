@@ -103,7 +103,7 @@ class PathGuidedPlan extends StatelessWidget {
 
   List<PlanContainer> _buildPlan() {
     final List<PlanContainer> _plans = [];
-    for (final planItem in _controller.guidedPlan.value.activitySchedule) {
+    for (final planItem in _controller.guidedPlan.value!.activitySchedule) {
       _plans.add(
         PlanContainer(
           requireBottomSpacing: true,

@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 
-String nameValidation({
-  @required String value,
-  @required RapportBuildingController controller,
+String? nameValidation({
+  required String value,
+  required RapportBuildingController controller,
 }) {
   //print(controller.isWantToMoveFromNameScreen.value.toString());
   if (value.length==0 && controller.isWantToMoveFromNameScreen.value==true) {

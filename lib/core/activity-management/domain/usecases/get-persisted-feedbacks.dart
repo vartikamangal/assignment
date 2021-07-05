@@ -7,14 +7,14 @@ import '../../../usecase/usecase.dart';
 
 class GetPersistedFeedbacks
     implements Usecase<List<RecommendationInput>, NoParams> {
-  final RecommendationFeedbackService service;
+  final RecommendationFeedbackService? service;
 
   GetPersistedFeedbacks({
-    @required this.service,
+    required this.service,
   });
   @override
   Future<Either<Failure, List<RecommendationInput>>> call(
       NoParams params) async {
-    return service.getpersistedFeedbacks();
+    return service!.getpersistedFeedbacks();
   }
 }

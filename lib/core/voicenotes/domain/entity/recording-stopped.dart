@@ -5,7 +5,7 @@ class RecordingStopped extends Success {
   final String status;
 
   const RecordingStopped({
-    @required this.status,
+    required this.status,
   }) : super(
           message: 'Recording done',
         );

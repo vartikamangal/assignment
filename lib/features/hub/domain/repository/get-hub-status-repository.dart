@@ -6,5 +6,5 @@ import '../../../../core/error/failures.dart';
 import '../entities/hub-status.dart';
 
 abstract class GetHubStatusRepository {
-  Future<Either<Failure, HubStatus>> getHubStatus();
+  Future<Either<Failure, HubStatus>?> getHubStatus();
 }

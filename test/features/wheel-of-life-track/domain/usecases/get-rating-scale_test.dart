@@ -2,19 +2,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rating-scale.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/get-rating-scale-repository.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/wheel-of-life-repository.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/usecases/get-rating-scale.dart';
 
 class MockGetRatingScaleRepository extends Mock
-    implements GetRatingScaleRepository {}
+    implements WheelOfLifeRepository {}
 
 void main() {
   MockGetRatingScaleRepository repository;
-  GetRatingScale useCase;
+  late GetRatingScale useCase;
 
   setUp(() {
     repository = MockGetRatingScaleRepository();

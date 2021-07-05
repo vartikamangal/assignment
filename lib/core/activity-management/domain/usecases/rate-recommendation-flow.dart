@@ -13,15 +13,15 @@ import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
 class RateRecommendationFlow
     implements Usecase<Unit, RateRecommendationFlowParams> {
-  final RateRecommendationFlowService service;
+  final RateRecommendationFlowService? service;
 
   RateRecommendationFlow({
-    @required this.service,
+    required this.service,
   });
   @override
-  Future<Either<Failure, Unit>> call(
+  Future<Either<Failure, Unit>?> call(
       RateRecommendationFlowParams params) async {
-    return service.rateRecommendation(
+    return service!.rateRecommendation(
       feedback: params.feedback,
     );
   }
@@ -30,7 +30,7 @@ class RateRecommendationFlow
 class RateRecommendationFlowParams extends Equatable {
   final FeedbackModel feedback;
   const RateRecommendationFlowParams({
-    @required this.feedback,
+    required this.feedback,
   });
   @override
   List<Object> get props {

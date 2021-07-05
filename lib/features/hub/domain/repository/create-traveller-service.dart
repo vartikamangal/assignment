@@ -6,5 +6,5 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/success/success-interface.dart';
 
 abstract class CreateTravellerService {
-  Future<Either<Failure, Success>> createTraveller();
+  Future<Either<Failure, Success>?> createTraveller();
 }

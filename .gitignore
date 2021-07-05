@@ -27,9 +27,11 @@
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
+*.puml
 .pub-cache/
 .pub/
 /build/
+/out/
 pubspec.lock
 
 # Web related

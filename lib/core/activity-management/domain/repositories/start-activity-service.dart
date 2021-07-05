@@ -9,8 +9,8 @@ import '../../../../core/error/failures.dart';
 import '../entities/activity-status.dart';
 
 abstract class StartActivityService {
-  Future<Either<Failure, ActivityStatus>> startActivity({
-    @required String recommendationId,
-    @required bool isInstantActivity,
+  Future<Either<Failure, ActivityStatus>?> startActivity({
+    required String? recommendationId,
+    required bool isInstantActivity,
   });
 }

@@ -1,8 +1,6 @@
 // Dart imports:
 import 'dart:developer';
 
-// Flutter imports:
-import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:get/get.dart';
 // Project imports:
@@ -24,22 +22,22 @@ class ChoosePathController extends GetxController {
   final CheckIfAuthenticated checkIfAuthenticated;
 
   ChoosePathController({
-    @required this.getJourneyPathList,
-    @required this.startJourney,
-    @required this.checkIfAuthenticated,
+    required this.getJourneyPathList,
+    required this.startJourney,
+    required this.checkIfAuthenticated,
   });
   //////////                                      //////////////
   ////////// Dynamic Data Holders {For Usecases} ///////////////
   /////////                                     //////////////
   RxList<Journey> availableJournies = RxList<JourneyModel>([]);
-  Rx<Journey> selectedJourney = Rx<JourneyModel>();
+  Rxn<Journey> selectedJourney = Rxn<JourneyModel>();
 
   //////////                        //////////////
   ////////// Usecase helper methods ///////////////
   /////////                         //////////////
   Future<void> fetchJourneys() async {
     final fetchedJourneysOrFailure = await getJourneyPathList(NoParams());
-    fetchedJourneysOrFailure.fold(
+    fetchedJourneysOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
@@ -58,17 +56,17 @@ class ChoosePathController extends GetxController {
       ),
     );
     toggleProcessor();
-    journeyStartedOrFailure.fold(
+    journeyStartedOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (journeyStatus) {
-        log('${selectedJourney.value.title} started');
+        log('${selectedJourney.value!.title} started');
 
         /// If the jounrey started was Self-driven then move to SelfDrivenRecommendationScreen else
         /// move to guided plan screen
         Get.find<PathController>().setup();
-        selectedJourney.value.pathName == 'SMALL_WINS'
+        selectedJourney.value!.pathName == 'SMALL_WINS'
             ? Get.toNamed(RouteName.pathSelfDrivenPlan)
             : Get.toNamed(RouteName.pathGuidedPlan);
       },
@@ -92,7 +90,7 @@ class ChoosePathController extends GetxController {
   }
 
   // ignore: use_setters_to_change_properties
-  void selectJourney({@required Journey journey}) {
+  void selectJourney({required Journey journey}) {
     selectedJourney.value = journey;
     isJourneySelected.value = true;
   }

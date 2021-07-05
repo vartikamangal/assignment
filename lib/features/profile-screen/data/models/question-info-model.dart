@@ -3,9 +3,9 @@ import '../../domain/entities/question-info.dart';
 
 class QuestionInfoModel extends QuestionInfo {
   const QuestionInfoModel({
-    @required int id,
-    @required String questionText,
-    @required String questionExplanation,
+    required int? id,
+    required String? questionText,
+    required String? questionExplanation,
   }) : super(
           questionExplanation: questionExplanation,
           id: id,
@@ -14,9 +14,9 @@ class QuestionInfoModel extends QuestionInfo {
 
   factory QuestionInfoModel.fromJson(Map<String, dynamic> jsonMap) {
     return QuestionInfoModel(
-      id: jsonMap['id'] as int,
-      questionText: jsonMap['questionText'] as String,
-      questionExplanation: jsonMap['questionExplanation'] as String,
+      id: jsonMap['id'] as int?,
+      questionText: jsonMap['questionText'] as String?,
+      questionExplanation: jsonMap['questionExplanation'] as String?,
     );
   }
 

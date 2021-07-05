@@ -86,10 +86,10 @@ class QuestionsTrackScreen extends StatelessWidget {
                                     question: question.questionText,
                                     // 0 is used because in Scale Type questions, there is only one scale scale possible in response
                                     min: question.questionOptionVO[0]
-                                        .additionalInformation[0].min
+                                        .additionalInformation[0].min!
                                         .toDouble(),
                                     max: question.questionOptionVO[0]
-                                        .additionalInformation[0].max
+                                        .additionalInformation[0].max!
                                         .toDouble(),
                                     onChanged: (double newVal) {
                                       controller.updateQuizValues(

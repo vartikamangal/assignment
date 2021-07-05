@@ -38,7 +38,7 @@ void main(){
         //arrange
         final expectedJson =
         jsonDecode(fixtureReader(filename: 'raw-tag-model.json'))
-        as List;
+        as List?;
         //act
         final result = tTags
             .map((area) => (area as TagModel).toJson())

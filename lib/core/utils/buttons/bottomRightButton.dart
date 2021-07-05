@@ -13,8 +13,8 @@ import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 
 class BottomRightButton extends StatelessWidget {
-  final String title;
-  final Callback onPressed;
+  final String? title;
+  final Callback? onPressed;
   const BottomRightButton({
     this.onPressed,
     this.title,

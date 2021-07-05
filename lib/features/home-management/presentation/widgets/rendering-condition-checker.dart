@@ -8,8 +8,8 @@ class RenderingConditionChecker extends StatelessWidget {
   final HomeController homeController = Get.find();
   final Widget whatToShow;
   RenderingConditionChecker({
-    Key key,
-    @required this.whatToShow,
+    Key? key,
+    required this.whatToShow,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

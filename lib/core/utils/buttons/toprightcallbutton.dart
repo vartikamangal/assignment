@@ -13,7 +13,7 @@ import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 
 class TopRightCallbutton extends StatelessWidget {
-  final Callback onPressed;
+  final Callback? onPressed;
   const TopRightCallbutton({this.onPressed});
   @override
   Widget build(BuildContext context) {

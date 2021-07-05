@@ -3,7 +3,7 @@ import '../../responsive/scale-manager.dart';
 
 class MiniLoader extends StatelessWidget {
   const MiniLoader({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

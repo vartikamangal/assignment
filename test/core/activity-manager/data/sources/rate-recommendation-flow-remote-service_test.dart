@@ -16,7 +16,7 @@ class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
   RateRecommendationFlowRemoteServiceImpl remoteDataSourceImpl;
-  MockCustomApiClient client;
+  MockCustomApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
@@ -42,14 +42,14 @@ Future<void> main() async {
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client.get(uri: APIRoute.rateActivityFeedback)).thenAnswer(
+    when(client!.get(uri: APIRoute.rateActivityFeedback)).thenAnswer(
           (_) async => http.Response(
           unit.toString(), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(uri: APIRoute.rateActivityFeedback)).thenAnswer(
+    when(client!.get(uri: APIRoute.rateActivityFeedback)).thenAnswer(
           (_) async => http.Response('Oops! page not found', 404),
     );
   }

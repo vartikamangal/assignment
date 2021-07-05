@@ -1,9 +1,6 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cache-acitivity-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/cache-most-recent-activity-local-service.dart';
@@ -13,19 +10,19 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 
 class CacheMostRecentActivityServiceImpl
     implements CacheMostRecentAcitivtyService {
-  final CacheMostRecentAcitivityLocalService localService;
+  final CacheMostRecentAcitivityLocalService? localService;
   final BaseRepository baseRepository;
 
   CacheMostRecentActivityServiceImpl({
-    @required this.localService,
-    @required this.baseRepository,
+    required this.localService,
+    required this.baseRepository,
   });
   @override
-  Future<Either<Failure, Unit>> cacheActivity({
-    CacheAcitivityModel acitivity,
+  Future<Either<Failure, Unit>?> cacheActivity({
+    required CacheAcitivityModel acitivity,
   }) async {
     return baseRepository(
-      () => localService.cacheActivity(
+      () => localService!.cacheActivity(
         acitivity: acitivity,
       ),
     );

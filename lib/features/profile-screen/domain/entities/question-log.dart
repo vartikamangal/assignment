@@ -4,23 +4,23 @@ import 'profile-question.dart';
 import '../../../questionnaire-track/domain/entities/question-option.dart';
 
 class QuestionLog extends Equatable {
-  final int id;
+  final int? id;
   final DateTime answeredWhen;
   //change this
   final ProfileQuestion question;
   final List<QuestionOption> optionChosen;
-  final String additionalInformation;
+  final String? additionalInformation;
 
   const QuestionLog({
-    @required this.id,
-    @required this.answeredWhen,
-    @required this.question,
-    @required this.optionChosen,
-    @required this.additionalInformation,
+    required this.id,
+    required this.answeredWhen,
+    required this.question,
+    required this.optionChosen,
+    required this.additionalInformation,
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         answeredWhen,
         question,

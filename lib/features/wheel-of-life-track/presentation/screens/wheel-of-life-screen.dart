@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
@@ -30,7 +31,7 @@ class WheelOfLifeScreen extends StatelessWidget {
           children: [
             Obx(
                   () => _controller.isProcessing.value
-                  ? const LinearProgressIndicator()
+                  ? CustomizedLinearProgressIndicator()
                   : Container(),
             ),
             CustomScrollView(
@@ -58,7 +59,7 @@ class WheelOfLifeScreen extends StatelessWidget {
                         ).value,
                       ),
                       width: Get.width,
-                      child: Obx(() => _controller.currentSelectedPage.value),
+                      child: Obx(() => _controller.currentSelectedPage.value!),
                     ),
                   ),
                   SliverToBoxAdapter(

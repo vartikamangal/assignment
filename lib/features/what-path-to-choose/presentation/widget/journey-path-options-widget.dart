@@ -67,8 +67,8 @@ class WhatPathToChoose extends StatelessWidget {
 // Widget for showing available paths, {Differed coz. of better modularity}
 class _AvailablePathsWidget extends StatelessWidget {
   const _AvailablePathsWidget({
-    Key key,
-    @required ChoosePathController controller,
+    Key? key,
+    required ChoosePathController controller,
   })  : _controller = controller,
         super(key: key);
 

@@ -9,10 +9,10 @@ import 'tag-model.dart';
 
 class ActivityScheduleGuidedModel extends ActivitySceduleGuided {
   const ActivityScheduleGuidedModel({
-    @required int id,
-    @required PathInformationModel pathInformation,
-    @required List<GuidedActivityRecommendationModel> activitySchedule,
-    @required List<TagModel> tags,
+    required int? id,
+    required PathInformationModel pathInformation,
+    required List<GuidedActivityRecommendationModel> activitySchedule,
+    required List<TagModel> tags,
   }) : super(
           tags: tags,
           pathInformation: pathInformation,
@@ -22,7 +22,7 @@ class ActivityScheduleGuidedModel extends ActivitySceduleGuided {
 
   factory ActivityScheduleGuidedModel.fromJson(Map<String, dynamic> jsonMap) {
     return ActivityScheduleGuidedModel(
-      id: jsonMap['id'] as int,
+      id: jsonMap['id'] as int?,
       pathInformation: PathInformationModel.fromJson(
         jsonMap['pathInformation'] as Map<String, dynamic>,
       ),

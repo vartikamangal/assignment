@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -12,18 +11,18 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/get-life-areas-repository-impl.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/get-life-areas-remote-data-source.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/wheel-of-life-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/wheel-of-life-remote-data-source.dart';
 
 class MockGetLifeAreasRemoteDataSource extends Mock
-    implements GetLifeAreasRemoteDataSource {}
+    implements WheelOfLifeRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockGetLifeAreasRemoteDataSource remoteDataSource;
-  MockNetworkInfo networkInfo;
-  GetLifeAreasRepositoryImpl repositoryImpl;
+  MockGetLifeAreasRemoteDataSource? remoteDataSource;
+  MockNetworkInfo? networkInfo;
+  late WheelOfLifeRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -37,8 +36,8 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    repositoryImpl = GetLifeAreasRepositoryImpl(
-      source: remoteDataSource,
+    repositoryImpl = WheelOfLifeRepositoryImpl(
+      remoteDataSource: remoteDataSource,
       baseRepository: baseRepository,
     );
   });
@@ -94,7 +93,7 @@ void main() {
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : GetLifeAreas', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       body();
     });
@@ -103,7 +102,7 @@ void main() {
   void runTestsOffline(Callback body) {
     group('DEVICE OFFLINE : GetLifeAreas', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
       });
       body();
     });
@@ -114,24 +113,24 @@ void main() {
       //act
       await repositoryImpl.getLifeAreas();
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test('should return List<LifeAreaModel>', () async {
       //arrange
-      when(remoteDataSource.getAreas()).thenAnswer(
+      when(remoteDataSource!.getAreas()).thenAnswer(
         (realInvocation) async => tAreas,
       );
       //act
       final result = await repositoryImpl.getLifeAreas();
       //assert
-      verify(remoteDataSource.getAreas());
+      verify(remoteDataSource!.getAreas());
       expect(result, const Right(tAreas));
     });
     test(
         'should return ServerFailure when call to remote resource is unsuccessfull.',
         () async {
       //arrange
-      when(remoteDataSource.getAreas()).thenThrow(ServerException());
+      when(remoteDataSource!.getAreas()).thenThrow(ServerException());
       //act
       final result = await repositoryImpl.getLifeAreas();
       //assert

@@ -8,24 +8,24 @@ import 'package:equatable/equatable.dart';
 import 'default-rating-scale.dart';
 
 class IndividualSatisfactionRating extends Equatable {
-  final int id;
-  final int rating;
+  final int? id;
+  final int? rating;
   final DefaultRatingScale scale;
   const IndividualSatisfactionRating({
-    @required this.id,
-    @required this.rating,
-    @required this.scale,
+    required this.id,
+    required this.rating,
+    required this.scale,
   });
   @override
-  List<Object> get props => [id, rating, scale];
+  List<Object?> get props => [id, rating, scale];
 
   @override
   bool get stringify => true;
 
   IndividualSatisfactionRating copyWith({
-    int id,
-    int rating,
-    DefaultRatingScale scale,
+    int? id,
+    int? rating,
+    DefaultRatingScale? scale,
   }) {
     return IndividualSatisfactionRating(
       id: id ?? this.id,

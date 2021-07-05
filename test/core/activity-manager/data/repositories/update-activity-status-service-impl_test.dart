@@ -18,9 +18,9 @@ class MockUpdateActivityStatusRemoteService extends Mock
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main(){
-  UpdateActivityStatusRemoteService remoteDataService;
-  MockNetworkInfo networkInfo;
-  UpdateActivityStatusServiceImpl repositoryImpl;
+  UpdateActivityStatusRemoteService? remoteDataService;
+  MockNetworkInfo? networkInfo;
+  late UpdateActivityStatusServiceImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -49,7 +49,7 @@ void main(){
 
   void runTestOnline(Callback body) {
     setUp(() {
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
+      when(networkInfo!.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : updateStatus', body);
   }
@@ -60,25 +60,25 @@ void main(){
       //act
       await repositoryImpl.updateStatus(status: tStatus,actionId: 1324);
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return a activitystatusmodel when call to remote data source is successfull',
             () async {
           //arrange
-          when(remoteDataService.modifyStatus(status: tStatus,actionId: 1324))
+          when(remoteDataService!.modifyStatus(status: tStatus,actionId: 1324))
               .thenAnswer((_) async => tActivityStatus);
           //act
           final result = await repositoryImpl.updateStatus(status: tStatus,actionId: 1324);
           //assert
-          verify(remoteDataService.modifyStatus(status: tStatus,actionId: 1324));
+          verify(remoteDataService!.modifyStatus(status: tStatus,actionId: 1324));
           expect(result, const Right(tActivityStatus));
         });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
             () async {
           //arrange
-          when(remoteDataService.modifyStatus(status: tStatus,actionId: 1324)).thenThrow(ServerException());
+          when(remoteDataService!.modifyStatus(status: tStatus,actionId: 1324)).thenThrow(ServerException());
           //act
           final result = await repositoryImpl.updateStatus(status: tStatus,actionId: 1324);
           //assert
@@ -87,7 +87,7 @@ void main(){
   });
   test('DEVICE OFFLINE : updateStatus should return DeviceOfflineFailure',
           () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
         //act
         final result = await repositoryImpl.updateStatus(status: tStatus,actionId: 1324);
         //assert

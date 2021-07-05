@@ -5,12 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 
 class FeedbackMood extends Equatable {
-  final String mood;
-  final String activityType;
+  final String? mood;
+  final String? activityType;
   const FeedbackMood({
-    @required this.mood,
-    @required this.activityType,
+    required this.mood,
+    required this.activityType,
   });
   @override
-  List<Object> get props => [mood, activityType];
+  List<Object?> get props => [mood, activityType];
 }

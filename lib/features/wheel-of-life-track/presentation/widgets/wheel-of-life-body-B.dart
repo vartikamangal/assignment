@@ -18,7 +18,7 @@ import 're-orderable-ListItem.dart';
 
 class WheelOfLifeBodyB extends StatefulWidget {
   final WheelOfLifeController controller;
-  const WheelOfLifeBodyB({Key key, @required this.controller})
+  const WheelOfLifeBodyB({Key? key, required this.controller})
       : super(key: key);
   @override
   _WheelOfLifeBodyBState createState() => _WheelOfLifeBodyBState();
@@ -122,7 +122,7 @@ class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
                                         ..setEntry(3, 2, 0.001)
                                         ..rotateY(val),
                                       child: isBack?reorderableListItem(
-                                        widget.controller.lifeAreas[i].name,
+                                        widget.controller.lifeAreas[i].name!,
                                       ):Transform(
                                         alignment: Alignment.center,
                                         transform: Matrix4.rotationY(-pi),
@@ -150,7 +150,7 @@ class _WheelOfLifeBodyBState extends State<WheelOfLifeBodyB> {
 }
 
 class SingleTouchRecognizerWidget extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   const SingleTouchRecognizerWidget({this.child});
   @override
   Widget build(BuildContext context) {

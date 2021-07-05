@@ -5,22 +5,22 @@ import '../../../../core/error/exceptions.dart';
 import '../../../../core/persistence-consts.dart';
 
 abstract class MoodPopupShownLocalDataSource {
-  Future<bool> getMoodPopupShownStatus();
+  Future<bool?> getMoodPopupShownStatus();
   Future<Unit> toogleIsMoodPopupShownState();
 }
 
 class MoodPopupShownLocalDataSourceImpl
     implements MoodPopupShownLocalDataSource {
-  final Box localClient;
+  final Box? localClient;
 
   MoodPopupShownLocalDataSourceImpl({
-    @required this.localClient,
+    required this.localClient,
   });
   @override
-  Future<bool> getMoodPopupShownStatus() async {
+  Future<bool?> getMoodPopupShownStatus() async {
     try {
-      final bool result =
-          await localClient.get(PersistenceConst.MOOD_POPUP_SHOWN) as bool;
+      final bool? result =
+          await localClient!.get(PersistenceConst.MOOD_POPUP_SHOWN) as bool?;
       return result;
     } catch (e) {
       throw CacheException();
@@ -30,17 +30,17 @@ class MoodPopupShownLocalDataSourceImpl
   @override
   Future<Unit> toogleIsMoodPopupShownState() async {
     try {
-      final bool oldStatus =
-          await localClient.get(PersistenceConst.MOOD_POPUP_SHOWN) as bool;
+      final bool? oldStatus =
+          await localClient!.get(PersistenceConst.MOOD_POPUP_SHOWN) as bool?;
       // If not a new user
       if (oldStatus != null) {
-        await localClient.put(
+        await localClient!.put(
           PersistenceConst.MOOD_POPUP_SHOWN,
           !oldStatus,
         );
         return unit;
       } else {
-        await localClient.put(
+        await localClient!.put(
           PersistenceConst.MOOD_POPUP_SHOWN,
           true,
         );

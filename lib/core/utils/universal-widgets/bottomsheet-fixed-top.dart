@@ -3,7 +3,7 @@ import '../../responsive/scale-manager.dart';
 
 class BottomSheetFixedTop extends StatelessWidget {
   const BottomSheetFixedTop({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

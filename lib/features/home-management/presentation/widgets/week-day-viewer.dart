@@ -4,9 +4,9 @@ import '../../../../core/utils/universal-widgets/day-selector-box.dart';
 
 class WeekDayViewerComponent extends StatelessWidget {
   const WeekDayViewerComponent({
-    Key key,
-    @required this.activeDay,
-    @required this.daysToBeShownInUI,
+    Key? key,
+    required this.activeDay,
+    required this.daysToBeShownInUI,
   }) : super(key: key);
 
   final List<String> daysToBeShownInUI;

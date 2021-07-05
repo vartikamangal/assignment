@@ -13,47 +13,47 @@ import '../../../../core/session-manager/session-manager.dart';
 
 abstract class AddWeeklyCategoryRemoteService {
   Future<Unit> addWeeklyCategory({
-    @required int weekNumber,
-    @required RecommendationCategoryModel category,
+    required int? weekNumber,
+    required RecommendationCategoryModel? category,
   });
   Future<Unit> addWeeklyActivity({
-    @required String category,
-    @required String recomendationId,
+    required String? category,
+    required String? recomendationId,
   });
 }
 
 class AddWeeklyCategoryRemoteServiceImpl
     implements AddWeeklyCategoryRemoteService {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final ApiClient? client;
+  final ThrowExceptionIfResponseError? throwExceptionIfResponseError;
 
   AddWeeklyCategoryRemoteServiceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    required this.client,
+    required this.throwExceptionIfResponseError,
   });
   @override
   Future<Unit> addWeeklyCategory({
-    int weekNumber,
-    RecommendationCategoryModel category,
+    int? weekNumber,
+    RecommendationCategoryModel? category,
   }) async {
-    final body = jsonEncode(category.toJson());
-    final response = await client.post(
+    final body = jsonEncode(category!.toJson());
+    final response = await client!.post(
       uri: '${APIRoute.addWeeklyCategory}${'$weekNumber'}',
       body: body,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    throwExceptionIfResponseError!(statusCode: response.statusCode);
     return unit;
   }
 
   @override
   Future<Unit> addWeeklyActivity({
-    String category,
-    String recomendationId,
+    String? category,
+    String? recomendationId,
   }) async {
-    final response = await client.post(
+    final response = await client!.post(
       uri: '${APIRoute.addWeeklyActivity}${'/$category/$recomendationId'}',
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    throwExceptionIfResponseError!(statusCode: response.statusCode);
     return unit;
   }
 }

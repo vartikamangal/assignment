@@ -1,19 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cached-mood-model.dart';
-
 import 'package:tatsam_app_experimental/core/cache-manager/domain/entities/cached-mood.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/mood-cache-service.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/get-cached-mood.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
-class MockMoodCacheService extends Mock implements MoodCacheService {}
+import 'cache-mood_test.mocks.dart';
 
+@GenerateMocks([MoodCacheService])
 void main() {
-  MockMoodCacheService service;
-  GetCachedMood useCase;
+  late MockMoodCacheService service;
+  late GetCachedMood useCase;
 
   setUp(() {
     service = MockMoodCacheService();

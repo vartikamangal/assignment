@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tatsam_app_experimental/core/jwt/jwt-operation-helper.dart';
+
 import '../../../data-source/api-client.dart';
 import '../../../data-source/throw-exception-if-response-error.dart';
-
 import '../../../persistence-consts.dart';
 import '../../../routes/api-routes/api-routes.dart';
 import '../../../secrets.dart';
@@ -33,10 +32,10 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   AuthRemoteServiceImpl({
-    @required this.secureStorage,
-    @required this.flutterAppAuth,
-    @required this.apiClient,
-    @required this.throwExceptionIfResponseError,
+    required this.secureStorage,
+    required this.flutterAppAuth,
+    required this.apiClient,
+    required this.throwExceptionIfResponseError,
   });
 
   /// If this returns false means user isn't authenticated and vice-versa
@@ -68,7 +67,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
       final Map<String, String> _params = {
         'audience': Secrets.AUTH0_AUDIENCE,
       };
-      final AuthorizationTokenResponse tokenResponse =
+      final AuthorizationTokenResponse? tokenResponse =
           await flutterAppAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
           Secrets.AUTH0_CLIENT_ID, Secrets.AUTH0_REDIRECT_URI,
@@ -82,7 +81,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
       final OAuthData = OAuthDataModel.fromAuthTokenResponse(tokenResponse);
       await _persistAccessToken(accessToken: OAuthData.accessToken);
       // Make a method for persisting the user-data
-      final parsedUserdata = JWTOperationHelper.parseJwt(OAuthData.idToken);
+      final parsedUserdata = JWTOperationHelper.parseJwt(OAuthData.idToken!);
       final userDataModel = UserDataModel.fromJson(parsedUserdata);
       await _persistUserdata(
         userData: userDataModel,
@@ -108,7 +107,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
         'audience': Secrets.AUTH0_AUDIENCE,
         'screen_hint': 'signup',
       };
-      final AuthorizationTokenResponse tokenResponse =
+      final AuthorizationTokenResponse? tokenResponse =
           await flutterAppAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
           Secrets.AUTH0_CLIENT_ID,
@@ -124,7 +123,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
       final OAuthData = OAuthDataModel.fromAuthTokenResponse(tokenResponse);
       await _persistAccessToken(accessToken: OAuthData.accessToken);
       // Make a method for persisting the user-data
-      final parsedUserdata = JWTOperationHelper.parseJwt(OAuthData.idToken);
+      final parsedUserdata = JWTOperationHelper.parseJwt(OAuthData.idToken!);
       final userDataModel = UserDataModel.fromJson(parsedUserdata);
       await _persistUserdata(
         userData: userDataModel,
@@ -152,13 +151,13 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   @override
   Future<OAuthDataModel> requestNewToken() async {
     try {
-      final authDataUnparsed = await secureStorage.read(
+      final authDataUnparsed = await (secureStorage.read(
         key: PersistenceConst.ACCESS_TOKEN,
-      );
+      ) as Future<String>);
       final authDataParsed = OAuthDataModel.fromJson(
         jsonDecode(authDataUnparsed) as Map<String, dynamic>,
       );
-      final tokenResponse = await appAuth.token(
+      final tokenResponse = await (appAuth.token(
         TokenRequest(
           Secrets.AUTH0_CLIENT_ID,
           Secrets.AUTH0_REDIRECT_URI,
@@ -168,7 +167,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
           },
           refreshToken: authDataParsed.refreshToken,
         ),
-      );
+      ) as Future<TokenResponse>);
       final OAuthData = OAuthDataModel.fromTokenResponse(tokenResponse);
       await _persistAccessToken(accessToken: OAuthData.accessToken);
       return OAuthData;
@@ -187,7 +186,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
 
   /// Saves the user_id onto the tatsam_auth_api
   Future<void> _loginRemoteApiHelper({
-    @required String user_id,
+    required String? user_id,
   }) async {
     final response = await apiClient.post(
       uri: APIRoute.login,
@@ -199,7 +198,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
 
   /// Saves the user_id onto the tatsam_auth_api
   Future<void> _registrationRemoteApiHelper({
-    @required String user_id,
+    required String? user_id,
   }) async {
     final response = await apiClient.post(
       uri: APIRoute.register,
@@ -210,7 +209,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   }
 
   Future<void> _persistAccessToken({
-    @required String accessToken,
+    required String? accessToken,
   }) async {
     await secureStorage.write(
       key: PersistenceConst.ACCESS_TOKEN,
@@ -219,7 +218,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   }
 
   Future<void> _persistUserdata({
-    @required UserDataModel userData,
+    required UserDataModel userData,
   }) async {
     await secureStorage.write(
       key: PersistenceConst.USER_DATA,

@@ -15,10 +15,10 @@ import 'dropdown-assist.dart';
 
 class MultipleChoiceTypeQuestionTile extends StatelessWidget {
   const MultipleChoiceTypeQuestionTile({
-    Key key,
-    @required this.index,
-    @required this.question,
-    @required this.conroller,
+    Key? key,
+    required this.index,
+    required this.question,
+    required this.conroller,
   }) : super(key: key);
 
   final int index;
@@ -47,7 +47,7 @@ class MultipleChoiceTypeQuestionTile extends StatelessWidget {
                     spaceing: Get.width,
                   ).value,
                   child: Text(
-                    question.questionText,
+                    question.questionText!,
                     style: AppTextStyle.suggestionononwol,
                     textScaleFactor: textScale,
                   ),

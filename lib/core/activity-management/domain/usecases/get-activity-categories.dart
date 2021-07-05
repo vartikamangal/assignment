@@ -1,6 +1,4 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -17,10 +15,10 @@ class GetCategoryActivities
   final GetCategoryActivitiesRepository repository;
 
   GetCategoryActivities({
-    @required this.repository,
+    required this.repository,
   });
   @override
-  Future<Either<Failure, List<Recommendation>>> call(
+  Future<Either<Failure, List<Recommendation>>?> call(
       GetCategoryActivitiesParams params) {
     return repository.getActivities(
       category: params.category,
@@ -32,7 +30,7 @@ class GetCategoryActivitiesParams extends Equatable {
   final RecommendationCategoryModel category;
 
   const GetCategoryActivitiesParams({
-    @required this.category,
+    required this.category,
   });
   @override
   List<Object> get props => [category];

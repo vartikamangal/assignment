@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import '../models/cached-mood-model.dart';
+
 import '../../../error/exceptions.dart';
 import '../../../persistence-consts.dart';
+import '../models/cached-mood-model.dart';
 
 abstract class MoodCacheLocalService {
   Future<Unit> cacheMood({
-    @required CachedMoodModel cachedMoodModel,
+    required CachedMoodModel cachedMoodModel,
   });
   Future<CachedMoodModel> getCachedMood();
 }
@@ -19,11 +19,11 @@ class MoodCacheLocalServiceImpl implements MoodCacheLocalService {
   final Box localClient;
 
   MoodCacheLocalServiceImpl({
-    @required this.localClient,
+    required this.localClient,
   });
   @override
   Future<Unit> cacheMood({
-    CachedMoodModel cachedMoodModel,
+    required CachedMoodModel cachedMoodModel,
   }) async {
     try {
       await localClient.put(

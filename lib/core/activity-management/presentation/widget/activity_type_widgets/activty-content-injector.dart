@@ -8,8 +8,8 @@ import 'package:tatsam_app_experimental/core/utils/universal-widgets/mini-loader
 
 class ActivityContentInjector extends StatelessWidget {
   const ActivityContentInjector({
-    Key key,
-    @required this.activityType,
+    Key? key,
+    required this.activityType,
   }) : super(key: key);
 
   final ActivityType activityType;
@@ -20,7 +20,7 @@ class ActivityContentInjector extends StatelessWidget {
   }
 }
 
-Widget _buildActivity({@required ActivityType activityType}) {
+Widget _buildActivity({required ActivityType activityType}) {
   switch (activityType) {
     case ActivityType.TEXT:
       // Beacsue this content-type doesn't needs

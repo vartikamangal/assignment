@@ -170,5 +170,5 @@ class ChartData {
     this.y,
   );
   final double x;
-  final double y;
+  final double? y;
 }

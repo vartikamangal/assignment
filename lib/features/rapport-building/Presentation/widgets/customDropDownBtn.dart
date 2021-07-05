@@ -13,14 +13,14 @@ import '../../domain/entities/feeling-duration.dart';
 import '../controllers/rapport-building-controller.dart.dart';
 
 Widget customDropDownBtn({
-  String label,
-  Callback onPressed,
+  String? label,
+  Callback? onPressed,
   //TODO change this logic to a cleaner way in future
   // must pass to make onOptionPressed work
-  RapportBuildingController controller,
-  bool isExpanded,
-  List<FeelingDuration> options,
-  Color color,
+  RapportBuildingController? controller,
+  required bool isExpanded,
+  List<FeelingDuration>? options,
+  Color? color,
 }) {
   final textScaleFactor = ScaleManager.textScale.value;
   return isExpanded
@@ -54,11 +54,11 @@ Widget customDropDownBtn({
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    for (int i = 0; i < options.length; i++)
+                    for (int i = 0; i < options!.length; i++)
                       GestureDetector(
                         // ignore: void_checks
                         onTap: () {
-                          controller.setFeelingDuration(
+                          controller!.setFeelingDuration(
                             feelingDuration: options[i],
                           );
                           controller.toggleDropDownExpansion();
@@ -86,7 +86,7 @@ Widget customDropDownBtn({
                                   Expanded(
                                     child: Text(
                                       options[i]
-                                          .durationDisplayName
+                                          .durationDisplayName!
                                           .toUpperCase(),
                                       style:
                                           AppTextStyle.dropDownStyle.copyWith(
@@ -136,19 +136,19 @@ Widget customDropDownBtn({
 // Persistent Dropdown header
 class _DropDownTopHeader extends StatelessWidget {
   const _DropDownTopHeader({
-    Key key,
-    @required this.textScaleFactor,
-    @required this.color,
-    @required this.label,
-    @required this.isExpanded,
-    @required this.onTap,
+    Key? key,
+    required this.textScaleFactor,
+    required this.color,
+    required this.label,
+    required this.isExpanded,
+    required this.onTap,
   }) : super(key: key);
 
   final double textScaleFactor;
-  final Color color;
-  final String label;
+  final Color? color;
+  final String? label;
   final bool isExpanded;
-  final Callback onTap;
+  final Callback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +197,7 @@ class _DropDownTopHeader extends StatelessWidget {
                   spaceing: 6,
                 ).value),
                 child: Text(
-                  label,
+                  label!,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyle.dropDownStyle,
                   textScaleFactor: textScaleFactor,

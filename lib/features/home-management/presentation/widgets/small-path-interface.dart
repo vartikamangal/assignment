@@ -19,10 +19,10 @@ import '../../../../features/home-management/presentation/controller/home-contro
 
 class SmallWinsPath extends StatelessWidget {
   const SmallWinsPath({
-    Key key,
-    @required this.controller,
-    @required this.pathController,
-    @required this.durationController,
+    Key? key,
+    required this.controller,
+    required this.pathController,
+    required this.durationController,
   }) : super(key: key);
 
   final HomeController controller;
@@ -95,8 +95,8 @@ class SmallWinsPath extends StatelessWidget {
 
 /// Generates a set of indicators
 List<Widget> _buildIndicators({
-  @required int currentIndex,
-  @required int total,
+  required int currentIndex,
+  required int total,
 }) {
   final List<Widget> _dots = [];
   for (int i = 0; i < total; i++) {
@@ -120,11 +120,11 @@ List<Widget> _buildIndicators({
 /// Individual indicator dot
 class _Indicator extends StatelessWidget {
   const _Indicator({
-    Key key,
-    @required this.color,
+    Key? key,
+    required this.color,
   }) : super(key: key);
 
-  final Color color;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(

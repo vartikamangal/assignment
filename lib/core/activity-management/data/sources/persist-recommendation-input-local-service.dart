@@ -17,38 +17,38 @@ import 'package:tatsam_app_experimental/core/persistence-consts.dart';
 
 abstract class PersistRecommendationFeedbackLocalService {
   Future<Unit> persistFeedback({
-    @required ActivityStatusModel activityStatusModel,
-    @required String textInput,
-    @required String voiceNoteInput,
+    required ActivityStatusModel? activityStatusModel,
+    required String? textInput,
+    required String? voiceNoteInput,
   });
   Future<List<RecommendationInputModel>> getPersistedFeedbacks();
 }
 
 class PersistRecommendationFeedbackLocalServiceImpl
     implements PersistRecommendationFeedbackLocalService {
-  final Box box;
+  final Box? box;
 
   PersistRecommendationFeedbackLocalServiceImpl({
-    @required this.box,
+    required this.box,
   });
   @override
   Future<Unit> persistFeedback({
-    ActivityStatusModel activityStatusModel,
-    String textInput,
-    String voiceNoteInput,
+    ActivityStatusModel? activityStatusModel,
+    String? textInput,
+    String? voiceNoteInput,
   }) async {
     try {
       /// This source firstly fetches old instances of preexisting persisted feedabacks
       /// Then merges the current feedback with old ones, and again persists them
       /// This var hold old feedbacks(if any)
       final List<String> oldCachedFeedbacks = _getOldCachedFeedbacks(
-        box: box,
+        box: box!,
       );
 
       /// Our fresh new feedback prepared for caching
       final recommendationInput = jsonEncode(
         RecommendationInputModel(
-          recommendationId: activityStatusModel.recommendationId,
+          recommendationId: activityStatusModel!.recommendationId,
           actionId: activityStatusModel.id.toString(),
           journeyId: activityStatusModel.journeyId,
           textFeedback: textInput,
@@ -62,7 +62,7 @@ class PersistRecommendationFeedbackLocalServiceImpl
 
       /// List of feedbacks updated
       //! Keep a note that once it is sent to server, remove it from here {CONSULT}
-      await box.put(
+      await box!.put(
         PersistenceConst.RECOMMENDATION_INPUTS,
         jsonEncode(
           oldCachedFeedbacks,
@@ -77,7 +77,7 @@ class PersistRecommendationFeedbackLocalServiceImpl
 
   /// If anyprecached feedabacks are found, return the List<String{Formatted with jsonEncode}> else returns []
   List<String> _getOldCachedFeedbacks({
-    @required Box box,
+    required Box box,
   }) {
     try {
       final oldUnParsedFeedbacks = box.get(
@@ -97,9 +97,9 @@ class PersistRecommendationFeedbackLocalServiceImpl
   @override
   Future<List<RecommendationInputModel>> getPersistedFeedbacks() async {
     try {
-      final result = await box.get(
+      final result = await box!.get(
         PersistenceConst.RECOMMENDATION_INPUTS,
-      ) as String;
+      ) as String?;
       if (result != null) {
         /// valid for case if the any persisted activities are found
         return (jsonDecode(result) as List)

@@ -40,7 +40,7 @@ void main(){
       //arrange
       final expectedJson =
       jsonDecode(fixtureReader(filename: 'recommendation-input-model.json'))
-      as List;
+      as List?;
       //act
       final result = tRecommendatioInput
           .map((area) => (area as RecommendationInputModel).toJson())

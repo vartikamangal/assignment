@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 import '../../../error/failures.dart';
@@ -10,18 +9,18 @@ import '../../domain/repositories/auth-repository.dart';
 import '../sources/auth-remote-service.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteService remoteService;
-  final NetworkInfo networkInfo;
+  final AuthRemoteService? remoteService;
+  final NetworkInfo? networkInfo;
 
   AuthRepositoryImpl({
-    @required this.remoteService,
-    @required this.networkInfo,
+    required this.remoteService,
+    required this.networkInfo,
   });
   @override
   Future<Either<Failure, bool>> checkIfAuthenticated() async {
-    if (await networkInfo.isConnected) {
+    if (await networkInfo!.isConnected) {
       try {
-        final loginStatus = await remoteService.checkIfAuthenticated();
+        final loginStatus = await remoteService!.checkIfAuthenticated();
         return Right(loginStatus);
       } on PlatformException catch (e) {
         return Left(AuthFailure(title: e.code, details: e.message));
@@ -33,11 +32,11 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, OAuthData>> oauthLogin({
-    bool isNewLogin,
+    bool? isNewLogin,
   }) async {
-    if (await networkInfo.isConnected) {
+    if (await networkInfo!.isConnected) {
       try {
-        final loginStatus = await remoteService.oauthLogin();
+        final loginStatus = await remoteService!.oauthLogin();
         return Right(loginStatus);
       } on PlatformException catch (e) {
         return Left(
@@ -51,9 +50,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, Unit>> requestLogout() async {
-    if (await networkInfo.isConnected) {
+    if (await networkInfo!.isConnected) {
       try {
-        final logoutStatus = await remoteService.requestLogout();
+        final logoutStatus = await remoteService!.requestLogout();
         return Right(logoutStatus);
       } on PlatformException catch (e) {
         return Left(
@@ -67,9 +66,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, OAuthData>> requestNewToken() async {
-    if (await networkInfo.isConnected) {
+    if (await networkInfo!.isConnected) {
       try {
-        final newRequestData = await remoteService.requestNewToken();
+        final newRequestData = await remoteService!.requestNewToken();
         return Right(newRequestData);
       } on PlatformException catch (e) {
         return Left(
@@ -83,9 +82,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, UserData>> getUserDetails() async {
-    if (await networkInfo.isConnected) {
+    if (await networkInfo!.isConnected) {
       try {
-        final userData = await remoteService.getUserDetails();
+        final userData = await remoteService!.getUserDetails();
         return Right(userData);
       } on PlatformException catch (e) {
         return Left(
@@ -99,9 +98,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, OAuthData>> oauthSignup() async {
-    if (await networkInfo.isConnected) {
+    if (await networkInfo!.isConnected) {
       try {
-        final OAuthData = await remoteService.oauthSignup();
+        final OAuthData = await remoteService!.oauthSignup();
         return Right(OAuthData);
       } on PlatformException catch (e) {
         return Left(

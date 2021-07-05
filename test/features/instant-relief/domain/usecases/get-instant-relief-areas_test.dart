@@ -2,19 +2,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/instant-relief-area.dart';
-import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/get-instant-relief-areas-repository.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/instant-relief-repository.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/get-instant-relief-areas.dart';
 
-class MockGetInstantReliefAreasRepository extends Mock implements GetInstantReliefAreasRepository {}
+class MockGetInstantReliefAreasRepository extends Mock
+    implements InstantReliefRepository {}
 
-void main(){
+void main() {
   MockGetInstantReliefAreasRepository repository;
-  GetInstantReliefAreas useCase;
-  const tLifeArea=<InstantReliefArea>[
+  late GetInstantReliefAreas useCase;
+  const tLifeArea = <InstantReliefArea>[
     InstantReliefArea(
         id: 1,
         title: "title",
@@ -30,7 +30,8 @@ void main(){
   });
 
   group("USECASE : getReliefAreas()", () {
-    test('should get all the possible relief areas from the repository', () async {
+    test('should get all the possible relief areas from the repository',
+        () async {
       //arrange
       when(repository.getReliefAreas())
           .thenAnswer((_) async => const Right(tLifeArea));

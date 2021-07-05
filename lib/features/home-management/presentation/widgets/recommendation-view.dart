@@ -11,10 +11,10 @@ import 'small-path-interface.dart';
 
 class RecommendationView extends StatelessWidget {
   const RecommendationView({
-    Key key,
-    @required this.controller,
-    @required this.durationController,
-    @required this.pathController,
+    Key? key,
+    required this.controller,
+    required this.durationController,
+    required this.pathController,
   }) : super(key: key);
 
   final HomeController controller;

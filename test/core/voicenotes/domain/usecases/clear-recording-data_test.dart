@@ -1,15 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/voicenotes-player-repository.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/clear-recording-data.dart';
 
-class MockVoiceNotesPlayerRepository extends Mock
-    implements VoiceNotesPlayerRepository {}
+import 'clear-recording-data_test.mocks.dart';
 
+@GenerateMocks([VoiceNotesPlayerRepository])
 void main() {
-  MockVoiceNotesPlayerRepository repository;
-  ClearRecordingData useCase;
+  late MockVoiceNotesPlayerRepository repository;
+  late ClearRecordingData useCase;
 
   setUp(() {
     repository = MockVoiceNotesPlayerRepository();
@@ -22,7 +24,7 @@ void main() {
       when(repository.cancel(audioFileToDelete: audioFileToDelete))
           .thenAnswer((_) async => const Right(tUnit));
 
-      final result = await useCase(
+      final Either<Failure, Unit> result = await useCase(
           const ClearRecordingDataPrams(fileToDelete: audioFileToDelete));
       verify(repository.cancel(audioFileToDelete: audioFileToDelete));
       expect(result, const Right(tUnit));

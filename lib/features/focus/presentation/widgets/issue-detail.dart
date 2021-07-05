@@ -70,12 +70,12 @@ class IssueDetail extends StatelessWidget {
                     // comes into play when any issue is clicked
                     : _MiddleExpandableContainer(
                         imageUrl: _controller.selectedIssueImage,
-                        title: _controller.selectedIssue.value.displayName,
+                        title: _controller.selectedIssue.value!.displayName,
                         onTap: () async {
                           await _controller.addIssue();
                         },
                         subtitle:
-                            _controller.selectedIssue.value.messageOnSelection,
+                            _controller.selectedIssue.value!.messageOnSelection,
                         // ignore: avoid_bool_literals_in_conditional_expressions
                         showLoader:
                             _controller.isProcessing.value ? true : false,
@@ -107,10 +107,10 @@ class IssueDetail extends StatelessWidget {
                             itemBuilder: (context, index) {
                               //TODO image addresses need to be changes later
                               final issueImageAddr =
-                                  '${ImagePath.issues}${'${_controller.issues[index].focusName.toLowerCase()}.png'}';
+                                  '${ImagePath.issues}${'${_controller.issues[index]!.focusName!.toLowerCase()}.png'}';
                               return FocusCard(
                                 imageAddress: issueImageAddr,
-                                title: _controller.issues[index].displayName,
+                                title: _controller.issues[index]!.displayName,
                                 onTap: () {
                                   _controller.getDescription(
                                     issueImageAddr,
@@ -133,17 +133,17 @@ class IssueDetail extends StatelessWidget {
 
 class _MiddleExpandableContainer extends StatelessWidget {
   const _MiddleExpandableContainer({
-    Key key,
-    @required this.imageUrl,
-    @required this.onTap,
-    @required this.subtitle,
-    @required this.title,
-    @required this.showLoader,
+    Key? key,
+    required this.imageUrl,
+    required this.onTap,
+    required this.subtitle,
+    required this.title,
+    required this.showLoader,
   }) : super(key: key);
 
   final String imageUrl;
-  final String title;
-  final String subtitle;
+  final String? title;
+  final String? subtitle;
   final Callback onTap;
   final bool showLoader;
 
@@ -178,7 +178,7 @@ class _MiddleExpandableContainer extends StatelessWidget {
             ).value,
           ),
           Text(
-            title,
+            title!,
             style: AppTextStyle.lightblueheader.copyWith(color: blueLightShade),
           ),
           Container(
@@ -191,7 +191,7 @@ class _MiddleExpandableContainer extends StatelessWidget {
               spaceing: Get.width * 0.70,
             ).value,
             child: Text(
-              subtitle,
+              subtitle!,
               style: AppTextStyle.descriptiontext,
               textAlign: TextAlign.center,
               textScaleFactor: textScaleFactor,

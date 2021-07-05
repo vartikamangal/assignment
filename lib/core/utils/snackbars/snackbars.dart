@@ -10,12 +10,12 @@ import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 
 class ShowSnackbar {
   static void rawSnackBar({
-    @required String title,
-    @required String message,
-    @required VoidCallback onActionPressed,
-    @required String actionLabel,
+    required String title,
+    required String? message,
+    required VoidCallback onActionPressed,
+    required String actionLabel,
   }) =>
-      ScaffoldMessenger.of(Get.context).showSnackBar(
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           action: SnackBarAction(
             label: actionLabel,
@@ -36,11 +36,11 @@ class ShowSnackbar {
 
 class CustomSnackbar extends StatelessWidget {
   final String title;
-  final String message;
+  final String? message;
   const CustomSnackbar({
-    Key key,
-    @required this.title,
-    @required this.message,
+    Key? key,
+    required this.title,
+    required this.message,
   }) : super(key: key);
 
   @override

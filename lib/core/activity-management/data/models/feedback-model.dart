@@ -7,11 +7,11 @@ import 'package:tatsam_app_experimental/core/activity-management/domain/entities
 
 class FeedbackModel extends Feedback {
   const FeedbackModel({
-    @required FeedbackMoodModel subjectMoodVO,
-    @required int minutesSpent,
-    @required String feedbackThoughts,
-    @required String recommendationId,
-    @required int actionId,
+    required FeedbackMoodModel subjectMoodVO,
+    required int? minutesSpent,
+    required String? feedbackThoughts,
+    required String? recommendationId,
+    required int? actionId,
   }) : super(
           subjectMoodVO: subjectMoodVO,
           minutesSpent: minutesSpent,
@@ -25,10 +25,10 @@ class FeedbackModel extends Feedback {
       subjectMoodVO: FeedbackMoodModel.fromJson(
         map['subjectMoodVO'] as Map<String, dynamic>,
       ),
-      minutesSpent: map['minutesSpent'] as int,
-      feedbackThoughts: map['feedbackThoughts'] as String,
-      recommendationId: map['recommendationId'] as String,
-      actionId: map['actionId'] as int,
+      minutesSpent: map['minutesSpent'] as int?,
+      feedbackThoughts: map['feedbackThoughts'] as String?,
+      recommendationId: map['recommendationId'] as String?,
+      actionId: map['actionId'] as int?,
     );
   }
 

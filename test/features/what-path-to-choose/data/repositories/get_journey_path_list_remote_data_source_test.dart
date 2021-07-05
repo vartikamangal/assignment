@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -13,18 +12,18 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/repositories/get_journey_path_list_repository_impl.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/get_journey_path_list_remote_data_source.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/repositories/path-operations-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/path-operations-remote-data-source.dart';
 
 class MockGetJourneyPathListRemoteDataSource extends Mock
-    implements GetJourneyPathListRemoteDataSource {}
+    implements PathOperationsRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockGetJourneyPathListRemoteDataSource remoteDataSource;
-  MockNetworkInfo networkInfo;
-  GetJourneyPathListRpositoryImpl repositoryImpl;
+  MockGetJourneyPathListRemoteDataSource? remoteDataSource;
+  MockNetworkInfo? networkInfo;
+  late PathOperationsRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -38,7 +37,7 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    repositoryImpl = GetJourneyPathListRpositoryImpl(
+    repositoryImpl = PathOperationsRepositoryImpl(
       remoteDataSource: remoteDataSource,
       baseRepository: baseRepository,
     );
@@ -61,7 +60,7 @@ void main() {
 
   void runTestOnline(Callback body) {
     setUp(() {
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
+      when(networkInfo!.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : GetAllIssues', body);
   }
@@ -72,25 +71,25 @@ void main() {
       //act
       await repositoryImpl.getJourneyPaths();
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return a List<IssueModel> when call to remote data source is successfull',
         () async {
       //arrange
-      when(remoteDataSource.getJourneys())
+      when(remoteDataSource!.getJourneys())
           .thenAnswer((_) async => tJourneyModel);
       //act
       final result = await repositoryImpl.getJourneyPaths();
       //assert
-      verify(remoteDataSource.getJourneys());
+      verify(remoteDataSource!.getJourneys());
       expect(result, const Right(tJourneyModel));
     });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
         () async {
       //arrange
-      when(remoteDataSource.getJourneys()).thenThrow(ServerException());
+      when(remoteDataSource!.getJourneys()).thenThrow(ServerException());
       //act
       final result = await repositoryImpl.getJourneyPaths();
       //assert
@@ -99,7 +98,7 @@ void main() {
   });
   test('DEVICE OFFLINE : GetJourneyPaths should return DeviceOfflineFailure',
       () async {
-    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    when(networkInfo!.isConnected).thenAnswer((_) async => false);
     //act
     final result = await repositoryImpl.getJourneyPaths();
     //assert

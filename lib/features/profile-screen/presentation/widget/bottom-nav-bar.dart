@@ -11,13 +11,13 @@ class BottomNavBar extends StatefulWidget {
   final ProfileController controller = Get.find();
   final String mood;
 
-  BottomNavBar({Key key, @required this.mood}) : super(key: key);
+  BottomNavBar({Key? key, required this.mood}) : super(key: key);
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  Color color;
+  Color? color;
   @override
   Widget build(BuildContext context) {
     final imageScaleFactor = ScaleManager.imageScale.value;

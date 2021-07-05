@@ -1,23 +1,21 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/wheel-of-life-repository.dart';
 
 // Project imports:
 import '../../../../core/error/failures.dart';
 import '../../../../core/success/success-interface.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../entities/life-areas-for-prioritization.dart';
-import '../repositories/prioritize-service.dart';
 
 class Prioritize extends Usecase<Success, PrioritizeParams> {
-  final PrioritizeService service;
+  final WheelOfLifeRepository service;
 
-  Prioritize({@required this.service});
+  Prioritize({required this.service});
   @override
-  Future<Either<Failure, Success>> call(PrioritizeParams params) async {
+  Future<Either<Failure, Success>?> call(PrioritizeParams params) async {
     return service.prioritize(lifeAreas: params.priorities);
   }
 }
@@ -25,7 +23,7 @@ class Prioritize extends Usecase<Success, PrioritizeParams> {
 class PrioritizeParams extends Equatable {
   final LifeAreaForPrioritization priorities;
 
-  const PrioritizeParams({@required this.priorities});
+  const PrioritizeParams({required this.priorities});
   @override
   List<Object> get props => [priorities];
 }

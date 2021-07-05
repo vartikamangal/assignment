@@ -3,7 +3,6 @@ import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
-
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
@@ -13,14 +12,14 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
-import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/start-journey-remote-service.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/path-operations-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
+
 import '../../../../fixtures/fixture-reader.dart';
 
 class MockCustomApiClient extends Mock implements ApiClient {}
@@ -29,16 +28,16 @@ class MockLocalClient extends Mock implements Box {}
 
 Future<void> main() async {
   await Hive.initFlutter();
-  MockCustomApiClient client;
+  MockCustomApiClient? client;
   MockLocalClient localClient;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
-  StartJourneyRemoteServiceImp remoteServiceImpl;
+  late PathOperationsRemoteDataSourceImpl remoteServiceImpl;
 
   setUp(() {
     client = MockCustomApiClient();
     localClient = MockLocalClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
-    remoteServiceImpl = StartJourneyRemoteServiceImp(
+    remoteServiceImpl = PathOperationsRemoteDataSourceImpl(
       client: client,
       localClient: localClient,
       throwExceptionIfResponseError: throwExceptionIfResponseError,
@@ -58,9 +57,9 @@ Future<void> main() async {
       ),
       pathName: "SMALL_WINS");
 
-  void setupHttpSuccessClient200({@required String testFileName}) {
+  void setupHttpSuccessClient200({required String testFileName}) {
     when(
-      client.post(uri: APIRoute.startJourney, body: anyNamed('body')),
+      client!.post(uri: APIRoute.startJourney, body: anyNamed('body')),
     ).thenAnswer(
       (_) async => http.Response(fixtureReader(filename: testFileName), 200),
     );
@@ -68,7 +67,7 @@ Future<void> main() async {
 
   void setupHttpFailureClient404() {
     when(
-      client.post(uri: APIRoute.startJourney, body: anyNamed('body')),
+      client!.post(uri: APIRoute.startJourney, body: anyNamed('body')),
     ).thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
@@ -83,7 +82,7 @@ Future<void> main() async {
       //act
       await remoteServiceImpl.startJourney(journey: tJourneyModel);
       //assert
-      verifyNever(client.post(
+      verifyNever(client!.post(
         uri: APIRoute.startJourney,
         body: jsonEncode(
           {
@@ -112,7 +111,7 @@ Future<void> main() async {
       //arrange
       setupHttpFailureClient404();
       //act
-      final call = remoteServiceImpl.startJourney;
+      final Future<SuccessJourneyStart> Function({JourneyModel journey}) call = remoteServiceImpl.startJourney;
       //assert
       expect(
         () => call(journey: tJourneyModel),

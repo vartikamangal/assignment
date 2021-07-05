@@ -23,11 +23,11 @@ class QuestionnaireConroller extends GetxController {
   final AtemptQuestions atemptQuestions;
 
   QuestionnaireConroller({
-    @required this.getQuestionnaireById,
-    @required this.atemptQuestions,
+    required this.getQuestionnaireById,
+    required this.atemptQuestions,
   });
   //////// Dynamic Data Holders ///////////
-  Rx<Questionnaire> questionnaire = Rx<QuestionnaireModel>();
+  Rxn<Questionnaire> questionnaire = Rxn<QuestionnaireModel>();
   RxMap<Question, dynamic> questionToAnswerMap = RxMap<QuestionModel, dynamic>(
     {},
   );
@@ -47,14 +47,14 @@ class QuestionnaireConroller extends GetxController {
         id: 'f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454',
       ),
     );
-    questionnaireOrFailure.fold(
+    questionnaireOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (fetchedQuestionnaire) {
         questionnaire.value = fetchedQuestionnaire;
         // ignore: avoid_function_literals_in_foreach_calls
-        questionnaire.value.questionVO.forEach(
+        questionnaire.value!.questionVO.forEach(
           (question) {
             log(question.questionOptionVO.toString());
             questionToAnswerMap.addIf(
@@ -65,18 +65,18 @@ class QuestionnaireConroller extends GetxController {
             );
             questionToScaleMap.addIf(
               question.questionType == 'RATING_SCALE',
-              question as QuestionModel,
+              question,
               question.questionOptionVO[0],
             );
             questionToAnswerMap.addIf(
               question.questionType == 'SINGLE_CHOICE',
-              question as QuestionModel,
+              question,
               // When user opts any answer N/A will be replaced by QuestionOptionModel
               'Select',
             );
             dropDownStatus.addIf(
               question.questionType == 'SINGLE_CHOICE',
-              question as QuestionModel,
+              question,
               // When user opts any answer N/A will be replaced by QuestionOptionModel
               false,
             );
@@ -97,14 +97,14 @@ class QuestionnaireConroller extends GetxController {
       ),
     );
     toggleProcessor();
-    questionAttemptedOrFailure.fold(
+    questionAttemptedOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
       },
       (attemptStatus) async {
         log('successfully attempted questions!');
         await Get.find<HubController>().fetchHubStatusFinal().then(
-              (value) => Navigator.of(Get.context).pop(),
+              (value) => Navigator.of(Get.context!).pop(),
             );
       },
     );
@@ -119,9 +119,30 @@ class QuestionnaireConroller extends GetxController {
   RxBool isProcessing = RxBool(false);
   RxBool isAllQuestionAnswered = RxBool(false);
 
+  Future<void> IsAllQuestionAnsweredAndMapped() async {
+    toggleProcessor();
+    final questionAttemptedOrFailure = await atemptQuestions(
+      AttemptQuestionnaireParams(
+        questionToAnswerMap: questionToAnswerMap,
+        questionToScaleMap: questionToScaleMap,
+        questionnaire: questionnaire.value,
+      ),
+    );
+    toggleProcessor();
+    questionAttemptedOrFailure!.fold(
+          (failure) {
+        ErrorInfo.show(failure);
+      },
+          (attemptStatus) async {
+        log('successfully attempted questions!');
+        isAllQuestionAnswered.value = true;
+      },
+    );
+  }
+
   void toggleBottomButtonVisibility({
-    double position,
-    double maxPageLimit,
+    required double position,
+    required double maxPageLimit,
   }) {
     if (position < maxPageLimit) {
       toShowBottomBtn.value = false;
@@ -131,19 +152,20 @@ class QuestionnaireConroller extends GetxController {
   }
 
   void toggleDropdown({
-    @required QuestionModel questionModel,
+    required QuestionModel questionModel,
   }) {
-    dropDownStatus[questionModel] = !dropDownStatus[questionModel];
+    dropDownStatus[questionModel] = !dropDownStatus[questionModel]!;
   }
-
-  void answerMcqTypeQuestion({
-    @required QuestionModel questionModel,
-    @required QuestionOptionModel optionSelected,
-  }) {
+  ///multiple choice question answer update
+  Future<void> answerMcqTypeQuestion({
+    required QuestionModel questionModel,
+    required QuestionOptionModel optionSelected,
+  }) async {
     // Sets the answer we have selected as preffered answer
     questionToAnswerMap[questionModel] = optionSelected;
     // Closes the dropdown
     toggleDropdown(questionModel: questionModel);
+    await IsAllQuestionAnsweredAndMapped();
   }
 
   void toggleLoader() {
@@ -160,12 +182,13 @@ class QuestionnaireConroller extends GetxController {
     toggleLoader();
   }
 
-  void updateQuizValues({
-    @required Question question,
-    @required dynamic option,
-  }) {
+  ///scale rating type questions
+  Future<void> updateQuizValues({
+    required Question question,
+    required dynamic option,
+  }) async {
     questionToAnswerMap[question] = option;
-    isAllQuestionAnswered.value = true;
+    await IsAllQuestionAnsweredAndMapped();
   }
 
   @override

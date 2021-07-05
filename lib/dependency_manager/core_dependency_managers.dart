@@ -16,6 +16,7 @@ import 'package:tatsam_app_experimental/core/cache-manager/data/services/cache-c
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/cache-clearing-service.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/check-if-first-time-user.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/clear-dirty-cache-on-first-run.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/presentation/controllers/mood-data-cache-controller.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
@@ -95,6 +96,12 @@ Future<void> initCoreDependencies() async {
     () => DurationTrackerController(
       getLastLogin: sl_core_dependencies(),
       updateUserDurationOnApp: sl_core_dependencies(),
+    ),
+  );
+  Get.lazyPut<MoodDataCacheController>(
+    () => MoodDataCacheController(
+      getCachedMood: sl_core_dependencies(),
+      cacheMood: sl_core_dependencies(),
     ),
   );
   // Usecases

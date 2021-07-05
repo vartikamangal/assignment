@@ -40,17 +40,17 @@ class ProfileController extends GetxController {
   final GetActionWithActionStatus getActionWithActionStatus;
 
   ProfileController({
-    @required this.getBasicProfileDetails,
-    @required this.getMoodLogs,
-    @required this.getProfileQuestions,
-    @required this.getProfileWheelOfLifeData,
-    @required this.getPersistedFeedbacks,
-    @required this.getActionWithActionStatus,
+    required this.getBasicProfileDetails,
+    required this.getMoodLogs,
+    required this.getProfileQuestions,
+    required this.getProfileWheelOfLifeData,
+    required this.getPersistedFeedbacks,
+    required this.getActionWithActionStatus,
   });
 
   // Dynamic data holders
-  Rx<ProfileData> profileData = Rx<ProfileDataModel>();
-  Rx<HubStatus> hubStatus = Rx<HubStatusModel>();
+  Rxn<ProfileData> profileData = Rxn<ProfileDataModel>();
+  Rxn<HubStatus> hubStatus = Rxn<HubStatusModel>();
   RxList<MoodTracking> moodLogs = RxList<MoodTrackingModel>([]);
   RxList<QuestionLog> questionLogs = RxList<QuestionLogModel>([]);
   RxList<RecommendationInput> diaryLogs = RxList<RecommendationInputModel>([]);
@@ -59,7 +59,8 @@ class ProfileController extends GetxController {
   RxBool isDropDownExpanded = RxBool(false);
 //text editing controller
   final TextEditingController nameEditingController = TextEditingController();
-  final TextEditingController nicknameEditingController = TextEditingController();
+  final TextEditingController nicknameEditingController =
+      TextEditingController();
   final TextEditingController dobEditingController = TextEditingController();
 
   void toggleDropDownExpansion() {
@@ -69,7 +70,7 @@ class ProfileController extends GetxController {
   // Usecase helpers
   Future<void> fetchBasicProfileData() async {
     final failureOrResult = await getBasicProfileDetails(NoParams());
-    failureOrResult.fold(
+    failureOrResult!.fold(
       (f) {
         ErrorInfo.show(f);
       },
@@ -81,7 +82,7 @@ class ProfileController extends GetxController {
 
   Future<void> fetchMoodLogs() async {
     final failureOrResult = await getMoodLogs(NoParams());
-    failureOrResult.fold(
+    failureOrResult!.fold(
       (f) {
         ErrorInfo.show(f);
       },
@@ -94,7 +95,7 @@ class ProfileController extends GetxController {
 
   Future<void> fetchQuestionLogs() async {
     final failureOrResult = await getProfileQuestions(NoParams());
-    failureOrResult.fold(
+    failureOrResult!.fold(
       (f) {
         ErrorInfo.show(f);
       },
@@ -106,7 +107,7 @@ class ProfileController extends GetxController {
 
   Future<void> fetchWheelOfLifeData() async {
     final failureOrResult = await getProfileWheelOfLifeData(NoParams());
-    failureOrResult.fold(
+    failureOrResult!.fold(
       (f) {
         ErrorInfo.show(f);
       },
@@ -139,7 +140,7 @@ class ProfileController extends GetxController {
         actionStatus: 'COMPLETED',
       ),
     );
-    failureOrResult.fold(
+    failureOrResult!.fold(
       (f) {
         ErrorInfo.show(f);
       },
@@ -156,7 +157,7 @@ class ProfileController extends GetxController {
       (action) {
         actionIdToActionMap.addIf(
           true,
-          action.actionId,
+          action.actionId!,
           action,
         );
       },
@@ -167,7 +168,7 @@ class ProfileController extends GetxController {
   RxBool isLoading = RxBool(false);
   RxBool isProcessing = RxBool(false);
   RxInt selectedScreenIndex = 0.obs;
-  Rx<Widget> currentSelectedPage = Rx<Widget>();
+  Rxn<Widget> currentSelectedPage = Rxn<Widget>();
   RxString userName = RxString('');
   RxMap<int, RecommendationInput> actionIdToDiaryLogMap =
       RxMap<int, RecommendationInputModel>();
@@ -220,7 +221,7 @@ class ProfileController extends GetxController {
       linearChartData.add(
         ChartData(
           i.toDouble(),
-          moodMap[moodLogs[i].mood],
+          moodMap[moodLogs[i].mood!],
         ),
       );
     }
@@ -228,12 +229,12 @@ class ProfileController extends GetxController {
 
   /// created a Map<String,int> for making the rating availabler at liear time
   void prepareWolLogsForPieChart() {
-    hubStatus.value.lifeSatisfactionRatings.entries.toList().forEach(
+    hubStatus.value!.lifeSatisfactionRatings!.entries.toList().forEach(
       (element) {
         pieChartMap.addIf(
           element.value.rating.rating != null,
           element.key,
-          element.value.rating.rating,
+          element.value.rating.rating!,
         );
       },
     );
@@ -246,7 +247,7 @@ class ProfileController extends GetxController {
       allPieChartData.add(
         WOLAreaData(
           currentKey,
-          pieChartMap[currentKey].toDouble(),
+          pieChartMap[currentKey]!.toDouble(),
           Colors.green[100 * i + 1],
         ),
       );
@@ -256,7 +257,7 @@ class ProfileController extends GetxController {
   void parseDisplayedChartAreas() {
     for (int i = 0; i < 3; i++) {
       displayedLifeAreas.add(
-        hubStatus.value.lifePriorities.areasInOrderOfPriority[i],
+        hubStatus.value!.lifePriorities!.areasInOrderOfPriority[i],
       );
     }
   }
@@ -275,7 +276,7 @@ class ProfileController extends GetxController {
 
   /// for adding area to the pie chart
   /// filters will apply automatically as the are binded to {displayedLifeAreas}
-  void addWolLifeToPieChart({@required String lifeArea}) {
+  void addWolLifeToPieChart({required String lifeArea}) {
     if (displayedLifeAreas.contains(lifeArea)) {
       /// Remove the area if it is already present
       displayedLifeAreas.remove(lifeArea);
@@ -288,7 +289,7 @@ class ProfileController extends GetxController {
   /// refreshes the answered questionnaires on the profile screen
   Future<void> presentQuestionnaire() async {
     toggleProcessor();
-    await Navigator.of(Get.context)
+    await Navigator.of(Get.context!)
         .pushNamed(RouteName.questionTrackScreen)
         .then((value) => fetchQuestionLogs());
     toggleProcessor();

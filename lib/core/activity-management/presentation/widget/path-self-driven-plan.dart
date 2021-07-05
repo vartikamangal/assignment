@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
 import '../../../../core/asset-image-path/image-path.dart';
@@ -23,109 +24,113 @@ class PathSelfDrivenPlan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).canvasColor,
-          elevation: 0,
-          leading: TopAppBar(onPressed: (){
-            Navigator.of(context)
-                .pop();
-          },),
-          bottom: PreferredSize(
-            preferredSize: Size(Get.width, 2),
-            child: Obx(
-              () => _controller.isProcessing.value
-                  ? const LinearProgressIndicator()
-                  : EmptySpacePlaceHolder(),
+    return Stack(
+      children: [
+        SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).canvasColor,
+              elevation: 0,
+              leading: TopAppBar(onPressed: (){
+                Navigator.of(context)
+                    .pop();
+              },),
+            ),
+            body: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(spaceing: 42).value),
+                        child: Text(
+                          tr('your plan'),
+                          style: AppTextStyle.Askfeeling,
+                          textScaleFactor: textScaleFactor,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(spaceing: 42).value),
+                        child: Text(
+                          tr('self driven all activities title'),
+                          style: AppTextStyle.pathdescription,
+                          textScaleFactor: textScaleFactor,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: ScaleManager.spaceScale(spaceing: 42).value,
+                          top: ScaleManager.spaceScale(spaceing: 13).value,
+                          bottom: ScaleManager.spaceScale(spaceing: 13).value,
+                        ),
+                        child: Text(
+                          tr('pick a activity'),
+                          style: AppTextStyle.actiontoperform,
+                          textScaleFactor: textScaleFactor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Obx(
+                    () => _controller.isLoading.value
+                        ?  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        const CircularProgressIndicator(),
+                      ],
+                          )
+                        : Column(
+                            children: [
+                              for (var category
+                                  in _controller.recommendationCategories)
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left:
+                                        ScaleManager.spaceScale(spaceing: 29).value,
+                                    right:
+                                        ScaleManager.spaceScale(spaceing: 29).value,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      await _controller
+                                          .fetchCategoryActivitiesAndProceed(
+                                        categoryModel:
+                                            category as RecommendationCategoryModel,
+                                      );
+                                    },
+                                    child: PlanContainer(
+                                      title: category.displayTitle,
+                                      description: category.displaySubtitle,
+                                      isFaded: false,
+                                      requireBottomSpacing: true,
+                                      image:
+                                          '${ImagePath.selfDrivenOption}${category.categoryName!.toLowerCase()}.png',
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        body: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: ScaleManager.spaceScale(spaceing: 42).value),
-                    child: Text(
-                      tr('your plan'),
-                      style: AppTextStyle.Askfeeling,
-                      textScaleFactor: textScaleFactor,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: ScaleManager.spaceScale(spaceing: 42).value),
-                    child: Text(
-                      tr('self driven all activities title'),
-                      style: AppTextStyle.pathdescription,
-                      textScaleFactor: textScaleFactor,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: ScaleManager.spaceScale(spaceing: 42).value,
-                      top: ScaleManager.spaceScale(spaceing: 13).value,
-                      bottom: ScaleManager.spaceScale(spaceing: 13).value,
-                    ),
-                    child: Text(
-                      tr('pick a activity'),
-                      style: AppTextStyle.actiontoperform,
-                      textScaleFactor: textScaleFactor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Obx(
-                () => _controller.isLoading.value
-                    ?  Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    const CircularProgressIndicator(),
-                  ],
-                      )
-                    : Column(
-                        children: [
-                          for (var category
-                              in _controller.recommendationCategories)
-                            Container(
-                              margin: EdgeInsets.only(
-                                left:
-                                    ScaleManager.spaceScale(spaceing: 29).value,
-                                right:
-                                    ScaleManager.spaceScale(spaceing: 29).value,
-                              ),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  await _controller
-                                      .fetchCategoryActivitiesAndProceed(
-                                    categoryModel:
-                                        category as RecommendationCategoryModel,
-                                  );
-                                },
-                                child: PlanContainer(
-                                  title: category.displayTitle,
-                                  description: category.displaySubtitle,
-                                  isFaded: false,
-                                  requireBottomSpacing: true,
-                                  image:
-                                      '${ImagePath.selfDrivenOption}${category.categoryName.toLowerCase()}.png',
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-              ),
-            ),
-          ],
-        ),
-      ),
+        SafeArea(child: PreferredSize(
+          preferredSize: Size(Get.width, 2),
+          child: Obx(
+                () => _controller.isProcessing.value
+                ? CustomizedLinearProgressIndicator()
+                : EmptySpacePlaceHolder(),
+          ),
+        ))
+      ],
     );
   }
 }

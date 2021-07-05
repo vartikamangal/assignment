@@ -11,13 +11,13 @@ import '../../../../core/usecase/usecase.dart';
 import '../repository/create-traveller-service.dart';
 
 class CreateTraveller implements Usecase<Success, NoParams> {
-  final CreateTravellerService service;
+  final CreateTravellerService? service;
 
   CreateTraveller({
-    @required this.service,
+    required this.service,
   });
   @override
-  Future<Either<Failure, Success>> call(NoParams params) async {
-    return service.createTraveller();
+  Future<Either<Failure, Success>?> call(NoParams params) async {
+    return service!.createTraveller();
   }
 }

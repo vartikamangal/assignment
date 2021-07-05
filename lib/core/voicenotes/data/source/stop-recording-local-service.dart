@@ -10,26 +10,26 @@ import '../../domain/entity/recording-stopped.dart';
 abstract class StopRecordingLocalService {
   Future<RecordingStopped> stopRecording();
   Future<Unit> cancelRecording({
-    @required String partialRecordingFileToDelete,
+    required String? partialRecordingFileToDelete,
   });
 }
 
 class StopRecordingLocalServiceImpl implements StopRecordingLocalService {
-  final FlutterSoundRecorder recorder;
-  final FileUtils fileUtils;
+  final FlutterSoundRecorder? recorder;
+  final FileUtils? fileUtils;
 
   StopRecordingLocalServiceImpl({
-    @required this.recorder,
-    @required this.fileUtils,
+    required this.recorder,
+    required this.fileUtils,
   });
   @override
   Future<RecordingStopped> stopRecording() async {
     try {
-      if (recorder.isStopped) {
+      if (recorder!.isStopped) {
         log("recorder already stopped");
         return const RecordingStopped(status: 'already stopped');
       } else {
-        await recorder.stopRecorder();
+        await recorder!.stopRecorder();
         //TODO now find a method for also removing this data from the cached filesystem
         return const RecordingStopped(
           status: 'recorder stopped',
@@ -43,23 +43,23 @@ class StopRecordingLocalServiceImpl implements StopRecordingLocalService {
 
   @override
   Future<Unit> cancelRecording({
-    String partialRecordingFileToDelete,
+    String? partialRecordingFileToDelete,
   }) async {
     try {
-      if (recorder.isStopped) {
+      if (recorder!.isStopped) {
         log("recorder already stopped");
         return unit;
       } else {
-        await recorder.stopRecorder();
-        if (!partialRecordingFileToDelete.contains("/")) {
+        await recorder!.stopRecorder();
+        if (!partialRecordingFileToDelete!.contains("/")) {
           // flutter_sound's deleteRecord method only helps
           // in deleting temporary files
           // (as the creation is also supposed to happen by the library)
-          await recorder.deleteRecord(
+          await recorder!.deleteRecord(
             fileName: partialRecordingFileToDelete,
           );
         } else {
-          fileUtils.deleteFile(partialRecordingFileToDelete);
+          fileUtils!.deleteFile(partialRecordingFileToDelete);
         }
         log("deleted $partialRecordingFileToDelete & cancelled recording");
         return unit;

@@ -6,9 +6,9 @@ import '../../domain/entities/life-area.dart';
 
 class LifeAreaModel extends LifeArea {
   const LifeAreaModel({
-    @required String areaCode,
-    @required String name,
-    @required String description,
+    required String? areaCode,
+    required String? name,
+    required String? description,
   }) : super(
           name: name,
           description: description,
@@ -17,9 +17,9 @@ class LifeAreaModel extends LifeArea {
 
   factory LifeAreaModel.fromJson(Map<String, dynamic> jsonMap) {
     return LifeAreaModel(
-      areaCode: jsonMap['areaName'] as String,
-      name: jsonMap['displayName'] as String,
-      description: jsonMap['areaDescription'] as String,
+      areaCode: jsonMap['areaName'] as String?,
+      name: jsonMap['displayName'] as String?,
+      description: jsonMap['areaDescription'] as String?,
     );
   }
 

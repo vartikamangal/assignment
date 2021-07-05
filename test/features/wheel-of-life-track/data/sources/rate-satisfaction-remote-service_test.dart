@@ -3,17 +3,13 @@ import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
-
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
@@ -21,21 +17,22 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/rating-scale-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/satisfaction-rating-map-for-time-provision-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/satisfaction-ratings-model.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/rate-satisfaction-remote-service.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/wheel-of-life-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rated-satisfaction-success.dart';
+
 import '../../../../fixtures/fixture-reader.dart';
 
 class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  MockCustomApiClient client;
+  MockCustomApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
-  RateSatisfactionRemoteServiceImpl serviceImpl;
+  late WheelOfLifeRemoteDataSourceImpl serviceImpl;
 
   setUp(() {
     client = MockCustomApiClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
-    serviceImpl = RateSatisfactionRemoteServiceImpl(
+    serviceImpl = WheelOfLifeRemoteDataSourceImpl(
       client: client,
       throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
@@ -152,9 +149,9 @@ Future<void> main() async {
     satisfactionRatings: tLifeAreaTimeProvisions,
   );
 
-  void setupHttpSuccessClient200({@required String path}) {
+  void setupHttpSuccessClient200({required String path}) {
     when(
-      client.post(
+      client!.post(
         uri: APIRoute.setUserSatisfaction,
         body: jsonEncode(tSatisfactionRatings.toJson()),
       ),
@@ -168,7 +165,7 @@ Future<void> main() async {
 
   void setupHttpFailureClient404() {
     when(
-      client.post(
+      client!.post(
         uri: APIRoute.setUserSatisfaction,
         body: jsonEncode(tSatisfactionRatings.toJson()),
       ),
@@ -187,7 +184,7 @@ Future<void> main() async {
       await serviceImpl.rateSatisfaction(ratings: tSatisfactionRatings);
       //assert
       verify(
-        client.post(
+        client!.post(
           uri: APIRoute.setUserSatisfaction,
           body: jsonEncode(tSatisfactionRatings.toJson()),
         ),
@@ -211,7 +208,7 @@ Future<void> main() async {
       //arrange
       setupHttpFailureClient404();
       //act
-      final call = serviceImpl.rateSatisfaction;
+      final Future<SuccessRatedSatisfaction> Function({SatisfactionRatingsModel ratings}) call = serviceImpl.rateSatisfaction;
       //assert
       expect(
         () => call(

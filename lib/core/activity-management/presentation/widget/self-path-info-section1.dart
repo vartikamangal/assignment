@@ -4,10 +4,10 @@ import 'dart:developer';
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
 import '../../../../core/asset-image-path/image-path.dart';
@@ -15,7 +15,6 @@ import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/bottomRightButton.dart';
-import '../../../../core/utils/color-pallete.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
 import '../../../../features/what-path-to-choose/presentation/controller/choose-path-controller.dart';
 import '../controller/path-controller.dart';
@@ -24,11 +23,11 @@ class SelfPathInfoSection1 extends StatelessWidget {
   final ChoosePathController choosePathController = Get.find();
   final PathController controller = Get.find();
   SelfPathInfoSection1({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
-  Future<bool> _onWillPop({@required BuildContext context}) async {
-    return (await Get.dialog(
+  Future<bool> _onWillPop({required BuildContext context}) async {
+    return (await (Get.dialog(
           AlertDialog(
             title: const Text(
               'Do your really wish to stop this activity?',
@@ -54,7 +53,7 @@ class SelfPathInfoSection1 extends StatelessWidget {
               ),
             ],
           ),
-        )) ??
+        ) as Future<bool>?)) ??
         false;
   }
 
@@ -83,10 +82,9 @@ class SelfPathInfoSection1 extends StatelessWidget {
           child: SingleChildScrollView(
             child: Container(
               constraints: BoxConstraints(
-                minHeight: Get.height-
-                    MediaQuery.of(context).padding.top -
-                    MediaQuery.of(context).padding.bottom
-              ),
+                  minHeight: Get.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,12 +96,16 @@ class SelfPathInfoSection1 extends StatelessWidget {
                         PreferredSize(
                           preferredSize: Size(Get.width, 2),
                           child: Obx(
-                                () => _controller.isProcessing.value
-                                ? const LinearProgressIndicator()
+                            () => _controller.isProcessing.value
+                                ? CustomizedLinearProgressIndicator()
                                 : EmptySpacePlaceHolder(),
                           ),
                         ),
-                        TopAppBar(onPressed: ()async{await _onWillPop(context: context) ? Get.back() : log('Nope');}),
+                        TopAppBar(onPressed: () async {
+                          await _onWillPop(context: context)
+                              ? Get.back()
+                              : log('Nope');
+                        }),
                         SizedBox(
                           height: ScaleManager.spaceScale(
                             spaceing: 23,
@@ -143,18 +145,20 @@ class SelfPathInfoSection1 extends StatelessWidget {
                             controller.userSelectedPath.value == 'BIG_GOALS'
                                 ? controller
                                     .templateToRecommendationMapperGuided[
-                                        'DID_YOU_KNOW']
-                                    .stepTitle
+                                        'DID_YOU_KNOW']!
+                                    .stepTitle!
                                 : controller
-                                    .templateToRecommendationMapperSelf['DID_YOU_KNOW']
-                                    .stepTitle,
+                                    .templateToRecommendationMapperSelf[
+                                        'DID_YOU_KNOW']!
+                                    .stepTitle!,
                             style: AppTextStyle.Askfeeling,
                             textScaleFactor: textScaleFactor,
                           ),
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              left: ScaleManager.spaceScale(spaceing: 44).value),
+                              left:
+                                  ScaleManager.spaceScale(spaceing: 44).value),
                           child: Text(
                             'Takes ${controller.activityDuration} minutes',
                             style: AppTextStyle.getTimerText,
@@ -178,12 +182,12 @@ class SelfPathInfoSection1 extends StatelessWidget {
                               controller.userSelectedPath.value == 'BIG_GOALS'
                                   ? controller
                                       .templateToRecommendationMapperGuided[
-                                          'DID_YOU_KNOW']
-                                      .stepContent
+                                          'DID_YOU_KNOW']!
+                                      .stepContent!
                                   : controller
                                       .templateToRecommendationMapperSelf[
-                                          'DID_YOU_KNOW']
-                                      .stepContent,
+                                          'DID_YOU_KNOW']!
+                                      .stepContent!,
                               style: AppTextStyle.growthtext,
                               textScaleFactor: textScaleFactor,
                             ),
@@ -193,8 +197,10 @@ class SelfPathInfoSection1 extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: ScaleManager.spaceScale(spaceing: 14).value,
-                      bottom: ScaleManager.spaceScale(spaceing: 14).value,),
+                    padding: EdgeInsets.only(
+                      right: ScaleManager.spaceScale(spaceing: 14).value,
+                      bottom: ScaleManager.spaceScale(spaceing: 14).value,
+                    ),
                     child: BottomRightButton(
                       title: '',
                       onPressed: () {

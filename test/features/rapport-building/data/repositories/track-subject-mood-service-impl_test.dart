@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -13,20 +12,20 @@ import 'package:tatsam_app_experimental/core/repository/call-if-network-connecte
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/repository/track-subject-mood-service-impl.dart';
-import 'package:tatsam_app_experimental/features/rapport-building/data/sources/track-subject-mood-remote-service.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/repository/rapport-building-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/track-mood-success.dart';
 
 class MockTrackSubjectMoodRemoteService extends Mock
-    implements TrackSubjectMoodRemoteService {}
+    implements RapportBuildingRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockTrackSubjectMoodRemoteService remoteService;
-  MockNetworkInfo networkInfo;
-  TrackSubjectMoodServiceImpl serviceImpl;
+  MockTrackSubjectMoodRemoteService? remoteService;
+  MockNetworkInfo? networkInfo;
+  late RapportBuildingRepositoryImpl serviceImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -40,8 +39,8 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    serviceImpl = TrackSubjectMoodServiceImpl(
-      service: remoteService,
+    serviceImpl = RapportBuildingRepositoryImpl(
+      remoteDataSource: remoteService,
       baseRepository: baseRepository,
     );
   });
@@ -59,7 +58,7 @@ void main() {
   void runTestsOnline(Callback callback) {
     group('DEVICE ONLINE : TrackSubjectMood', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       callback();
     });
@@ -68,7 +67,7 @@ void main() {
   void runTestsOffline(Callback callback) {
     group('DEVICE OFFLINE : TrackSubjectMood', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
       });
       callback();
     });
@@ -77,29 +76,31 @@ void main() {
   runTestsOnline(() {
     test('should check if the device is online', () async {
       //act
-      await serviceImpl.trackMood(mood: tMoodTrack);
+      await serviceImpl.trackMood(mood: tMoodTrack as MoodTrackingModel);
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return TrackMoodSuccess when the call to remote resource is successfull',
         () async {
       //arrange
-      when(remoteService.trackMood(mood: tMoodTrack))
+      when(remoteService!.trackMood(mood: tMoodTrack))
           .thenAnswer((realInvocation) async => TrackMoodSuccess());
       //act
-      final result = await serviceImpl.trackMood(mood: tMoodTrack);
+      final result =
+          await serviceImpl.trackMood(mood: tMoodTrack as MoodTrackingModel);
       //assert
       expect(result, Right(TrackMoodSuccess()));
     });
     test('should return ServerFailure when call to remote reousrce fails',
         () async {
       //arrange
-      when(remoteService.trackMood(mood: tMoodTrack)).thenThrow(
+      when(remoteService!.trackMood(mood: tMoodTrack)).thenThrow(
         ServerException(),
       );
       //act
-      final result = await serviceImpl.trackMood(mood: tMoodTrack);
+      final result =
+          await serviceImpl.trackMood(mood: tMoodTrack as MoodTrackingModel);
       //assert
       expect(result, Left(ServerFailure()));
     });
@@ -107,7 +108,8 @@ void main() {
   runTestsOffline(() {
     test('should return DeviceOfflineFailure', () async {
       //act
-      final result = await serviceImpl.trackMood(mood: tMoodTrack);
+      final result =
+          await serviceImpl.trackMood(mood: tMoodTrack as MoodTrackingModel);
       //assert
       verifyZeroInteractions(remoteService);
       expect(result, Left(DeviceOfflineFailure()));

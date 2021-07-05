@@ -11,19 +11,19 @@ import 'question-option.dart';
 class Answer extends Equatable {
   final QuestionId question;
   final List<QuestionOption> optionChosen;
-  final String additionalInformation;
+  final String? additionalInformation;
   const Answer({
-    @required this.question,
-    @required this.optionChosen,
-    @required this.additionalInformation,
+    required this.question,
+    required this.optionChosen,
+    required this.additionalInformation,
   });
   @override
-  List<Object> get props => [question, optionChosen, additionalInformation];
+  List<Object?> get props => [question, optionChosen, additionalInformation];
 
   Answer copyWith({
-    QuestionId question,
-    List<QuestionOption> optionChosen,
-    String additionalInformation,
+    QuestionId? question,
+    List<QuestionOption>? optionChosen,
+    String? additionalInformation,
   }) {
     return Answer(
       question: question ?? this.question,

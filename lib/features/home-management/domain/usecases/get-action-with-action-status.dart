@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
@@ -13,10 +12,10 @@ class GetActionWithActionStatus
   final GetActionWithActionStatusRepository repository;
 
   GetActionWithActionStatus({
-    @required this.repository,
+    required this.repository,
   });
   @override
-  Future<Either<Failure, List<PostOnboardingAction>>> call(
+  Future<Either<Failure, List<PostOnboardingAction>>?> call(
       GetActionWithActionStatusParams params) async {
     return repository.getActions(
       actionStatus: params.actionStatus,
@@ -28,7 +27,7 @@ class GetActionWithActionStatusParams extends Equatable {
   final String actionStatus;
 
   const GetActionWithActionStatusParams({
-    @required this.actionStatus,
+    required this.actionStatus,
   });
 
   @override

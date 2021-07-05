@@ -1,14 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/stop-recording-service.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/cancel-recording.dart';
 
-class MockStopRecordingService extends Mock implements StopRecordingService {}
+import 'cancel-recording_test.mocks.dart';
 
+@GenerateMocks([StopRecordingService])
 void main() {
-  MockStopRecordingService service;
-  CancelRecording useCase;
+  late MockStopRecordingService service;
+  late CancelRecording useCase;
 
   setUp(() {
     service = MockStopRecordingService();
@@ -21,13 +24,19 @@ void main() {
     test('Should cancel recording for the voice note', () async {
       when(service.cancelRecording(
               partialRecordingFileToDelete: tPartialRecordingFileToDelete))
-          .thenAnswer((_) async => const Right(tUnit));
+          .thenAnswer(
+        (_) async => const Right(tUnit),
+      );
 
-      final result = await useCase(const CancelRecordingParams(
-          incompleteRecordedFileToDelete: tPartialRecordingFileToDelete));
+      final Either<Failure, Unit> result = await useCase(
+        const CancelRecordingParams(
+            incompleteRecordedFileToDelete: tPartialRecordingFileToDelete),
+      );
 
-      verify(service.cancelRecording(
-          partialRecordingFileToDelete: tPartialRecordingFileToDelete));
+      verify(
+        service.cancelRecording(
+            partialRecordingFileToDelete: tPartialRecordingFileToDelete),
+      );
       expect(result, const Right(tUnit));
     });
   });

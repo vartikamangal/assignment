@@ -13,8 +13,8 @@ import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 // ignore: must_be_immutable
 class BottomRightTextButton extends StatelessWidget {
-  String title;
-  Callback onPressed;
+  String? title;
+  Callback? onPressed;
   BottomRightTextButton({this.onPressed, this.title});
   @override
   Widget build(BuildContext context) {
@@ -83,13 +83,13 @@ class BottomRightTextButton extends StatelessWidget {
 
 class _ResponsiveBottomBtn extends StatelessWidget {
   const _ResponsiveBottomBtn(
-      {Key key,
-      @required this.title,
-      @required this.textScaleFactor,
-      @required this.padding})
+      {Key? key,
+      required this.title,
+      required this.textScaleFactor,
+      required this.padding})
       : super(key: key);
 
-  final String title;
+  final String? title;
   final double textScaleFactor;
   final EdgeInsets padding;
 
@@ -116,7 +116,7 @@ class _ResponsiveBottomBtn extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            title,
+            title!,
             style: AppTextStyle.buttonTextStyle,
             textScaleFactor: textScaleFactor,
           ),

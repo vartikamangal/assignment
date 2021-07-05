@@ -10,11 +10,11 @@ import 'package:tatsam_app_experimental/core/analytics/analytics-setup.dart';
 import 'core/routes/app-routes/app-routes.dart';
 
 class MyApp extends StatefulWidget {
-  final SetupAnalytics analyticsService;
+  final SetupAnalytics? analyticsService;
 
   const MyApp({
-    Key key,
-    @required this.analyticsService,
+    Key? key,
+    required this.analyticsService,
   }) : super(key: key);
   @override
   _MyAppState createState() => _MyAppState();
@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> setupInitialiBindings() async {
-    await widget.analyticsService.initializeAndStartRecording();
+    await widget.analyticsService!.initializeAndStartRecording();
   }
 
   @override

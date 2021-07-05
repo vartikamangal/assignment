@@ -5,22 +5,22 @@ import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 
 class ActivityStatus extends Equatable {
-  final int id;
-  final String journeyId;
-  final String recommendationId;
-  final String actionStatus;
-  final String feedbackMood;
-  final String feedbackThoughts;
+  final int? id;
+  final String? journeyId;
+  final String? recommendationId;
+  final String? actionStatus;
+  final String? feedbackMood;
+  final String? feedbackThoughts;
   const ActivityStatus({
-    @required this.id,
-    @required this.journeyId,
-    @required this.recommendationId,
-    @required this.actionStatus,
-    @required this.feedbackMood,
-    @required this.feedbackThoughts,
+    required this.id,
+    required this.journeyId,
+    required this.recommendationId,
+    required this.actionStatus,
+    required this.feedbackMood,
+    required this.feedbackThoughts,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       journeyId,
@@ -32,12 +32,12 @@ class ActivityStatus extends Equatable {
   }
 
   ActivityStatus copyWith({
-    int id,
-    String journeyId,
-    String recommendationId,
-    String actionStatus,
-    String feedbackMood,
-    String feedbackThoughts,
+    int? id,
+    String? journeyId,
+    String? recommendationId,
+    String? actionStatus,
+    String? feedbackMood,
+    String? feedbackThoughts,
   }) {
     return ActivityStatus(
       id: id ?? this.id,

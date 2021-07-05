@@ -15,8 +15,8 @@ import 'package:tatsam_app_experimental/core/image/image.dart';
 class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  GetAllRecommendationCategoriesRemoteDataSourceImpl remoteDataSourceImpl;
-  MockCustomApiClient client;
+  late GetAllRecommendationCategoriesRemoteDataSourceImpl remoteDataSourceImpl;
+  MockCustomApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
@@ -43,14 +43,14 @@ Future<void> main() async {
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
+    when(client!.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
           (_) async => http.Response(
           fixtureReader(filename: 'recommendation-category-model.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
+    when(client!.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
           (_) async => http.Response('Oops! page not found', 404),
     );
   }
@@ -64,7 +64,7 @@ Future<void> main() async {
       await remoteDataSourceImpl.getAllCategories();
       //assert
       verify(
-        client.get(uri: APIRoute.getAllRecommendationCategories),
+        client!.get(uri: APIRoute.getAllRecommendationCategories),
       );
     });
     test(

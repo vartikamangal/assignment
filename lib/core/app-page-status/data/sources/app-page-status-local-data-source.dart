@@ -23,17 +23,17 @@ enum AbandonedPageStates {
 
 abstract class AppPageStatusLocalDataSource {
   Future<AppRouteModel> getLastAbandonedPage({
-    @required HubStatusModel hubStatusModel,
+    required HubStatusModel? hubStatusModel,
   });
 }
 
 class AppPageStatusLocalDataSourceImpl implements AppPageStatusLocalDataSource {
   @override
   Future<AppRouteModel> getLastAbandonedPage({
-    @required HubStatusModel hubStatusModel,
+    required HubStatusModel? hubStatusModel,
   }) async {
     try {
-      final mostRecentPageState = hubStatusModel.recentlyAbandonedPage();
+      final mostRecentPageState = hubStatusModel!.recentlyAbandonedPage();
       switch (mostRecentPageState) {
         case AbandonedPageStates.ONLY_NICKNAME:
           return RouteName.rapportPages.makeAppRoute();

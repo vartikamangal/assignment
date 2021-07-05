@@ -14,23 +14,23 @@ import '../color-pallete.dart';
 // ignore: must_be_immutable
 class TextDescriptionBox extends StatelessWidget {
   @required
-  String title;
+  String? title;
   @required
-  String description;
+  String? description;
   @required
-  String week;
+  String? week;
   @required
-  String category;
+  String? category;
   @required
-  String suggestion1;
+  String? suggestion1;
   @required
-  String suggestion2;
+  String? suggestion2;
   @required
-  String suggestion3;
+  String? suggestion3;
   @required
-  String suggestion4;
+  String? suggestion4;
   @required
-  String suggestion5;
+  String? suggestion5;
 
   TextDescriptionBox(
       {this.title,
@@ -54,13 +54,13 @@ class TextDescriptionBox extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                title!,
                 style: AppTextStyle.choosePathOption,
                 textScaleFactor: textScaleFactor,
               ),
               SizedBox(
                 child: Text(
-                  description,
+                  description!,
                   style: AppTextStyle.descriptionText,
                   textScaleFactor: textScaleFactor,
                 ),
@@ -77,7 +77,7 @@ class TextDescriptionBox extends StatelessWidget {
           children: [
             SizedBox(
               child: Text(
-                category,
+                category!,
                 style: AppTextStyle.textonwol,
                 textScaleFactor: textScaleFactor,
               ),
@@ -86,7 +86,7 @@ class TextDescriptionBox extends StatelessWidget {
               width: Get.width * 0.45,
             ),
             Text(
-              week,
+              week!,
               style: AppTextStyle.dayText,
               textScaleFactor: textScaleFactor,
             )
@@ -109,7 +109,7 @@ class TextDescriptionBox extends StatelessWidget {
               SizedBox(
                 width: ScaleManager.spaceScale(spaceing: 104).value,
                 child: Text(
-                  suggestion1,
+                  suggestion1!,
                   style: AppTextStyle.suggestionText,
                   textScaleFactor: textScaleFactor,
                 ),
@@ -117,7 +117,7 @@ class TextDescriptionBox extends StatelessWidget {
               SizedBox(
                 width: ScaleManager.spaceScale(spaceing: 104).value,
                 child: Text(
-                  suggestion2,
+                  suggestion2!,
                   style: AppTextStyle.suggestionText,
                   textScaleFactor: textScaleFactor,
                 ),
@@ -125,7 +125,7 @@ class TextDescriptionBox extends StatelessWidget {
               SizedBox(
                 width: ScaleManager.spaceScale(spaceing: 104).value,
                 child: Text(
-                  suggestion3,
+                  suggestion3!,
                   style: AppTextStyle.suggestionText,
                   textScaleFactor: textScaleFactor,
                 ),
@@ -133,7 +133,7 @@ class TextDescriptionBox extends StatelessWidget {
               SizedBox(
                 width: ScaleManager.spaceScale(spaceing: 104).value,
                 child: Text(
-                  suggestion4,
+                  suggestion4!,
                   style: AppTextStyle.suggestionText,
                   textScaleFactor: textScaleFactor,
                 ),
@@ -141,7 +141,7 @@ class TextDescriptionBox extends StatelessWidget {
               SizedBox(
                 width: ScaleManager.spaceScale(spaceing: 50).value,
                 child: Text(
-                  suggestion5,
+                  suggestion5!,
                   style: AppTextStyle.suggestionText,
                   textScaleFactor: textScaleFactor,
                 ),

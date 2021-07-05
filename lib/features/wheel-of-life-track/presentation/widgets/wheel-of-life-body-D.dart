@@ -16,8 +16,8 @@ class WheelOfLifeBodyD extends StatelessWidget {
   final WheelOfLifeController controller;
 
   const WheelOfLifeBodyD({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,8 @@ class WheelOfLifeBodyD extends StatelessWidget {
                     onChanged: (double newVal) {
                       controller.settSlidervalue(newVal, index);
                     },
-                    max: (controller.ratingScale.value.max).toDouble(),
-                    min: (controller.ratingScale.value.min).toDouble(),
+                    max: controller.ratingScale.value!.max!.toDouble(),
+                    min: controller.ratingScale.value!.min!.toDouble(),
                     value: controller
                         .uiHelperListForTimeProvision[lifeAreaToBeChanged],
                     label: controller.uiHelperListForTimeProvision.keys

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import '../../../../core/activity-management/data/models/recommendation-activity-model.dart';
 import '../../../../core/activity-management/data/models/recommendation-model.dart';
 import '../../../../core/activity-management/presentation/controller/path-controller.dart';
@@ -14,7 +15,7 @@ import '../../../../core/utils/color-pallete.dart';
 import '../controllers/instant-relief-controller.dart';
 
 class InstantRecommendationsScreen extends StatelessWidget {
-  InstantRecommendationsScreen({Key key}) : super(key: key);
+  InstantRecommendationsScreen({Key? key}) : super(key: key);
   final DurationTrackerController _durationController = Get.find();
   final PathController _pathController = Get.find();
   final InstantReliefController _instantReliefController = Get.find();
@@ -26,17 +27,7 @@ class InstantRecommendationsScreen extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Theme.of(context).canvasColor,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: SvgPicture.asset(
-              ImagePath.backButton,
-              height: ScaleManager.spaceScale(
-                spaceing: 26,
-              ).value,
-            ),
-          ),
+          leading: TopAppBar(onPressed: (){Navigator.of(context).pop();})
         ),
         body: CustomScrollView(
           slivers: [
@@ -49,7 +40,7 @@ class InstantRecommendationsScreen extends StatelessWidget {
                         left: ScaleManager.spaceScale(spaceing: 42).value,
                         top: ScaleManager.spaceScale(spaceing: 2).value),
                     child: Text(
-                      _instantReliefController.selectedArea.value.title,
+                      _instantReliefController.selectedArea.value!.title!,
                       style: AppTextStyle.Askfeeling,
                       textScaleFactor: textScaleFactor,
                     ),
@@ -58,7 +49,7 @@ class InstantRecommendationsScreen extends StatelessWidget {
                     margin: EdgeInsets.only(
                         left: ScaleManager.spaceScale(spaceing: 42).value),
                     child: Text(
-                      _instantReliefController.selectedArea.value.subtitle,
+                      _instantReliefController.selectedArea.value!.subtitle!,
                       style: AppTextStyle.pathdescription,
                       textScaleFactor: textScaleFactor,
                     ),

@@ -12,8 +12,8 @@ import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
 
 class InactiveBottomRightButton extends StatelessWidget {
-  final String title;
-  final Callback onPressed;
+  final String? title;
+  final Callback? onPressed;
   const InactiveBottomRightButton({
     this.onPressed,
     this.title,

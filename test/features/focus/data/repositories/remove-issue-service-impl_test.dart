@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -11,21 +10,20 @@ import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
-import 'package:tatsam_app_experimental/features/focus/data/repositories/remove-issue-service-impl.dart';
+import 'package:tatsam_app_experimental/features/focus/data/repositories/focus-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/focus/data/sources/focus-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue-removed-success.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue.dart';
 
-import 'package:tatsam_app_experimental/features/focus/data/sources/remove-issue-remote-service.dart';
-
 class MockRemoveIssueRemoteService extends Mock
-    implements RemoveIssueRemoteService {}
+    implements FocusRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockNetworkInfo networkInfo;
-  MockRemoveIssueRemoteService remoteService;
-  RemoveIssueServiceImpl serviceImpl;
+  MockNetworkInfo? networkInfo;
+  MockRemoveIssueRemoteService? remoteService;
+  late FocusRepositoryImpl serviceImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -39,8 +37,8 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    serviceImpl = RemoveIssueServiceImpl(
-      remoteService: remoteService,
+    serviceImpl = FocusRepositoryImpl(
+      remoteDataSource: remoteService,
       baseRepository: baseRepository,
     );
   });
@@ -56,7 +54,7 @@ void main() {
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : RemoveIssue', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       body();
     });
@@ -65,7 +63,7 @@ void main() {
   void runTestsOffline(Callback body) {
     group('DEVICE OFFLINE : RemoveIssue', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
       });
       body();
     });
@@ -77,25 +75,25 @@ void main() {
       //act
       await serviceImpl.removeIssue(issue: tissue);
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return SetMoodSuccess if call to remote data source is successfull',
         () async {
       //arrange
-      when(remoteService.removeIssue(issue: tissue))
+      when(remoteService!.removeIssue(issue: tissue))
           .thenAnswer((_) async => IssueRemovedSuccess());
       //act
       final result = await serviceImpl.removeIssue(issue: tissue);
       //assert
-      verify(remoteService.removeIssue(issue: tissue));
+      verify(remoteService!.removeIssue(issue: tissue));
       expect(result, Right(IssueRemovedSuccess()));
     });
 
     test('should return ServerFailure when the call to remoteService fails',
         () async {
       //arrange
-      when(remoteService.removeIssue(issue: tissue))
+      when(remoteService!.removeIssue(issue: tissue))
           .thenThrow(ServerException());
       //act
       final result = await serviceImpl.removeIssue(issue: tissue);

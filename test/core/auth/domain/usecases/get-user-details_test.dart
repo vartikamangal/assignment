@@ -2,15 +2,15 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/entities/user-data.dart';
-import 'package:tatsam_app_experimental/core/auth/domain/repositories/auth-repository.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/get-user-details.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
-class MockAuthRepository extends Mock implements AuthRepository {}
+import '../../../core_mock_generator_test.mocks.dart';
 
 void main() {
-  MockAuthRepository repository;
-  GetUserDetails useCase;
+  late MockAuthRepository repository;
+  late GetUserDetails useCase;
 
   setUp(() {
     repository = MockAuthRepository();
@@ -40,7 +40,7 @@ void main() {
       when(repository.getUserDetails())
           .thenAnswer((_) async => const Right(tUserData));
       //act
-      final result = await useCase(NoParams());
+      final Either<Failure, UserData> result = await useCase(NoParams());
       verify(repository.getUserDetails());
       expect(result, const Right(tUserData));
     });

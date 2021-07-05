@@ -41,7 +41,7 @@ void main(){
       //arrange
       final expectedJson =
       jsonDecode(fixtureReader(filename: 'path-information.json'))
-      as List;
+      as List?;
       //act
       final result = tPathInformation
           .map((area) => (area as PathInformationModel).toJson())

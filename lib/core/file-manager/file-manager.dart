@@ -22,14 +22,14 @@ abstract class FileUtils {
   // Returns a generated-filename for voicenote name & Failure if any exception occurs
   Future<Either<Failure, String>> getNewFileNameName();
   // Delete a file from app's documents or return failure
-  Future<Either<Failure, Unit>> deleteFile(String filePath);
+  Future<Either<Failure, Unit>> deleteFile(String? filePath);
 }
 
 class FileUtilsImpl implements FileUtils {
-  final Box box;
+  final Box? box;
 
   FileUtilsImpl({
-    @required this.box,
+    required this.box,
   });
   @override
   Future<Either<Failure, String>> getNewFileNameName() async {
@@ -60,14 +60,14 @@ class FileUtilsImpl implements FileUtils {
   }
 
   @override
-  Future<Either<Failure, Unit>> deleteFile(String filePath) async {
+  Future<Either<Failure, Unit>> deleteFile(String? filePath) async {
     try {
       // gets the application specific directory
       final appDirPath = await getApplicationDocumentsDirectory();
 
       // Deletion of files outside application's
       // Documents directory not allowed
-      if (!filePath.startsWith(appDirPath.path)) {
+      if (!filePath!.startsWith(appDirPath.path)) {
         // TODO add message support to errors #CRITICAL
         return Left(FileOperationFailure());
       }

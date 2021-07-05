@@ -10,18 +10,18 @@ import '../../domain/repository/start-recording-voicenote-service.dart';
 
 class StartRecordingVoiceNoteServiceImpl
     implements StartRecordingVoiceNoteService {
-  final StartRecordingVoiceNoteLocalService localService;
+  final StartRecordingVoiceNoteLocalService? localService;
 
   StartRecordingVoiceNoteServiceImpl({
-    @required this.localService,
+    required this.localService,
   });
   @override
   Future<Either<Failure, Success>> startRecodring({
-    String filePath,
-    Codec codec,
+    String? filePath,
+    Codec? codec,
   }) async {
     try {
-      await localService.startRecording(
+      await localService!.startRecording(
         filePath: filePath,
         codec: codec,
       );

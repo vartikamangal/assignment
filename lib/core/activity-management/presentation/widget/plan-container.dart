@@ -14,11 +14,11 @@ import '../../../../core/utils/universal-widgets/empty-space.dart';
 // ignore: must_be_immutable
 
 class PlanContainer extends StatelessWidget {
-  String title;
-  String description;
-  String image;
-  Callback onPressed;
-  bool isFaded;
+  String? title;
+  String? description;
+  String? image;
+  Callback? onPressed;
+  bool? isFaded;
   bool requireBottomSpacing;
   PlanContainer({
     this.description,
@@ -26,15 +26,15 @@ class PlanContainer extends StatelessWidget {
     this.image,
     this.onPressed,
     this.isFaded,
-    @required this.requireBottomSpacing,
+    required this.requireBottomSpacing,
   });
   @override
   Widget build(BuildContext context) {
-    title = '${title[0].toUpperCase()}${title.substring(1).toLowerCase()}';
+    title = '${title![0].toUpperCase()}${title!.substring(1).toLowerCase()}';
     final imageScaleFactor = ScaleManager.imageScale.value;
     final textScaleFactor = ScaleManager.textScale.value;
     return GestureDetector(
-      onTap: isFaded ? () {} : onPressed,
+      onTap: isFaded! ? () {} : onPressed,
       // ignore: avoid_unnecessary_containers
       child: Container(
         child: Column(
@@ -78,21 +78,21 @@ class PlanContainer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          InitCap(title),
-                          style: isFaded
+                          InitCap(title!),
+                          style: isFaded!
                               ? AppTextStyle.Darkblueheader.copyWith(
                                   color: greyboxshade,
                                 )
                               : AppTextStyle.Darkblueheader,
                           textScaleFactor: textScaleFactor,
                         ),
-                        if (isFaded || description == '')
+                        if (isFaded! || description == '')
                           EmptySpacePlaceHolder()
                         else
                           Padding(
                             padding:  EdgeInsets.only(top: ScaleManager.spaceScale(spaceing: 7).value),
                             child: Text(
-                              description,
+                              description!,
                               style: AppTextStyle.ligntbluedescription,
                               textAlign: TextAlign.center,
                               textScaleFactor: textScaleFactor,
@@ -105,7 +105,7 @@ class PlanContainer extends StatelessWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Image.asset(
-                    image,
+                    image!,
                     height: ScaleManager.spaceScale(spaceing: 91).value,
                     scale: imageScaleFactor,
                   ),

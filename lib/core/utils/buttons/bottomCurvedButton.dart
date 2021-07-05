@@ -8,11 +8,11 @@ import '../color-pallete.dart';
 
 // ignore: camel_case_types
 class bottomCurvedButton extends StatelessWidget {
-  final String title;
-  final Icon iconData;
-  final Function() onPressed;
+  final String? title;
+  final Icon? iconData;
+  final Function()? onPressed;
   const bottomCurvedButton({
-    Key key,
+    Key? key,
     this.title,
     this.iconData,
     this.onPressed,
@@ -36,7 +36,7 @@ class bottomCurvedButton extends StatelessWidget {
                   Radius.circular(ScaleManager.spaceScale(spaceing: 44).value)),
         ),
         child: Text(
-          title,
+          title!,
           style: AppTextStyle.buttonTextStyle,
           textScaleFactor: textScaleFactor,
         ),

@@ -5,26 +5,26 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
-import 'package:tatsam_app_experimental/features/instant-relief/data/sources/get-instant-relief-areas-remote-data-source.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/data/sources/instant-relief-remote-data-source.dart';
+
 import '../../../../fixtures/fixture-reader.dart';
 
 class MockCustomApiClient extends Mock implements ApiClient {}
 
 Future<void> main() async {
-  GetInstantReliefAreasRemoteDataSourceImpl remoteDataSourceImpl;
-  MockCustomApiClient client;
+  late InstantReliefRemoteDataSourceImpl remoteDataSourceImpl;
+  MockCustomApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
     client = MockCustomApiClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
-    remoteDataSourceImpl = GetInstantReliefAreasRemoteDataSourceImpl(
+    remoteDataSourceImpl = InstantReliefRemoteDataSourceImpl(
       client: client,
       throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
@@ -43,14 +43,14 @@ Future<void> main() async {
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client.get(uri: APIRoute.getInstantReliefAreas)).thenAnswer(
+    when(client!.get(uri: APIRoute.getInstantReliefAreas)).thenAnswer(
       (_) async => http.Response(
           fixtureReader(filename: 'raw-instant-relief-area.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(uri: APIRoute.getInstantReliefAreas)).thenAnswer(
+    when(client!.get(uri: APIRoute.getInstantReliefAreas)).thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }
@@ -64,7 +64,7 @@ Future<void> main() async {
       await remoteDataSourceImpl.getReliefAreas();
       //assert
       verify(
-        client.get(uri: APIRoute.getInstantReliefAreas),
+        client!.get(uri: APIRoute.getInstantReliefAreas),
       );
     });
     test(

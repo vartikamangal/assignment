@@ -14,9 +14,9 @@ class SubjectMood extends Equatable {
   final DateTime when;
 
   const SubjectMood({
-    @required this.subjectId,
-    @required this.mood,
-    @required this.when,
+    required this.subjectId,
+    required this.mood,
+    required this.when,
   });
 
   @override

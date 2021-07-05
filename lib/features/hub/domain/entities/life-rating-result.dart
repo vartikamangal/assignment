@@ -9,20 +9,20 @@ import '../../../rapport-building/domain/entities/subject-id.dart';
 import 'individual-satisfaction-rating-result.dart';
 
 class LifeRatingResult extends Equatable {
-  final int id;
+  final int? id;
   final SubjectId subjectId;
-  final String wolArea;
+  final String? wolArea;
   final IndividualSatisfactionRating rating;
   final DateTime createdWhen;
   const LifeRatingResult({
-    @required this.id,
-    @required this.subjectId,
-    @required this.wolArea,
-    @required this.rating,
-    @required this.createdWhen,
+    required this.id,
+    required this.subjectId,
+    required this.wolArea,
+    required this.rating,
+    required this.createdWhen,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       subjectId,
@@ -33,11 +33,11 @@ class LifeRatingResult extends Equatable {
   }
 
   LifeRatingResult copyWith({
-    int id,
-    SubjectId subjectId,
-    String wolArea,
-    IndividualSatisfactionRating rating,
-    DateTime createdWhen,
+    int? id,
+    SubjectId? subjectId,
+    String? wolArea,
+    IndividualSatisfactionRating? rating,
+    DateTime? createdWhen,
   }) {
     return LifeRatingResult(
       id: id ?? this.id,

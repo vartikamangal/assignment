@@ -11,7 +11,7 @@ import '../color-pallete.dart';
 class TopLeftGradientButton extends StatelessWidget {
   final Callback onPressed;
   const TopLeftGradientButton({
-    @required this.onPressed,
+    required this.onPressed,
   });
   @override
   Widget build(BuildContext context) {

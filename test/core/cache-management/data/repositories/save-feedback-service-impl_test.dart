@@ -1,26 +1,25 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/save-feedback-service-impl.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/save-feedback-local-service.dart';
-import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 
-class MockSaveFeedbackLocalService extends Mock
-    implements SaveFeedbackLocalService {}
+import '../../../core_mock_generator_test.mocks.dart';
+import 'save-feedback-service-impl_test.mocks.dart';
 
-class MockNetworkInfo extends Mock implements NetworkInfo {}
-
+@GenerateMocks([SaveFeedbackLocalService])
 void main() {
-  MockSaveFeedbackLocalService localService;
-  MockNetworkInfo networkInfo;
-  SaveFeedbackServiceImpl serviceImpl;
-  BaseRepository baseRepository;
-  CallIfNetworkConnected callIfNetworkConnected;
-  HandleException handleException;
+  late MockSaveFeedbackLocalService localService;
+  late MockNetworkInfo networkInfo;
+  late SaveFeedbackServiceImpl serviceImpl;
+  late BaseRepository baseRepository;
+  late CallIfNetworkConnected callIfNetworkConnected;
+  late HandleException handleException;
 
   setUp(() {
     localService = MockSaveFeedbackLocalService();
@@ -56,12 +55,12 @@ void main() {
     test('should set feeling to a local data source', () async {
       //arrange
       when(localService.setFeeling(
-          subjetcId: '',
-          activityType: '',
-          textFeedback: '',
-          voiceNote: '',
-          timeOfCreation: '',
-          boxKey: ''))
+              subjetcId: '',
+              activityType: '',
+              textFeedback: '',
+              voiceNote: '',
+              timeOfCreation: '',
+              boxKey: ''))
           .thenAnswer((_) async => tUnit);
       //act
       final result = await localService.setFeeling(
@@ -99,17 +98,17 @@ void main() {
     // });
   });
   test('DEVICE OFFLINE : setFeeling should return DeviceOfflineFailure',
-          () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
-        //act
-        final result = await localService.setFeeling(
-            subjetcId: '',
-            activityType: '',
-            textFeedback: '',
-            voiceNote: '',
-            timeOfCreation: '',
-            boxKey: '');
-        //assert
-        expect(result, null);
-      });
+      () async {
+    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    //act
+    final result = await localService.setFeeling(
+        subjetcId: '',
+        activityType: '',
+        textFeedback: '',
+        voiceNote: '',
+        timeOfCreation: '',
+        boxKey: '');
+    //assert
+    expect(result, null);
+  });
 }

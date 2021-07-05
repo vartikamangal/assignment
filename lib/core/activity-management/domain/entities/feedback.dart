@@ -9,19 +9,19 @@ import 'package:tatsam_app_experimental/core/activity-management/data/models/fee
 
 class Feedback extends Equatable {
   final FeedbackMoodModel subjectMoodVO;
-  final int minutesSpent;
-  final String feedbackThoughts;
-  final String recommendationId;
-  final int actionId;
+  final int? minutesSpent;
+  final String? feedbackThoughts;
+  final String? recommendationId;
+  final int? actionId;
   const Feedback({
-    @required this.subjectMoodVO,
-    @required this.minutesSpent,
-    @required this.feedbackThoughts,
-    @required this.recommendationId,
-    @required this.actionId,
+    required this.subjectMoodVO,
+    required this.minutesSpent,
+    required this.feedbackThoughts,
+    required this.recommendationId,
+    required this.actionId,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       subjectMoodVO,
       minutesSpent,

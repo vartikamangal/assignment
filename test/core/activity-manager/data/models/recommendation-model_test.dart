@@ -1,43 +1,40 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-model.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-model.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-step-model.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
+import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
-import '../../../../fixtures/fixture-reader.dart';
 
-void main(){
-  const List<Recommendation> tRecommendationModel= <RecommendationModel>[
-    RecommendationModel( activity: ActivityRecommendationModel
-      (id: "08c3275f-e45e-4b6a-bfe7-280266baf6c5",
-        title: "GUIDED EXERCISE - 2",
-        subtitle: "Subtitle for GUIDED EXERCISE",
-        iconVO: ImageProp(urlShort: '',
-            urlLarge: '',
-            urlMedium: ''),
-        durationInMinutes: 15,
-        messageOnReceivingFeedback:" This is an encouraging message",
-        messageOnCompletion: "Understanding yourself starts with small steps. With regular practices, you will start seeing a positive shift in your mind",
-        recommendationStatus: "ENABLED",
-        frequencyMetric: "WEEKLY",
-        frequency: 1,
-        actionTime: "DO_NOW",
-        criticality: "LOW",
-        categoryVO: RecommendationCategoryModel(id: 1,
-            categoryName: "PHYSICAL",
-            displayTitle: "Physical",
-            displaySubtitle: "Focus on the body",
-            categoryDetailedDescription: "This is physical category for body",
-            categoryShortDescription: "Focus on the body",
-            iconVO: ImageProp(urlShort: '',
-                urlLarge: '',
-                urlMedium: '')),
-        recommendationStepsVO: <RecommendationStepModel>[
-       /*   RecommendationStepModel(
+void main() {
+  const List<Recommendation> tRecommendationModel = <RecommendationModel>[
+    RecommendationModel(
+        activity: ActivityRecommendationModel(
+            id: "08c3275f-e45e-4b6a-bfe7-280266baf6c5",
+            title: "GUIDED EXERCISE - 2",
+            subtitle: "Subtitle for GUIDED EXERCISE",
+            iconVO: ImageProp(urlShort: '', urlLarge: '', urlMedium: ''),
+            durationInMinutes: 15,
+            messageOnReceivingFeedback: " This is an encouraging message",
+            messageOnCompletion:
+                "Understanding yourself starts with small steps. With regular practices, you will start seeing a positive shift in your mind",
+            recommendationStatus: "ENABLED",
+            frequencyMetric: "WEEKLY",
+            frequency: 1,
+            actionTime: "DO_NOW",
+            criticality: "LOW",
+            categoryVO: RecommendationCategoryModel(
+                id: 1,
+                categoryName: "PHYSICAL",
+                displayTitle: "Physical",
+                displaySubtitle: "Focus on the body",
+                categoryDetailedDescription:
+                    "This is physical category for body",
+                categoryShortDescription: "Focus on the body",
+                iconVO: ImageProp(urlShort: '', urlLarge: '', urlMedium: '')),
+            recommendationStepsVO: <RecommendationStepModel>[
+              /*   RecommendationStepModel(
               id: 3171,
               stepTitle: "Content",
               stepHelp: "" ,
@@ -73,9 +70,10 @@ void main(){
                   urlMedium: ''),
               templateName: "PLAIN_TEXT",
               stepContent: "Some useful did you know fact"
-          ),*/],
-        tags: <TagModel>[
-          /*TagModel(name: "ROMANCE",
+          ),*/
+            ],
+            tags: <TagModel>[
+              /*TagModel(name: "ROMANCE",
               tagCategory: "AREAS",
               displayName: "Romance",
               parentName: null),
@@ -90,7 +88,8 @@ void main(){
           TagModel(name: "LOSING_TEMPER",
               tagCategory: "INSTANT_RELIEF",
               displayName: "Losing Temper",
-              parentName: null),*/]),
+              parentName: null),*/
+            ]),
         weight: 1.0)
   ];
 

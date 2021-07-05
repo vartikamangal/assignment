@@ -10,14 +10,14 @@ import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 
 class FocusCard extends StatelessWidget {
   const FocusCard({
-    Key key,
-    @required this.imageAddress,
-    @required this.title,
-    @required this.onTap,
+    Key? key,
+    required this.imageAddress,
+    required this.title,
+    required this.onTap,
   }) : super(key: key);
 
   final String imageAddress;
-  final String title;
+  final String? title;
   final Callback onTap;
 
   @override
@@ -59,7 +59,7 @@ class FocusCard extends StatelessWidget {
           ).value,
         ),
         Text(
-          title,
+          title!,
           style: AppTextStyle.greysmall,
           textScaleFactor: textScaleFactor,
         ),

@@ -4,7 +4,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 
 void main() {
-  ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  ThrowExceptionIfResponseError? throwExceptionIfResponseError;
 
   setUp(() {
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
@@ -13,7 +13,7 @@ void main() {
   group('Core{Utility class} :[ThrowExceptionIfResponseError]', () {
     test('when errorCode 200 is passed in nothing happens', () async {
       //act
-      final callResult = throwExceptionIfResponseError(statusCode: 200);
+      final callResult = throwExceptionIfResponseError!(statusCode: 200);
       //assert
       expect(callResult, null);
     });
@@ -23,7 +23,7 @@ void main() {
       final call = throwExceptionIfResponseError;
       //assert
       expect(
-        () => call(statusCode: 401),
+        () => call!(statusCode: 401),
         throwsA(const TypeMatcher<AuthException>()),
       );
     });
@@ -34,7 +34,7 @@ void main() {
       final call = throwExceptionIfResponseError;
       //assert
       expect(
-        () => call(statusCode: 500),
+        () => call!(statusCode: 500),
         throwsA(const TypeMatcher<ServerException>()),
       );
     });

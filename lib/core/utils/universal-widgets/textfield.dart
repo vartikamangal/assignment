@@ -9,12 +9,12 @@ import '../color-pallete.dart';
 
 class WheelOfLifeAreaHolder extends StatelessWidget {
   const WheelOfLifeAreaHolder({
-    Key key,
-    @required this.title,
-    @required this.subtitle,
+    Key? key,
+    required this.title,
+    required this.subtitle,
   }) : super(key: key);
-  final String title;
-  final String subtitle;
+  final String? title;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +52,13 @@ class WheelOfLifeAreaHolder extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            title,
+            title!,
             style: AppTextStyle.suggestionononwol,
             textScaleFactor: textScale,
           ),
 
           Text(
-            subtitle,
+            subtitle!,
             style: AppTextStyle.greyTapText.copyWith(color: hintshade),
             textScaleFactor: textScale,
           ),

@@ -1,24 +1,23 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/cache-clearing-service-impl.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/cache-clearing-local-service.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
-import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 
-class MockCacheClearingLocalService extends Mock
-    implements CacheClearingLocalService {}
+import '../../../core_mock_generator_test.mocks.dart';
+import 'cache-clearing-service-impl_test.mocks.dart';
 
-class MockNetworkInfo extends Mock implements NetworkInfo {}
-
+@GenerateMocks([CacheClearingLocalService])
 void main() {
-  MockCacheClearingLocalService localService;
-  MockNetworkInfo networkInfo;
-  CacheClearingServiceImpl serviceImpl;
+  late MockCacheClearingLocalService localService;
+  late MockNetworkInfo networkInfo;
+  late CacheClearingServiceImpl serviceImpl;
   CallIfNetworkConnected callIfNetworkConnected;
   HandleException handleException;
 
@@ -56,23 +55,23 @@ void main() {
       expect(result, const Right(tUnit));
     });
     test('should return ServerFailure when the call to localService fails',
-            () async {
-          //arrange
-          when(localService.clearDirtyCacheOnFirstRun())
-              .thenThrow(CacheException());
-          //act
-          final result = await serviceImpl.clearDirtyCacheOnFirstRun();
-          //assert
-          expect(result, Left(CacheFailure()));
-        });
+        () async {
+      //arrange
+      when(localService.clearDirtyCacheOnFirstRun())
+          .thenThrow(CacheException());
+      //act
+      final result = await serviceImpl.clearDirtyCacheOnFirstRun();
+      //assert
+      expect(result, Left(CacheFailure()));
+    });
   });
   test(
       'DEVICE OFFLINE : clearDirtyCacheOnFirstRun should return DeviceOfflineFailure',
-          () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
-        //act
-        final result = await localService.clearDirtyCacheOnFirstRun();
-        //assert
-        expect(result, null);
-      });
+      () async {
+    when(networkInfo.isConnected).thenAnswer((_) async => false);
+    //act
+    final result = await localService.clearDirtyCacheOnFirstRun();
+    //assert
+    expect(result, null);
+  });
 }

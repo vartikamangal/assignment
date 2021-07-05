@@ -1,6 +1,4 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -13,9 +11,9 @@ import '../repositories/save-feedback-service.dart';
 class SaveFeedback implements Usecase<Unit, SaveFeedbackParams> {
   final SaveFeedbackService service;
 // Change to fellingDesc
-  SaveFeedback({@required this.service});
+  SaveFeedback({required this.service});
   @override
-  Future<Either<Failure, Unit>> call(SaveFeedbackParams params) async {
+  Future<Either<Failure, Unit>?> call(SaveFeedbackParams params) async {
     return service.saveFeedback(
       activityType: params.activityType,
       timeOfCreation: params.timeOfCreation,
@@ -28,23 +26,23 @@ class SaveFeedback implements Usecase<Unit, SaveFeedbackParams> {
 }
 
 class SaveFeedbackParams extends Equatable {
-  final String subjetcId;
+  final String? subjetcId;
   final String activityType;
-  final String textFeedback;
-  final String voiceNote;
+  final String? textFeedback;
+  final String? voiceNote;
   final String timeOfCreation;
   final String boxKey;
 
   const SaveFeedbackParams({
-    @required this.subjetcId,
-    @required this.activityType,
-    @required this.textFeedback,
-    @required this.voiceNote,
-    @required this.timeOfCreation,
-    @required this.boxKey,
+    required this.subjetcId,
+    required this.activityType,
+    required this.textFeedback,
+    required this.voiceNote,
+    required this.timeOfCreation,
+    required this.boxKey,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       subjetcId,
       activityType,

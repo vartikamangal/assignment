@@ -10,7 +10,7 @@ import '../../data/models/recommendation-category-model.dart';
 import '../entities/recommendation.dart';
 
 abstract class GetCategoryActivitiesRepository {
-  Future<Either<Failure, List<Recommendation>>> getActivities({
-    @required RecommendationCategoryModel category,
+  Future<Either<Failure, List<Recommendation>>?> getActivities({
+    required RecommendationCategoryModel category,
   });
 }

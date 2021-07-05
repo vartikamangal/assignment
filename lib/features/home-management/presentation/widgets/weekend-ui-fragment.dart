@@ -12,7 +12,7 @@ import 'path-checker.dart';
 
 class WeekendUiFragment extends StatelessWidget {
   WeekendUiFragment({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final HomeController controller = Get.find();
@@ -88,7 +88,7 @@ class WeekendUiFragment extends StatelessWidget {
                           onPressed: () async {
                             await controller.updateWeeklyActivity(
                               category: activity
-                                  .activity.categoryVO.displayTitle
+                                  .activity.categoryVO!.displayTitle!
                                   .toUpperCase(),
                               recommendationId: activity.activity.id,
                             );
@@ -131,11 +131,11 @@ class WeekendUiFragment extends StatelessWidget {
 //Have to add image from server
 class SmallActivityPill extends StatelessWidget {
   const SmallActivityPill({
-    Key key,
-    @required this.onPressed,
-    @required this.title,
+    Key? key,
+    required this.onPressed,
+    required this.title,
   }) : super(key: key);
-  final String title;
+  final String? title;
   final Callback onPressed;
   @override
   Widget build(BuildContext context) {
@@ -193,7 +193,7 @@ class SmallActivityPill extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          title,
+                          title!,
                           style: AppTextStyle.Darkbluebold.copyWith(
                             fontWeight: FontWeight.w500,
                             color: blueDarkerShade,

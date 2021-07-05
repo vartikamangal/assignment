@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 /// So currently it will help in determining wheater user has chosen a path or not
 
 class SafeContentInjector extends StatelessWidget {
-  final String userPath;
+  final String? userPath;
   final Widget ifNullPathWidget;
   final Widget ifChosenPathSmallWins;
   final Widget ifChosenPathBigGoals;
 
   const SafeContentInjector({
-    Key key,
-    @required this.ifChosenPathSmallWins,
-    @required this.ifChosenPathBigGoals,
-    @required this.ifNullPathWidget,
-    @required this.userPath,
+    Key? key,
+    required this.ifChosenPathSmallWins,
+    required this.ifChosenPathBigGoals,
+    required this.ifNullPathWidget,
+    required this.userPath,
   }) : super(key: key);
 
   @override

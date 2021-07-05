@@ -1,20 +1,18 @@
 // Dart imports:
 import 'dart:async';
 
-// Package imports:
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/duration-tracker/domain/usecases/get-last-login.dart';
 import 'package:tatsam_app_experimental/core/duration-tracker/domain/usecases/update-user-duration-on-app.dart';
 
 class DurationTrackerController extends GetxController {
   // usecases
-  final GetLastLogin getLastLogin;
-  final UpdateUserDurationOnApp updateUserDurationOnApp;
+  final GetLastLogin? getLastLogin;
+  final UpdateUserDurationOnApp? updateUserDurationOnApp;
 
   DurationTrackerController({
-    @required this.getLastLogin,
-    @required this.updateUserDurationOnApp,
+    required this.getLastLogin,
+    required this.updateUserDurationOnApp,
   });
   // reactive data holders
 
@@ -27,10 +25,10 @@ class DurationTrackerController extends GetxController {
   // Instance of stopwatch
   final Stopwatch _stopwatch = Stopwatch();
   // Reactive elapsed storage component
-  final Rx<Duration> _elapsed = Rx<Duration>();
+  final Rxn<Duration> _elapsed = Rxn<Duration>();
 
   // getter for duration
-  int get durationInMinutes => _elapsed.value.inMinutes;
+  int get durationInMinutes => _elapsed.value!.inMinutes;
 
   void start() {
     _stopwatch.start();

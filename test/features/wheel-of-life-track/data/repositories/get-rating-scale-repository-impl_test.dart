@@ -3,7 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -12,18 +11,18 @@ import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dar
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/rating-scale-model.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/get-rating-scale-repository-impl.dart';
-import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/get-rating-scale-remote-data-source.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/wheel-of-life-repository-impl.dart';
+import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/wheel-of-life-remote-data-source.dart';
 
 class MockGetRatingScaleRemoteDataSource extends Mock
-    implements GetRatingScaleRemoteDataSource {}
+    implements WheelOfLifeRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MockGetRatingScaleRemoteDataSource remoteDataSource;
-  MockNetworkInfo networkInfo;
-  GetRatingScaleRepositoryImpl repositoryImpl;
+  MockGetRatingScaleRemoteDataSource? remoteDataSource;
+  MockNetworkInfo? networkInfo;
+  late WheelOfLifeRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -37,7 +36,7 @@ void main() {
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    repositoryImpl = GetRatingScaleRepositoryImpl(
+    repositoryImpl = WheelOfLifeRepositoryImpl(
       remoteDataSource: remoteDataSource,
       baseRepository: baseRepository,
     );
@@ -53,7 +52,7 @@ void main() {
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : GetRatingScaleRepositoryImpl', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => true);
+        when(networkInfo!.isConnected).thenAnswer((_) async => true);
       });
       body();
     });
@@ -62,7 +61,7 @@ void main() {
   void runTestsOffline(Callback body) {
     group('DEVICE OFFLINE : GetRatingScaleRepositoryImpl', () {
       setUp(() {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
       });
       body();
     });
@@ -74,24 +73,24 @@ void main() {
       //act
       await repositoryImpl.getRatingScale();
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return RatingScaleModel if the call to remote resource is successfull',
         () async {
       //arrange
-      when(remoteDataSource.getRatingScale())
+      when(remoteDataSource!.getRatingScale())
           .thenAnswer((_) async => tRatingScale);
       //act
       final result = await repositoryImpl.getRatingScale();
       //assert
-      verify(remoteDataSource.getRatingScale());
+      verify(remoteDataSource!.getRatingScale());
       expect(result, Right(tRatingScale));
     });
     test('should return ServerFailure when call to remote resource fails',
         () async {
       //arrange
-      when(remoteDataSource.getRatingScale()).thenThrow(ServerException());
+      when(remoteDataSource!.getRatingScale()).thenThrow(ServerException());
       //act
       final result = await repositoryImpl.getRatingScale();
       //assert

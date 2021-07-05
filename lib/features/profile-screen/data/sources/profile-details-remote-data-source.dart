@@ -1,14 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import '../../../../core/data-source/api-client.dart';
 import '../../../../core/data-source/throw-exception-if-response-error.dart';
-
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
-import '../../../../core/session-manager/session-manager.dart';
 import '../../../../features/hub/data/models/hub-status-model.dart';
 import '../../../../features/profile-screen/data/models/profile-data-model.dart';
 import '../../../../features/profile-screen/data/models/question-log-model.dart';
@@ -42,8 +37,8 @@ class ProfileDetailsRemoteDataSourceImpl
   final ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   ProfileDetailsRemoteDataSourceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    required this.client,
+    required this.throwExceptionIfResponseError,
   });
   @override
   Future<ProfileDataModel> getBasicProfileDetails() async {

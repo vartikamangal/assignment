@@ -10,9 +10,9 @@ class BodyKosha extends Equatable {
   final String description;
 
   const BodyKosha({
-    @required this.koshaCode,
-    @required this.name,
-    @required this.description,
+    required this.koshaCode,
+    required this.name,
+    required this.description,
   });
 
   @override

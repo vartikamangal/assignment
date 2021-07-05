@@ -9,7 +9,7 @@ import '../controller/voice-notes-controller.dart';
 
 class VoiceNoteRecorder extends StatelessWidget {
   VoiceNoteRecorder({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final VoiceNoteController _voiceNoteController = Get.find();
@@ -55,11 +55,11 @@ class VoiceNoteRecorder extends StatelessWidget {
                 Obx(
                   () => Text(
                     // Elapsed Time String
-                    "${_voiceNoteController.elapsedDuration.value.inMinutes<10?"0${_voiceNoteController.elapsedDuration.value.inMinutes}"
-                        :"${_voiceNoteController.elapsedDuration.value.inMinutes}"}"
-                        ":${_voiceNoteController.elapsedDuration.value.inSeconds-_voiceNoteController.elapsedDuration.value.inMinutes*60<10
-                        ?"0${_voiceNoteController.elapsedDuration.value.inSeconds-_voiceNoteController.elapsedDuration.value.inMinutes*60}"
-                        :"${_voiceNoteController.elapsedDuration.value.inSeconds-_voiceNoteController.elapsedDuration.value.inMinutes*60}"}",
+                    "${_voiceNoteController.elapsedDuration.value!.inMinutes<10?"0${_voiceNoteController.elapsedDuration.value!.inMinutes}"
+                        :"${_voiceNoteController.elapsedDuration.value!.inMinutes}"}"
+                        ":${_voiceNoteController.elapsedDuration.value!.inSeconds-_voiceNoteController.elapsedDuration.value!.inMinutes*60<10
+                        ?"0${_voiceNoteController.elapsedDuration.value!.inSeconds-_voiceNoteController.elapsedDuration.value!.inMinutes*60}"
+                        :"${_voiceNoteController.elapsedDuration.value!.inSeconds-_voiceNoteController.elapsedDuration.value!.inMinutes*60}"}",
                     style: GoogleFonts.zillaSlab(
                       fontWeight: FontWeight.w300,
                       fontSize: 18,

@@ -11,7 +11,7 @@ class RapportBuildingSteps extends Equatable {
   final List<RapportStep> rapportSteps;
 
   const RapportBuildingSteps({
-    @required this.rapportSteps,
+    required this.rapportSteps,
   });
   @override
   List<Object> get props => [rapportSteps];

@@ -20,9 +20,9 @@ class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 
 void main(){
-  StartActivityRemoteService remoteDataService;
-  MockNetworkInfo networkInfo;
-  StartActivityServiceImpl repositoryImpl;
+  StartActivityRemoteService? remoteDataService;
+  MockNetworkInfo? networkInfo;
+  late StartActivityServiceImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
@@ -54,7 +54,7 @@ void main(){
 
   void runTestOnline(Callback body) {
     setUp(() {
-      when(networkInfo.isConnected).thenAnswer((_) async => true);
+      when(networkInfo!.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : startActivity', body);
   }
@@ -65,25 +65,25 @@ void main(){
       //act
       await repositoryImpl.startActivity();
       //assert
-      verify(networkInfo.isConnected);
+      verify(networkInfo!.isConnected);
     });
     test(
         'should return a ActivityStatus when call to remote data source is successfull',
             () async {
           //arrange
-          when(remoteDataService.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity))
+          when(remoteDataService!.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity))
               .thenAnswer((_) async => tActivityStatus);
           //act
           final result = await repositoryImpl.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity);
           //assert
-          verify(remoteDataService.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity));
+          verify(remoteDataService!.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity));
           expect(result, const Right(tActivityStatus));
         });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
             () async {
           //arrange
-          when(remoteDataService.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity)).thenThrow(ServerException());
+          when(remoteDataService!.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity)).thenThrow(ServerException());
           //act
           final result = await repositoryImpl.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity);
           //assert
@@ -92,7 +92,7 @@ void main(){
   });
   test('DEVICE OFFLINE : startActivity should return DeviceOfflineFailure',
           () async {
-        when(networkInfo.isConnected).thenAnswer((_) async => false);
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
         //act
         final result = await repositoryImpl.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity);
         //assert

@@ -32,7 +32,7 @@ void main(){
       //arrange
       final expectedJson =
       jsonDecode(fixtureReader(filename: 'raw-cache-activity.json'))
-      as List;
+      as List?;
       //act
       final result = tcacheActivityModel
           .map((area) => (area as CacheAcitivityModel).toJson())

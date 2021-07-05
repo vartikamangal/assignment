@@ -11,9 +11,9 @@ import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/color-pallete.dart';
 
 class DayWisePlanBox extends StatelessWidget {
-  String title;
-  String image;
-  Callback onPressed;
+  String? title;
+  String? image;
+  Callback? onPressed;
   DayWisePlanBox({this.title, this.image, this.onPressed});
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class DayWisePlanBox extends StatelessWidget {
                         height: ScaleManager.spaceScale(spaceing: 20).value,
                       ),
                       Text(
-                        title,
+                        title!,
                         style: AppTextStyle.Darkblueheader,
                         textAlign: TextAlign.center,
                         textScaleFactor: textScaleFactor,
@@ -57,7 +57,7 @@ class DayWisePlanBox extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Image.asset(
-                  image,
+                  image!,
                   height: ScaleManager.spaceScale(spaceing: 91).value,
                   scale: imageScaleFactor,
                 ),

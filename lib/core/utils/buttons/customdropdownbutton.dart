@@ -9,9 +9,9 @@ import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 
 Widget customDropDownBtn({
-  String label,
-  Callback onPressed,
-  Color color,
+  required String label,
+  Callback? onPressed,
+  Color? color,
 }) {
   final textScaleFactor = ScaleManager.textScale.value;
   return GestureDetector(

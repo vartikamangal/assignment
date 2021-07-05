@@ -11,13 +11,13 @@ import '../app-themes/app-custom-widget-themes.dart';
 import '../helper_functions/getSliderEmotionImage.dart';
 
 class CustomSliderWidget extends StatefulWidget {
-  final String title;
+  final String? title;
   // final double value;
-  final double min;
-  final double max;
+  final double? min;
+  final double? max;
   //final Map sliderToDictMapper;
   const CustomSliderWidget({
-    Key key,
+    Key? key,
     this.title,
     //this.value,
     this.min,
@@ -41,7 +41,7 @@ class _CustomSliderWidgetState extends State<CustomSliderWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.title,
+                widget.title!,
                 style: AppTextStyle.titleMDark,
               ),
               Image.asset(getSliderEmotion(

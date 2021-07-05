@@ -135,7 +135,7 @@ void main() {
       //arrange
       final expectedJson = jsonDecode(fixtureReader(
               filename: 'create-life-satisfaction-to-be-posted.json'))
-          as Map<String, dynamic>;
+          as Map<String, dynamic>?;
       //act
       final result = tSatisfactionRatings.toJson();
       //assert

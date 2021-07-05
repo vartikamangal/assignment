@@ -2,9 +2,9 @@
 import 'package:flutter/foundation.dart';
 
 String getSliderEmotion({
-  @required double value,
-  @required double lowerLimit,
-  @required double upperLimit,
+  required double value,
+  required double lowerLimit,
+  required double upperLimit,
 }) {
   // For getting mean of emotion-values
   final middlePoint = (upperLimit + lowerLimit) / 2;

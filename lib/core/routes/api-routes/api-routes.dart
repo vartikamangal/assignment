@@ -1,7 +1,6 @@
 // Project imports:
-import 'package:tatsam_app_experimental/core/secrets.dart';
-
 import '../../../core/extensions/url-maker.dart';
+import '../../../core/secrets.dart';
 
 abstract class APIRoute {
   const APIRoute._();
@@ -40,7 +39,7 @@ abstract class APIRoute {
   static final String GET_INSTANT_RECOMMENDATIONS =
       //! append /{LIFE_AREA} at last
       "$BASE_INSTANT_RELIEF_URL/recommendation".makeUrl();
-  //! append /{recommendation-id}/start ast last
+  //! append /{recommendation-id}/start at last
   static final String startInstantActivity =
       "$BASE_INSTANT_RELIEF_URL/recommendation".makeUrl();
   static final String listEmergencyNumbers =

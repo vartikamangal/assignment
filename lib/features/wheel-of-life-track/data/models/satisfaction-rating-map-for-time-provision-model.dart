@@ -9,11 +9,11 @@ import 'rating-scale-model.dart';
 class SatisfactionRatingMapForTimeProvisionModel
     extends SatisfactionRatingMapForTimeProvision {
   SatisfactionRatingMapForTimeProvisionModel({
-    @required RatingScaleModel rating,
-    @required LifeAreaModel lifeArea,
+    required RatingScaleModel rating,
+    required LifeAreaModel lifeArea,
   }) : super(rating: rating, lifeArea: lifeArea);
 
-  Map<String, dynamic> toJson() {
+  Map<String?, dynamic> toJson() {
     return {
       lifeArea.areaCode: {
         {

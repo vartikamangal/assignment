@@ -3,16 +3,15 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/entities/oauth-data.dart';
-// Project Imports:
-import 'package:tatsam_app_experimental/core/auth/domain/repositories/auth-repository.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/request-new-token.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
-class MockAuthRepository extends Mock implements AuthRepository {}
+import '../../../core_mock_generator_test.mocks.dart';
 
 void main() {
-  MockAuthRepository repository;
-  RequestNewToken useCase;
+  late MockAuthRepository repository;
+  late RequestNewToken useCase;
 
   setUp(() {
     repository = MockAuthRepository();
@@ -25,7 +24,7 @@ void main() {
       when(repository.requestNewToken())
           .thenAnswer((_) async => const Right(tRequestData));
 
-      final result = await useCase(NoParams());
+      final Either<Failure, OAuthData> result = await useCase(NoParams());
       verify(repository.requestNewToken());
       expect(result, const Right(tRequestData));
     });

@@ -45,7 +45,7 @@ void main(){
       //arrange
       final expectedJson =
       jsonDecode(fixtureReader(filename: 'feedback.json'))
-      as List;
+      as List?;
       //act
       final result = tFeedback
           .map((area) => (area as FeedbackModel).toJson())

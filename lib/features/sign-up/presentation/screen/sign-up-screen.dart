@@ -23,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Image.asset('assets/sign-up-screen/image.png')),
           Container(
-            child: Obx(() => _controller.currentSelectedPage.value),
+            child: Obx(() => _controller.currentSelectedPage.value!),
           ),
           FadeAnimationYAxis(
             0.8,

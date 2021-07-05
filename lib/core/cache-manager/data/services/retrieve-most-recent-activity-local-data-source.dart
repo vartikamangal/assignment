@@ -2,12 +2,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
-// Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:hive/hive.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cache-acitivity-model.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -22,14 +18,14 @@ class RetrieveMostRecentActivityLocalDataSourceImpl
   final Box localClient;
 
   RetrieveMostRecentActivityLocalDataSourceImpl({
-    @required this.localClient,
+    required this.localClient,
   });
   @override
   Future<CacheAcitivityModel> retrieveActivity() async {
     try {
       final cachedActivityRaw = await localClient.get(
         PersistenceConst.MOST_RECENT_ACITIVITY,
-      ) as String;
+      ) as String?;
 
       /// In this case use has no recently completed mood recenlty
       if (cachedActivityRaw == null) {

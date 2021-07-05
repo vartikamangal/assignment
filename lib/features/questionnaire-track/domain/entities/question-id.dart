@@ -5,12 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 
 class QuestionId extends Equatable {
-  final String id;
+  final String? id;
   const QuestionId({
-    @required this.id,
+    required this.id,
   });
   @override
-  List<Object> get props => [id];
+  List<Object?> get props => [id];
 
   @override
   bool get stringify => true;

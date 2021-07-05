@@ -6,9 +6,9 @@ import '../../domain/entities/feeling-duration.dart';
 
 class FeelingDurationModel extends FeelingDuration {
   const FeelingDurationModel({
-    @required String durationName,
-    @required String durationSequence,
-    @required String durationDisplayName,
+    required String? durationName,
+    required String? durationSequence,
+    required String? durationDisplayName,
   }) : super(
           durationDisplayName: durationDisplayName,
           durationName: durationName,
@@ -17,9 +17,9 @@ class FeelingDurationModel extends FeelingDuration {
 
   factory FeelingDurationModel.fromJson(Map<String, dynamic> jsonMap) {
     return FeelingDurationModel(
-      durationName: jsonMap['DURATION_ENUM_NAME'] as String,
-      durationSequence: jsonMap['DURATION_SEQUENCE'] as String,
-      durationDisplayName: jsonMap['DURATION_DISPLAY_NAME'] as String,
+      durationName: jsonMap['DURATION_ENUM_NAME'] as String?,
+      durationSequence: jsonMap['DURATION_SEQUENCE'] as String?,
+      durationDisplayName: jsonMap['DURATION_DISPLAY_NAME'] as String?,
     );
   }
 

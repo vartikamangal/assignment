@@ -7,12 +7,12 @@ import '../../domain/entities/instant-relief-area.dart';
 
 class InstantReliefAreaModel extends InstantReliefArea {
   const InstantReliefAreaModel({
-    @required int id,
-    @required String title,
-    @required String subtitle,
-    @required String instantReliefName,
-    @required String description,
-    @required ImageProp icon,
+    required int? id,
+    required String? title,
+    required String? subtitle,
+    required String? instantReliefName,
+    required String? description,
+    required ImageProp? icon,
   }) : super(
           description: description,
           icon: icon,
@@ -24,11 +24,11 @@ class InstantReliefAreaModel extends InstantReliefArea {
 
   factory InstantReliefAreaModel.fromJson(Map<String, dynamic> jsonMap) {
     return InstantReliefAreaModel(
-      id: jsonMap['id'] as int,
-      title: jsonMap['title'] as String,
-      subtitle: jsonMap['subtitle'] as String,
-      instantReliefName: jsonMap['instantReliefName'] as String,
-      description: jsonMap['description'] as String,
+      id: jsonMap['id'] as int?,
+      title: jsonMap['title'] as String?,
+      subtitle: jsonMap['subtitle'] as String?,
+      instantReliefName: jsonMap['instantReliefName'] as String?,
+      description: jsonMap['description'] as String?,
       //TODO make sure to change this once ImageProp.fromJson() is implemented
       icon: const ImageProp(
         urlLarge: '',

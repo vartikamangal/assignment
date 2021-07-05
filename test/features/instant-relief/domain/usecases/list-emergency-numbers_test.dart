@@ -2,20 +2,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/emergency-number.dart';
-import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/list-emergency-numbers-repository.dart';
-import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/list-emergency-numbers.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/instant-relief-repository.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/list-emergency-numbers.dart';
 
-class MockGetEmergencyNumbersRepository extends Mock implements ListEmergencyNumbersRepository {}
+class MockGetEmergencyNumbersRepository extends Mock
+    implements InstantReliefRepository {}
 
-void main(){
+void main() {
   MockGetEmergencyNumbersRepository repository;
-  ListEmergencyNumbers useCase;
-  const tEmergencyNumberList=<EmergencyNumber>[
+  late ListEmergencyNumbers useCase;
+  const tEmergencyNumberList = <EmergencyNumber>[
     EmergencyNumber(number: "55625666555"),
   ];
 
@@ -25,7 +24,8 @@ void main(){
   });
 
   group("USECASE : ListEmergencyNumber()", () {
-    test('should get all the possible emergency number from the repository', () async {
+    test('should get all the possible emergency number from the repository',
+        () async {
       //arrange
       when(repository.fetchEmergencyNumbers())
           .thenAnswer((_) async => const Right(tEmergencyNumberList));

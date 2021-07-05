@@ -8,9 +8,9 @@ import 'question-option-model.dart';
 
 class AnswerModel extends Answer {
   const AnswerModel({
-    @required QuestionIdModel question,
-    @required List<QuestionOptionModel> optionChosen,
-    @required String additionalInformation,
+    required QuestionIdModel question,
+    required List<QuestionOptionModel> optionChosen,
+    required String? additionalInformation,
   }) : super(
           additionalInformation: additionalInformation,
           optionChosen: optionChosen,
@@ -29,7 +29,7 @@ class AnswerModel extends Answer {
             ),
           )
           .toList(),
-      additionalInformation: jsonMap['additionalInformation'] as String,
+      additionalInformation: jsonMap['additionalInformation'] as String?,
     );
   }
 

@@ -1,6 +1,4 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
@@ -12,17 +10,17 @@ import '../../domain/repository/create-traveller-service.dart';
 import '../sources/create-traveller-remote-service.dart';
 
 class CreateTravellerServiceImpl implements CreateTravellerService {
-  final CreateTravellerRemoteService remoteService;
+  final CreateTravellerRemoteService? remoteService;
   final BaseRepository baseRepository;
 
   CreateTravellerServiceImpl({
-    @required this.remoteService,
-    @required this.baseRepository,
+    required this.remoteService,
+    required this.baseRepository,
   });
   @override
-  Future<Either<Failure, Success>> createTraveller() async {
+  Future<Either<Failure, Success>?> createTraveller() async {
     return baseRepository(
-      () => remoteService.createTraveller(),
+      () => remoteService!.createTraveller(),
     );
   }
 }

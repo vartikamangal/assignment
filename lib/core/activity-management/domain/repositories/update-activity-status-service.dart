@@ -9,8 +9,8 @@ import '../../../../core/error/failures.dart';
 import '../entities/activity-status.dart';
 
 abstract class UpdateActivityStatusService {
-  Future<Either<Failure, ActivityStatus>> updateStatus({
-    @required String status,
-    @required int actionId,
+  Future<Either<Failure, ActivityStatus>?> updateStatus({
+    required String status,
+    required int? actionId,
   });
 }

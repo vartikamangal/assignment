@@ -14,21 +14,21 @@ import '../../../../core/utils/universal-widgets/text-description-box.dart';
 import '../../domain/entites/journey.dart';
 
 class JourneyDetails extends StatelessWidget {
-  final Journey journey;
+  final Journey? journey;
   final VoidCallback startJourneyFunction;
 
   const JourneyDetails({
-    Key key,
-    @required this.journey,
-    @required this.startJourneyFunction,
+    Key? key,
+    required this.journey,
+    required this.startJourneyFunction,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final imageScale = ScaleManager.imageScale.value;
     final String journeyIconUrl =
-        'assets/choose-path-screen/${journey.pathName}.png';
+        'assets/choose-path-screen/${journey!.pathName}.png';
     final String journeyLabelImageUrl =
-        'assets/choose-path-screen/${journey.pathName}_LABEL.png';
+        'assets/choose-path-screen/${journey!.pathName}_LABEL.png';
     return FadeAnimationXAxis(
       0.4,
       Stack(
@@ -76,8 +76,8 @@ class JourneyDetails extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: TextDescriptionBox(
-                      title: journey.title,
-                      description: journey.subtitle,
+                      title: journey!.title,
+                      description: journey!.subtitle,
                       week: tr('first week'),
                       category: tr('category1'),
                       suggestion1: 'Yogasana',

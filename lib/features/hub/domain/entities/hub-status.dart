@@ -12,30 +12,30 @@ import 'target-focus-list.dart';
 
 //! This is the main entity connecting all the other hub entities
 class HubStatus extends Equatable {
-  final int id;
+  final int? id;
   final SubjectInformationModel subjectInformation;
-  final TargetFocusList targetFocus;
-  final LifePriorities lifePriorities;
-  final Map<String, LifeRatingResult> lifeSatisfactionRatings;
-  final bool attemptedQuestions;
-  final Journey journey;
-  final DateTime journeyStartedAt;
-  final String journeyStatus;
-  final String userMood;
+  final TargetFocusList? targetFocus;
+  final LifePriorities? lifePriorities;
+  final Map<String, LifeRatingResult>? lifeSatisfactionRatings;
+  final bool? attemptedQuestions;
+  final Journey? journey;
+  final DateTime? journeyStartedAt;
+  final String? journeyStatus;
+  final String? userMood;
   const HubStatus({
-    @required this.id,
-    @required this.subjectInformation,
-    @required this.targetFocus,
-    @required this.lifePriorities,
-    @required this.lifeSatisfactionRatings,
-    @required this.attemptedQuestions,
-    @required this.journey,
-    @required this.journeyStartedAt,
-    @required this.journeyStatus,
-    @required this.userMood,
+    required this.id,
+    required this.subjectInformation,
+    required this.targetFocus,
+    required this.lifePriorities,
+    required this.lifeSatisfactionRatings,
+    required this.attemptedQuestions,
+    required this.journey,
+    required this.journeyStartedAt,
+    required this.journeyStatus,
+    required this.userMood,
   });
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       id,
       subjectInformation,
@@ -54,16 +54,16 @@ class HubStatus extends Equatable {
   bool get stringify => true;
 
   HubStatus copyWith({
-    int id,
-    SubjectInformationModel subjectInformation,
-    TargetFocusList targetFocus,
-    LifePriorities lifePriorities,
-    Map<String, LifeRatingResult> lifeSatisfactionRatings,
-    bool attemptedQuestions,
-    Journey journey,
-    DateTime journeyStartedAt,
-    String journeyStatus,
-    String userMood,
+    int? id,
+    SubjectInformationModel? subjectInformation,
+    TargetFocusList? targetFocus,
+    LifePriorities? lifePriorities,
+    Map<String, LifeRatingResult>? lifeSatisfactionRatings,
+    bool? attemptedQuestions,
+    Journey? journey,
+    DateTime? journeyStartedAt,
+    String? journeyStatus,
+    String? userMood,
   }) {
     return HubStatus(
       id: id ?? this.id,

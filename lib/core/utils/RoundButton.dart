@@ -9,12 +9,12 @@ import '../responsive/scale-manager.dart';
 import 'color-pallete.dart';
 
 class RoundButton extends StatelessWidget {
-  final String title;
-  final Icon iconData;
-  final Function() onPressed;
-  final Color color;
+  final String? title;
+  final Icon? iconData;
+  final Function()? onPressed;
+  final Color? color;
   const RoundButton({
-    Key key,
+    Key? key,
     this.title,
     this.iconData,
     this.onPressed,
@@ -49,7 +49,7 @@ class RoundButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          title,
+          title!,
           style: GoogleFonts.zillaSlab(
             fontWeight: FontWeight.w500,
             fontSize: 22,

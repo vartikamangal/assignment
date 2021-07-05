@@ -1,45 +1,51 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-category.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/get-all-recommendation-catoegories-repository.dart';
 import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/get-all-recommendation-categories.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
-class MockGGetAllRecommendationCategoriesRepository extends Mock implements GetAllRecommendationCategoriesRepository {}
+import 'get-all-recommendation-categories_test.mocks.dart';
 
-void main(){
-  MockGGetAllRecommendationCategoriesRepository repository;
-  GetAllRecommendationCategories useCase;
+@GenerateMocks([GetAllRecommendationCategoriesRepository])
+void main() {
+  late MockGetAllRecommendationCategoriesRepository repository;
+  late GetAllRecommendationCategories useCase;
 
   setUp(() {
-    repository = MockGGetAllRecommendationCategoriesRepository();
+    repository = MockGetAllRecommendationCategoriesRepository();
     useCase = GetAllRecommendationCategories(repository: repository);
   });
 
-  const tRecommendationCategories=<RecommendationCategory>[
-    RecommendationCategory(id: 1,
+  const tRecommendationCategories = <RecommendationCategory>[
+    RecommendationCategory(
+        id: 1,
         categoryName: "PHYSICAL",
         displayTitle: "Physical",
         displaySubtitle: "Focus on the body",
         categoryDetailedDescription: "This is physical category",
         categoryShortDescription: "Focus on the body",
         iconVO: null),
-    RecommendationCategory(id: 2,
+    RecommendationCategory(
+        id: 2,
         categoryName: "MENTAL",
         displayTitle: "Mental",
         displaySubtitle: "Focus on your mind",
         categoryDetailedDescription: "This is mental category",
         categoryShortDescription: "Focus on your mind",
         iconVO: null),
-    RecommendationCategory(id: 3,
+    RecommendationCategory(
+        id: 3,
         categoryName: "EMOTIONAL",
         displayTitle: "Emotional",
         displaySubtitle: "Focus on your relationships",
         categoryDetailedDescription: "This is emotional category",
         categoryShortDescription: "Focus on your relationships",
         iconVO: null),
-    RecommendationCategory(id: 4,
+    RecommendationCategory(
+        id: 4,
         categoryName: "SPIRITUAL",
         displayTitle: "Spiritual",
         displaySubtitle: "Focus on the world around",
@@ -60,5 +66,4 @@ void main(){
       expect(result, const Right(tRecommendationCategories));
     });
   });
-
 }

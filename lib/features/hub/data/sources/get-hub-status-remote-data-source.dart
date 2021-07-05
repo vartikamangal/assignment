@@ -17,19 +17,19 @@ abstract class GetHubStatusRemoteDataSource {
 }
 
 class GetHubStatusRemoteDataSourceImpl implements GetHubStatusRemoteDataSource {
-  final ApiClient client;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final ApiClient? client;
+  final ThrowExceptionIfResponseError? throwExceptionIfResponseError;
 
   GetHubStatusRemoteDataSourceImpl({
-    @required this.client,
-    @required this.throwExceptionIfResponseError,
+    required this.client,
+    required this.throwExceptionIfResponseError,
   });
   @override
   Future<HubStatusModel> getHubStatus() async {
-    final response = await client.get(
+    final response = await client!.get(
       uri: APIRoute.getHubUserStatus,
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    throwExceptionIfResponseError!(statusCode: response.statusCode);
     final jsonMap = jsonDecode(response.body) as Map;
     log(jsonMap.toString());
     return HubStatusModel.fromJson(

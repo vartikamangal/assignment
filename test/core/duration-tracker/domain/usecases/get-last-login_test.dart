@@ -1,18 +1,21 @@
 // Package Imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project Imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/domain/entities/app-duration.dart';
 import 'package:tatsam_app_experimental/core/duration-tracker/domain/repository/app-duration-repository.dart';
 import 'package:tatsam_app_experimental/core/duration-tracker/domain/usecases/get-last-login.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
-class MockAppDurationRepository extends Mock implements AppDurationRepository {}
+import 'get-last-login_test.mocks.dart';
 
+@GenerateMocks([AppDurationRepository])
 void main() {
-  MockAppDurationRepository repository;
-  GetLastLogin useCase;
+  late MockAppDurationRepository repository;
+  late GetLastLogin useCase;
 
   setUp(() {
     repository = MockAppDurationRepository();
@@ -28,7 +31,7 @@ void main() {
       when(repository.getLastLogin())
           .thenAnswer((_) async => Right(tAppDuration));
       //act
-      final result = await useCase(NoParams());
+      final Either<Failure, AppDuration> result = await useCase(NoParams());
       //assert
       verify(repository.getLastLogin());
       expect(result, Right(tAppDuration));

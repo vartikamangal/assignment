@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:get/get.dart';
 
@@ -20,6 +19,11 @@ import '../../domain/usecases/start-recording-voice-note.dart';
 import '../../domain/usecases/stop-playing-voicenote.dart';
 import '../../domain/usecases/stop-recording.dart';
 
+/// IDLE --> Show TextFormField
+/// READY --> Show Recorder
+/// Recorded --> Show PlayerUI
+enum VoiceNotePlayerUIState { IDLE, RECORDING, RECORDED }
+
 class VoiceNoteController extends GetxController {
   final StartRecordingVoiceNote startRecordingVoiceNote;
   final FlutterSoundRecorder soundRecorder;
@@ -35,17 +39,17 @@ class VoiceNoteController extends GetxController {
 
   // Usecases
   VoiceNoteController({
-    @required this.startRecordingVoiceNote,
-    @required this.soundRecorder,
-    @required this.stopRecording,
-    @required this.playVoiceNote,
-    @required this.pauseVoiceNote,
-    @required this.stopPlayingVoiceNote,
-    @required this.clearRecordingData,
-    @required this.fileUtils,
-    @required this.getRecorderDetails,
-    @required this.getPlayerStats,
-    @required this.cancelRecording,
+    required this.startRecordingVoiceNote,
+    required this.soundRecorder,
+    required this.stopRecording,
+    required this.playVoiceNote,
+    required this.pauseVoiceNote,
+    required this.stopPlayingVoiceNote,
+    required this.clearRecordingData,
+    required this.fileUtils,
+    required this.getRecorderDetails,
+    required this.getPlayerStats,
+    required this.cancelRecording,
   });
 
   static const defaultCodec = Codec.aacMP4;
@@ -61,6 +65,7 @@ class VoiceNoteController extends GetxController {
       },
       (filePath) async {
         currentVoiceNotePath.value = filePath;
+        log(currentVoiceNotePath.value.toString());
       },
     );
   }
@@ -78,7 +83,7 @@ class VoiceNoteController extends GetxController {
             ErrorInfo.show(failure);
           },
           (status) {
-            isRecording.value = soundRecorder.isRecording;
+            playerState.value = VoiceNotePlayerUIState.RECORDING;
             fetchRecorderStats();
             log(status.message);
           },
@@ -98,7 +103,7 @@ class VoiceNoteController extends GetxController {
         ErrorInfo.show(f);
       },
       (r) {
-        r.listen((event) {
+        r!.listen((event) {
           elapsedDuration.value = event.duration;
         });
       },
@@ -114,14 +119,14 @@ class VoiceNoteController extends GetxController {
         ErrorInfo.show(failure);
       },
       (status) {
-        isRecording.value = soundRecorder.isRecording;
+        playerState.value = VoiceNotePlayerUIState.RECORDED;
         log(status.message);
       },
     );
   }
 
   /// UI -> Usecase implementation
-  Future<void> playVoicenoteUI({@required String audioSource}) async {
+  Future<void> playVoicenoteUI({required String? audioSource}) async {
     final failureOrResult = await playVoiceNote(
       PlayVoiceNoteParams(
         fileToPlay: audioSource,
@@ -171,7 +176,9 @@ class VoiceNoteController extends GetxController {
       (f) {
         ErrorInfo.show(f);
       },
-      (r) {},
+      (r) {
+        playerState.value = VoiceNotePlayerUIState.IDLE;
+      },
     );
   }
 
@@ -211,18 +218,20 @@ class VoiceNoteController extends GetxController {
       (f) {
         log('error in cancelling recording');
         cleanVoiceFilePath();
-        isRecording.value = soundRecorder.isRecording;
+        playerState.value = VoiceNotePlayerUIState.IDLE;
       },
       (r) {
         cleanVoiceFilePath();
-        isRecording.value = soundRecorder.isRecording;
+        playerState.value = VoiceNotePlayerUIState.IDLE;
         elapsedDuration.value = null;
       },
     );
   }
 
   bool isPlayableFilePresent() {
-    if (currentVoiceNotePath.value != null && isRecording.value == false) {
+    if (currentVoiceNotePath.value != null ||
+        currentVoiceNotePath.value != '' &&
+            playerState.value == VoiceNotePlayerUIState.RECORDING) {
       return true;
     } else {
       return false;
@@ -234,21 +243,25 @@ class VoiceNoteController extends GetxController {
   }
 
   // UI managers
-  RxBool isRecording = RxBool(false);
   RxBool isWaiting = RxBool(false);
-  RxString currentVoiceNotePath = RxString();
-  Rx<Duration> elapsedDuration = Rx<Duration>();
-  Rx<PlayerStats> currentPlayingFileStats = Rx<PlayerStatsModel>();
+  RxnString currentVoiceNotePath = RxnString('');
+  Rxn<Duration> elapsedDuration = Rxn<Duration>();
+  Rxn<PlayerStats> currentPlayingFileStats = Rxn<PlayerStatsModel>();
+  Rx<VoiceNotePlayerUIState> playerState = VoiceNotePlayerUIState.IDLE.obs;
 
   /// Helper getters for playback UI
-  Stream<Duration> get currentPlayingFileDuration =>
+  Stream<Duration?> get currentPlayingFileDuration =>
       currentPlayingFileStats.map(
-        (event) => event.totalLength,
+        (event) => event!.totalLength,
       );
-  Stream<Duration> get currentPlayingFilePosition =>
+  Stream<Duration?> get currentPlayingFilePosition =>
       currentPlayingFileStats.map(
-        (event) => event.currentPosition,
+        (event) => event!.currentPosition,
       );
+
+  void resetPlayerState() {
+    playerState.value = VoiceNotePlayerUIState.IDLE;
+  }
 
   @override
   Future<void> onInit() async {

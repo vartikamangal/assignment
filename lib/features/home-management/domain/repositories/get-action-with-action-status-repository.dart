@@ -4,7 +4,7 @@ import '../../../../core/error/failures.dart';
 import '../entities/post-onboarding-action.dart';
 
 abstract class GetActionWithActionStatusRepository {
-  Future<Either<Failure, List<PostOnboardingAction>>> getActions({
-    @required String actionStatus,
+  Future<Either<Failure, List<PostOnboardingAction>>?> getActions({
+    required String actionStatus,
   });
 }

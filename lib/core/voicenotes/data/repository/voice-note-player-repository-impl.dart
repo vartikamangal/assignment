@@ -1,35 +1,35 @@
 import 'dart:ui' as ui;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_sound/public/flutter_sound_player.dart';
+
+import 'package:dartz/dartz.dart';
+import 'package:flutter_sound_platform_interface/flutter_sound_platform_interface.dart';
+
 import '../../../error/exceptions.dart';
 import '../../../error/failures.dart';
-import 'package:flutter_sound_platform_interface/flutter_sound_platform_interface.dart';
-import 'package:dartz/dartz.dart';
-import '../source/voice-note-player-local-service.dart';
 import '../../domain/entity/player-stats.dart';
 import '../../domain/repository/voicenotes-player-repository.dart';
+import '../source/voice-note-player-local-service.dart';
 
 class VoiceNotePlayerRepositoryImpl implements VoiceNotesPlayerRepository {
-  final VoiceNotePlayerLocalService voiceNotePlayerLocalService;
+  final VoiceNotePlayerLocalService? voiceNotePlayerLocalService;
 
-  VoiceNotePlayerRepositoryImpl({@required this.voiceNotePlayerLocalService});
+  VoiceNotePlayerRepositoryImpl({required this.voiceNotePlayerLocalService});
   @override
   Future<Either<Failure, Unit>> pause() async {
     return _performActionOnPlayer(
-      () => voiceNotePlayerLocalService.pause(),
+      () => voiceNotePlayerLocalService!.pause(),
     );
   }
 
   @override
   Future<Either<Failure, Unit>> play({
-    String fileToPlay,
-    Codec codec,
-    int numChannels,
-    int smapleRate,
-    ui.VoidCallback onCompleted,
+    String? fileToPlay,
+    Codec? codec,
+    int? numChannels,
+    int? smapleRate,
+    ui.VoidCallback? onCompleted,
   }) async {
     return _performActionOnPlayer(
-      () => voiceNotePlayerLocalService.play(
+      () => voiceNotePlayerLocalService!.play(
         fileToPlay: fileToPlay,
         codec: codec,
         numChannels: numChannels,
@@ -42,14 +42,14 @@ class VoiceNotePlayerRepositoryImpl implements VoiceNotesPlayerRepository {
   @override
   Future<Either<Failure, Unit>> stop() async {
     return _performActionOnPlayer(
-      () => voiceNotePlayerLocalService.stop(),
+      () => voiceNotePlayerLocalService!.stop(),
     );
   }
 
   @override
-  Future<Either<Failure, Unit>> cancel({String audioFileToDelete}) async {
+  Future<Either<Failure, Unit>> cancel({String? audioFileToDelete}) async {
     return _performActionOnPlayer(
-      () => voiceNotePlayerLocalService.cancel(
+      () => voiceNotePlayerLocalService!.cancel(
         fileToDelete: audioFileToDelete,
       ),
     );
@@ -58,7 +58,7 @@ class VoiceNotePlayerRepositoryImpl implements VoiceNotesPlayerRepository {
   @override
   Future<Either<Failure, Stream<PlayerStats>>> getPlayerStats() async {
     return _performActionOnPlayer(
-      () => voiceNotePlayerLocalService.getPlayerStats(),
+      () => voiceNotePlayerLocalService!.getPlayerStats(),
     );
   }
 

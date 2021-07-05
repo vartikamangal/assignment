@@ -17,8 +17,8 @@ class WheelOfLifeBodyA extends StatelessWidget {
   final WheelOfLifeController controller;
 
   const WheelOfLifeBodyA({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

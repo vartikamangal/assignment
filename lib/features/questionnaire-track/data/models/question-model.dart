@@ -8,17 +8,17 @@ import 'question-option-model.dart';
 
 class QuestionModel extends Question {
   const QuestionModel({
-    @required String id,
-    @required String questionType,
-    @required String status,
-    @required String name,
-    @required List<TagModel> tags,
-    @required List<QuestionOptionModel> questionOptionVO,
-    @required String questionText,
-    @required String questionExplanation,
-    @required String creationTime,
-    @required String lastModifiedTime,
-    @required String questionnaireId,
+    required String? id,
+    required String? questionType,
+    required String? status,
+    required String? name,
+    required List<TagModel> tags,
+    required List<QuestionOptionModel> questionOptionVO,
+    required String? questionText,
+    required String? questionExplanation,
+    required String? creationTime,
+    required String? lastModifiedTime,
+    required String? questionnaireId,
   }) : super(
           questionExplanation: questionExplanation,
           questionOptionVO: questionOptionVO,
@@ -35,10 +35,10 @@ class QuestionModel extends Question {
 
   factory QuestionModel.fromJson(Map<String, dynamic> jsonMap) {
     return QuestionModel(
-      id: jsonMap['id'] as String,
-      questionType: jsonMap['questionType'] as String,
-      status: jsonMap['status'] as String,
-      name: jsonMap['name'] as String,
+      id: jsonMap['id'] as String?,
+      questionType: jsonMap['questionType'] as String?,
+      status: jsonMap['status'] as String?,
+      name: jsonMap['name'] as String?,
       tags: (jsonMap['tags'] as List)
           .map(
             (tag) => TagModel.fromJson(
@@ -62,11 +62,11 @@ class QuestionModel extends Question {
                 ),
               )
               .toList(),
-      questionText: jsonMap['questionText'] as String,
-      questionExplanation: jsonMap['questionExplanation'] as String,
-      creationTime: jsonMap['creationTime'] as String,
-      lastModifiedTime: jsonMap['lastModifiedTime'] as String,
-      questionnaireId: jsonMap['questionnaireId'] as String,
+      questionText: jsonMap['questionText'] as String?,
+      questionExplanation: jsonMap['questionExplanation'] as String?,
+      creationTime: jsonMap['creationTime'] as String?,
+      lastModifiedTime: jsonMap['lastModifiedTime'] as String?,
+      questionnaireId: jsonMap['questionnaireId'] as String?,
     );
   }
 
