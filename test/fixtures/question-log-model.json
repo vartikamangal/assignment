@@ -1,0 +1,42 @@
+{
+  "id": 1,
+  "answeredWhen": "2021-05-10T13:19:41.543Z",
+  "question": {
+    "id": "id",
+    "questionType": "questionType",
+    "status": "status",
+    "creationTime": "2021-05-10T13:19:41.543Z",
+    "lastModifiedTime": "2021-05-10T13:19:41.543Z",
+    "name": "name",
+    "tags": [
+      {
+        "name": "name",
+        "tagCategory": "tagCategory",
+        "displayName": "displayName",
+        "parentName": "parentName"
+      }
+    ],
+    "questionOptions": [
+      {
+        "id": "id",
+        "optionText": "optionText",
+        "optionCategory": "optionCategory",
+        "additionalInformation": []
+      }
+    ],
+    "questionInformation": {
+      "id": null,
+      "questionText": "",
+      "questionExplanation": ""
+    }
+  },
+  "optionChosen": [
+    {
+      "id": "",
+      "optionText": "",
+      "optionCategory": "",
+      "additionalInformation": []
+    }
+  ],
+  "aditionalInformation": null
+}

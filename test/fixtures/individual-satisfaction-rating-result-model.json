@@ -1,0 +1,13 @@
+[
+    {
+        "id": 0,
+        "rating": 0,
+        "scale": {
+            "id": 0,
+            "ratingScaleName": null,
+            "minValue": 0,
+            "maxValue": 0,
+            "icon": null
+        }
+    }
+]

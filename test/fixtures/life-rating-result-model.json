@@ -1,0 +1,21 @@
+[
+    {
+        "id": 0,
+        "subjectId": {
+            "id": "id"
+        },
+        "wolArea": null,
+        "rating": {
+            "id": 0,
+            "rating": 0,
+            "scale": {
+                "id": 0,
+                "ratingScaleName": "ratingScaleName",
+                "minValue": 0,
+                "maxValue": 100,
+                "icon": null
+            }
+        },
+        "createdWhen": "2021-05-10T13:19:41.543Z"    
+    }
+]

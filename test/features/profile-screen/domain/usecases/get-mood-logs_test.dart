@@ -1,6 +1,7 @@
 // Package Imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project Imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
@@ -8,16 +9,15 @@ import 'package:tatsam_app_experimental/features/profile-screen/domain/repositor
 import 'package:tatsam_app_experimental/features/profile-screen/domain/usecases/get-mood-logs.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
-
-class MockGetProfileDetailsRepository extends Mock
-    implements ProfileDetailsRepository {}
+import 'get-mood-logs_test.mocks.dart';
+@GenerateMocks([ProfileDetailsRepository])
 
 void main() {
-  MockGetProfileDetailsRepository repository;
+  late MockProfileDetailsRepository repository;
   late GetMoodLogs useCase;
 
   setUp(() {
-    repository = MockGetProfileDetailsRepository();
+    repository = MockProfileDetailsRepository();
     useCase = GetMoodLogs(repository: repository);
   });
 

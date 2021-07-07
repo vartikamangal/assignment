@@ -1,19 +1,25 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:easy_localization/easy_localization.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:tatsam_app_experimental/app-config.dart';
+import 'package:tatsam_app_experimental/core/analytics/analytics-setup.dart';
+import 'package:tatsam_app_experimental/core/env.dart';
+import 'package:tatsam_app_experimental/main_common.dart';
+import 'package:tatsam_app_experimental/my-app.dart';
 
 // Project imports:
-import 'core/session-manager/session-manager.dart';
+import 'dependency_manager/core_dependency_managers.dart';
 import 'setup-my-app.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-  await Hive.initFlutter();
-  await SessionManager.persistDeviceId();
-  setupApp();
+  await mainCommon();
+  final configureApp = AppConfig(
+    appTitle: 'Staging',
+    env: Env.staging,
+    secrets: const TestSecrets(secretKey: 'this_is_a_test_key_for_staging'),
+    child: MyApp(
+      analyticsService: sl_core_dependencies<SetupAnalytics>(),
+    ),
+  );
+  setupApp(configureApp);
 }

@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
@@ -10,12 +11,12 @@ import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/
 import 'package:tatsam_app_experimental/features/profile-screen/domain/repositories/profile-details-repository.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/domain/usecases/get-basic-profile-details.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
+import 'get-basic-profile-details_test.mocks.dart';
 
-class MockProfileDetailsRepository extends Mock
-    implements ProfileDetailsRepository {}
+@GenerateMocks([ProfileDetailsRepository])
 
 void main() {
-  MockProfileDetailsRepository repository;
+  late  MockProfileDetailsRepository repository;
   late GetBasicProfileDetails useCase;
 
   setUp(() {

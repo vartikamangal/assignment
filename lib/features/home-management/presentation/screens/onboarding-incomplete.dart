@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/app-config.dart';
 import 'package:tatsam_app_experimental/core/utils/animations/fade-animation-x-axis.dart';
 import 'package:tatsam_app_experimental/features/home-management/presentation/widgets/old-vs-new-rendering-checker.dart';
 import 'package:tatsam_app_experimental/features/home-management/presentation/widgets/weekend-renderer.dart';
@@ -147,6 +148,7 @@ class _TopHalfComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final config = AppConfig.of(context);
     return SliverToBoxAdapter(
       child: Container(
         margin: EdgeInsets.only(
@@ -208,7 +210,7 @@ class _TopHalfComponent extends StatelessWidget {
                     textScaleFactor: textScaleFactor,
                   ),
                   widgetForOldUser: Text(
-                    'Welcome back $userName',
+                    'Welcome back ${config.appTitle} $userName',
                     style: AppTextStyle.boldDarkBlueText.copyWith(
                       fontSize: 19,
                     ),

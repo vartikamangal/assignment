@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:http/http.dart' as http;
@@ -11,16 +12,17 @@ import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import '../../../../fixtures/fixture-reader.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/feedback-model.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/feedback-mood-model.dart';
+import 'rate-recommendation-flow-remote-service_test.mocks.dart';
 
-class MockCustomApiClient extends Mock implements ApiClient {}
+@GenerateMocks([ApiClient])
 
 Future<void> main() async {
-  RateRecommendationFlowRemoteServiceImpl remoteDataSourceImpl;
-  MockCustomApiClient? client;
+  late RateRecommendationFlowRemoteServiceImpl remoteDataSourceImpl;
+  MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
-    client = MockCustomApiClient();
+    client = MockApiClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = RateRecommendationFlowRemoteServiceImpl(
       client: client,
@@ -56,7 +58,7 @@ Future<void> main() async {
 
 
   //? Actual tests go here
-  group('DATA SOURCE : rateRecommendationFlow{Remote}', () {
+ // group('DATA SOURCE : rateRecommendationFlow{Remote}', () {
     // test('should send a GET request to specifed url', () async {
     //   //arrange
     //   setupHttpSuccessClient200();
@@ -64,7 +66,7 @@ Future<void> main() async {
     //   await remoteDataSourceImpl.rateRecommendationFlow(feedback: tFeedbackModel);
     //   //assert
     //   verify(
-    //     client.get(uri: APIRoute.rateActivityFeedback),
+    //     client!.get(uri: APIRoute.rateActivityFeedback),
     //   );
     // });
     // test(
@@ -85,5 +87,5 @@ Future<void> main() async {
     //   //assert
     //   expect(() => call, throwsA(const TypeMatcher<ServerException>()));
     // });
-  });
+ // });
 }

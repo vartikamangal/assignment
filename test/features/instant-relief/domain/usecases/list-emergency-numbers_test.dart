@@ -1,25 +1,25 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/emergency-number.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/instant-relief-repository.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/list-emergency-numbers.dart';
+import 'list-emergency-numbers_test.mocks.dart';
 
-class MockGetEmergencyNumbersRepository extends Mock
-    implements InstantReliefRepository {}
-
+@GenerateMocks([InstantReliefRepository])
 void main() {
-  MockGetEmergencyNumbersRepository repository;
+  late MockInstantReliefRepository repository;
   late ListEmergencyNumbers useCase;
   const tEmergencyNumberList = <EmergencyNumber>[
     EmergencyNumber(number: "55625666555"),
   ];
 
   setUp(() {
-    repository = MockGetEmergencyNumbersRepository();
+    repository = MockInstantReliefRepository();
     useCase = ListEmergencyNumbers(repository: repository);
   });
 

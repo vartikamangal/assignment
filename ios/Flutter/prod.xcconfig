@@ -1,0 +1,5 @@
+// production environment configuration for flavoring
+
+FLUTTER_TARGET=lib/main_prod.dart
+PRODUCT_BUNDLE_IDENTIFIER=in.tatsam.app
+BUNDLE_NAME_SUFFIX=

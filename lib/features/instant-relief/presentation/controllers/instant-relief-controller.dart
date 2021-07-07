@@ -30,6 +30,8 @@ class InstantReliefController extends GetxController {
   // Dependencies
   final GetInstantReliefAreas getInstantReliefAreas;
   final ListEmergencyNumbers listEmergencyNumbers;
+
+  /// In diffn. controller!!
   final GetInstantRecommendations getInstantRecommendations;
   final CheckIfAuthenticated checkIfAuthenticated;
 
@@ -45,7 +47,7 @@ class InstantReliefController extends GetxController {
   RxList<EmergencyNumber> emergencyResources = RxList([]);
   RxList<ActivityRecommendation> instantRecommendations =
       RxList<ActivityRecommendationModel>([]);
-  RxBool isLoggingIn = RxBool(false);
+  // RxBool isLoggingIn = RxBool(false);
 
   // UI management variables
   RxBool isProcessing = RxBool(false);
@@ -102,6 +104,7 @@ class InstantReliefController extends GetxController {
     );
   }
 
+  //TODO Not responsibility of thios screen!! move to next one
   /// returns [Future] true if user is logged in in this device, else false
   Future<bool> checkUserLoginStatus() async {
     final successOrFailure = await checkIfAuthenticated(

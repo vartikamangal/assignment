@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:http/http.dart' as http;
 
 import '../session-manager/session-manager.dart';
@@ -14,6 +16,8 @@ class ApiClient {
   }) async {
     final _requestUri = Uri.parse(uri);
     final _requestHeaders = await SessionManager.getHeader();
+    log(_requestHeaders.toString());
+    log(_requestUri.toString());
     final response = await http.post(
       _requestUri,
       headers: _requestHeaders,
@@ -27,6 +31,7 @@ class ApiClient {
     required String uri,
   }) async {
     final _requestUri = Uri.parse(uri);
+    print(_requestUri);
     final _requestHeaders = await SessionManager.getHeader();
     final response = await http.get(
       _requestUri,

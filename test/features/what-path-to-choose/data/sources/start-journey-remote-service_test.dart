@@ -9,6 +9,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
@@ -21,21 +22,20 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/data/source
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
 
 import '../../../../fixtures/fixture-reader.dart';
+import 'start-journey-remote-service_test.mocks.dart';
 
-class MockCustomApiClient extends Mock implements ApiClient {}
-
-class MockLocalClient extends Mock implements Box {}
+@GenerateMocks([ApiClient,Box])
 
 Future<void> main() async {
   await Hive.initFlutter();
-  MockCustomApiClient? client;
-  MockLocalClient localClient;
+  MockApiClient? client;
+  MockBox localClient;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   late PathOperationsRemoteDataSourceImpl remoteServiceImpl;
 
   setUp(() {
-    client = MockCustomApiClient();
-    localClient = MockLocalClient();
+    client = MockApiClient();
+    localClient = MockBox();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteServiceImpl = PathOperationsRemoteDataSourceImpl(
       client: client,

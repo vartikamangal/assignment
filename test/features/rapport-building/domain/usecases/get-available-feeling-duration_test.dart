@@ -1,20 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/feeling-duration.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-available-feeling-duration.dart';
+import 'get-available-feeling-duration_test.mocks.dart';
 
-class MockGetAvailableFeelingDurationRepository extends Mock
-    implements RapportBuildingRepository {}
+@GenerateMocks([RapportBuildingRepository])
 
 void main() {
-  MockGetAvailableFeelingDurationRepository repository;
+ late  MockRapportBuildingRepository repository;
   late GetAvailableFeelingDuration usecase;
 
   setUp(() {
-    repository = MockGetAvailableFeelingDurationRepository();
+    repository = MockRapportBuildingRepository();
     usecase = GetAvailableFeelingDuration(repository: repository);
   });
 

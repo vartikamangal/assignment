@@ -9,16 +9,18 @@
 			"request": "launch",
 			"type": "dart",
 			"program": "lib/main_dev.dart",
-			// "args": [
-			// 	"--flavor",
-			// 	"dev"
-			// ]
+			"args": [
+				"--record-to",
+				"bugreport",
+				"--verbose",
+				"--trace-startup"
+			]
 		},
 		{
 			"name": "ALPHA",
 			"request": "launch",
 			"type": "dart",
-			"program": "lib/main_staging.dart",
+			"program": "lib/main_stage.dart",
 			// "args": [
 			// 	"--flavor",
 			// 	"beta"

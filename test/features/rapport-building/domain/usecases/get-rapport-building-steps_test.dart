@@ -1,20 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/rapport-building-steps.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/rapport-step.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-rapport-building-steps.dart';
+import 'get-rapport-building-steps_test.mocks.dart';
 
-class MockGetRapportBuildingStepsRepository extends Mock
-    implements RapportBuildingRepository {}
+@GenerateMocks([RapportBuildingRepository])
 
 void main() {
-  MockGetRapportBuildingStepsRepository repository;
+  late MockRapportBuildingRepository repository;
   late GetRapportBuildingSteps usecase;
   setUp(() {
-    repository = MockGetRapportBuildingStepsRepository();
+    repository = MockRapportBuildingRepository();
     usecase = GetRapportBuildingSteps(repository: repository);
   });
   const tMood = Mood(

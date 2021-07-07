@@ -7,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/persistence-consts.dart';
 
 import '../features/what-path-to-choose/data/sources/get_journey_path_list_remote_data_source_test.dart';
+import '../features/what-path-to-choose/data/sources/get_journey_path_list_remote_data_source_test.mocks.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();

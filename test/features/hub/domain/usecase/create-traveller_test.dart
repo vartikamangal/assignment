@@ -1,20 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/hub/domain/entities/success-create-traveller.dart';
 import 'package:tatsam_app_experimental/features/hub/domain/repository/create-traveller-service.dart';
 import 'package:tatsam_app_experimental/features/hub/domain/usecases/create-travller.dart';
+import 'create-traveller_test.mocks.dart';
 
-class MockCreateTravellerRepository extends Mock
-    implements CreateTravellerService {}
+@GenerateMocks([CreateTravellerService])
 
 void main() {
-  MockCreateTravellerRepository repository;
+  late MockCreateTravellerService repository;
   late CreateTraveller usecase;
 
   setUp(() {
-    repository = MockCreateTravellerRepository();
+    repository = MockCreateTravellerService();
     usecase = CreateTraveller(service: repository);
   });
 

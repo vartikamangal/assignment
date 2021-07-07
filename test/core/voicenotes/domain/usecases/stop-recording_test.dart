@@ -24,7 +24,7 @@ void main() {
       when(service!.stopRecording())
           .thenAnswer((_) async => const Right(tSuccess));
 
-      final Either<Failure, Success> result = await useCase(NoParams());
+      final Either<Failure, Success>? result = await useCase(NoParams());
       verify(service!.stopRecording());
       expect(result, const Right(tSuccess));
     });

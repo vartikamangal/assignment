@@ -9,6 +9,7 @@ import 'package:tatsam_app_experimental/core/auth/data/sources/auth-remote-servi
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 
+
 class MockAuthRemoteService extends Mock implements AuthRemoteService {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}

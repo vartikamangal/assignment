@@ -1,0 +1,11 @@
+[
+  {
+    "actionId": 1,
+    "journeyId": "journeyId",
+    "actionStatus": "actionStatus",
+    "title": "title",
+    "subtitle": "subtitle",
+    "feedbackMood": "feedbackMood",
+    "durationInMinutes": 1
+  }
+]

@@ -1,6 +1,7 @@
 // Package Import:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project Import:
 import 'package:tatsam_app_experimental/core/image/image.dart';
@@ -18,12 +19,12 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/models/su
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-information-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-information.dart';
+import 'get-profile-questions_test.mocks.dart';
 
-class MockProfileDetailsRepository extends Mock
-    implements ProfileDetailsRepository {}
+@GenerateMocks([ProfileDetailsRepository])
 
 void main() {
-  MockProfileDetailsRepository repository;
+  late MockProfileDetailsRepository repository;
   late GetProfileWheelOfLifeData useCase;
 
   setUp(() {

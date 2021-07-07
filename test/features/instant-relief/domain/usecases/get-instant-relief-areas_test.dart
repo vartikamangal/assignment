@@ -1,18 +1,18 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/instant-relief-area.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/instant-relief-repository.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/get-instant-relief-areas.dart';
+import 'get-instant-relief-areas_test.mocks.dart';
 
-class MockGetInstantReliefAreasRepository extends Mock
-    implements InstantReliefRepository {}
-
+@GenerateMocks([InstantReliefRepository])
 void main() {
-  MockGetInstantReliefAreasRepository repository;
+  late MockInstantReliefRepository repository;
   late GetInstantReliefAreas useCase;
   const tLifeArea = <InstantReliefArea>[
     InstantReliefArea(
@@ -25,7 +25,7 @@ void main() {
   ];
 
   setUp(() {
-    repository = MockGetInstantReliefAreasRepository();
+    repository = MockInstantReliefRepository();
     useCase = GetInstantReliefAreas(repository: repository);
   });
 

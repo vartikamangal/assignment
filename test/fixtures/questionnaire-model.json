@@ -1,0 +1,36 @@
+{
+  "id": "id",
+  "name": "name",
+  "title": "title",
+  "description": "description",
+  "creationDate": "creationDate",
+  "questionVO": [
+    {
+      "id": "id",
+      "questionType": "questionType",
+      "status": "status",
+      "name": "name",
+      "tags": [
+        {
+          "name": "name",
+          "tagCategory": "tagCategory",
+          "displayName": "displayName",
+          "parentName": "parentName"
+        }
+      ],
+      "questionOptionVO": [
+        {
+          "id": "id",
+          "optionText": "optionText",
+          "optionCategory": "optionCategory",
+          "additionalInformation": []
+        }
+      ],
+      "questionText": "questionText",
+      "questionExplanation": "questionExplanation",
+      "creationTime": "creationTime",
+      "lastModifiedTime": "lastModifiedTime",
+      "questionnaireId": "questionnaireId"
+    }
+  ]
+}

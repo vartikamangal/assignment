@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
@@ -14,19 +15,17 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/path-operations-remote-data-source.dart';
 
 import '../../../../fixtures/fixture-reader.dart';
-
-class MockCustomApiClient extends Mock implements ApiClient {}
-
-class MockBox extends Mock implements Box {}
+import 'get_journey_path_list_remote_data_source_test.mocks.dart';
+@GenerateMocks([ApiClient,Box])
 
 Future<void> main() async {
-  MockCustomApiClient? client;
+  MockApiClient? client;
   MockBox localClient;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   late PathOperationsRemoteDataSourceImpl remoteDataSourceImpl;
 
   setUp(() {
-    client = MockCustomApiClient();
+    client = MockApiClient();
     localClient = MockBox();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = PathOperationsRemoteDataSourceImpl(

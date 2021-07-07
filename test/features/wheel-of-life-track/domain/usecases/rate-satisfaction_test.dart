@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
@@ -10,22 +11,22 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/enti
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/satisfaction-ratings.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/wheel-of-life-repository.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/usecases/rate-satisfaction.dart';
+import 'rate-satisfaction_test.mocks.dart';
 
-class MockRateSatisfactionService extends Mock
-    implements WheelOfLifeRepository {}
+@GenerateMocks([WheelOfLifeRepository])
 
 void main() {
-  MockRateSatisfactionService? service;
+  MockWheelOfLifeRepository? service;
   late RateSatisfaction useCase;
 
   setUp(() {
-    service = MockRateSatisfactionService();
-    useCase = RateSatisfaction(service: service);
+    service = MockWheelOfLifeRepository();
+    useCase = RateSatisfaction(service: service!);
   });
 
   final tAreasRatedAsPerTime = <SatisfactionRatingMapForTimeProvision>[
     SatisfactionRatingMapForTimeProvision(
-      lifeArea: LifeAreaModel(
+      lifeArea: const LifeAreaModel(
         areaCode: "CAREER",
         name: "Career",
         description: "Your job, business and aspirations",
@@ -37,7 +38,7 @@ void main() {
           ratingScaleName: 'WOL_SATISFACTION_RATING'),
     ),
     SatisfactionRatingMapForTimeProvision(
-      lifeArea: LifeAreaModel(
+      lifeArea: const LifeAreaModel(
         areaCode: "ROMANCE",
         name: "Career",
         description: "Your job, business and aspirations",
@@ -49,7 +50,7 @@ void main() {
           ratingScaleName: 'WOL_SATISFACTION_RATING'),
     ),
     SatisfactionRatingMapForTimeProvision(
-      lifeArea: LifeAreaModel(
+      lifeArea: const LifeAreaModel(
         areaCode: "PERSONAL_GROWTH",
         name: "Career",
         description: "Your job, business and aspirations",
@@ -61,7 +62,7 @@ void main() {
           ratingScaleName: 'WOL_SATISFACTION_RATING'),
     ),
     SatisfactionRatingMapForTimeProvision(
-      lifeArea: LifeAreaModel(
+      lifeArea: const LifeAreaModel(
         areaCode: "FINANCES",
         name: "Career",
         description: "Your job, business and aspirations",
@@ -73,7 +74,7 @@ void main() {
           ratingScaleName: 'WOL_SATISFACTION_RATING'),
     ),
     SatisfactionRatingMapForTimeProvision(
-      lifeArea: LifeAreaModel(
+      lifeArea: const LifeAreaModel(
         areaCode: "HEALTH",
         name: "Career",
         description: "Your job, business and aspirations",
@@ -85,7 +86,7 @@ void main() {
           ratingScaleName: 'WOL_SATISFACTION_RATING'),
     ),
     SatisfactionRatingMapForTimeProvision(
-      lifeArea: LifeAreaModel(
+      lifeArea: const LifeAreaModel(
         areaCode: "FAMILY_AND_FRIENDS",
         name: "Career",
         description: "Your job, business and aspirations",

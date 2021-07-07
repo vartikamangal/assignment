@@ -274,6 +274,10 @@ class RootController extends GetxController {
     await checkIfAlreadyOnboarded();
     await isAlreadyLoggedIn();
     await checkIfMoodPopupShown();
+
+    /// for test crashing
+    //FirebaseCrashlytics.instance.log("Heyyy, Going to CRASH!!!");
+    //FirebaseCrashlytics.instance.crash();
   }
 
   @override

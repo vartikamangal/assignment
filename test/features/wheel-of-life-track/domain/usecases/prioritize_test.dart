@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
@@ -8,16 +9,17 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/enti
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/success-prioritize.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/wheel-of-life-repository.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/usecases/prioritize.dart';
+import 'prioritize_test.mocks.dart';
 
-class MockPrioritizeService extends Mock implements WheelOfLifeRepository {}
+@GenerateMocks([WheelOfLifeRepository])
 
 void main() {
-  MockPrioritizeService? service;
+  late MockWheelOfLifeRepository? service;
   late Prioritize useCase;
 
   setUp(() {
-    service = MockPrioritizeService();
-    useCase = Prioritize(service: service);
+    service = MockWheelOfLifeRepository();
+    useCase = Prioritize(service: service!);
   });
 
   const tAreas = [

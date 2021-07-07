@@ -35,12 +35,12 @@ void main() {
   group('USECASE : setTarget', () {
     test('should set the user_targets with the help of service', () async {
       //arrange
-      when(service.setTarget(issue: tIssue))
+      when(service!.setTarget(issue: tIssue))
           .thenAnswer((_) async => Right(tSuccess));
       //act
       final result = await useCase(const SetTargetParams(issue: tIssue));
       //assert
-      verify(service.setTarget(issue: tIssue));
+      verify(service!.setTarget(issue: tIssue));
       expect(result, Right(tSuccess));
     });
   });

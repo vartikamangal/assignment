@@ -1,18 +1,19 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/set-subject-mood.dart';
+import 'set-subject-mood_test.mocks.dart';
 
-class MockSetSubjectMoodService extends Mock
-    implements RapportBuildingRepository {}
+@GenerateMocks([RapportBuildingRepository])
 
 void main() {
-  MockSetSubjectMoodService? setSubjectMoodService;
+  late MockRapportBuildingRepository? setSubjectMoodService;
   late SetSubjectMood useCase;
 
   const tMoodName = "NEUTRAL";
@@ -28,8 +29,8 @@ void main() {
 
   group('USECASE : setSubjectMood', () {
     setUp(() {
-      setSubjectMoodService = MockSetSubjectMoodService();
-      useCase = SetSubjectMood(service: setSubjectMoodService);
+      setSubjectMoodService = MockRapportBuildingRepository();
+      useCase = SetSubjectMood(service: setSubjectMoodService!);
     });
     test('should set the name of user on [API] and return SetMoodSuccess',
         () async {

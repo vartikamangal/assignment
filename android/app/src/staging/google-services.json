@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265216549741",
+    "project_id": "tatsam-app-staging",
+    "storage_bucket": "tatsam-app-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265216549741:android:b9fbc3aa52ab7ce466f064",
+        "android_client_info": {
+          "package_name": "in.tatsam.app.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265216549741-n92eekaoupjrvhb7jgnvnb95nkd3d6ug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6sz12W9qUM_fG7fL4j7MHD9oQDGpiqvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265216549741-n92eekaoupjrvhb7jgnvnb95nkd3d6ug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

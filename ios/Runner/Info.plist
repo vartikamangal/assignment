@@ -11,7 +11,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Tatsam</string>
+	<string>Tatsam$(BUNDLE_NAME_SUFFIX)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Tatsam$(BUNDLE_NAME_SUFFIX)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

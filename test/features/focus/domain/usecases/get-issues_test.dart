@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
@@ -9,14 +10,15 @@ import 'package:tatsam_app_experimental/features/focus/domain/entities/issue.dar
 import 'package:tatsam_app_experimental/features/focus/domain/repositories/focus-repository.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/usecases/get-issues.dart';
 
-class MockGetIssuesRepository extends Mock implements FocusRepository {}
+import 'add-issue_test.mocks.dart';
 
+@GenerateMocks([FocusRepository])
 void main() {
-  MockGetIssuesRepository repository;
+  late MockFocusRepository repository;
   late GetIssues useCase;
 
   setUp(() {
-    repository = MockGetIssuesRepository();
+    repository = MockFocusRepository();
     useCase = GetIssues(repository: repository);
   });
 

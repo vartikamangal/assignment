@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/app-page-status/data/models/app-route-model.dart';
 import 'package:tatsam_app_experimental/core/app-page-status/data/repository/app-page-status-repository-impl.dart';
@@ -9,9 +10,9 @@ import 'package:tatsam_app_experimental/features/hub/data/models/life-priority-l
 import 'package:tatsam_app_experimental/features/hub/data/models/target-focus-list-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-information-model.dart';
+import 'app-page-status-repository-impl_test.mocks.dart';
 
-class MockAppPageStatusLocalDataSource extends Mock
-    implements AppPageStatusLocalDataSource {}
+@GenerateMocks([AppPageStatusLocalDataSource])
 
 void main() {
   MockAppPageStatusLocalDataSource? localDataSource;

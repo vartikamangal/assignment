@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "subjectInformation": {
+            "subjectId": {
+                "id": "id"
+            },
+            "userID": "userId",
+            "name": "name",
+            "nickName": "nickName",
+            "deviceIndentifier": "deviceIndentifier",
+            "gender": null
+        },
+        "targetFocus": {
+            "id": 1,
+            "targetFocusList": [
+                {
+                    "issueId": 1,
+                    "issueIcon": null,
+                    "displayName": "displayName",
+                    "focusName": "focusName",
+                    "messageOnSelection": "messageOnSelection"
+                }
+            ]
+        },
+        "lifePriorities": {
+            "id": 1,
+            "areasInOrderOfPriority": [
+                "areasInOrderOfPriority"
+            ]
+        },
+        "lifeSatisfactionRatings": {},
+        "attemptedQuestions": false,
+        "journeyPath": null,
+        "journeyStartedAt": null,
+        "journeyStatus": "",
+        "latestMood": ""
+    }
+]

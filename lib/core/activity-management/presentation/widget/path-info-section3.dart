@@ -12,7 +12,6 @@ import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/bottom-middle-button.dart';
-import '../../../../core/utils/color-pallete.dart';
 import '../controller/path-controller.dart';
 
 class PathInfoSection3 extends StatelessWidget {
@@ -52,7 +51,8 @@ class PathInfoSection3 extends StatelessWidget {
                     padding: EdgeInsets.only(
                         bottom: ScaleManager.spaceScale(spaceing: 40).value),
                     child: const ActivityContentInjector(
-                        activityType: ActivityType.TEXT),
+                      activityType: ActivityType.TEXT,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(

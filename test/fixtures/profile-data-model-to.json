@@ -1,0 +1,25 @@
+{
+  "subjectInformationId": 1,
+  "travellerId": "",
+  "holisticScore": 1,
+  "activitiesThisWeek": 1,
+  "timeOnActivitiesThisWeek": 1,
+  "nickName": "",
+  "focusIssues": [
+    {
+      "id": null,
+      "focusName": "",
+      "displayName": "",
+      "messageOnSelection": "",
+      "iconVO": null
+    }
+  ],
+  "journeyPath": {
+    "id": 1,
+    "title": "",
+    "subtitle": "",
+    "description": "",
+    "iconVO": null,
+    "pathName": ""
+  }
+}

@@ -1,6 +1,7 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
@@ -8,17 +9,17 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/models/su
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/track-mood-success.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/track-subject-mood.dart';
+import 'track-subject-mood_test.mocks.dart';
 
-class MockTrackSubjectMoodService extends Mock
-    implements RapportBuildingRepository {}
+@GenerateMocks([RapportBuildingRepository])
 
 void main() {
-  MockTrackSubjectMoodService? service;
+  late MockRapportBuildingRepository? service;
   late TrackSubjectMood useCase;
 
   setUp(() {
-    service = MockTrackSubjectMoodService();
-    useCase = TrackSubjectMood(service: service);
+    service = MockRapportBuildingRepository();
+    useCase = TrackSubjectMood(service: service!);
   });
 
   final tMoodTrack = MoodTrackingModel(

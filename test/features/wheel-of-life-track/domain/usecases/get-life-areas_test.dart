@@ -1,22 +1,23 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/life-area.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/repositories/wheel-of-life-repository.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/usecases/get-life-areas.dart';
+import 'get-life-areas_test.mocks.dart';
 
-class MockGetLifeAreasRepository extends Mock implements WheelOfLifeRepository {
-}
+@GenerateMocks([WheelOfLifeRepository])
 
 void main() {
-  MockGetLifeAreasRepository repository;
+  late MockWheelOfLifeRepository repository;
   late GetLifeAreas useCase;
 
   setUp(() {
-    repository = MockGetLifeAreasRepository();
+    repository = MockWheelOfLifeRepository();
     useCase = GetLifeAreas(repository: repository);
   });
 

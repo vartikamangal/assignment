@@ -26,10 +26,10 @@ abstract class AuthRemoteService {
 }
 
 class AuthRemoteServiceImpl implements AuthRemoteService {
-  final FlutterSecureStorage secureStorage;
-  final FlutterAppAuth flutterAppAuth;
-  final ApiClient apiClient;
-  final ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  final FlutterSecureStorage? secureStorage;
+  final FlutterAppAuth? flutterAppAuth;
+  final ApiClient? apiClient;
+  final ThrowExceptionIfResponseError? throwExceptionIfResponseError;
 
   AuthRemoteServiceImpl({
     required this.secureStorage,
@@ -43,7 +43,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   Future<bool> checkIfAuthenticated() async {
     try {
       final refreshToken =
-          await secureStorage.read(key: PersistenceConst.ACCESS_TOKEN);
+          await secureStorage!.read(key: PersistenceConst.ACCESS_TOKEN);
       if (refreshToken == null) {
         return false;
       } else {
@@ -68,7 +68,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
         'audience': Secrets.AUTH0_AUDIENCE,
       };
       final AuthorizationTokenResponse? tokenResponse =
-          await flutterAppAuth.authorizeAndExchangeCode(
+          await flutterAppAuth!.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
           Secrets.AUTH0_CLIENT_ID, Secrets.AUTH0_REDIRECT_URI,
           issuer: Secrets.AUTH0_ISSUER,
@@ -79,14 +79,20 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
         ),
       );
       final OAuthData = OAuthDataModel.fromAuthTokenResponse(tokenResponse);
+      log("b");
       await _persistAccessToken(accessToken: OAuthData.accessToken);
       // Make a method for persisting the user-data
+      log("c");
       final parsedUserdata = JWTOperationHelper.parseJwt(OAuthData.idToken!);
+      log("d");
       final userDataModel = UserDataModel.fromJson(parsedUserdata);
+      log("e");
       await _persistUserdata(
         userData: userDataModel,
       );
+      log("f");
       await _loginRemoteApiHelper(user_id: userDataModel.sub);
+      log("g");
       return OAuthData;
     } on PlatformException catch (e) {
       log(e.toString());
@@ -108,7 +114,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
         'screen_hint': 'signup',
       };
       final AuthorizationTokenResponse? tokenResponse =
-          await flutterAppAuth.authorizeAndExchangeCode(
+          await flutterAppAuth!.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
           Secrets.AUTH0_CLIENT_ID,
           Secrets.AUTH0_REDIRECT_URI,
@@ -139,7 +145,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   @override
   Future<Unit> requestLogout() async {
     try {
-      await secureStorage.delete(key: PersistenceConst.ACCESS_TOKEN);
+      await secureStorage!.delete(key: PersistenceConst.ACCESS_TOKEN);
       return unit;
     } on PlatformException catch (e) {
       log(e.toString());
@@ -151,7 +157,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   @override
   Future<OAuthDataModel> requestNewToken() async {
     try {
-      final authDataUnparsed = await (secureStorage.read(
+      final authDataUnparsed = await (secureStorage!.read(
         key: PersistenceConst.ACCESS_TOKEN,
       ) as Future<String>);
       final authDataParsed = OAuthDataModel.fromJson(
@@ -188,11 +194,11 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   Future<void> _loginRemoteApiHelper({
     required String? user_id,
   }) async {
-    final response = await apiClient.post(
+    final response = await apiClient!.post(
       uri: APIRoute.login,
       body: jsonEncode(user_id),
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    throwExceptionIfResponseError!(statusCode: response.statusCode);
     log('user logged in successfully!');
   }
 
@@ -200,18 +206,18 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   Future<void> _registrationRemoteApiHelper({
     required String? user_id,
   }) async {
-    final response = await apiClient.post(
+    final response = await apiClient!.post(
       uri: APIRoute.register,
       body: jsonEncode(user_id),
     );
-    throwExceptionIfResponseError(statusCode: response.statusCode);
+    throwExceptionIfResponseError!(statusCode: response.statusCode);
     log('user registsered successfully!');
   }
 
   Future<void> _persistAccessToken({
     required String? accessToken,
   }) async {
-    await secureStorage.write(
+    await secureStorage!.write(
       key: PersistenceConst.ACCESS_TOKEN,
       value: accessToken,
     );
@@ -220,7 +226,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   Future<void> _persistUserdata({
     required UserDataModel userData,
   }) async {
-    await secureStorage.write(
+    await secureStorage!.write(
       key: PersistenceConst.USER_DATA,
       value: jsonEncode(
         userData.toJson(),

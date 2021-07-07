@@ -1,0 +1,5 @@
+// staging environment configuration for flavoring
+
+FLUTTER_TARGET=lib/main_staging.dart
+PRODUCT_BUNDLE_IDENTIFIER=in.tatsam.app.staging
+BUNDLE_NAME_SUFFIX=-staging

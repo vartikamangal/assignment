@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "452538070515",
+    "project_id": "tatsam-app-prod",
+    "storage_bucket": "tatsam-app-prod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452538070515:android:f242366d94e3a4266cce86",
+        "android_client_info": {
+          "package_name": "in.tatsam.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452538070515-hp8r7jm48i00bni1qtke3kkp4pf73c1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXMQX2yMURZQ5W8N4bbNhvD5babnQmKC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452538070515-hp8r7jm48i00bni1qtke3kkp4pf73c1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

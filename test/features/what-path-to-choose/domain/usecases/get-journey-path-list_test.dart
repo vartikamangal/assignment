@@ -1,22 +1,22 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/repositories/path-operations-repository.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/usecases/get-journey-path-list.dart';
+import 'get-journey-path-list_test.mocks.dart';
 
-class MockGetIssuesRepository extends Mock implements PathOperationsRepository {
-}
-
+@GenerateMocks([PathOperationsRepository])
 void main() {
-  MockGetIssuesRepository repository;
+  late MockPathOperationsRepository repository;
   late GetJourneyPathList useCase;
 
   setUp(() {
-    repository = MockGetIssuesRepository();
+    repository = MockPathOperationsRepository();
     useCase = GetJourneyPathList(repository: repository);
   });
 

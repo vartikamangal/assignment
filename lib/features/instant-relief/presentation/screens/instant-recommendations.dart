@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
+
 import '../../../../core/activity-management/data/models/recommendation-activity-model.dart';
 import '../../../../core/activity-management/data/models/recommendation-model.dart';
 import '../../../../core/activity-management/presentation/controller/path-controller.dart';
@@ -11,7 +11,6 @@ import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
-import '../../../../core/utils/color-pallete.dart';
 import '../controllers/instant-relief-controller.dart';
 
 class InstantRecommendationsScreen extends StatelessWidget {
@@ -25,10 +24,11 @@ class InstantRecommendationsScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Theme.of(context).canvasColor,
-          leading: TopAppBar(onPressed: (){Navigator.of(context).pop();})
-        ),
+            elevation: 0,
+            backgroundColor: Theme.of(context).canvasColor,
+            leading: TopAppBar(onPressed: () {
+              Navigator.of(context).pop();
+            })),
         body: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(

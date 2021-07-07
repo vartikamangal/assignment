@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
+
+import 'package:flutter_sound/flutter_sound.dart';
 
 import '../../../../core/data-source/api-client.dart';
 import '../../../../core/data-source/throw-exception-if-response-error.dart';
@@ -45,6 +48,8 @@ class ProfileDetailsRemoteDataSourceImpl
     final response = await client.post(
       uri: APIRoute.getBasicDetails,
     );
+    log(response.statusCode.toString());
+    log(response.body);
     throwExceptionIfResponseError(statusCode: response.statusCode);
     return ProfileDataModel.fromJson(
       jsonDecode(response.body) as Map<String, dynamic>,

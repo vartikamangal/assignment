@@ -69,3 +69,12 @@ This Project is an early experimental version of **Tatsam** and consists of the 
  - [x] Homepage
  - [x] User Info PC
 
+
+## Flavors
+
+ - [x] flavors support for Android
+ - [x] flavors support for iOS
+ - [x] flavors support in CI server (Codemagic)
+ - [] app configs for different flavors
+ - [] read certain values from env vars (or .env files)
+ - [] CI server setup with different env injected for respective flavors

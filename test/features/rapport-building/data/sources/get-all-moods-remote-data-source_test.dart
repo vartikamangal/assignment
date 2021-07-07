@@ -2,6 +2,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
@@ -13,16 +14,17 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/models/mo
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
 
 import '../../../../fixtures/fixture-reader.dart';
+import 'get-all-moods-remote-data-source_test.mocks.dart';
 
-class MockCustomApiClient extends Mock implements ApiClient {}
+@GenerateMocks([ApiClient])
 
 Future<void> main() async {
-  MockCustomApiClient? client;
+  MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   late RapportBuildingRemoteDataSourceImpl remoteDataSourceImpl;
 
   setUp(() {
-    client = MockCustomApiClient();
+    client = MockApiClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = RapportBuildingRemoteDataSourceImpl(
       client: client,

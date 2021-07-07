@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
@@ -11,16 +12,16 @@ import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import '../../../../fixtures/fixture-reader.dart';
 import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
-
-class MockCustomApiClient extends Mock implements ApiClient {}
+import 'get-all-rrecommendation-categories-remote-data-source_test.mocks.dart';
+@GenerateMocks([ApiClient])
 
 Future<void> main() async {
   late GetAllRecommendationCategoriesRemoteDataSourceImpl remoteDataSourceImpl;
-  MockCustomApiClient? client;
+  MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
-    client = MockCustomApiClient();
+    client = MockApiClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = GetAllRecommendationCategoriesRemoteDataSourceImpl(
       client: client,
