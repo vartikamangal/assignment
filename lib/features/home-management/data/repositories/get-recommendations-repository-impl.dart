@@ -2,7 +2,7 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 // Project imports:
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 import '../../../../core/error/failures.dart';

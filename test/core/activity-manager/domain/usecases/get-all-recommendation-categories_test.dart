@@ -2,9 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-category.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/get-all-recommendation-catoegories-repository.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/get-all-recommendation-categories.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/repositories/get-all-recommendation-catoegories-repository.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/usecases/get-all-recommendation-categories.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
 import 'get-all-recommendation-categories_test.mocks.dart';

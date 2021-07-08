@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-step-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-step-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 
 void main() {

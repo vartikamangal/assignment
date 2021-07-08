@@ -5,9 +5,9 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity-management/data/models/activity-scedule-guided-model.dart'
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-scedule-guided-model.dart'
     as _i2;
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/get-activity-schedule-for-guided-plan-remote-data-source.dart'
+import 'package:tatsam_app_experimental/core/activity/data/sources/get-activity-schedule-for-guided-plan-remote-data-source.dart'
     as _i3;
 import 'package:tatsam_app_experimental/core/platform/network_info.dart' as _i5;
 

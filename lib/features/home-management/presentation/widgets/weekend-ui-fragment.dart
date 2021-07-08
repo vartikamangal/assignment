@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
+import '../../../../core/activity/data/models/recommendation-category-model.dart';
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
@@ -155,14 +155,12 @@ class SmallActivityPill extends StatelessWidget {
                 ).value),
             child: Container(
               constraints: BoxConstraints(
-                minHeight: ScaleManager.spaceScale(
-                  spaceing: 45,
-                ).value
-              ),
-
-              width:  ScaleManager.spaceScale(
-                  spaceing: 180,
-                ).value,
+                  minHeight: ScaleManager.spaceScale(
+                spaceing: 45,
+              ).value),
+              width: ScaleManager.spaceScale(
+                spaceing: 180,
+              ).value,
               decoration: BoxDecoration(
                 //color: Colors.red,
                 border: Border.all(

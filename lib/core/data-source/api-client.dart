@@ -23,6 +23,8 @@ class ApiClient {
       headers: _requestHeaders,
       body: body,
     );
+    log(response.body.toString());
+    log(response.statusCode.toString());
     await SessionManager.setHeader(header: response.headers);
     return response;
   }

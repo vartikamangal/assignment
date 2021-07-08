@@ -6,7 +6,7 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart'
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart'
     as _i5;
 import 'package:tatsam_app_experimental/core/platform/network_info.dart' as _i6;
 import 'package:tatsam_app_experimental/features/home-management/data/sources/add-weekly-category-remote-service.dart'

@@ -2,16 +2,15 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-category.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-step.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/tag.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-step.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
 import 'package:tatsam_app_experimental/features/home-management/domain/repositories/get-recommendations-by-action-time-repository.dart';
 import 'package:tatsam_app_experimental/features/home-management/domain/usecases/get-recommendations-by-action-time.dart';
 import 'get-recommendations-by-action-time_test.mocks.dart';
 
 @GenerateMocks([GetRecommendationsByActionTimeRepository])
-
 void main() {
   late MockGetRecommendationsByActionTimeRepository repository;
   late GetRecommendationsByActionTime useCase;
@@ -72,14 +71,14 @@ void main() {
   });
   group('USECASE: getRecommendations()', () {
     test('should get recommendations by action time from repository ...',
-            () async {
-          when(repository.getRecommendations(actionTime: tActionTime))
-              .thenAnswer((_) async => const Right(tActivityRecommendation));
+        () async {
+      when(repository.getRecommendations(actionTime: tActionTime))
+          .thenAnswer((_) async => const Right(tActivityRecommendation));
 
-          final result = await useCase(
-              const GetRecommendationsByActionTimeParams(actionTime: tActionTime));
-          verify(repository.getRecommendations(actionTime: tActionTime));
-          expect(result, const Right(tActivityRecommendation));
-        });
+      final result = await useCase(
+          const GetRecommendationsByActionTimeParams(actionTime: tActionTime));
+      verify(repository.getRecommendations(actionTime: tActionTime));
+      expect(result, const Right(tActivityRecommendation));
+    });
   });
 }

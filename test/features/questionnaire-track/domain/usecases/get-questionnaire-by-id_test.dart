@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/tag.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/questionnaire.dart';
@@ -11,7 +11,6 @@ import 'package:tatsam_app_experimental/features/questionnaire-track/domain/usec
 import 'get-questionnaire-by-id_test.mocks.dart';
 
 @GenerateMocks([QuestionnaireRepository])
-
 void main() {
   late MockQuestionnaireRepository repository;
   late GetQuestionnaireById useCase;

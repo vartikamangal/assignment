@@ -5,8 +5,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 // Project imports:
-import '../../../../core/activity-management/presentation/controller/path-controller.dart';
-import '../../../../core/activity-management/presentation/widget/plan-container.dart';
+import '../../../../core/activity/presentation/controller/path-controller.dart';
+import '../../../../core/activity/presentation/widget/plan-container.dart';
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../../../../core/responsive/scale-manager.dart';
@@ -58,7 +58,7 @@ class BigGoalsPath extends StatelessWidget {
                 selectedActivityIndex: 0,
               );
               await pathController.startActivityTrigger(
-                activityId: activity.id,
+                activityId: activity.id!,
                 isInstantActivity: false,
               );
               durationController.start();

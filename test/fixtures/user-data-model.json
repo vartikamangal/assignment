@@ -1,0 +1,17 @@
+{
+    "given_name": "givenName",
+    "family_name": "familyName",
+    "nickname": "nickname",
+    "name": "name",
+    "picture": "picture",
+    "locale": "locale",
+    "updated_at": "updatedAt",
+    "email": "email",
+    "email_verified": null,
+    "iss": "iss",
+    "sub": "sub",
+    "aud": "aud",
+    "iat": 1,
+    "exp": 1,
+    "nonce": "nonce"
+}

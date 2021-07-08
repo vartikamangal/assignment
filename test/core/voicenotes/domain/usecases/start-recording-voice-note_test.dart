@@ -2,13 +2,18 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/success/success-interface.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/entity/recording-started-status.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/start-recording-voicenote-service.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/start-recording-voice-note.dart';
 
-class MockStartRecordingVoiceNoteService extends Mock
-    implements StartRecordingVoiceNoteService {}
+import 'start-recording-voice-note_test.mocks.dart';
+
+
+@GenerateMocks([StartRecordingVoiceNoteService])
 
 void main() {
   MockStartRecordingVoiceNoteService? service;

@@ -10,10 +10,8 @@
 			"type": "dart",
 			"program": "lib/main_dev.dart",
 			"args": [
-				"--record-to",
-				"bugreport",
-				"--verbose",
-				"--trace-startup"
+				"--flavor",
+				"dev",
 			]
 		},
 		{

@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import '../../../../core/activity-management/data/models/recommendation-input-model.dart';
-import '../../../../core/activity-management/domain/entities/recommendation-input.dart';
-import '../../../../core/activity-management/domain/usecases/get-persisted-feedbacks.dart';
+import '../../../../core/activity/data/models/recommendation-input-model.dart';
+import '../../../../core/activity/domain/entities/recommendation-input.dart';
+import '../../../../core/activity/domain/usecases/get-persisted-feedbacks.dart';
 import '../../../../core/error/display-error-info.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';

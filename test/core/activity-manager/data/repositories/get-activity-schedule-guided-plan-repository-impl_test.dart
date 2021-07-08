@@ -3,12 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/activity-scedule-guided-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/guided-activity-recommendation-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/path-information-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/repositories/get-activity-schedule-guided-plan-repository-impl.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/get-activity-schedule-for-guided-plan-remote-data-source.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-scedule-guided-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/guided-activity-recommendation-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/path-information-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/repositories/get-activity-schedule-guided-plan-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/activity/data/sources/get-activity-schedule-for-guided-plan-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
@@ -17,9 +17,8 @@ import 'package:tatsam_app_experimental/core/repository/call-if-network-connecte
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'get-activity-schedule-guided-plan-repository-impl_test.mocks.dart';
 
-@GenerateMocks([GetActivityScheduleForGuidedPlanRemoteDataSource,NetworkInfo])
-
-void main(){
+@GenerateMocks([GetActivityScheduleForGuidedPlanRemoteDataSource, NetworkInfo])
+void main() {
   GetActivityScheduleForGuidedPlanRemoteDataSource? remoteDataSource;
   MockNetworkInfo? networkInfo;
   late GetActivityScheduleGuidedPlanRepositoryImpl repositoryImpl;
@@ -42,7 +41,8 @@ void main(){
     );
   });
 
-  const tActivityScheduled=ActivityScheduleGuidedModel( id: 3441,
+  const tActivityScheduled = ActivityScheduleGuidedModel(
+    id: 3441,
     tags: [],
     pathInformation: PathInformationModel(
         id: 3442,
@@ -60,10 +60,9 @@ void main(){
           title: "Day 1",
           subtitle: "Perform this day with smile",
           helpContent: "Some useless help content",
-          recommendationList: <ActivityRecommendationModel>[
-
-          ])
-    ],);
+          recommendationList: <ActivityRecommendationModel>[])
+    ],
+  );
 
   void runTestOnline(Callback body) {
     setUp(() {
@@ -82,34 +81,33 @@ void main(){
     // });
     test(
         'should return a scheduledactivity when call to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteDataSource!.getSchedule())
-              .thenAnswer((_) async => tActivityScheduled);
-          //act
-          final result = await repositoryImpl.getSchedule();
-          //assert
-          verify(remoteDataSource!.getSchedule());
-          expect(result, const Right(tActivityScheduled));
-        });
+        () async {
+      //arrange
+      when(remoteDataSource!.getSchedule())
+          .thenAnswer((_) async => tActivityScheduled);
+      //act
+      final result = await repositoryImpl.getSchedule();
+      //assert
+      verify(remoteDataSource!.getSchedule());
+      expect(result, const Right(tActivityScheduled));
+    });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
-            () async {
-          //arrange
-          when(remoteDataSource!.getSchedule()).thenThrow(ServerException());
-          //act
-          final result = await repositoryImpl.getSchedule();
-          //assert
-          expect(result, Left(ServerFailure()));
-        });
+        () async {
+      //arrange
+      when(remoteDataSource!.getSchedule()).thenThrow(ServerException());
+      //act
+      final result = await repositoryImpl.getSchedule();
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
   test('DEVICE OFFLINE : GetSchedule should return DeviceOfflineFailure',
-          () async {
-        when(networkInfo!.isConnected).thenAnswer((_) async => false);
-        //act
-        final result = await repositoryImpl.getSchedule();
-        //assert
-        expect(result, Left(DeviceOfflineFailure()));
-      });
-
+      () async {
+    when(networkInfo!.isConnected).thenAnswer((_) async => false);
+    //act
+    final result = await repositoryImpl.getSchedule();
+    //assert
+    expect(result, Left(DeviceOfflineFailure()));
+  });
 }

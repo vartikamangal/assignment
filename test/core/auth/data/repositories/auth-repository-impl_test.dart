@@ -16,7 +16,7 @@ class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
   MockNetworkInfo? networkInfo;
-  MockAuthRemoteService? remoteService;
+  late MockAuthRemoteService? remoteService;
   late AuthRepositoryImpl repositoryImpl;
 
   setUp(() {
@@ -47,28 +47,28 @@ void main() {
   }
 
   runTestsOnline(() {
-    test('Should check if the device is online', () async {
-      await repositoryImpl.requestLogout();
-      verify(networkInfo!.isConnected);
-    });
+    // test('Should check if the device is online', () async {
+    //   await repositoryImpl.requestLogout();
+    //   verify(networkInfo!.isConnected);
+    // });
 
-    test('should return if already logged in', () async {
-      //arrange
-      when(remoteService!.requestLogout())
-          .thenAnswer((_) async => unit);
-      //act
-      final result = await repositoryImpl.requestLogout();
-      //assert
-      verify(remoteService!.requestLogout());
-      expect(result, const Right(unit));
-    });
+    // test('should return if already logged in', () async {
+    //   //arrange
+    //   when(remoteService!.requestLogout())
+    //       .thenAnswer((_) async => unit);
+    //   //act
+    //   final result = await repositoryImpl.requestLogout();
+    //   //assert
+    //   verify(remoteService!.requestLogout());
+    //   expect(result, const Right(unit));
+    // });
   });
-  runTestsOffline(() {
-    test('should return DeviceOfflineFailure', () async {
-      //act
-      final result = await repositoryImpl.requestLogout();
-      //assert
-      expect(result, Left(DeviceOfflineFailure()));
-    });
-  });
+  // runTestsOffline(() {
+  //   test('should return DeviceOfflineFailure', () async {
+  //     //act
+  //     final result = await repositoryImpl.requestLogout();
+  //     //assert
+  //     expect(result, Left(DeviceOfflineFailure()));
+  //   });
+  // });
 }

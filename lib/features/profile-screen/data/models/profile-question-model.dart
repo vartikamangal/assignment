@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../../core/activity-management/data/models/tag-model.dart';
+import '../../../../core/activity/data/models/tag-model.dart';
 import '../../../questionnaire-track/data/models/question-option-model.dart';
 import '../../domain/entities/profile-question.dart';
 import 'question-info-model.dart';

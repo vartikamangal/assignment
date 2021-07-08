@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import '../../../../core/activity-management/presentation/controller/path-controller.dart';
+import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../controller/home-controller.dart';
 import 'feedback-view.dart';

@@ -7,14 +7,14 @@ import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/get-all-recommendation-categories-remote-data-source.dart';
+import 'package:tatsam_app_experimental/core/activity/data/sources/get-all-recommendation-categories-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import '../../../../fixtures/fixture-reader.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'get-all-rrecommendation-categories-remote-data-source_test.mocks.dart';
-@GenerateMocks([ApiClient])
 
+@GenerateMocks([ApiClient])
 Future<void> main() async {
   late GetAllRecommendationCategoriesRemoteDataSourceImpl remoteDataSourceImpl;
   MockApiClient? client;
@@ -29,30 +29,30 @@ Future<void> main() async {
     );
   });
 
-  const tRecommendationCategoryModel=<RecommendationCategoryModel>[RecommendationCategoryModel(
-    id: 2,
-    categoryName: "MENTAL",
-    displayTitle: "Mental",
-    displaySubtitle: "Focus on your mind",
-    categoryDetailedDescription: "This is mental category",
-    categoryShortDescription: "Focus on your mind",
-    iconVO: ImageProp(urlShort: null,
-        urlLarge: null,
-        urlMedium: null),
-  )];
+  const tRecommendationCategoryModel = <RecommendationCategoryModel>[
+    RecommendationCategoryModel(
+      id: 2,
+      categoryName: "MENTAL",
+      displayTitle: "Mental",
+      displaySubtitle: "Focus on your mind",
+      categoryDetailedDescription: "This is mental category",
+      categoryShortDescription: "Focus on your mind",
+      iconVO: ImageProp(urlShort: null, urlLarge: null, urlMedium: null),
+    )
+  ];
 
   // Helper functions
 
   void setupHttpSuccessClient200() {
     when(client!.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
-          (_) async => http.Response(
+      (_) async => http.Response(
           fixtureReader(filename: 'recommendation-category-model.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
     when(client!.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
-          (_) async => http.Response('Oops! page not found', 404),
+      (_) async => http.Response('Oops! page not found', 404),
     );
   }
 
@@ -70,14 +70,14 @@ Future<void> main() async {
     });
     test(
         'should return List<RecommendationCategoryModel> when call statusCode is 200',
-            () async {
-          //arrange
-          setupHttpSuccessClient200();
-          //act
-          final result = await remoteDataSourceImpl.getAllCategories();
-          //assert
-          expect(result, tRecommendationCategoryModel);
-        });
+        () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      final result = await remoteDataSourceImpl.getAllCategories();
+      //assert
+      expect(result, tRecommendationCategoryModel);
+    });
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange
       setupHttpFailureClient404();

@@ -1,28 +1,27 @@
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/guided-activity-recommendation-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/guided-activity-recommendation.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/guided-activity-recommendation-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/guided-activity-recommendation.dart';
 
-void main(){
-  const List<GuidedActivityRecommendation> tGuidedActivityRecommendation=<GuidedActivityRecommendationModel>[
+void main() {
+  const List<GuidedActivityRecommendation> tGuidedActivityRecommendation =
+      <GuidedActivityRecommendationModel>[
     GuidedActivityRecommendationModel(
-      id: 3443,
-      dayNumber: 1,
-      subtitle: "",
-      icon: null,
+        id: 3443,
+        dayNumber: 1,
+        subtitle: "",
+        icon: null,
         description: "Day 1 of stress management",
         title: "Day 1",
         helpContent: "Some useless help content",
-      recommendationList: <ActivityRecommendationModel>[
-      ]
-    )
+        recommendationList: <ActivityRecommendationModel>[])
   ];
 
   group('Model GuidedActivityRecommendation ', () {
     test('should be an extendor of GuidedActivityRecommendation', () async {
       //assert
-      expect(tGuidedActivityRecommendation.first, isA<GuidedActivityRecommendation>());
+      expect(tGuidedActivityRecommendation.first,
+          isA<GuidedActivityRecommendation>());
     });
     // test('fromJson should transform raw-response into GuidedActivityRecommendation',
     //         () async {

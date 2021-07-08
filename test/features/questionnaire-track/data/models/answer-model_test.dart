@@ -26,6 +26,11 @@ void main() {
       optionChosen: tQuestionOptionModel,
       additionalInformation: '');
 
+  const tAnswerModel1=AnswerModel(
+      question: tQuestionIdModel,
+      optionChosen: [],
+      additionalInformation: '');
+
   group('Model AnswerModel', () {
     test('should be a extended version of AnswerModel', () async {
       //assert
@@ -48,7 +53,7 @@ void main() {
           jsonDecode(fixtureReader(filename: 'answer-model-from.json'))
               as Map<String, dynamic>;
       //act
-      final result = tAnswerModel.toJson();
+      final result = tAnswerModel1.toJson();
       //assert
       expect(result, expectedJson);
     });

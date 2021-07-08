@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';

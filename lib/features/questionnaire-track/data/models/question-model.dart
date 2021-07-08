@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 
 // Project imports:
-import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
 import '../../domain/entities/question.dart';
 import 'question-option-model.dart';
 

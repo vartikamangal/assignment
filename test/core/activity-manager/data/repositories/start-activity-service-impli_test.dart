@@ -3,30 +3,30 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/activity-status-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/repositories/start-activity-service-impl.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/start-activity-remote-service.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/activity-status.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/repositories/activity-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/activity/data/sources/activity-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
-import 'start-activity-service-impli_test.mocks.dart';
+import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'activity-repository-impl_test.mocks.dart';
 
-@GenerateMocks([StartActivityRemoteService,NetworkInfo])
+@GenerateMocks([AcitivityRemoteDataSource,NetworkInfo])
 
 void main(){
-  StartActivityRemoteService? remoteDataService;
+  MockAcitivityRemoteDataSource? remoteDataService;
   MockNetworkInfo? networkInfo;
-  late StartActivityServiceImpl repositoryImpl;
+  late ActivityRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
 
   setUp(() {
-    remoteDataService = MockStartActivityRemoteService();
+    remoteDataService = MockAcitivityRemoteDataSource();
     networkInfo = MockNetworkInfo();
     callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
     handleException = HandleException();
@@ -34,8 +34,8 @@ void main(){
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    repositoryImpl = StartActivityServiceImpl(
-      remoteService: remoteDataService,
+    repositoryImpl = ActivityRepositoryImpl(
+      remoteDataSource: remoteDataService!,
       baseRepository: baseRepository,
     );
   });
@@ -61,7 +61,7 @@ void main(){
   runTestOnline(() {
     // test('should check if the device is online', () async {
     //   //act
-    //   await repositoryImpl.startActivity();
+    //   await repositoryImpl.startActivity(recommendationId: '', isInstantActivity: true);
     //   //assert
     //   verify(networkInfo!.isConnected);
     // });

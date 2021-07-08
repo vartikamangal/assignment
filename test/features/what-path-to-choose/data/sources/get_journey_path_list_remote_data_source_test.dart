@@ -16,6 +16,7 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/data/source
 
 import '../../../../fixtures/fixture-reader.dart';
 import 'get_journey_path_list_remote_data_source_test.mocks.dart';
+
 @GenerateMocks([ApiClient,Box])
 
 Future<void> main() async {

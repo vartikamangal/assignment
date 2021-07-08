@@ -1,15 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
+
+import '../../../../core/activity/data/models/recommendation-category-model.dart';
 import '../../../../core/data-source/api-client.dart';
 import '../../../../core/data-source/throw-exception-if-response-error.dart';
-import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
-import 'package:http/http.dart' as http;
-import '../../../../core/error/exceptions.dart';
 import '../../../../core/routes/api-routes/api-routes.dart';
-import '../../../../core/session-manager/session-manager.dart';
 
 abstract class AddWeeklyCategoryRemoteService {
   Future<Unit> addWeeklyCategory({

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-step-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-step.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-step-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-step.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 
 import '../../../../fixtures/fixture-reader.dart';

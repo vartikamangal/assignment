@@ -6,9 +6,9 @@ import 'dart:async' as _i3;
 
 import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/activity-schedule-guided.dart'
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity-schedule-guided.dart'
     as _i6;
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/get-activity-schedule-for-guided-plan-repository.dart'
+import 'package:tatsam_app_experimental/core/activity/domain/repositories/get-activity-schedule-for-guided-plan-repository.dart'
     as _i2;
 import 'package:tatsam_app_experimental/core/error/failures.dart' as _i5;
 

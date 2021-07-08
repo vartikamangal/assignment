@@ -2,14 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-category.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-step.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/tag.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/get-category-activities-repository.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/get-activity-categories.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-step.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/repositories/get-category-activities-repository.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/usecases/get-activity-categories.dart';
 
 import 'get-activity-categories_test.mocks.dart';
 

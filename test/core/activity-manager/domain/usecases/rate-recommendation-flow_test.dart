@@ -2,21 +2,20 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/feedback-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/feedback-mood-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/rate-recommendation-flow-service.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/rate-recommendation-flow.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/feedback-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/feedback-mood-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/repositories/activity-repository.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/usecases/rate-recommendation-flow.dart';
+import 'start-activity_test.mocks.dart';
 
-import 'rate-recommendation-flow_test.mocks.dart';
-
-@GenerateMocks([RateRecommendationFlowService])
+@GenerateMocks([ActivityRepository])
 void main() {
-  MockRateRecommendationFlowService? service;
+  MockActivityRepository? repository;
   late RateRecommendationFlow useCase;
 
   setUp(() {
-    service = MockRateRecommendationFlowService();
-    useCase = RateRecommendationFlow(service: service);
+    repository = MockActivityRepository();
+    useCase = RateRecommendationFlow(repository: repository!);
   });
 
   const tFeedbackModel = FeedbackModel(
@@ -31,13 +30,13 @@ void main() {
     test('should rate the recommendationFlow with the help of service',
         () async {
       //arrange
-      when(service!.rateRecommendation(feedback: tFeedbackModel))
+      when(repository!.rateActivity(feedback: tFeedbackModel))
           .thenAnswer((_) async => const Right(unit));
       //act
       final result = await useCase(
           const RateRecommendationFlowParams(feedback: tFeedbackModel));
       //assert
-      verify(service!.rateRecommendation(feedback: tFeedbackModel));
+      verify(repository!.rateActivity(feedback: tFeedbackModel));
       expect(result, const Right(unit));
     });
   });

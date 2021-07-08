@@ -94,6 +94,7 @@ Future<void> main() async {
       //assert
       expect(result, tMoodTrackingModel);
     });
+
     test('should throw ServerException if statusCode is not 404', () async {
       //arrange
       setupHttpFailureClient404();

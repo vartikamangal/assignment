@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 // Project Imports:
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/tag.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/profile-question.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/domain/entities/question-info.dart';
@@ -16,7 +16,6 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/enti
 import 'get-profile-questions_test.mocks.dart';
 
 @GenerateMocks([ProfileDetailsRepository])
-
 void main() {
   late MockProfileDetailsRepository repository;
   late GetProfileQuestions useCase;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-model.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/questionnaire-model.dart';
@@ -62,8 +62,8 @@ void main() {
     test(' .fromJson should return a valid QuestionnaireModel', () async {
       //arrange
       final jsonMap =
-      jsonDecode(fixtureReader(filename: 'questionnaire-model.json'))
-      as Map<String, dynamic>;
+          jsonDecode(fixtureReader(filename: 'questionnaire-model.json'))
+              as Map<String, dynamic>;
       //act
       final result = QuestionnaireModel.fromJson(jsonMap);
       //assert

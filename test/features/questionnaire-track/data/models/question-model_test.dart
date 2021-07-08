@@ -1,15 +1,15 @@
-
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-model.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/data/models/question-option-model.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
 
 import '../../../../fixtures/fixture-reader.dart';
 
-void main() {  const tTagModel = [
+void main() {
+  const tTagModel = [
     TagModel(
         name: 'name',
         tagCategory: 'tagCategory',
@@ -45,7 +45,7 @@ void main() {  const tTagModel = [
     test(' .fromJson should return a valid QuestionModel', () async {
       //arrange
       final jsonMap = jsonDecode(fixtureReader(filename: 'question-model.json'))
-      as Map<String, dynamic>;
+          as Map<String, dynamic>;
       //act
       final result = QuestionModel.fromJson(jsonMap);
       //assert
@@ -55,8 +55,8 @@ void main() {  const tTagModel = [
     test('toJson should return a properly parsed Map from the model', () async {
       //act
       final expectedJson =
-      jsonDecode(fixtureReader(filename: 'question-model.json'))
-      as Map<String, dynamic>;
+          jsonDecode(fixtureReader(filename: 'question-model.json'))
+              as Map<String, dynamic>;
       //act
       final result = tQuestionModel.toJson();
       //assert

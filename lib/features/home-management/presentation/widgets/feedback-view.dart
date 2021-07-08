@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/activity-management/presentation/controller/path-controller.dart';
+import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';

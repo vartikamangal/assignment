@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/sources/instant-relief-remote-data-source.dart';

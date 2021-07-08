@@ -3,30 +3,30 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/feedback-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/feedback-mood-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/repositories/rate-recommendation-flow-service-impl.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/rate-recommendation-flow-remote-service.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/feedback-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/feedback-mood-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/repositories/activity-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/activity/data/sources/activity-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
-import 'rate-recommendation-flow-service-impl_test.mocks.dart';
+import 'activity-repository-impl_test.mocks.dart';
 
-@GenerateMocks([RateRecommendationFlowRemoteService,NetworkInfo])
+@GenerateMocks([AcitivityRemoteDataSource,NetworkInfo])
 
 void main(){
-  RateRecommendationFlowRemoteService? remoteDataService;
+  MockAcitivityRemoteDataSource? remoteDataService;
   MockNetworkInfo? networkInfo;
-  late RateRecommendationFlowServiceImpl repositoryImpl;
+  late ActivityRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
 
   setUp(() {
-    remoteDataService = MockRateRecommendationFlowRemoteService();
+    remoteDataService = MockAcitivityRemoteDataSource();
     networkInfo = MockNetworkInfo();
     callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
     handleException = HandleException();
@@ -34,8 +34,8 @@ void main(){
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    repositoryImpl = RateRecommendationFlowServiceImpl(
-      remoteService: remoteDataService,
+    repositoryImpl = ActivityRepositoryImpl(
+      remoteDataSource: remoteDataService!,
       baseRepository: baseRepository,
     );
   });
@@ -66,21 +66,21 @@ void main(){
         'should return a unit when call to remote data source is successfull',
             () async {
           //arrange
-          when(remoteDataService!.rateRecommendationFlow(feedback: tFeedbackModel))
+          when(remoteDataService!.rateActivity(feedback: tFeedbackModel))
               .thenAnswer((_) async => unit);
           //act
-          final result = await repositoryImpl.rateRecommendation(feedback: tFeedbackModel);
+          final result = await repositoryImpl.rateActivity(feedback: tFeedbackModel);
           //assert
-          verify(remoteDataService!.rateRecommendationFlow(feedback: tFeedbackModel));
+          verify(remoteDataService!.rateActivity(feedback: tFeedbackModel));
           expect(result, const Right(unit));
         });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
             () async {
           //arrange
-          when(remoteDataService!.rateRecommendationFlow(feedback: tFeedbackModel)).thenThrow(ServerException());
+          when(remoteDataService!.rateActivity(feedback: tFeedbackModel)).thenThrow(ServerException());
           //act
-          final result = await repositoryImpl.rateRecommendation(feedback: tFeedbackModel);
+          final result = await repositoryImpl.rateActivity(feedback: tFeedbackModel);
           //assert
 
           expect(result, Left(ServerFailure()));
@@ -91,7 +91,7 @@ void main(){
           () async {
         when(networkInfo!.isConnected).thenAnswer((_) async => false);
         //act
-        final result = await repositoryImpl.rateRecommendation(feedback: tFeedbackModel);
+        final result = await repositoryImpl.rateActivity(feedback: tFeedbackModel);
         //assert
         expect(result, Left(DeviceOfflineFailure()));
       });

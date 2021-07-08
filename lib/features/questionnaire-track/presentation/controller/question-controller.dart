@@ -156,17 +156,7 @@ class QuestionnaireConroller extends GetxController {
   }) {
     dropDownStatus[questionModel] = !dropDownStatus[questionModel]!;
   }
-  ///multiple choice question answer update
-  Future<void> answerMcqTypeQuestion({
-    required QuestionModel questionModel,
-    required QuestionOptionModel optionSelected,
-  }) async {
-    // Sets the answer we have selected as preffered answer
-    questionToAnswerMap[questionModel] = optionSelected;
-    // Closes the dropdown
-    toggleDropdown(questionModel: questionModel);
-    await IsAllQuestionAnsweredAndMapped();
-  }
+
 
   void toggleLoader() {
     isLoading.value = !isLoading.value;
@@ -180,6 +170,17 @@ class QuestionnaireConroller extends GetxController {
     toggleLoader();
     await fetchQuestionnaire();
     toggleLoader();
+  }
+  ///multiple choice question answer update
+  Future<void> answerMcqTypeQuestion({
+    required QuestionModel questionModel,
+    required QuestionOptionModel optionSelected,
+  }) async {
+    // Sets the answer we have selected as preffered answer
+    questionToAnswerMap[questionModel] = optionSelected;
+    // Closes the dropdown
+    toggleDropdown(questionModel: questionModel);
+    await IsAllQuestionAnsweredAndMapped();
   }
 
   ///scale rating type questions

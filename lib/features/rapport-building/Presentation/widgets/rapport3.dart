@@ -195,6 +195,11 @@ class MidPageContentC extends StatelessWidget {
               ],
             ),
           ),
+          Obx(
+                () => controller.isProcessing.value
+                ?  CustomizedLinearProgressIndicator()
+                : Container(),
+          ),
         ],
       ),
     );

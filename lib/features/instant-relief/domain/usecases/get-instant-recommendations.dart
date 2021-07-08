@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/instant-relief-repository.dart';
 
-import '../../../../core/activity-management/domain/entities/recommendation-activity.dart';
+import '../../../../core/activity/domain/entities/recommendation-activity.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 

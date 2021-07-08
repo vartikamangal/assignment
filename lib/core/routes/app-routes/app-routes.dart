@@ -5,19 +5,19 @@ import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/guided_path-plan-inside.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-guided-plan.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-info-section2.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-info-section3.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-play-section1.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-play-section2.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-self-driven-plan-inside.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-self-driven-plan.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/self-path-info-section1.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/screen/profile-screen.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/setting-screen.dart';
 
 // Project imports:
-import '../../../core/activity-management/presentation/widget/guided_path-plan-inside.dart';
-import '../../../core/activity-management/presentation/widget/path-guided-plan.dart';
-import '../../../core/activity-management/presentation/widget/path-info-section2.dart';
-import '../../../core/activity-management/presentation/widget/path-info-section3.dart';
-import '../../../core/activity-management/presentation/widget/path-play-section1.dart';
-import '../../../core/activity-management/presentation/widget/path-play-section2.dart';
-import '../../../core/activity-management/presentation/widget/path-self-driven-plan-inside.dart';
-import '../../../core/activity-management/presentation/widget/path-self-driven-plan.dart';
-import '../../../core/activity-management/presentation/widget/self-path-info-section1.dart';
 import '../../../features/focus/presentation/screen/focus-screen.dart';
 import '../../../features/focus/presentation/widgets/issue-detail.dart';
 import '../../../features/focus/presentation/widgets/selected-issue-details.dart';

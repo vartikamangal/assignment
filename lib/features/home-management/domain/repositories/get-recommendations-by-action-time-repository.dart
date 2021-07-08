@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:dartz/dartz.dart';
 
 // Project imports:
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 
 abstract class GetRecommendationsByActionTimeRepository {

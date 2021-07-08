@@ -30,11 +30,7 @@ class MidPageContentA extends StatelessWidget {
     return SafeArea(
       child: Stack(
         children: [
-          Obx(
-                () => controller.isProcessing.value
-                ?  CustomizedLinearProgressIndicator()
-                : Container(),
-          ),
+
           Positioned(
             right: 0,
             child: Image.asset(
@@ -43,6 +39,11 @@ class MidPageContentA extends StatelessWidget {
               // fit: BoxFit.fitWidth,
               scale: scale,
             ),
+          ),
+          Obx(
+                () => controller.isProcessing.value
+                ?  CustomizedLinearProgressIndicator()
+                : Container(),
           ),
           Container(
             padding: EdgeInsets.only(

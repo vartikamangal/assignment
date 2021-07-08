@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
+import '../../../../core/activity/data/models/recommendation-category-model.dart';
 import '../../../../core/error/failures.dart';
 
 abstract class AddWeeklyCategoryService {

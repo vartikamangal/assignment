@@ -2,20 +2,19 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/activity-status.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/update-activity-status-service.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/update-activity-status.dart';
-
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity-status.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/repositories/activity-repository.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/usecases/update-activity-status.dart';
 import 'update-activity-status_test.mocks.dart';
 
-@GenerateMocks([UpdateActivityStatusService])
+@GenerateMocks([ActivityRepository])
 void main() {
-  MockUpdateActivityStatusService? service;
+  MockActivityRepository? repository;
   late UpdateActivityStatus useCase;
 
   setUp(() {
-    service = MockUpdateActivityStatusService();
-    useCase = UpdateActivityStatus(service: service);
+    repository = MockActivityRepository();
+    useCase = UpdateActivityStatus(repository: repository!);
   });
 
   const tStatus = "COMPLETED";
@@ -31,7 +30,7 @@ void main() {
   group('USECASE : setTarget', () {
     test('should update the activityStatus with the help of service', () async {
       //arrange
-      when(service!.updateStatus(
+      when(repository!.updateActivityStatus(
         status: tStatus,
         actionId: tAActionId,
       )).thenAnswer((_) async => const Right(tActivityStatus));
@@ -41,7 +40,7 @@ void main() {
         actionId: tAActionId,
       ));
       //assert
-      verify(service!.updateStatus(
+      verify(repository!.updateActivityStatus(
         status: tStatus,
         actionId: tAActionId,
       ));

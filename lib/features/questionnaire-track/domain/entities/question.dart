@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/tag.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
 import 'question-option.dart';
 
 class Question extends Equatable {

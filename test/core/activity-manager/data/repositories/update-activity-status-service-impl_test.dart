@@ -3,28 +3,28 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/activity-status-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/repositories/update-activity-status-service-impl.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/update-activity-status-remote-sevice.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/repositories/activity-repository-impl.dart';
+import 'package:tatsam_app_experimental/core/activity/data/sources/activity-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
-import 'update-activity-status-service-impl_test.mocks.dart';
+import 'activity-repository-impl_test.mocks.dart';
 
-@GenerateMocks([UpdateActivityStatusRemoteService,NetworkInfo])
+@GenerateMocks([AcitivityRemoteDataSource,NetworkInfo])
 void main(){
-  UpdateActivityStatusRemoteService? remoteDataService;
+  MockAcitivityRemoteDataSource? remoteDataService;
   MockNetworkInfo? networkInfo;
-  late UpdateActivityStatusServiceImpl repositoryImpl;
+  late ActivityRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
   BaseRepository baseRepository;
 
   setUp(() {
-    remoteDataService = MockUpdateActivityStatusRemoteService();
+    remoteDataService = MockAcitivityRemoteDataSource();
     networkInfo = MockNetworkInfo();
     callIfNetworkConnected = CallIfNetworkConnected(networkInfo: networkInfo);
     handleException = HandleException();
@@ -32,8 +32,8 @@ void main(){
       callIfNetworkConnected: callIfNetworkConnected,
       handleException: handleException,
     );
-    repositoryImpl = UpdateActivityStatusServiceImpl(
-      remoteService: remoteDataService,
+    repositoryImpl = ActivityRepositoryImpl(
+      remoteDataSource: remoteDataService!,
       baseRepository: baseRepository,
     );
   });
@@ -64,21 +64,21 @@ void main(){
         'should return a activitystatusmodel when call to remote data source is successfull',
             () async {
           //arrange
-          when(remoteDataService!.modifyStatus(status: tStatus,actionId: 1324))
+          when(remoteDataService!.updateActivityStatus(status: tStatus,actionId: 1324))
               .thenAnswer((_) async => tActivityStatus);
           //act
-          final result = await repositoryImpl.updateStatus(status: tStatus,actionId: 1324);
+          final result = await repositoryImpl.updateActivityStatus(status: tStatus,actionId: 1324);
           //assert
-          verify(remoteDataService!.modifyStatus(status: tStatus,actionId: 1324));
+          verify(remoteDataService!.updateActivityStatus(status: tStatus,actionId: 1324));
           expect(result, const Right(tActivityStatus));
         });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
             () async {
           //arrange
-          when(remoteDataService!.modifyStatus(status: tStatus,actionId: 1324)).thenThrow(ServerException());
+          when(remoteDataService!.updateActivityStatus(status: tStatus,actionId: 1324)).thenThrow(ServerException());
           //act
-          final result = await repositoryImpl.updateStatus(status: tStatus,actionId: 1324);
+          final result = await repositoryImpl.updateActivityStatus(status: tStatus,actionId: 1324);
           //assert
           expect(result, Left(ServerFailure()));
         });
@@ -87,7 +87,7 @@ void main(){
           () async {
         when(networkInfo!.isConnected).thenAnswer((_) async => false);
         //act
-        final result = await repositoryImpl.updateStatus(status: tStatus,actionId: 1324);
+        final result = await repositoryImpl.updateActivityStatus(status: tStatus,actionId: 1324);
         //assert
         expect(result, Left(DeviceOfflineFailure()));
       });

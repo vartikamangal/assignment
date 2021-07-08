@@ -10,14 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
-import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
-import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/get-instant-recommendations.dart';
 
 // Project imports:
 import '../../../../core/usecase/usecase.dart';
@@ -32,21 +28,18 @@ class InstantReliefController extends GetxController {
   final ListEmergencyNumbers listEmergencyNumbers;
 
   /// In diffn. controller!!
-  final GetInstantRecommendations getInstantRecommendations;
   final CheckIfAuthenticated checkIfAuthenticated;
 
   InstantReliefController({
     required this.getInstantReliefAreas,
     required this.listEmergencyNumbers,
-    required this.getInstantRecommendations,
     required this.checkIfAuthenticated,
   });
 
   // Data containers
   RxList<InstantReliefArea> instantLifeAreas = RxList([]);
   RxList<EmergencyNumber> emergencyResources = RxList([]);
-  RxList<ActivityRecommendation> instantRecommendations =
-      RxList<ActivityRecommendationModel>([]);
+
   // RxBool isLoggingIn = RxBool(false);
 
   // UI management variables
@@ -117,30 +110,6 @@ class InstantReliefController extends GetxController {
       },
       (r) {
         return r;
-      },
-    );
-  }
-
-  Future<void> fetchInstantRecommendations({
-    required InstantReliefArea instantLifeArea,
-  }) async {
-    final recommendationsOrFailure = await getInstantRecommendations(
-      GetInstantRecommendationsParams(
-        instantLifeArea: instantLifeArea.instantReliefName,
-      ),
-    );
-    recommendationsOrFailure!.fold(
-      (failure) {
-        //! app should crash here
-        ErrorInfo.show(failure);
-      },
-      (fetchedRecommendations) {
-        instantRecommendations.assignAll(
-          fetchedRecommendations,
-        );
-        Get.toNamed(
-          RouteName.instantRecommendations,
-        );
       },
     );
   }

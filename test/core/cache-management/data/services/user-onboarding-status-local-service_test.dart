@@ -3,64 +3,45 @@ import 'package:hive/hive.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/user-onboarding-status-local-service.dart';
+import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/persistence-consts.dart';
 import 'user-onboarding-status-local-service_test.mocks.dart';
+import 'package:matcher/matcher.dart';
 
 @GenerateMocks([Box])
-
-void main(){
+void main() {
   late MockBox localClient;
-  late UserOnboardingStatusLocalServiceImpl remoteDataSourceImpl;
+  late UserOnboardingStatusLocalServiceImpl serviceImpl;
 
   setUp(() {
     localClient = MockBox();
-    remoteDataSourceImpl = UserOnboardingStatusLocalServiceImpl(
+    serviceImpl = UserOnboardingStatusLocalServiceImpl(
       localClient: localClient,
     );
   });
 
+  const tOnBoardingStatus = '';
 
-  group('DATA services for user onBoarding fetch status', () {
-    test(
-        'If should return unit when retrieveActivity is called',
-            () async {
-          //act
-          when(localClient.get(PersistenceConst.USER_ONBOARDING_STATUS)).thenAnswer((_) async{
-            null;
-            final result = await remoteDataSourceImpl.fetchStatus();
-            //assert
-            expect(result, null);
-          });
-        });
+  group('DATA SOURCE : userOnboardingStatus', () {
+    test('should get user onboarding status from the service', () async {
+      //arrange
+      when(localClient.get(PersistenceConst.USER_ONBOARDING_STATUS))
+          .thenAnswer((_) async => tOnBoardingStatus);
+      //act
+      final result = await serviceImpl.fetchStatus();
+      //assert
+      verify(localClient.get(PersistenceConst.USER_ONBOARDING_STATUS));
+      expect(result, tOnBoardingStatus);
+    });
+
+    test('should throw CacheException when fetchStatus is failed', () async {
+      //arrange
+      when(localClient.get(PersistenceConst.USER_ONBOARDING_STATUS))
+          .thenThrow(CacheException());
+      //act
+      final call = serviceImpl.fetchStatus();
+      //assert
+      expect(() => call, throwsA(const TypeMatcher<CacheException>()));
+    });
   });
-
-  group('DATA services for user onBoarding save status', () {
-    test(
-        'If should return unit when saveStatus is called',
-            () async {
-          //act
-          when(localClient.get(PersistenceConst.USER_ONBOARDING_STATUS)).thenAnswer((_) async{
-            null;
-            final result = await remoteDataSourceImpl.saveStatus(status: "status");
-            //assert
-            expect(result, null);
-          });
-        });
-  });
-
-  group('DATA services for user to check user is first time logged in', () {
-    test(
-        'If should return unit when checkIsFirstTimeUser is called',
-            () async {
-          //act
-          when(localClient.get(PersistenceConst.IS_FIST_TIME_USER)).thenAnswer((_) async{
-            null;
-            final result = await remoteDataSourceImpl.checkIsFirstTimeUser();
-            //assert
-            expect(result, true);
-          });
-        });
-  });
-
-
 }

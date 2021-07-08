@@ -5,7 +5,7 @@ import 'dart:developer';
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
 // Project imports:
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 

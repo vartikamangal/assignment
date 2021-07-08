@@ -6,6 +6,7 @@ import 'package:tatsam_app_experimental/features/instant-relief/data/repositorie
 import 'package:tatsam_app_experimental/features/instant-relief/data/sources/instant-relief-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/repositories/instant-relief-repository.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/usecases/get-instant-recommendations.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 
 // Project imports:
 import '../features/instant-relief/domain/usecases/get-instant-relief-areas.dart';
@@ -20,8 +21,12 @@ Future<void> initInstantReliefDependencies() async {
     () => InstantReliefController(
       getInstantReliefAreas: sl_instant_relief(),
       listEmergencyNumbers: sl_instant_relief(),
-      getInstantRecommendations: sl_instant_relief(),
       checkIfAuthenticated: sl_instant_relief(),
+    ),
+  );
+  Get.lazyPut(
+    () => InstantRecommendationsController(
+      getInstantRecommendations: sl_instant_relief(),
     ),
   );
 

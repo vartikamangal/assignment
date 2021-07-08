@@ -2,9 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/activity-status-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/persist-recommendation-feedback-service.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/usecases/persist-recommendation-feedback.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/repositories/persist-recommendation-feedback-service.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/usecases/persist-recommendation-feedback.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 
 import 'get-persisted-feedback_test.mocks.dart';

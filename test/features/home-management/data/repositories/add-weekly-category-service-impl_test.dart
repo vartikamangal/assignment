@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
@@ -14,11 +14,10 @@ import 'package:tatsam_app_experimental/features/home-management/data/repositori
 import 'package:tatsam_app_experimental/features/home-management/data/sources/add-weekly-category-remote-service.dart';
 import 'add-weekly-category-service-impl_test.mocks.dart';
 
-@GenerateMocks([AddWeeklyCategoryRemoteService,NetworkInfo])
-
+@GenerateMocks([AddWeeklyCategoryRemoteService, NetworkInfo])
 void main() {
   MockAddWeeklyCategoryRemoteService? remoteService;
-  MockNetworkInfo ? networkInfo;
+  MockNetworkInfo? networkInfo;
   late AddWeeklyCategoryServiceImpl serviceImpl;
   BaseRepository baseRepository;
   CallIfNetworkConnected callIfNetworkConnected;
@@ -67,38 +66,38 @@ void main() {
     // });
     test(
         'should get basic profile details when coonection to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteService!.addWeeklyCategory(
+        () async {
+      //arrange
+      when(remoteService!.addWeeklyCategory(
               weekNumber: tWeekNumber, category: tRecommendationCategory))
-              .thenAnswer((_) async => tUnit);
-          //act
-          final result = await remoteService!.addWeeklyCategory(
-              weekNumber: tWeekNumber, category: tRecommendationCategory);
-          //assert
-          verify(remoteService!.addWeeklyCategory(
-              weekNumber: tWeekNumber, category: tRecommendationCategory));
-          expect(result, tUnit);
-        });
-  //   test('should return ServerFailure when the call to remoteDataSource fails',
-  //       () async {
-  //     //arrange
-  //     when(remoteService!.addWeeklyCategory(
-  //             weekNumber: tWeekNumber, category: tRecommendationCategory))
-  //         .thenThrow(ServerException());
-  //     //act
-  //     final result = await serviceImpl.addWeeklyCategory();
-  //     //assert
-  //     expect(result, Left(ServerFailure()));
-  //   });
-  // });
-  // test('DEVICE OFFLINE : addWeeklyCategory should return DeviceOfflineFailure',
-  //         () async {
-  //       when(networkInfo!.isConnected).thenAnswer((_) async => false);
-  //       //act
-  //       final result = await remoteService!.addWeeklyCategory(
-  //           weekNumber: tWeekNumber, category: tRecommendationCategory);
-  //       //assert
-  //       expect(result, null);
-       });
+          .thenAnswer((_) async => tUnit);
+      //act
+      final result = await remoteService!.addWeeklyCategory(
+          weekNumber: tWeekNumber, category: tRecommendationCategory);
+      //assert
+      verify(remoteService!.addWeeklyCategory(
+          weekNumber: tWeekNumber, category: tRecommendationCategory));
+      expect(result, tUnit);
+    });
+    //   test('should return ServerFailure when the call to remoteDataSource fails',
+    //       () async {
+    //     //arrange
+    //     when(remoteService!.addWeeklyCategory(
+    //             weekNumber: tWeekNumber, category: tRecommendationCategory))
+    //         .thenThrow(ServerException());
+    //     //act
+    //     final result = await serviceImpl.addWeeklyCategory();
+    //     //assert
+    //     expect(result, Left(ServerFailure()));
+    //   });
+    // });
+    // test('DEVICE OFFLINE : addWeeklyCategory should return DeviceOfflineFailure',
+    //         () async {
+    //       when(networkInfo!.isConnected).thenAnswer((_) async => false);
+    //       //act
+    //       final result = await remoteService!.addWeeklyCategory(
+    //           weekNumber: tWeekNumber, category: tRecommendationCategory);
+    //       //assert
+    //       expect(result, null);
+  });
 }

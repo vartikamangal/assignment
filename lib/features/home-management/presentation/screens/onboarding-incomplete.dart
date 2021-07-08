@@ -10,7 +10,7 @@ import 'package:tatsam_app_experimental/features/home-management/presentation/wi
 import 'package:tatsam_app_experimental/features/home-management/presentation/widgets/weekend-ui-fragment.dart';
 
 // Project imports:
-import '../../../../core/activity-management/presentation/controller/path-controller.dart';
+import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../../../../core/responsive/scale-manager.dart';

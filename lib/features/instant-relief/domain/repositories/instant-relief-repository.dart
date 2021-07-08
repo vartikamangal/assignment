@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/emergency-number.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/instant-relief-area.dart';

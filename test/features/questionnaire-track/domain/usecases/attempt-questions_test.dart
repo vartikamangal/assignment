@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/tag.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
 import 'package:tatsam_app_experimental/core/success/success-interface.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question-option.dart';
 import 'package:tatsam_app_experimental/features/questionnaire-track/domain/entities/question.dart';
@@ -14,7 +14,6 @@ import 'package:tatsam_app_experimental/features/questionnaire-track/domain/usec
 import 'attempt-questions_test.mocks.dart';
 
 @GenerateMocks([QuestionnaireRepository])
-
 void main() {
   late MockQuestionnaireRepository service;
   late AtemptQuestions useCase;
@@ -63,15 +62,15 @@ void main() {
     {},
   );
   final RxMap<Question, QuestionOption> questionToScaleMap =
-  RxMap<Question, QuestionOption>(
+      RxMap<Question, QuestionOption>(
     {},
   );
   group('USECASE: attempQuestionnaire', () {
     test('should get attempt questions from the service ...', () async {
       when(service.attempQuestionnaire(
-          questionnaire: tQuestionnair,
-          questionToAnswerMap: questionToAnswerMap,
-          questionToScaleMap: questionToScaleMap))
+              questionnaire: tQuestionnair,
+              questionToAnswerMap: questionToAnswerMap,
+              questionToScaleMap: questionToScaleMap))
           .thenAnswer((_) async => const Right(SuccessAtemptQuestionnaire()));
 
       final result = await useCase(AttemptQuestionnaireParams(

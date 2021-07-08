@@ -4,7 +4,7 @@ import 'dart:developer';
 // Package imports:
 import 'package:get/get.dart';
 // Project imports:
-import 'package:tatsam_app_experimental/core/activity-management/presentation/controller/path-controller.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/controller/path-controller.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 

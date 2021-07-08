@@ -1,22 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/path-information-guided.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/path-information-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/path-information-guided.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/path-information-model.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
-void main(){
-  const List<PathInformation> tPathInformation=<PathInformationModel>[
+void main() {
+  const List<PathInformation> tPathInformation = <PathInformationModel>[
     PathInformationModel(
         id: 3442,
         description: "Curated Path for stress management",
-        title:"Stress management",
-        subtitle:  "This will help you manage stress better",
+        title: "Stress management",
+        subtitle: "This will help you manage stress better",
         helpContent: "Just putting some help content for future use",
-        lengthOfPlan: 23
-    )
+        lengthOfPlan: 23)
   ];
-
 
   group('Model PathInformationModel ', () {
     test('should be an extendor of PathInformationModel', () async {
@@ -24,24 +22,22 @@ void main(){
       expect(tPathInformation.first, isA<PathInformation>());
     });
     test('fromJson should transform raw-response into PathInformationModel',
-            () async {
-          //arrange
-          final jsonMap =
-          jsonDecode(fixtureReader(filename: 'path-information.json'))
-          as List;
-          //act
-          final result = jsonMap
-              .map((area) =>
+        () async {
+      //arrange
+      final jsonMap =
+          jsonDecode(fixtureReader(filename: 'path-information.json')) as List;
+      //act
+      final result = jsonMap
+          .map((area) =>
               PathInformationModel.fromJson(area as Map<String, dynamic>))
-              .toList();
-          //assert
-          expect(result, tPathInformation);
-        });
+          .toList();
+      //assert
+      expect(result, tPathInformation);
+    });
     test('toJson should transform the model into a Map again', () async {
       //arrange
       final expectedJson =
-      jsonDecode(fixtureReader(filename: 'path-information.json'))
-      as List?;
+          jsonDecode(fixtureReader(filename: 'path-information.json')) as List?;
       //act
       final result = tPathInformation
           .map((area) => (area as PathInformationModel).toJson())

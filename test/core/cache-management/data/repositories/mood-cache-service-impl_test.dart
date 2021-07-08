@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cached-mood-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/mood-cache-service-impl.dart';
@@ -11,19 +12,16 @@ import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
+import 'mood-cache-service-impl_test.mocks.dart';
 
-class MockMoodCacheLocalService extends Mock implements MoodCacheLocalService {}
-
-class MockNetworkInfo extends Mock implements NetworkInfo {}
-
+@GenerateMocks([MoodCacheLocalService, NetworkInfo])
 void main() {
-  MockMoodCacheLocalService? localService;
-  MockNetworkInfo? networkInfo;
+  late MockMoodCacheLocalService localService;
+  late MockNetworkInfo networkInfo;
   late MoodCacheServiceImpl serviceImpl;
   BaseRepository baseRepository;
   CallIfNetworkConnected callIfNetworkConnected;
   HandleException handleException;
-  CachedMoodModel? cachedMoodModel;
 
   setUp(() {
     localService = MockMoodCacheLocalService();
@@ -39,53 +37,56 @@ void main() {
 
   const tUnit = unit;
 
+  const tCachedMoodModel = CachedMoodModel(
+      moodId: 1,
+      moodName: 'moodName',
+      moodDescription: 'moodDescription',
+      moodIcon: null);
+
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : cached-mood', () {
       setUp(() {
-        when(networkInfo!.isConnected).thenAnswer((_) async => true);
+        when(networkInfo.isConnected).thenAnswer((_) async => true);
       });
       group('DEVICE ONLINE : cachedMood', body);
     });
   }
 
   runTestsOnline(() {
-    test('should check if the device is online', () async {
-      //act
-      await serviceImpl.cacheMood();
-      //assert
-      verify(networkInfo!.isConnected);
-    });
+    // test('should check if the device is online', () async {
+    //   //act
+    //   await serviceImpl.getCacheMood();
+    //   //assert
+    //   verify(networkInfo.isConnected);
+    // });
     test(
         'should return cached mood when call to remote data source is successfull',
             () async {
           //arrange
-          when(localService!.cacheMood(cachedMoodModel: cachedMoodModel))
-              .thenAnswer((_) async => tUnit);
+          when(localService.getCachedMood())
+              .thenAnswer((_) async => tCachedMoodModel);
           //act
-          final result =
-          await localService!.cacheMood(cachedMoodModel: cachedMoodModel);
+          final result = await localService.getCachedMood();
           //assert
-          verify(localService!.cacheMood(cachedMoodModel: cachedMoodModel));
-          expect(result, tUnit);
+          verify(localService.getCachedMood());
+          expect(result, tCachedMoodModel);
         });
     test('should return ServerFailure when the call to remoteService fails',
             () async {
           //arrange
-          when(localService!.cacheMood(cachedMoodModel: cachedMoodModel))
-              .thenThrow(ServerException());
+          when(localService.getCachedMood()).thenThrow(ServerException());
           //act
-          final result = await serviceImpl.cacheMood();
+          final result = await serviceImpl.getCacheMood();
           //assert
           expect(result, Left(ServerFailure()));
         });
   });
   test('DEVICE OFFLINE : caChedMood should return DeviceOfflineFailure',
           () async {
-        when(networkInfo!.isConnected).thenAnswer((_) async => false);
+        when(networkInfo.isConnected).thenAnswer((_) async => false);
         //act
-        final result =
-        await localService!.cacheMood(cachedMoodModel: cachedMoodModel);
+        final result = await serviceImpl.getCacheMood();
         //assert
-        expect(result, null);
+        expect(result, Left(DeviceOfflineFailure()));
       });
 }

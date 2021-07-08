@@ -194,6 +194,7 @@ class AuthRemoteServiceImpl implements AuthRemoteService {
   Future<void> _loginRemoteApiHelper({
     required String? user_id,
   }) async {
+    log(user_id!);
     final response = await apiClient!.post(
       uri: APIRoute.login,
       body: jsonEncode(user_id),

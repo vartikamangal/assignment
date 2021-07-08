@@ -1,6 +1,13 @@
 [{
   "id": 3441,
-  "tags": null,
+  "tags": [
+    {
+      "name": "LOSING_TEMPER",
+      "tagCategory":"INSTANT_RELIEF",
+      "displayName": "Losing Temper",
+      "parentName": null
+    }
+  ],
   "pathInformation": { "id": 3442,
     "description": "Curated Path for stress management",
     "title": "Stress management",

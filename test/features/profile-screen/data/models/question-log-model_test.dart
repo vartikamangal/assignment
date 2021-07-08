@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/data/models/profile-question-model.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/data/models/question-info-model.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/data/models/question-log-model.dart';
@@ -64,15 +64,15 @@ void main() {
     });
 
     test('fromJson should transform raw-response into QuestionLogModel',
-            () async {
-          //arrange
-          final jsonMap =
+        () async {
+      //arrange
+      final jsonMap =
           jsonDecode(fixtureReader(filename: 'question-log-model.json'))
-          as Map<String, dynamic>;
-          //act
-          final result = QuestionLogModel.fromJson(jsonMap);
-          //assert
-          expect(result, tQuestionLogModel);
-        });
+              as Map<String, dynamic>;
+      //act
+      final result = QuestionLogModel.fromJson(jsonMap);
+      //assert
+      expect(result, tQuestionLogModel);
+    });
   });
 }

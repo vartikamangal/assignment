@@ -2,15 +2,17 @@
 // in tatsam_app_experimental/test/core/activity-manager/data/repositories/rate-recommendation-flow-service-impl_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity-management/data/models/feedback-model.dart'
-    as _i5;
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/rate-recommendation-flow-remote-service.dart'
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart'
     as _i3;
-import 'package:tatsam_app_experimental/core/platform/network_info.dart' as _i6;
+import 'package:tatsam_app_experimental/core/activity/data/models/feedback-model.dart'
+    as _i6;
+import 'package:tatsam_app_experimental/core/activity/data/sources/activity-remote-data-source.dart'
+    as _i4;
+import 'package:tatsam_app_experimental/core/platform/network_info.dart' as _i7;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: comment_references
@@ -23,33 +25,56 @@ class _FakeUnit extends _i1.Fake implements _i2.Unit {
   String toString() => super.toString();
 }
 
-/// A class which mocks [RateRecommendationFlowRemoteService].
+class _FakeActivityStatusModel extends _i1.Fake
+    implements _i3.ActivityStatusModel {}
+
+/// A class which mocks [AcitivityRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRateRecommendationFlowRemoteService extends _i1.Mock
-    implements _i3.RateRecommendationFlowRemoteService {
-  MockRateRecommendationFlowRemoteService() {
+class MockAcitivityRemoteDataSource extends _i1.Mock
+    implements _i4.AcitivityRemoteDataSource {
+  MockAcitivityRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Unit> rateRecommendationFlow({_i5.FeedbackModel? feedback}) =>
+  _i5.Future<_i2.Unit> rateActivity({_i6.FeedbackModel? feedback}) =>
       (super.noSuchMethod(
-          Invocation.method(#rateRecommendationFlow, [], {#feedback: feedback}),
-          returnValue:
-              Future<_i2.Unit>.value(_FakeUnit())) as _i4.Future<_i2.Unit>);
+              Invocation.method(#rateActivity, [], {#feedback: feedback}),
+              returnValue: Future<_i2.Unit>.value(_FakeUnit()))
+          as _i5.Future<_i2.Unit>);
+  @override
+  _i5.Future<_i3.ActivityStatusModel> startActivity(
+          {String? recommendationId, bool? isInstantActivity}) =>
+      (super.noSuchMethod(
+              Invocation.method(#startActivity, [], {
+                #recommendationId: recommendationId,
+                #isInstantActivity: isInstantActivity
+              }),
+              returnValue: Future<_i3.ActivityStatusModel>.value(
+                  _FakeActivityStatusModel()))
+          as _i5.Future<_i3.ActivityStatusModel>);
+  @override
+  _i5.Future<_i3.ActivityStatusModel> updateActivityStatus(
+          {String? status, int? actionId}) =>
+      (super.noSuchMethod(
+              Invocation.method(#updateActivityStatus, [],
+                  {#status: status, #actionId: actionId}),
+              returnValue: Future<_i3.ActivityStatusModel>.value(
+                  _FakeActivityStatusModel()))
+          as _i5.Future<_i3.ActivityStatusModel>);
 }
 
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i6.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i7.NetworkInfo {
   MockNetworkInfo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<bool> get isConnected =>
+  _i5.Future<bool> get isConnected =>
       (super.noSuchMethod(Invocation.getter(#isConnected),
-          returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
+          returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
 }

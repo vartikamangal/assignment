@@ -11,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Project imports:
@@ -25,6 +26,8 @@ import '../widgets/instant-relief-area-widget.dart';
 
 class InstantReliefScreen extends StatelessWidget {
   final _controller = Get.find<InstantReliefController>();
+  final _recommendationController =
+      Get.find<InstantRecommendationsController>();
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale;
@@ -33,10 +36,11 @@ class InstantReliefScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).canvasColor,
-          elevation: 0,
-          leading: TopAppBar(onPressed: (){ Get.back();})
-        ),
+            backgroundColor: Theme.of(context).canvasColor,
+            elevation: 0,
+            leading: TopAppBar(onPressed: () {
+              Get.back();
+            })),
         body: CustomScrollView(
           physics: Platform.isIOS
               ? const BouncingScrollPhysics()
@@ -175,7 +179,8 @@ class InstantReliefScreen extends StatelessWidget {
                             onTap: () async {
                               _controller.instantReliefArea =
                                   area as InstantReliefAreaModel;
-                              await _controller.fetchInstantRecommendations(
+                              await _recommendationController
+                                  .fetchInstantRecommendations(
                                 instantLifeArea: area,
                               );
                             },

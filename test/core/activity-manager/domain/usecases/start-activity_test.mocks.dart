@@ -6,9 +6,11 @@ import 'dart:async' as _i3;
 
 import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/activity-status.dart'
+import 'package:tatsam_app_experimental/core/activity/data/models/feedback-model.dart'
     as _i6;
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/start-activity-service.dart'
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity-status.dart'
+    as _i7;
+import 'package:tatsam_app_experimental/core/activity/domain/repositories/activity-repository.dart'
     as _i2;
 import 'package:tatsam_app_experimental/core/error/failures.dart' as _i5;
 
@@ -18,17 +20,33 @@ import 'package:tatsam_app_experimental/core/error/failures.dart' as _i5;
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
-/// A class which mocks [StartActivityService].
+/// A class which mocks [ActivityRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStartActivityService extends _i1.Mock
-    implements _i2.StartActivityService {
-  MockStartActivityService() {
+class MockActivityRepository extends _i1.Mock
+    implements _i2.ActivityRepository {
+  MockActivityRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i4.Either<_i5.Failure, _i6.ActivityStatus>?> startActivity(
+  _i3.Future<_i4.Either<_i5.Failure, _i4.Unit>?> rateActivity(
+          {_i6.FeedbackModel? feedback}) =>
+      (super.noSuchMethod(
+              Invocation.method(#rateActivity, [], {#feedback: feedback}),
+              returnValue: Future<_i4.Either<_i5.Failure, _i4.Unit>?>.value())
+          as _i3.Future<_i4.Either<_i5.Failure, _i4.Unit>?>);
+  @override
+  _i3.Future<_i4.Either<_i5.Failure, _i7.ActivityStatus>?> updateActivityStatus(
+          {String? status, int? actionId}) =>
+      (super.noSuchMethod(
+              Invocation.method(#updateActivityStatus, [],
+                  {#status: status, #actionId: actionId}),
+              returnValue:
+                  Future<_i4.Either<_i5.Failure, _i7.ActivityStatus>?>.value())
+          as _i3.Future<_i4.Either<_i5.Failure, _i7.ActivityStatus>?>);
+  @override
+  _i3.Future<_i4.Either<_i5.Failure, _i7.ActivityStatus>?> startActivity(
           {String? recommendationId, bool? isInstantActivity}) =>
       (super.noSuchMethod(
               Invocation.method(#startActivity, [], {
@@ -36,6 +54,6 @@ class MockStartActivityService extends _i1.Mock
                 #isInstantActivity: isInstantActivity
               }),
               returnValue:
-                  Future<_i4.Either<_i5.Failure, _i6.ActivityStatus>?>.value())
-          as _i3.Future<_i4.Either<_i5.Failure, _i6.ActivityStatus>?>);
+                  Future<_i4.Either<_i5.Failure, _i7.ActivityStatus>?>.value())
+          as _i3.Future<_i4.Either<_i5.Failure, _i7.ActivityStatus>?>);
 }

@@ -6,11 +6,11 @@ import 'dart:async' as _i3;
 
 import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart'
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart'
     as _i7;
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation.dart'
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation.dart'
     as _i6;
-import 'package:tatsam_app_experimental/core/activity-management/domain/repositories/get-category-activities-repository.dart'
+import 'package:tatsam_app_experimental/core/activity/domain/repositories/get-category-activities-repository.dart'
     as _i2;
 import 'package:tatsam_app_experimental/core/error/failures.dart' as _i5;
 

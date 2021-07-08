@@ -3,11 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:matcher/matcher.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/activity-scedule-guided-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/guided-activity-recommendation-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/path-information-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/get-activity-schedule-for-guided-plan-remote-data-source.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-scedule-guided-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/guided-activity-recommendation-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/path-information-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/sources/get-activity-schedule-for-guided-plan-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -15,10 +15,11 @@ import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 
 import '../../../../fixtures/fixture-reader.dart';
 import 'get-activity-schedule-for-guided-plan-remote-data-source_test.mocks.dart';
-@GenerateMocks([ApiClient])
 
+@GenerateMocks([ApiClient])
 Future<void> main() async {
-  late GetActivityScheduleForGuidedPlanRemoteDataSourceImpl remoteDataSourceImpl;
+  late GetActivityScheduleForGuidedPlanRemoteDataSourceImpl
+      remoteDataSourceImpl;
   MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
@@ -70,37 +71,37 @@ Future<void> main() async {
     );
   }
 
- // ? Actual tests go here
- //   group('DATA SOURCE : getSchedule{Remote}', () {
- //     test('should send a get request to specifed url', () async {
- //       //arrange
- //       setupHttpSuccessClient200();
- //       //act
- //       await remoteDataSourceImpl.getSchedule();
- //       // ignore: avoid_print
- //       print("hello");
- //       //assert
- //       verify(
- //         client!.post(uri: APIRoute.getActivityScheduleForGuided),
- //       );
- //     });
- //     test('should return ActivityScheduledModel when call statusCode is 200',
- //         () async {
- //       //arrange
- //       setupHttpSuccessClient200();
- //       //act
- //       final result = await remoteDataSourceImpl.getSchedule();
- //       print("hello");
- //       //assert
- //       expect(result, tActivityScheduledGuidedModel);
- //     });
- //     test('should throw ServerException when statusCode is not 200', () async {
- //       //arrange
- //       setupHttpFailureClient404();
- //        //act
- //       final call = remoteDataSourceImpl.getSchedule();
- //      //assert
- //      expect(() => call, throwsA(const TypeMatcher<ServerException>()));
- //    });
- //   });
+  // ? Actual tests go here
+  //   group('DATA SOURCE : getSchedule{Remote}', () {
+  //     test('should send a get request to specifed url', () async {
+  //       //arrange
+  //       setupHttpSuccessClient200();
+  //       //act
+  //       await remoteDataSourceImpl.getSchedule();
+  //       // ignore: avoid_print
+  //       print("hello");
+  //       //assert
+  //       verify(
+  //         client!.post(uri: APIRoute.getActivityScheduleForGuided),
+  //       );
+  //     });
+  //     test('should return ActivityScheduledModel when call statusCode is 200',
+  //         () async {
+  //       //arrange
+  //       setupHttpSuccessClient200();
+  //       //act
+  //       final result = await remoteDataSourceImpl.getSchedule();
+  //       print("hello");
+  //       //assert
+  //       expect(result, tActivityScheduledGuidedModel);
+  //     });
+  //     test('should throw ServerException when statusCode is not 200', () async {
+  //       //arrange
+  //       setupHttpFailureClient404();
+  //        //act
+  //       final call = remoteDataSourceImpl.getSchedule();
+  //      //assert
+  //      expect(() => call, throwsA(const TypeMatcher<ServerException>()));
+  //    });
+  //   });
 }

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../../core/activity-management/domain/entities/tag.dart';
+import '../../../../core/activity/domain/entities/tag.dart';
 import 'question-info.dart';
 import '../../../questionnaire-track/domain/entities/question-option.dart';
 

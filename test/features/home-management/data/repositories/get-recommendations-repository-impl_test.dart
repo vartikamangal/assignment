@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-activity-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-category-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/recommendation-step-model.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/models/tag-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-step-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
@@ -15,13 +15,12 @@ import 'package:tatsam_app_experimental/features/home-management/data/repositori
 import 'package:tatsam_app_experimental/features/home-management/data/sources/get-recommendations-by-action-time-remote-data-source.dart';
 import 'get-recommendations-repository-impl_test.mocks.dart';
 
-@GenerateMocks([GetRecommendationsByActionTimeRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([GetRecommendationsByActionTimeRemoteDataSource, NetworkInfo])
 void main() {
   late MockGetRecommendationsByActionTimeRemoteDataSource? remoteDataSource;
   MockNetworkInfo? networkInfo;
   late GetRecommendationsByActionTimeRepositoryRepositoryImpl
-  repositoryRepositoryImpl;
+      repositoryRepositoryImpl;
   CallIfNetworkConnected callIfNetworkConnected;
   HandleException handleException;
   BaseRepository baseRepository;
@@ -106,17 +105,17 @@ void main() {
     // });
     test(
         'should get recommendation when coonection to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteDataSource!.getRecommendations(actionTime: tActionTime))
-              .thenAnswer((_) async => tActivityRecommendationModel);
-          //act
-          final result =
+        () async {
+      //arrange
+      when(remoteDataSource!.getRecommendations(actionTime: tActionTime))
+          .thenAnswer((_) async => tActivityRecommendationModel);
+      //act
+      final result =
           await remoteDataSource!.getRecommendations(actionTime: tActionTime);
-          //assert
-          verify(remoteDataSource!.getRecommendations(actionTime: tActionTime));
-          expect(result, tActivityRecommendationModel);
-        });
+      //assert
+      verify(remoteDataSource!.getRecommendations(actionTime: tActionTime));
+      expect(result, tActivityRecommendationModel);
+    });
     // test('should return ServerFailure when the call to remoteDataSource fails',
     //     () async {
     //   //arrange

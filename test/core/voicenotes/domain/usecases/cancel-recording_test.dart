@@ -1,10 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/repository/stop-recording-service.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/domain/usecases/cancel-recording.dart';
+import 'cancel-recording_test.mocks.dart';
+//class MockStopRecordingService extends Mock implements StopRecordingService {}
 
-class MockStopRecordingService extends Mock implements StopRecordingService {}
+@GenerateMocks([StopRecordingService])
 
 void main() {
   MockStopRecordingService? service;

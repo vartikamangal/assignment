@@ -2,49 +2,50 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/app-last-opened-log-service.dart';
+import 'package:tatsam_app_experimental/core/error/exceptions.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/persistence-consts.dart';
 import 'app-last-opened-log-service_test.mocks.dart';
 
 @GenerateMocks([Box])
+void main() {
+  late MockBox localClient;
+  late AppLastOpenedLogLocalServiceImpl serviceImpl;
 
-Future<void> main() async{
-MockBox localClient;
-late AppLastOpenedLogLocalServiceImpl remoteDataSourceImpl;
+  setUp(() {
+    localClient = MockBox();
+    serviceImpl = AppLastOpenedLogLocalServiceImpl(
+      localClient: localClient,
+    );
+  });
 
-setUp(() {
-  localClient = MockBox();
-  remoteDataSourceImpl = AppLastOpenedLogLocalServiceImpl(
-    localClient: localClient,
-  );
-});
+  const tunit = unit;
 
-const tunit=unit;
-final DateTime tDate=DateTime.parse(
-  DateTime.march as String,
-);
-
-group('DATA services for log start date and time', () {
-  test(
-      'If should return unit when logStartDatetime is called',
-          () async {
-        //act
-        final result = await remoteDataSourceImpl.logStartDatetime(
-        );
-        //assert
-        expect(result, tunit);
-      });
-});
-
-// group('DATA services for retrieve last opened date and time', () {
-//   test(
-//       'If should return dateand time when retrieveLastLog is called',
-//           () async {
-//         //act
-//         final result = await remoteDataSourceImpl.retrieveLastLog(
-//         );
-//         //assert
-//         expect(result, DateTime.parse("1995-07-20 20:18:04" as String));
-//       });
-// });
-
+  group('DATA SOURCE : appLastOpenedLog', () {
+    test('should log app start DateTime', () async {
+      //arrange
+      when(localClient.put(
+          PersistenceConst.LAST_OPENED_APP, DateTime.now().toString()))
+          .thenAnswer((_) async => tunit);
+      //act
+      final result = await serviceImpl.logStartDatetime();
+      //assert
+      verify(localClient.put(
+          PersistenceConst.LAST_OPENED_APP, DateTime.now().toString()));
+      expect(result, tunit);
+    });
+    //
+    // test('should throw CacheException when cacheActivity is failed', () async {
+    //   //arrange
+    //   when(localClient.put(
+    //           PersistenceConst.LAST_OPENED_APP, DateTime.now().toString()))
+    //       .thenThrow(CacheException());
+    //   //act
+    //   final call = serviceImpl.logStartDatetime;
+    //   //assert
+    //   expect(() => call, throwsA(const TypeMatcher<CacheException>()));
+    // });
+  });
 }

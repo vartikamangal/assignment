@@ -6,7 +6,7 @@ import 'dart:async' as _i3;
 
 import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity-management/domain/entities/recommendation-activity.dart'
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart'
     as _i7;
 import 'package:tatsam_app_experimental/core/error/failures.dart' as _i5;
 import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/emergency-number.dart'

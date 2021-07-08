@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
+import '../../../../core/activity/data/models/recommendation-category-model.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/repository/base-repository-impl.dart';
 import '../../domain/repositories/add-weekly-category-service.dart';

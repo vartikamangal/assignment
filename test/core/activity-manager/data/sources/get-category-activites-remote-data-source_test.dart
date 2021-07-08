@@ -9,10 +9,9 @@ import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import '../../../../fixtures/fixture-reader.dart';
 import 'get-category-activites-remote-data-source_test.mocks.dart';
-import 'package:tatsam_app_experimental/core/activity-management/data/sources/get-category-activites-remote-data-source.dart';
+import 'package:tatsam_app_experimental/core/activity/data/sources/get-category-activites-remote-data-source.dart';
 
 @GenerateMocks([ApiClient])
-
 Future<void> main() async {
   late GetCategoryActivitiesRemoteDataSourceImpl remoteDataSourceImpl;
   MockApiClient? client;
@@ -31,17 +30,16 @@ Future<void> main() async {
 
   void setupHttpSuccessClient200() {
     when(client!.get(uri: APIRoute.getAllRecommendationsByCategory)).thenAnswer(
-          (_) async => http.Response(
+      (_) async => http.Response(
           fixtureReader(filename: 'recommendation-model.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
     when(client!.get(uri: APIRoute.getAllRecommendationsByCategory)).thenAnswer(
-          (_) async => http.Response('Oops! page not found', 404),
+      (_) async => http.Response('Oops! page not found', 404),
     );
   }
-
 
   //? Actual tests go here
   group('DATA SOURCE : getAllRecommendationsByCategory{Remote}', () {

@@ -7,19 +7,19 @@ import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/features/hub/presentation/controller/hub-controller.dart';
 
 // Project imports:
-import '../../../../core/activity-management/data/models/feedback-model.dart';
-import '../../../../core/activity-management/data/models/feedback-mood-model.dart';
-import '../../../../core/activity-management/data/models/recommendation-activity-model.dart';
-import '../../../../core/activity-management/data/models/recommendation-category-model.dart';
-import '../../../../core/activity-management/data/models/recommendation-model.dart';
-import '../../../../core/activity-management/domain/entities/recommendation-activity.dart';
-import '../../../../core/activity-management/domain/entities/recommendation-category.dart';
-import '../../../../core/activity-management/domain/entities/recommendation.dart';
-import '../../../../core/activity-management/domain/usecases/get-activity-categories.dart';
-import '../../../../core/activity-management/domain/usecases/get-all-recommendation-categories.dart';
-import '../../../../core/activity-management/domain/usecases/rate-recommendation-flow.dart';
-import '../../../../core/activity-management/domain/usecases/update-activity-status.dart';
-import '../../../../core/activity-management/presentation/controller/path-controller.dart';
+import '../../../../core/activity/data/models/feedback-model.dart';
+import '../../../../core/activity/data/models/feedback-mood-model.dart';
+import '../../../../core/activity/data/models/recommendation-activity-model.dart';
+import '../../../../core/activity/data/models/recommendation-category-model.dart';
+import '../../../../core/activity/data/models/recommendation-model.dart';
+import '../../../../core/activity/domain/entities/recommendation-activity.dart';
+import '../../../../core/activity/domain/entities/recommendation-category.dart';
+import '../../../../core/activity/domain/entities/recommendation.dart';
+import '../../../../core/activity/domain/usecases/get-activity-categories.dart';
+import '../../../../core/activity/domain/usecases/get-all-recommendation-categories.dart';
+import '../../../../core/activity/domain/usecases/rate-recommendation-flow.dart';
+import '../../../../core/activity/domain/usecases/update-activity-status.dart';
+import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/cache-manager/data/models/cache-acitivity-model.dart';
 import '../../../../core/cache-manager/domain/usecases/check-if-first-time-user.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-last-logged-app-init.dart';
@@ -342,7 +342,10 @@ class HomeController extends GetxController {
     final updatedActionStatusOrFailure = await updateActivityStatus(
       UpdateActivityStatusParams(
         status: actionStatus.toString().enumToString(),
-        actionId: currentActivePostOnboardingFeedbackAction.value!.actionId,
+
+        /// -1 represents no value
+        actionId:
+            currentActivePostOnboardingFeedbackAction.value!.actionId ?? -1,
       ),
     );
     toggleProcessor();
