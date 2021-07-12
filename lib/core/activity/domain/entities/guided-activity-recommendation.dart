@@ -1,12 +1,10 @@
 // Flutter imports:
-import 'package:flutter/foundation.dart';
-
 // Package imports:
 import 'package:equatable/equatable.dart';
 
 // Project imports:
 import '../../../../core/image/image.dart';
-import 'recommendation-activity.dart';
+import 'activity.dart';
 
 //? Will also be used as returning response in daywise plan api guided
 class GuidedActivityRecommendation extends Equatable {
@@ -19,7 +17,7 @@ class GuidedActivityRecommendation extends Equatable {
   final String? helpContent;
   // Difference SELF & GUIDED varNames are will be leading to either code-duplicacy or second-condition cehck
   // Currently going with the extra condition check method {in models}
-  final List<ActivityRecommendation> recommendationList;
+  final List<Activity> recommendationList;
   const GuidedActivityRecommendation({
     required this.id,
     required this.dayNumber,

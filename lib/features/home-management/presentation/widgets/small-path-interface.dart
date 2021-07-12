@@ -5,10 +5,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// Project imports:
-import '../../../../core/activity/data/models/recommendation-activity-model.dart';
-import '../../../../core/activity/data/models/recommendation-model.dart';
-import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/activity/presentation/widget/plan-container.dart';
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
@@ -20,12 +16,10 @@ class SmallWinsPath extends StatelessWidget {
   const SmallWinsPath({
     Key? key,
     required this.controller,
-    required this.pathController,
     required this.durationController,
   }) : super(key: key);
 
   final HomeController controller;
-  final PathController pathController;
   final DurationTrackerController durationController;
   @override
   Widget build(BuildContext context) {
@@ -41,21 +35,12 @@ class SmallWinsPath extends StatelessWidget {
                     isFaded: false,
                     description: '',
                     onPressed: () async {
-                      ///todo Do anything which will lead to start-of-activity
-                      pathController.setRecommendation(
-                        recommendation: RecommendationModel(
-                          activity:
-                              excerciseName as ActivityRecommendationModel,
-                          weight: 0,
-                        ),
-                      );
-                      await pathController.startActivityTrigger(
-                        activityId: excerciseName.id!,
-                        isInstantActivity: false,
-                      );
-                      durationController.start();
                       Navigator.of(context).pushNamed(
-                        RouteName.selfPathInfoSection1,
+                        RouteName.activityScreen,
+                        arguments: {
+                          "activity": excerciseName,
+                          "isInstantActivity": false,
+                        },
                       );
                     },
                     image: '${ImagePath.selfDrivenOption}physical.png',

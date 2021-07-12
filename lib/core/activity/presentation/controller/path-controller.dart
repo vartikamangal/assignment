@@ -5,80 +5,39 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/feedback-model.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/feedback-mood-model.dart';
-import 'package:tatsam_app_experimental/core/activity/domain/usecases/rate-recommendation-flow.dart';
 
 // Project imports:
-import '../../../../core/cache-manager/data/models/cache-acitivity-model.dart';
-import '../../../../core/cache-manager/domain/usecases/cache-most-recent-acitivity.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-user-path.dart';
-import '../../../../core/cache-manager/domain/usecases/save-feedback.dart';
 import '../../../../core/error/display-error-info.dart';
-import '../../../../core/extensions/enum-to-string.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../../core/voicenotes/presentation/controller/voice-notes-controller.dart';
+import '../../../perform-activity/domain/entities/activity-status.dart';
 import '../../data/models/activity-scedule-guided-model.dart';
 import '../../data/models/activity-status-model.dart';
 import '../../data/models/guided-activity-recommendation-model.dart';
 import '../../data/models/recommendation-category-model.dart';
 import '../../data/models/recommendation-model.dart';
 import '../../domain/entities/activity-schedule-guided.dart';
-import '../../domain/entities/activity-status.dart';
 import '../../domain/entities/guided-activity-recommendation.dart';
-import '../../domain/entities/recommendation-activity.dart';
 import '../../domain/entities/recommendation-category.dart';
-import '../../domain/entities/recommendation-step.dart';
 import '../../domain/entities/recommendation.dart';
 import '../../domain/usecases/get-activity-categories.dart';
 import '../../domain/usecases/get-activity-schedule-for-guided-plan.dart';
 import '../../domain/usecases/get-all-recommendation-categories.dart';
-import '../../domain/usecases/persist-recommendation-feedback.dart';
-import '../../domain/usecases/start-activity.dart';
-import '../../domain/usecases/update-activity-status.dart';
-
-enum ActionStatus {
-  SCHEDULED_FOR_LATER,
-  IN_PROGRESS,
-  INPUT_GIVEN,
-  AWAITING_FEEDBACK,
-  COMPLETED,
-  ABANDONED,
-  SCHEDULED_BUT_NOT_DONE,
-}
-
-enum ActivityType {
-  TEXT,
-  AUDIO,
-  VIDEO,
-}
 
 class PathController extends GetxController {
   /////// Usecases ////////////
   final GetAllRecommendationCategories getAllRecommendationCategories;
   final GetCategoryActivities getCategoryActivities;
-  final StartActivity startActivity;
-  final UpdateActivityStatus updateActivityStatus;
   final GetActivityScheduleForGuidedPlan getActivityScheduleForGuidedPlan;
-  final PersistRecommendationFeedback persistRecommendationFeedback;
-  final RateRecommendationFlow rateRecommendationFlow;
-  final CacheMostRecentAcitivity cacheMostRecentAcitivity;
   final RetrieveUserPath retrieveUserPath;
-  final SaveFeedback saveFeedback;
 
   PathController({
     required this.getAllRecommendationCategories,
     required this.getCategoryActivities,
-    required this.startActivity,
-    required this.updateActivityStatus,
     required this.getActivityScheduleForGuidedPlan,
-    required this.persistRecommendationFeedback,
-    required this.rateRecommendationFlow,
-    required this.cacheMostRecentAcitivity,
     required this.retrieveUserPath,
-    required this.saveFeedback,
   });
   /////// Dynamic Data Containers ////////////
   RxList<RecommendationCategory> recommendationCategories =
@@ -96,8 +55,6 @@ class PathController extends GetxController {
 
   // data holder for user-selected-path
   RxString userSelectedPath = RxString('');
-
-  final _voiceNoteController = Get.find<VoiceNoteController>();
 
   static const String activityType = 'RECOMMENDATION';
 
@@ -135,6 +92,7 @@ class PathController extends GetxController {
     );
   }
 
+  /// Fetches the Self Driven activies and then navigates to Plan details
   Future<void> fetchCategoryActivitiesAndProceed({
     required RecommendationCategoryModel categoryModel,
   }) async {
@@ -160,151 +118,6 @@ class PathController extends GetxController {
     );
   }
 
-  Future<void> startActivityTrigger(
-      {required String activityId, required bool isInstantActivity}) async {
-    toggleProcessor();
-    final activityStatusOrFailure = await startActivity(
-      StartAcitvityParams(
-        recommendationId: activityId,
-        isInstantActivity: isInstantActivity,
-      ),
-    );
-    toggleProcessor();
-    activityStatusOrFailure!.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
-      (activityStatus) {
-        currentOngoingActivity.value = activityStatus;
-        log('started activity{Server Message}');
-      },
-    );
-  }
-
-  Future<void> updateActivityStatusTrigger({
-    required ActionStatus actionStatus,
-  }) async {
-    toggleProcessor();
-    final activityStatusOrFailure = await updateActivityStatus(
-      UpdateActivityStatusParams(
-        status: actionStatus.toString().enumToString(),
-        actionId: currentOngoingActivity.value!.id ?? -1,
-      ),
-    );
-    toggleProcessor();
-    activityStatusOrFailure!.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
-      (activityStatus) async {
-        // Cache the activity, if actionStatus is not Abandoned'
-        if (actionStatus == ActionStatus.COMPLETED) {
-          await cacheActivity();
-        } else {
-          log('not caching due to Status == !COMPLETE');
-        }
-        currentOngoingActivity.value = activityStatus;
-        log('updated activity status to ${currentOngoingActivity.value!.actionStatus}');
-      },
-    );
-  }
-
-  Future<void> cacheActivity() async {
-    final activityCachedOrFailure = await cacheMostRecentAcitivity(
-      CacheMostRecentAcitivityParams(
-        acitivity: CacheAcitivityModel(
-          //! Currenlty set to actionId
-          id: currentOngoingActivity.value!.id.toString(),
-          title: selectedActivityTitle.value,
-          subtitle: selectedActivitySubtitle.value,
-          //TODO to be added later
-          icon: '',
-        ),
-      ),
-    );
-    activityCachedOrFailure!.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
-      (cacheStatus) => log(
-        'recent activity cached',
-      ),
-    );
-  }
-
-  Future<void> persistFeedbacks() async {
-    toggleProcessor();
-    final persistedInputOrFailure = await persistRecommendationFeedback(
-      PersistRecommendationFeedbackParams(
-        activityStatusModel:
-            currentOngoingActivity.value as ActivityStatusModel?,
-        textInput: userTextFeedback.value,
-        voiceNoteInput: _voiceNoteController.currentVoiceNotePath.value,
-      ),
-    );
-    toggleProcessor();
-    persistedInputOrFailure.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
-      (status) async {
-        _voiceNoteController.cleanVoiceFilePath();
-        //! Later modify this if statement for the null voiceNOte check too
-        if (userTextFeedback.value == '') {
-          await updateActivityStatusTrigger(
-            actionStatus: ActionStatus.AWAITING_FEEDBACK,
-          );
-        } else {
-          await updateActivityStatusTrigger(
-            actionStatus: ActionStatus.INPUT_GIVEN,
-          );
-        }
-        Get.toNamed(
-          RouteName.playSection1,
-        );
-        log(
-          'recommendation status persisted & action status updated',
-        );
-      },
-    );
-  }
-
-  Future<void> rateActivity({
-    required String? mood,
-    required int elapsedTime,
-  }) async {
-    toggleProcessor();
-    final ratedActivityOrFailure = await rateRecommendationFlow(
-      RateRecommendationFlowParams(
-        feedback: FeedbackModel(
-          subjectMoodVO: FeedbackMoodModel(
-            mood: mood,
-            activityType: 'RECOMMENDATION',
-          ),
-          // Change this to a time tracker
-          minutesSpent: elapsedTime,
-          feedbackThoughts: userTextFeedback.value,
-          recommendationId: currentOngoingActivity.value!.recommendationId,
-          actionId: currentOngoingActivity.value!.id,
-        ),
-      ),
-    );
-    toggleProcessor();
-    ratedActivityOrFailure!.fold(
-      (failure) {
-        ErrorInfo.show(failure);
-      },
-      (status) async {
-        log('recommendation flow response captured!');
-        await updateActivityStatusTrigger(
-          actionStatus: ActionStatus.COMPLETED,
-        ).then(
-          (value) => navigateBasedOnActivity(),
-        );
-      },
-    );
-  }
-
   Future<void> fetchUserPath() async {
     final userPathOrFailure = await retrieveUserPath(
       NoParams(),
@@ -324,36 +137,17 @@ class PathController extends GetxController {
   RxBool isLoading = RxBool(false);
   RxBool isProcessing = RxBool(false);
   RxString selectedOptionImage = RxString('');
-  RxString head = RxString('');
   RxString activityDuration = RxString('');
   RxString selectedOption = RxString('');
   RxString userName = RxString('');
   RxString userTextFeedback = RxString('');
   Rxn<RecommendationCategoryModel> selectedCategory =
       Rxn<RecommendationCategoryModel>();
-  RxInt maxActivityPerformingPages = RxInt(0);
-  RxInt currentActivityPerformingPages = RxInt(0);
-  Rxn<Recommendation> selectedActivity = Rxn<RecommendationModel>();
-  // Above one was too diffenrent for GUIDED & S.D, that's why had to use this
-  RxString selectedActivityTitle = RxString('');
-  RxString selectedActivitySubtitle = RxString('');
-  Rxn<Widget> currentOngoingActivityScreen = Rxn<Widget>(Container());
-  RxMap<String, RecommendationStep> templateToRecommendationMapperSelf =
-      RxMap({});
-  RxMap<String, RecommendationStep> templateToRecommendationMapperGuided =
-      RxMap({});
   Rxn<GuidedActivityRecommendation> selectedDayPlan =
       Rxn<GuidedActivityRecommendationModel>();
 
   ///for focus on text field
   RxBool isFocusOn = RxBool(false);
-
-  /// Video/Audio Helpers
-  final RxBool _isPlayableComplete = RxBool(false);
-
-  /// Once the Audio/Video is completed playing
-  /// The bottom Done btn will become visible
-  bool get footerVisibility => _isPlayableComplete.value;
 
   void focusChanged() {
     isFocusOn.value = true;
@@ -361,10 +155,6 @@ class PathController extends GetxController {
 
   void focusCancelled() {
     isFocusOn.value = false;
-  }
-
-  set footerVisibility(bool visibilty) {
-    _isPlayableComplete.value = visibilty;
   }
 
   void toggleLoader() {
@@ -384,99 +174,12 @@ class PathController extends GetxController {
   }
 
   //* for changing and storing the dynamically typed recommendation-text-feedback
-  // ignore: avoid_setters_without_getters
   set textFeedback(String feedback) {
     userTextFeedback.value = feedback;
   }
 
-  // ignore: use_setters_to_change_properties
-  //TODO Remove duplicacy for this content-mapping
-  void setRecommendation({required RecommendationModel recommendation}) {
-    maxActivityPerformingPages.value =
-        recommendation.activity.recommendationStepsVO!.length;
-    currentActivityPerformingPages.value = 0;
-    selectedActivity.value = recommendation;
-    selectedActivityTitle.value = recommendation.activity.title!;
-    selectedActivitySubtitle.value = recommendation.activity.subtitle!;
-    activityDuration.value =
-        recommendation.activity.durationInMinutes.toString();
-    // Below will add the activitySteps in a relational-mapper
-    // This will avoid the problem of loops and WillPopScope on each page
-    // And managing different states of index
-    for (final activitySteps
-        in selectedActivity.value!.activity.recommendationStepsVO!) {
-      templateToRecommendationMapperSelf.addIf(
-        activitySteps.stepName == 'CONTENT',
-        'CONTENT',
-        activitySteps,
-      );
-      templateToRecommendationMapperSelf.addIf(
-        activitySteps.stepName == 'INSTRUCTIONS',
-        'INSTRUCTIONS',
-        activitySteps,
-      );
-      templateToRecommendationMapperSelf.addIf(
-        activitySteps.stepName == 'DID_YOU_KNOW',
-        'DID_YOU_KNOW',
-        activitySteps,
-      );
-    }
-  }
-
-  void setGuidedActivityFlow({
-    required ActivityRecommendation recommendation,
-    // helper for setting which activity is user performing currently
-    required int selectedActivityIndex,
-  }) {
-    activityDuration.value = recommendation.durationInMinutes.toString();
-    selectedActivityTitle.value = recommendation.title!;
-    selectedActivitySubtitle.value = recommendation.subtitle!;
-    for (final activityFlowData in recommendation.recommendationStepsVO!) {
-      templateToRecommendationMapperGuided.addIf(
-        activityFlowData.stepName == 'CONTENT',
-        'CONTENT',
-        activityFlowData,
-      );
-      templateToRecommendationMapperGuided.addIf(
-        activityFlowData.stepName == 'INSTRUCTIONS',
-        'INSTRUCTIONS',
-        activityFlowData,
-      );
-      templateToRecommendationMapperGuided.addIf(
-        activityFlowData.stepName == 'DID_YOU_KNOW',
-        'DID_YOU_KNOW',
-        activityFlowData,
-      );
-    }
-  }
-
-  // ignore: avoid_setters_without_getters
   set selectDay(GuidedActivityRecommendation recommendation) =>
       selectedDayPlan.value = recommendation;
-
-  void changeCurrentActivityPage() {
-    currentActivityPerformingPages.value == maxActivityPerformingPages.value
-        ? currentActivityPerformingPages.value
-        : currentActivityPerformingPages.value++;
-  }
-
-  void navigateBackHelper() {
-    currentActivityPerformingPages.value == 0
-        ? currentActivityPerformingPages.value
-        : currentActivityPerformingPages.value--;
-  }
-
-  // The the activity being performed is instantActivity then you will be taken to the
-  void navigateBasedOnActivity() {
-    userSelectedPath.value == null
-        ? Get.offNamedUntil(
-            RouteName.rapportPages,
-            (_) => false,
-          )
-        : Get.offAllNamed(
-            RouteName.onBoardingIncomplete,
-          );
-  }
 
   Future<void> setup() async {
     toggleLoader();
@@ -491,6 +194,7 @@ class PathController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await fetchUserPath();
+    //TODO Do the fetchUserPath at needed Stateful widget,
+    //TODO its creating problems here
   }
 }

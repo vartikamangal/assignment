@@ -1,5 +1,6 @@
 // Flutter imports:
 // Package imports:
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,11 @@ import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
+import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-state.dart';
 
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
-import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../controller/path-controller.dart';
 import 'plan-container.dart';
@@ -122,21 +123,11 @@ class GuidedPathPlanInside extends StatelessWidget {
           isFaded: false,
           requireBottomSpacing: true,
           onPressed: () async {
-            await _controller
-                .startActivityTrigger(
-              activityId: activity.id!,
-              isInstantActivity: false,
-            )
-                .then(
-              (value) {
-                _controller.setGuidedActivityFlow(
-                  recommendation: activity,
-                  selectedActivityIndex: i,
-                );
-                _durationController.start();
-                Get.toNamed(
-                  RouteName.selfPathInfoSection1,
-                );
+            Navigator.of(Get.context!).pushNamed(
+              RouteName.activityScreen,
+              arguments: {
+                "activity": activity,
+                "isInstantActivity": false,
               },
             );
           },

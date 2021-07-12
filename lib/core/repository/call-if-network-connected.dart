@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
+
 import '../error/failures.dart';
 import '../platform/network_info.dart';
 

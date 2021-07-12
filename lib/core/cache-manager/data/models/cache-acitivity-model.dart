@@ -1,6 +1,8 @@
 // Flutter imports:
 // Project imports:
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/entities/cache-acitivty.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/domain/entities/activity-status.dart';
 
 class CacheAcitivityModel extends CacheAcitivty {
   const CacheAcitivityModel({
@@ -21,6 +23,17 @@ class CacheAcitivityModel extends CacheAcitivty {
       title: jsonMap['title'] as String?,
       subtitle: jsonMap['subtitle'] as String?,
       icon: jsonMap['icon'] as String?,
+    );
+  }
+
+  factory CacheAcitivityModel.generateCachableModel(
+      {required ActivityStatus activityStatus, required Activity activity}) {
+    return CacheAcitivityModel(
+      id: activityStatus.id.toString(),
+      title: activity.title,
+      subtitle: activity.subtitle,
+      //TODO to be added later
+      icon: '',
     );
   }
 

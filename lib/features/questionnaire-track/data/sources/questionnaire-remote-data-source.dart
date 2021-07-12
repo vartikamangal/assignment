@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
@@ -87,7 +86,8 @@ class QuestionnaireRemoteDataSourceImpl
         );
       } else {
         // Request body type for RatingScale Type questions
-        final double rating = (questionToAnswerMap![question] as num).toDouble();
+        final double rating =
+            (questionToAnswerMap![question] as num).toDouble();
         body.add(
           {
             "question": {

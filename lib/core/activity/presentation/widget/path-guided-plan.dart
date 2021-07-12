@@ -1,11 +1,9 @@
 // Dart imports:
-import 'dart:developer';
-
-// Flutter imports:
-import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 
@@ -14,7 +12,6 @@ import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
-import '../../../../core/utils/color-pallete.dart';
 import '../controller/path-controller.dart';
 import 'plan-container.dart';
 
@@ -29,7 +26,9 @@ class PathGuidedPlan extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).canvasColor,
           elevation: 0,
-          leading: TopAppBar(onPressed: (){Navigator.pop(context);}),
+          leading: TopAppBar(onPressed: () {
+            Navigator.pop(context);
+          }),
         ),
         body: Padding(
           padding: EdgeInsets.only(
@@ -44,9 +43,7 @@ class PathGuidedPlan extends StatelessWidget {
                   children: [
                     Container(
                       margin: EdgeInsets.only(
-                        top: ScaleManager.spaceScale(
-                          spaceing: 10 
-                        ).value,
+                        top: ScaleManager.spaceScale(spaceing: 10).value,
                       ),
                       child: Text(
                         tr(

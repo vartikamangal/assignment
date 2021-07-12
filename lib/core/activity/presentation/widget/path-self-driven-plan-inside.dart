@@ -1,17 +1,17 @@
 // Flutter imports:
+
 import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
+import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-state.dart';
 
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
-import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
-import '../../data/models/recommendation-model.dart';
 import '../controller/path-controller.dart';
 import 'plan-container.dart';
 
@@ -102,16 +102,12 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
                           image:
                               '${ImagePath.selfDrivenOption}${activity.activity.categoryVO!.displayTitle!.toLowerCase()}.png',
                           onPressed: () async {
-                            _controller.setRecommendation(
-                              recommendation: activity as RecommendationModel,
-                            );
-                            await _controller.startActivityTrigger(
-                              activityId: activity.activity.id!,
-                              isInstantActivity: false,
-                            );
-                            _durationController.start();
                             Navigator.of(context).pushNamed(
-                              RouteName.selfPathInfoSection1,
+                              RouteName.activityScreen,
+                              arguments: {
+                                "activity": activity.activity,
+                                "isInstantActivity": false,
+                              },
                             );
                           },
                         ),

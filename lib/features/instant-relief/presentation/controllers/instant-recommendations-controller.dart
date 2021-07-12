@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
-import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/domain/entities/instant-relief-area.dart';
@@ -15,8 +15,7 @@ class InstantRecommendationsController extends GetxController {
   });
 
   Rx<PageState> pageStatus = Rx<PageState>(PageState.LOADING);
-  RxList<ActivityRecommendation> instantRecommendations =
-      RxList<ActivityRecommendationModel>([]);
+  RxList<Activity> instantRecommendations = RxList<ActivityModel>([]);
 
   Future<void> fetchInstantRecommendations({
     required InstantReliefArea instantLifeArea,

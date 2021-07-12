@@ -2,11 +2,11 @@
 
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation.dart';
-import 'recommendation-activity-model.dart';
+import 'activity-model.dart';
 
 class RecommendationModel extends Recommendation {
   const RecommendationModel({
-    required ActivityRecommendationModel activity,
+    required ActivityModel activity,
     required double weight,
   }) : super(
           activity: activity,
@@ -15,7 +15,7 @@ class RecommendationModel extends Recommendation {
 
   factory RecommendationModel.fromJson(Map<String, dynamic> jsonMap) {
     return RecommendationModel(
-      activity: ActivityRecommendationModel.fromJson(
+      activity: ActivityModel.fromJson(
         jsonMap['recommendation'] as Map<String, dynamic>,
       ),
       weight: (jsonMap['weight'] as num).toDouble(),
@@ -24,7 +24,7 @@ class RecommendationModel extends Recommendation {
 
   Map<String, dynamic> toJson() {
     return {
-      "activity": (activity as ActivityRecommendationModel).toJson(),
+      "activity": (activity as ActivityModel).toJson(),
       "weight": weight,
     };
   }

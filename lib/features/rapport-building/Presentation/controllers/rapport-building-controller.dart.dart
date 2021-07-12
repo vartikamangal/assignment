@@ -51,7 +51,6 @@ class RapportBuildingController extends GetxController {
   RxBool isProcessing = RxBool(false);
   final String activityTypeForRapportSection = "ONBOARDING";
   RxList<Mood> moods = RxList([]);
-  final VoiceNoteController _voiceNoteController = Get.find();
 
   /// This will give us basic userInfo like subjectInfo
   /// Which is to be used in common-feedback persistence
@@ -223,14 +222,16 @@ class RapportBuildingController extends GetxController {
     );
   }
 
-  Future<void> persistSubjectFeeing({required String feeling}) async {
+  Future<void> persistSubjectFeeing({
+    required String feeling,
+  }) async {
     toggleProcessor();
     final persistStatus = await saveFeedback(
       SaveFeedbackParams(
         subjetcId: subjectInfo.value!.subjectId!.id,
         activityType: 'ONBOARDING',
         textFeedback: feeling,
-        voiceNote: _voiceNoteController.currentVoiceNotePath.value,
+        voiceNote: Get.find<VoiceNoteController>().currentVoiceNotePath.value,
         timeOfCreation: DateTime.now().toString(),
         boxKey: PersistenceConst.RAPPORT_FEELING_BOX,
       ),
@@ -242,7 +243,7 @@ class RapportBuildingController extends GetxController {
       },
       (persistenceMessage) async {
         log('feeling persisted');
-        _voiceNoteController.cleanVoiceFilePath();
+        Get.find<VoiceNoteController>().cleanVoiceFilePath();
       },
     );
   }

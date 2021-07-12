@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity/data/sources/activity-remote-data-source.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/data/sources/activity-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
@@ -51,35 +51,35 @@ Future<void> main() async {
     );
   }
 
- // ? Actual tests go here
- //  group('DATA SOURCE : rateRecommendationFlow{Remote}', () {
- //  test('should send a GET request to specifed url', () async {
- //    //arrange
- //    setupHttpSuccessClient200();
- //    //act
- //    await remoteDataSourceImpl.rateActivity(feedback: tFeedbackModel);
- //    //assert
- //    verify(
- //      client!.get(uri: APIRoute.rateActivityFeedback),
- //    );
- //  });
- //  test(
- //      'should return unit when call statusCode is 200',
- //          () async {
- //        //arrange
- //        setupHttpSuccessClient200();
- //        //act
- //        final result = await remoteDataSourceImpl.rateActivity(feedback: tFeedbackModel);
- //        //assert
- //        expect(result, unit);
- //      });
- //  test('should throw ServerException when statusCode is not 200', () async {
- //    //arrange
- //    setupHttpFailureClient404();
- //    //act
- //    final call = remoteDataSourceImpl.rateActivity(feedback: tFeedbackModel);
- //    //assert
- //    expect(() => call, throwsA(const TypeMatcher<ServerException>()));
- //  });
- //  });
+  // ? Actual tests go here
+  //  group('DATA SOURCE : rateRecommendationFlow{Remote}', () {
+  //  test('should send a GET request to specifed url', () async {
+  //    //arrange
+  //    setupHttpSuccessClient200();
+  //    //act
+  //    await remoteDataSourceImpl.rateActivity(feedback: tFeedbackModel);
+  //    //assert
+  //    verify(
+  //      client!.get(uri: APIRoute.rateActivityFeedback),
+  //    );
+  //  });
+  //  test(
+  //      'should return unit when call statusCode is 200',
+  //          () async {
+  //        //arrange
+  //        setupHttpSuccessClient200();
+  //        //act
+  //        final result = await remoteDataSourceImpl.rateActivity(feedback: tFeedbackModel);
+  //        //assert
+  //        expect(result, unit);
+  //      });
+  //  test('should throw ServerException when statusCode is not 200', () async {
+  //    //arrange
+  //    setupHttpFailureClient404();
+  //    //act
+  //    final call = remoteDataSourceImpl.rateActivity(feedback: tFeedbackModel);
+  //    //assert
+  //    expect(() => call, throwsA(const TypeMatcher<ServerException>()));
+  //  });
+  //  });
 }

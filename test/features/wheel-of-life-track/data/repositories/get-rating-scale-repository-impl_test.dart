@@ -68,12 +68,15 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getRatingScale();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteDataSource!.getRatingScale())
+          .thenAnswer((_) async => tRatingScale);
+      //act
+      await repositoryImpl.getRatingScale();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return RatingScaleModel if the call to remote resource is successfull',
         () async {

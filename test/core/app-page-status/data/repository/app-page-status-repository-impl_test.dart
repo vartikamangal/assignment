@@ -5,6 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/app-page-status/data/models/app-route-model.dart';
 import 'package:tatsam_app_experimental/core/app-page-status/data/repository/app-page-status-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/app-page-status/data/sources/app-page-status-local-data-source.dart';
+import 'package:tatsam_app_experimental/core/error/exceptions.dart';
+import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/features/hub/data/models/hub-status-model.dart';
 import 'package:tatsam_app_experimental/features/hub/data/models/life-priority-list-model.dart';
 import 'package:tatsam_app_experimental/features/hub/data/models/target-focus-list-model.dart';
@@ -66,20 +68,20 @@ void main() {
     //     'should return [AbandonedPageNotFoundFailure] when [AbandonedPageNotFoundException] occurs in localDataSource',
     //     () async {
     //   //arrange
-    //   when(localDataSource.getLastAbandonedPage(
+    //   when(localDataSource!.getLastAbandonedPage(
     //     hubStatusModel: anyNamed("hubStatusModel"),
     //   )).thenThrow(AbandonedPageNotFoundException());
     //   //act
-    //   final result = await localDataSource.getLastAbandonedPage(
+    //   final result = await localDataSource!.getLastAbandonedPage(
     //     hubStatusModel: tHubStatus,
-    //   );
+    //   ).toString();
     //   //assert
-    //   expect(
-    //     result,
-    //     equals(const Left(
-    //       AbandonedPageNotFoundFailure(fallbackRoute: appFallbackRoute),
-    //     )),
-    //   );
-    // });
+    // //   expect(
+    // //     result,
+    // //     equals(const Left(
+    // //       AbandonedPageNotFoundFailure(fallbackRoute: appFallbackRoute),
+    // //     )),
+    // //   );
+    //  });
   });
 }

@@ -1,19 +1,22 @@
 // Flutter imports:
 // Package imports:
 
+import 'dart:developer';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/widget/guided_path-plan-inside.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-guided-plan.dart';
-import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-info-section2.dart';
-import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-info-section3.dart';
-import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-play-section1.dart';
-import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-play-section2.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-self-driven-plan-inside.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-self-driven-plan.dart';
-import 'package:tatsam_app_experimental/core/activity/presentation/widget/self-path-info-section1.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/activity_completion_outro.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/activity_root_screen.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/content_screen.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/did_you_know_screen.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/instructions_screen.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/screen/profile-screen.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/setting-screen.dart';
 
@@ -63,6 +66,11 @@ abstract class RouteName {
   static const onBoardingIncomplete = '/onboarding-screen';
   static const profileScreen = '/profile_screen';
   static const settingScreen = '/setting_screen';
+  static const activityScreen = "/activity";
+  static const activityDYNScreen = "/activity/did_you_know";
+  static const activityInsScreen = "/activity/instructions";
+  static const activityContentScreen = "/activity/content";
+  static const activityCompletionScreen = "/activity/complete";
   RouteName._();
 }
 
@@ -212,66 +220,6 @@ class GenerateRoute {
         ),
       );
     }
-    if (route == RouteName.selfPathInfoSection1) {
-      return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(),
-        transitionDuration: const Duration(milliseconds: 400),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            SelfPathInfoSection1(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeThroughTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        ),
-      );
-    }
-    if (route == RouteName.pathInfoSection2) {
-      return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(),
-        transitionDuration: const Duration(),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            PathInfoSection2(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeThroughTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        ),
-      );
-    }
-    if (route == RouteName.pathInfoSection3) {
-      return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(),
-        transitionDuration: const Duration(),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            PathInfoSection3(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeThroughTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        ),
-      );
-    }
-    if (route == RouteName.playSection1) {
-      return PageRouteBuilder(
-        transitionDuration: const Duration(
-          milliseconds: 500,
-        ),
-        pageBuilder: (context, animation, secondaryAnimation) => PlaySection1(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            SharedAxisTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          transitionType: SharedAxisTransitionType.scaled,
-          child: child,
-        ),
-      );
-    }
-    if (route == RouteName.pathPlaySection2) {
-      return MaterialPageRoute(builder: (_) => PathPlaySection2());
-    }
     if (route == RouteName.onBoardingIncomplete) {
       return PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 350),
@@ -358,7 +306,84 @@ class GenerateRoute {
       return CupertinoPageRoute(
         builder: (context) => SettingScreen(),
       );
+    }
+    if (route == RouteName.activityScreen) {
+      final args = settings.arguments as Map<String, dynamic>;
+      final isInstantActivity = args["isInstantActivity"] as bool;
+      final activity = args["activity"] as Activity;
+      return PageRouteBuilder(
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ActivityRootScreen(
+          activity: activity,
+          isInstantActivity: isInstantActivity,
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.activityDYNScreen) {
+      return PageRouteBuilder(
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            DidYouKnowScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.activityInsScreen) {
+      return PageRouteBuilder(
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            InstructionsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.activityContentScreen) {
+      return PageRouteBuilder(
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ContentScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.activityCompletionScreen) {
+      return PageRouteBuilder(
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ActivityCompletionOutro(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
     } else {
+      log("<------------ Going to fallback route ------------>");
       return PageTransition(
         child: OpeningScreen(),
         type: PageTransitionType.fade,

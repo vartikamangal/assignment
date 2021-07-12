@@ -71,6 +71,7 @@ class StartRecordingVoiceNoteLocalServiceImpl
     Duration callbackPeriod,
   ) async {
     try {
+      await recorder.openAudioSession();
       await recorder.setSubscriptionDuration(callbackPeriod);
       await recorder.startRecorder(
         toFile: filePath,

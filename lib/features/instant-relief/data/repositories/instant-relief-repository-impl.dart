@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/sources/instant-relief-remote-data-source.dart';
@@ -24,7 +24,7 @@ class InstantReliefRepositoryImpl implements InstantReliefRepository {
   }
 
   @override
-  Future<Either<Failure, List<ActivityRecommendation>>?> getRecommendations({
+  Future<Either<Failure, List<Activity>>?> getRecommendations({
     String? instantLifeArea,
   }) async {
     return baseRepository(

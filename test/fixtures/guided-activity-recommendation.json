@@ -5,6 +5,29 @@
   "description": "Day 1 of stress management",
   "title": "Day 1",
   "helpContent": "Some useless help content",
-  "recommendationList": null,
+  "recommendationList": [{
+    "id": "test_id",
+    "title": "test",
+    "subtitle": "subtitile",
+    "iconVO": {},
+    "durationInMinutes": 3,
+    "messageOnReceivingFeedback": "ddd",
+    "messageOnCompletion": "ddd",
+    "recommendationStatus": "dddd",
+    "frequencyMetric": "test_f",
+    "frequency": 1,
+    "actionTime": "fdd",
+    "criticality": "test",
+    "categoryVO":{
+      "id": 1,
+      "displaySubtitle": "",
+      "displayTitle": "",
+      "iconVO": null,
+      "categoryDetailedDescription": "",
+      "categoryName": "",
+      "categoryShortDescription": ""},
+    "recommendationStepsVO": [],
+    "tags": []
+  }],
   "subtitle": ""
 }]

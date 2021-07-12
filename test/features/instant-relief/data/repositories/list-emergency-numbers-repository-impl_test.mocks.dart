@@ -5,7 +5,7 @@
 import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart'
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart'
     as _i5;
 import 'package:tatsam_app_experimental/core/platform/network_info.dart' as _i7;
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/emergency-number-model.dart'

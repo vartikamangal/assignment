@@ -175,14 +175,17 @@ void main() {
   }
 
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.rateSatisfactionService(
-    //     satisfactionRatings: tSatisfactionRatings,
-    //   );
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteService!.rateSatisfaction(ratings: tSatisfactionRatings))
+          .thenAnswer((realInvocation) async => SuccessRatedSatisfaction());
+      //act
+      await serviceImpl.rateSatisfactionService(
+        satisfactionRatings: tSatisfactionRatings,
+      );
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return SuccessRatedSatisfaction when the call to remote service is successfull',
         () async {

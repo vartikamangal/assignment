@@ -13,6 +13,7 @@ import 'package:tatsam_app_experimental/dependency_manager/core_dependency_manag
 // Project imports:
 import '../persistence-consts.dart';
 import '../platform/device-id.dart';
+import '../secrets.dart';
 
 abstract class SessionManager {
   static Future<void> persistDeviceId() async {
@@ -70,12 +71,12 @@ abstract class SessionManager {
     return deviceID == null
         ? {
             'content-type': 'application/json',
-            "TATSAM_USER": '{"deviceIdentifier": "${await getDeviceId()}"}',
+            Secrets.HEADER_TATSAM_USER: '{"deviceIdentifier": "${await getDeviceId()}"}',
             'Authorization': 'Bearer $accessToken',
           }
         : {
             "content-type": 'application/json',
-            "TATSAM_USER": jsonEncode(
+            Secrets.HEADER_TATSAM_USER: jsonEncode(
               {
                 'deviceIdentifier': deviceID,
                 "subjectInformation": subjectInfo,

@@ -1,7 +1,7 @@
 // Flutter imports:
 
 // Project imports:
-import '../../domain/entities/activity-status.dart';
+import '../../../perform-activity/domain/entities/activity-status.dart';
 
 class ActivityStatusModel extends ActivityStatus {
   const ActivityStatusModel({

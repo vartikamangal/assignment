@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:get/get.dart';
 
-import '../../../../dependency_manager/core_dependency_managers.dart';
 import '../../../error/display-error-info.dart';
 import '../../../file-manager/file-manager.dart';
 import '../../../usecase/usecase.dart';
@@ -261,19 +260,5 @@ class VoiceNoteController extends GetxController {
 
   void resetPlayerState() {
     playerState.value = VoiceNotePlayerUIState.IDLE;
-  }
-
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    sl_core_dependencies<FlutterSoundRecorder>().openAudioSession();
-    sl_core_dependencies<FlutterSoundPlayer>().openAudioSession();
-  }
-
-  @override
-  Future<void> onClose() async {
-    super.onClose();
-    sl_core_dependencies<FlutterSoundRecorder>().closeAudioSession();
-    sl_core_dependencies<FlutterSoundPlayer>().closeAudioSession();
   }
 }

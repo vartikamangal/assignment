@@ -8,6 +8,8 @@ import '../../../error/failures.dart';
 import '../../../usecase/usecase.dart';
 import '../repositories/save-feedback-service.dart';
 
+/// This usecase is valid for those raw inputs which
+/// dont come inside the "OG" PerformActivity Flow
 class SaveFeedback implements Usecase<Unit, SaveFeedbackParams> {
   final SaveFeedbackService service;
 // Change to fellingDesc

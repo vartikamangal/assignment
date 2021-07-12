@@ -10,7 +10,7 @@ import 'package:tatsam_app_experimental/core/activity/data/models/activity-statu
     as _i3;
 import 'package:tatsam_app_experimental/core/activity/data/models/feedback-model.dart'
     as _i6;
-import 'package:tatsam_app_experimental/core/activity/data/sources/activity-remote-data-source.dart'
+import 'package:tatsam_app_experimental/core/perform-activity/data/sources/activity-remote-data-source.dart'
     as _i4;
 import 'package:tatsam_app_experimental/core/platform/network_info.dart' as _i7;
 

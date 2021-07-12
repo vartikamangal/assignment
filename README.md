@@ -7,7 +7,10 @@ android ![Tatsam Logo](https://tatsam.in/assets/images/image01.png?v=70098e8e)
 
 This Project is an early experimental version of **Tatsam** and consists of the Status & Next Checkpoint of the project.
 
-
+## Names of confusion:-
+ 1. CommonInputFeedback -> Entity for persisting text/voicenotes which are not in perform-activity flow.
+ 2. ActivityRating -> Entity which helps in giving rating after any activity is completed.
+ 3. ActivityFeedback -> Entity for persisting text/voicenotes which are in the perform-activity flow and would be shown in My Diary section of profile.
 
 
 ## Next Checkpoint

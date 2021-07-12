@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/repositories/activity-repository-impl.dart';
-import 'package:tatsam_app_experimental/core/activity/data/sources/activity-remote-data-source.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/data/sources/activity-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
@@ -15,9 +15,8 @@ import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
 import 'activity-repository-impl_test.mocks.dart';
 
-@GenerateMocks([AcitivityRemoteDataSource,NetworkInfo])
-
-void main(){
+@GenerateMocks([AcitivityRemoteDataSource, NetworkInfo])
+void main() {
   MockAcitivityRemoteDataSource? remoteDataService;
   MockNetworkInfo? networkInfo;
   late ActivityRepositoryImpl repositoryImpl;
@@ -40,15 +39,15 @@ void main(){
     );
   });
 
-  const tActivityStatus=ActivityStatusModel(id: 19351,
+  const tActivityStatus = ActivityStatusModel(
+      id: 19351,
       journeyId: "1b942ecc-7c76-4237-8f8b-216b9c22e900",
       recommendationId: null,
       actionStatus: "COMPLETED",
       feedbackMood: "NEUTRAL",
       feedbackThoughts: "");
-  const tRecommendationId="";
-  const tisInstantActivity=false;
-
+  const tRecommendationId = "";
+  const tisInstantActivity = false;
 
   void runTestOnline(Callback body) {
     setUp(() {
@@ -59,41 +58,57 @@ void main(){
 
   //! Actual tests go here
   runTestOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.startActivity(recommendationId: '', isInstantActivity: true);
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteDataService!.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity))
+          .thenAnswer((_) async => tActivityStatus);
+      //act
+      await repositoryImpl.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity);
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return a ActivityStatus when call to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteDataService!.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity))
-              .thenAnswer((_) async => tActivityStatus);
-          //act
-          final result = await repositoryImpl.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity);
-          //assert
-          verify(remoteDataService!.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity));
-          expect(result, const Right(tActivityStatus));
-        });
+        () async {
+      //arrange
+      when(remoteDataService!.startActivity(
+              recommendationId: tRecommendationId,
+              isInstantActivity: tisInstantActivity))
+          .thenAnswer((_) async => tActivityStatus);
+      //act
+      final result = await repositoryImpl.startActivity(
+          recommendationId: tRecommendationId,
+          isInstantActivity: tisInstantActivity);
+      //assert
+      verify(remoteDataService!.startActivity(
+          recommendationId: tRecommendationId,
+          isInstantActivity: tisInstantActivity));
+      expect(result, const Right(tActivityStatus));
+    });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
-            () async {
-          //arrange
-          when(remoteDataService!.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity)).thenThrow(ServerException());
-          //act
-          final result = await repositoryImpl.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity);
-          //assert
-          expect(result, Left(ServerFailure()));
-        });
+        () async {
+      //arrange
+      when(remoteDataService!.startActivity(
+              recommendationId: tRecommendationId,
+              isInstantActivity: tisInstantActivity))
+          .thenThrow(ServerException());
+      //act
+      final result = await repositoryImpl.startActivity(
+          recommendationId: tRecommendationId,
+          isInstantActivity: tisInstantActivity);
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
   });
   test('DEVICE OFFLINE : startActivity should return DeviceOfflineFailure',
-          () async {
-        when(networkInfo!.isConnected).thenAnswer((_) async => false);
-        //act
-        final result = await repositoryImpl.startActivity(recommendationId: tRecommendationId, isInstantActivity: tisInstantActivity);
-        //assert
-        expect(result, Left(DeviceOfflineFailure()));
-      });
+      () async {
+    when(networkInfo!.isConnected).thenAnswer((_) async => false);
+    //act
+    final result = await repositoryImpl.startActivity(
+        recommendationId: tRecommendationId,
+        isInstantActivity: tisInstantActivity);
+    //assert
+    expect(result, Left(DeviceOfflineFailure()));
+  });
 }

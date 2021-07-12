@@ -26,9 +26,8 @@ class RetrieveUserPathLocalDataSourceImpl
       ) as String;
       return userPath;
     } catch (e) {
-      log(
-        e.toString(),
-      );
+      //TODO user path [Null] error here!!!
+      log("BLABLABLA!!!");
       throw CacheException();
     }
   }

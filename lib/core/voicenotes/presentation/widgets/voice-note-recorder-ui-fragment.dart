@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../asset-image-path/image-path.dart';
 import '../../../responsive/scale-manager.dart';
 import '../../../utils/color-pallete.dart';
@@ -55,11 +56,8 @@ class VoiceNoteRecorder extends StatelessWidget {
                 Obx(
                   () => Text(
                     // Elapsed Time String
-                    "${_voiceNoteController.elapsedDuration.value!.inMinutes<10?"0${_voiceNoteController.elapsedDuration.value!.inMinutes}"
-                        :"${_voiceNoteController.elapsedDuration.value!.inMinutes}"}"
-                        ":${_voiceNoteController.elapsedDuration.value!.inSeconds-_voiceNoteController.elapsedDuration.value!.inMinutes*60<10
-                        ?"0${_voiceNoteController.elapsedDuration.value!.inSeconds-_voiceNoteController.elapsedDuration.value!.inMinutes*60}"
-                        :"${_voiceNoteController.elapsedDuration.value!.inSeconds-_voiceNoteController.elapsedDuration.value!.inMinutes*60}"}",
+                    "${_voiceNoteController.elapsedDuration.value!.inMinutes < 10 ? "0${_voiceNoteController.elapsedDuration.value!.inMinutes}" : "${_voiceNoteController.elapsedDuration.value!.inMinutes}"}"
+                    ":${_voiceNoteController.elapsedDuration.value!.inSeconds - _voiceNoteController.elapsedDuration.value!.inMinutes * 60 < 10 ? "0${_voiceNoteController.elapsedDuration.value!.inSeconds - _voiceNoteController.elapsedDuration.value!.inMinutes * 60}" : "${_voiceNoteController.elapsedDuration.value!.inSeconds - _voiceNoteController.elapsedDuration.value!.inMinutes * 60}"}",
                     style: GoogleFonts.zillaSlab(
                       fontWeight: FontWeight.w300,
                       fontSize: 18,

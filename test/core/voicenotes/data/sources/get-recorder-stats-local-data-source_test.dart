@@ -40,7 +40,7 @@ void main() {
       //assert
       expect(result, null);
     });
-    test('should throw ServerException when statusCode is not 200', () async {
+    test('should throw VoiceNoteExceptionOperationException when statusCode is not 200', () async {
       //arrange
       //act
       final call = localDataSourceImpl.getDetails;

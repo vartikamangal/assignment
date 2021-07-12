@@ -3,20 +3,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-model.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-step-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/repositories/get-activity-category-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/activity/data/sources/get-category-activites-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/data/models/activity-step-model.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
+
 import 'get-activity-category-repository-impl_test.mocks.dart';
 
 @GenerateMocks([GetCategoryActivitiesRemoteDataSource, NetworkInfo])
@@ -152,12 +153,14 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getActivities(category: tCategoryModel);
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      when(remoteService!.getActivities(category: tCategoryModel))
+          .thenAnswer((_) async => tRecommendations);
+      //act
+      await repositoryImpl.getActivities(category: tCategoryModel);
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return a List<Recommendation> when call to remote data source is successfull',
         () async {
@@ -183,14 +186,13 @@ void main() {
       expect(result, Left(ServerFailure()));
     });
   });
-  test('DEVICE OFFLINE : getactivity should return DeviceOfflineFailure',
-      () async {
-    when(networkInfo!.isConnected).thenAnswer((_) async => false);
-    //act
-    // final result = await remoteService!.getActivities(category: tCategoryModel);
-    // //assert
-    // expect(result, Left(DeviceOfflineFailure()));
-    // when(remoteService!.getActivities(category: tCategoryModel))
-    //     .thenAnswer((_) async => tRecommendations);
-  });
+  // test('DEVICE OFFLINE : getactivity should return DeviceOfflineFailure',
+  //     () async {
+  //   when(networkInfo!.isConnected).thenAnswer((_) async => false);
+  //   //act
+  //   final result = await remoteService!.getActivities();
+  //   //assert
+  //   expect(result, Left(DeviceOfflineFailure()));
+  //
+  // });
 }

@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // Project imports:
-import '../../../../core/activity/data/models/recommendation-input-model.dart';
-import '../../../../core/activity/domain/entities/recommendation-input.dart';
-import '../../../../core/activity/domain/usecases/get-persisted-feedbacks.dart';
+import '../../../../core/cache-manager/data/models/activity-feedback-model.dart';
+import '../../../../core/cache-manager/domain/entities/activity-feedback.dart';
+import '../../../../core/cache-manager/domain/usecases/get-persisted-feedbacks.dart';
 import '../../../../core/error/display-error-info.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/usecase/usecase.dart';
@@ -53,7 +53,7 @@ class ProfileController extends GetxController {
   Rxn<HubStatus> hubStatus = Rxn<HubStatusModel>();
   RxList<MoodTracking> moodLogs = RxList<MoodTrackingModel>([]);
   RxList<QuestionLog> questionLogs = RxList<QuestionLogModel>([]);
-  RxList<RecommendationInput> diaryLogs = RxList<RecommendationInputModel>([]);
+  RxList<ActivityFeedback> diaryLogs = RxList<ActivityFeedbackModel>([]);
   RxList<PostOnboardingAction> actions = RxList<PostOnboardingActionModel>([]);
   // For getting status of dropdown
   RxBool isDropDownExpanded = RxBool(false);
@@ -170,8 +170,8 @@ class ProfileController extends GetxController {
   RxInt selectedScreenIndex = 0.obs;
   Rxn<Widget> currentSelectedPage = Rxn<Widget>();
   RxString userName = RxString('');
-  RxMap<int, RecommendationInput> actionIdToDiaryLogMap =
-      RxMap<int, RecommendationInputModel>();
+  RxMap<int, ActivityFeedback> actionIdToDiaryLogMap =
+      RxMap<int, ActivityFeedbackModel>();
   RxMap<int, PostOnboardingAction> actionIdToActionMap =
       RxMap<int, PostOnboardingActionModel>();
 

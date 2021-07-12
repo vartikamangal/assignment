@@ -1,10 +1,10 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
 			"name": "DEV",
 			"request": "launch",
 			"type": "dart",
@@ -15,14 +15,14 @@
 			]
 		},
 		{
-			"name": "ALPHA",
+			"name": "STAGINFG",
 			"request": "launch",
 			"type": "dart",
-			"program": "lib/main_stage.dart",
-			// "args": [
-			// 	"--flavor",
-			// 	"beta"
-			// ]
+			"program": "lib/main_staging.dart",
+			"args": [
+				"--flavor",
+				"staging",
+			]
 		},
 		{
 			"name": "PRD",
@@ -34,5 +34,5 @@
 			// 	"prod"
 			// ]
 		},
-    ]
+	]
 }

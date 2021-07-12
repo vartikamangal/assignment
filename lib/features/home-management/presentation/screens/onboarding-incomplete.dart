@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/app-config.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
 import 'package:tatsam_app_experimental/core/utils/animations/fade-animation-x-axis.dart';
 import 'package:tatsam_app_experimental/features/home-management/presentation/widgets/old-vs-new-rendering-checker.dart';
 import 'package:tatsam_app_experimental/features/home-management/presentation/widgets/weekend-renderer.dart';
@@ -35,6 +36,8 @@ class _OnBoardingIncompleteState extends State<OnBoardingIncomplete> {
   final DurationTrackerController durationController = Get.find();
 
   final PathController pathController = Get.find();
+
+  final PerformActivityController activityController = Get.find();
 
   final RapportBuildingController rapportBuildingController = Get.find();
 
@@ -98,7 +101,7 @@ class _OnBoardingIncompleteState extends State<OnBoardingIncomplete> {
                         homeController: controller,
                         durationController: durationController,
                         rapportBuildingController: rapportBuildingController,
-                        pathController: pathController,
+                        activityController: activityController,
                       ),
 
                       /// Bottom accetptence button

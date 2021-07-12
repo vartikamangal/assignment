@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity/domain/entities/feedback-mood.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/domain/entities/mood-feedback-for-activity.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/feedback-mood-model.dart';
 import '../../../../fixtures/fixture-reader.dart';
 

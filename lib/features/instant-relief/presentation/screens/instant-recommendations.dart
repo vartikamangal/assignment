@@ -1,25 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
+import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-state.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/mini-loader.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 
-import '../../../../core/activity/data/models/recommendation-activity-model.dart';
-import '../../../../core/activity/data/models/recommendation-model.dart';
-import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/activity/presentation/widget/plan-container.dart';
 import '../../../../core/asset-image-path/image-path.dart';
-import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../../../../core/responsive/scale-manager.dart';
-import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../controllers/instant-relief-controller.dart';
 
 class InstantRecommendationsScreen extends StatelessWidget {
   InstantRecommendationsScreen({Key? key}) : super(key: key);
-  final DurationTrackerController _durationController = Get.find();
-  final PathController _pathController = Get.find();
   final InstantReliefController _instantReliefController = Get.find();
   final InstantRecommendationsController _instantRecommendationsController =
       Get.find();
@@ -86,7 +80,6 @@ class InstantRecommendationsScreen extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: Column(
                       children: [
-                        //TODO this mess can be cleaned by simply syncing the self and guided api respose key names
                         for (int i = 0;
                             i <
                                 _instantRecommendationsController
@@ -106,56 +99,17 @@ class InstantRecommendationsScreen extends StatelessWidget {
                               isFaded: false,
                               image:
                                   '${ImagePath.selfDrivenOption}physical.png',
-                              onPressed: _pathController
-                                          .userSelectedPath.value ==
-                                      'BIG_GOALS'
-                                  ? () async {
-                                      await _pathController
-                                          .startActivityTrigger(
-                                        activityId:
-                                            _instantRecommendationsController
-                                                .instantRecommendations[i]
-                                                .title!,
-                                        isInstantActivity: false,
-                                      )
-                                          .then(
-                                        (value) {
-                                          _pathController.setGuidedActivityFlow(
-                                            recommendation:
-                                                _instantRecommendationsController
-                                                    .instantRecommendations[i],
-                                            selectedActivityIndex: i,
-                                          );
-                                          _durationController.start();
-                                          Get.toNamed(
-                                            RouteName.selfPathInfoSection1,
-                                          );
-                                        },
-                                      );
-                                    }
-                                  // If user selected path is [null] or Small_wins
-                                  : () async {
-                                      _pathController.setRecommendation(
-                                        recommendation: RecommendationModel(
-                                          activity:
-                                              _instantRecommendationsController
-                                                      .instantRecommendations[i]
-                                                  as ActivityRecommendationModel,
-                                          weight: 0.5,
-                                        ),
-                                      );
-                                      await _pathController
-                                          .startActivityTrigger(
-                                        activityId:
-                                            _instantRecommendationsController
-                                                .instantRecommendations[i].id!,
-                                        isInstantActivity: true,
-                                      );
-                                      _durationController.start();
-                                      Navigator.of(context).pushNamed(
-                                        RouteName.selfPathInfoSection1,
-                                      );
-                                    },
+                              onPressed: () async {
+                                Navigator.of(context).pushNamed(
+                                  RouteName.activityScreen,
+                                  arguments: {
+                                    "activity":
+                                        _instantRecommendationsController
+                                            .instantRecommendations[i],
+                                    "isInstantActivity": true,
+                                  },
+                                );
+                              },
                             ),
                           ),
                       ],

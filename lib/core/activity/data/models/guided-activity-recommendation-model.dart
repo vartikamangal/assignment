@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
 
 // Project imports:
 import '../../../../core/image/image.dart';
@@ -14,7 +14,7 @@ class GuidedActivityRecommendationModel extends GuidedActivityRecommendation {
     required String? title,
     required String? subtitle,
     required String? helpContent,
-    required List<ActivityRecommendationModel> recommendationList,
+    required List<ActivityModel> recommendationList,
   }) : super(
           subtitle: subtitle,
           icon: icon,
@@ -39,7 +39,7 @@ class GuidedActivityRecommendationModel extends GuidedActivityRecommendation {
       helpContent: jsonMap['helpContent'] as String?,
       recommendationList: (jsonMap['recommendationList'] as List)
           .map(
-            (recommendation) => ActivityRecommendationModel.fromJson(
+            (recommendation) => ActivityModel.fromJson(
               recommendation as Map<String, dynamic>,
             ),
           )

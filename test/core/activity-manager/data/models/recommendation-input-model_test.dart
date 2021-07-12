@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-input.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-input-model.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/data/models/activity-feedback-model.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/entities/activity-feedback.dart';
+
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {

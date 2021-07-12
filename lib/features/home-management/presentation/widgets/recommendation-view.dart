@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/activity/presentation/controller/path-controller.dart';
+
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/universal-widgets/pill-loader.dart';
@@ -14,12 +14,10 @@ class RecommendationView extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.durationController,
-    required this.pathController,
   }) : super(key: key);
 
   final HomeController controller;
   final DurationTrackerController durationController;
-  final PathController pathController;
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +43,10 @@ class RecommendationView extends StatelessWidget {
                   ? BigGoalsPath(
                       homeController: controller,
                       durationController: durationController,
-                      pathController: pathController,
                     )
                   : SmallWinsPath(
                       controller: controller,
                       durationController: durationController,
-                      pathController: pathController,
                     );
             }
           },

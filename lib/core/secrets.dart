@@ -10,5 +10,7 @@ class Secrets {
       "532d4e63fd94cd4ec161deb48ab114f40223df9b";
 
   static const String ONESIGNAL_APPID = "1242d276-8f48-4e7c-bd4b-c7a5de52a301";
+
+  static const String HEADER_TATSAM_USER = 'TATSAM-USER';
   Secrets._();
 }

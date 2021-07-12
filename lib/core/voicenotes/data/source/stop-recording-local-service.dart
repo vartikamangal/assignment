@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+
 import '../../../error/exceptions.dart';
 import '../../../file-manager/file-manager.dart';
 import '../../domain/entity/recording-stopped.dart';
@@ -30,6 +30,7 @@ class StopRecordingLocalServiceImpl implements StopRecordingLocalService {
         return const RecordingStopped(status: 'already stopped');
       } else {
         await recorder!.stopRecorder();
+        await recorder!.closeAudioSession();
         //TODO now find a method for also removing this data from the cached filesystem
         return const RecordingStopped(
           status: 'recorder stopped',
@@ -51,6 +52,7 @@ class StopRecordingLocalServiceImpl implements StopRecordingLocalService {
         return unit;
       } else {
         await recorder!.stopRecorder();
+        await recorder!.closeAudioSession();
         if (!partialRecordingFileToDelete!.contains("/")) {
           // flutter_sound's deleteRecord method only helps
           // in deleting temporary files

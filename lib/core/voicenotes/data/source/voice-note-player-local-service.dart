@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'dart:ui' as ui;
+
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+
 import '../../../error/exceptions.dart';
 import '../../../file-manager/file-manager.dart';
 import '../model/player-stats-model.dart';
@@ -65,7 +66,9 @@ class VoiceNotePlayerLocalServiceImpl implements VoiceNotePlayerLocalService {
       () async {
         /// Necessary to set this first
         /// Without it the progress wouldn't be displayed
-        await player!.setSubscriptionDuration(const Duration(milliseconds: 100));
+        await player!.openAudioSession();
+        await player!
+            .setSubscriptionDuration(const Duration(milliseconds: 100));
         await player!.startPlayer(
           fromURI: fileToPlay,
           codec: codec!,
@@ -73,7 +76,6 @@ class VoiceNotePlayerLocalServiceImpl implements VoiceNotePlayerLocalService {
           sampleRate: smapleRate!,
           whenFinished: onCompleted,
         );
-        return null;
       },
     );
   }
@@ -81,7 +83,10 @@ class VoiceNotePlayerLocalServiceImpl implements VoiceNotePlayerLocalService {
   @override
   Future<Unit> stop() async {
     return _operateOnRecorderService(
-      () => player!.stopPlayer(),
+      () async {
+        player!.stopPlayer();
+        player!.closeAudioSession();
+      },
     );
   }
 
@@ -89,6 +94,7 @@ class VoiceNotePlayerLocalServiceImpl implements VoiceNotePlayerLocalService {
   Future<Unit> cancel({String? fileToDelete}) async {
     return _operateOnRecorderService(() async {
       await player!.stopPlayer();
+      await player!.closeAudioSession();
       await fileUtils!.deleteFile(fileToDelete);
     });
   }
@@ -98,7 +104,6 @@ class VoiceNotePlayerLocalServiceImpl implements VoiceNotePlayerLocalService {
     try {
       final result = player!.onProgress!.map(
         (event) {
-          print(event.position);
           return PlayerStatsModel(
             totalLength: event.duration,
             currentPosition: event.position,

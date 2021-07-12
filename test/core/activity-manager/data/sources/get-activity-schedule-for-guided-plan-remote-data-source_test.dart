@@ -6,7 +6,7 @@ import 'package:matcher/matcher.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/activity-scedule-guided-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/guided-activity-recommendation-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/path-information-model.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/sources/get-activity-schedule-for-guided-plan-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';

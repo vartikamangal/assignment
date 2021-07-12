@@ -28,7 +28,7 @@ class DurationTrackerController extends GetxController {
   final Rxn<Duration> _elapsed = Rxn<Duration>();
 
   // getter for duration
-  int get durationInMinutes => _elapsed.value!.inMinutes;
+  int get durationInMinutes => _elapsed.value?.inMinutes ?? 0;
 
   void start() {
     _stopwatch.start();

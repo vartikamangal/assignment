@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/activity/domain/entities/recommendation-input.dart';
+
 import '../../../../core/asset-image-path/image-path.dart';
+import '../../../../core/cache-manager/domain/entities/activity-feedback.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/color-pallete.dart';
@@ -60,11 +61,11 @@ class MyDiary extends GetWidget<ProfileController> {
   }
 }
 
-Widget _buildDiary(
-    List<RecommendationInput> logs, ProfileController controller) {
+Widget _buildDiary(List<ActivityFeedback> logs, ProfileController controller) {
   final List<DiaryContent> _contents = [];
   logs.forEach(
     (diaryLog) {
+      /// TODO: Fix null error in below LOC
       final selectedMoodImage =
           '${ImagePath.lightBlueEmoji}${'${controller.actionIdToActionMap[int.parse(diaryLog.actionId!)]!.feedbackMood!.toLowerCase()}.png'}';
       final activityPerformed =

@@ -4,22 +4,20 @@ import 'dart:developer';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/data/models/activity_rating_model.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/data/models/mood-feedback-model-for-activity.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
 import 'package:tatsam_app_experimental/features/hub/presentation/controller/hub-controller.dart';
 
 // Project imports:
-import '../../../../core/activity/data/models/feedback-model.dart';
-import '../../../../core/activity/data/models/feedback-mood-model.dart';
-import '../../../../core/activity/data/models/recommendation-activity-model.dart';
+import '../../../../core/activity/data/models/activity-model.dart';
 import '../../../../core/activity/data/models/recommendation-category-model.dart';
 import '../../../../core/activity/data/models/recommendation-model.dart';
-import '../../../../core/activity/domain/entities/recommendation-activity.dart';
+import '../../../../core/activity/domain/entities/activity.dart';
 import '../../../../core/activity/domain/entities/recommendation-category.dart';
 import '../../../../core/activity/domain/entities/recommendation.dart';
 import '../../../../core/activity/domain/usecases/get-activity-categories.dart';
 import '../../../../core/activity/domain/usecases/get-all-recommendation-categories.dart';
-import '../../../../core/activity/domain/usecases/rate-recommendation-flow.dart';
-import '../../../../core/activity/domain/usecases/update-activity-status.dart';
-import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/cache-manager/data/models/cache-acitivity-model.dart';
 import '../../../../core/cache-manager/domain/usecases/check-if-first-time-user.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-last-logged-app-init.dart';
@@ -33,6 +31,8 @@ import '../../../../core/duration-tracker/domain/entities/app-duration.dart';
 import '../../../../core/duration-tracker/domain/usecases/get-last-login.dart';
 import '../../../../core/duration-tracker/domain/usecases/update-user-duration-on-app.dart';
 import '../../../../core/extensions/enum-to-string.dart';
+import '../../../../core/perform-activity/domain/usecases/rate-activity.dart';
+import '../../../../core/perform-activity/domain/usecases/update-activity-status.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../features/home-management/data/models/post-onboparding-action-model.dart';
@@ -67,7 +67,7 @@ class HomeController extends GetxController {
   final GetActionWithActionStatus getActionWithActionStatus;
   final SaveIsFirstTimeOnboardingStatus saveIsFirstTimeOnboardingStatus;
   final CheckIfFirstTimeUser checkIfFirstTimeUser;
-  final RateRecommendationFlow rateRecommendationFlow;
+  final RateActivity rateRecommendationFlow;
   final UpdateActivityStatus updateActivityStatus;
   final GetAllRecommendationCategories getAllRecommendationCategories;
   final GetCategoryActivities getCategoryActivities;
@@ -109,8 +109,7 @@ class HomeController extends GetxController {
   static const String activityTypeHomepage = 'APP_OPEN';
   final Rxn<CacheAcitivityModel> mostRecentAcitivity =
       Rxn<CacheAcitivityModel>();
-  final RxList<ActivityRecommendation> recommendedActivities =
-      RxList<ActivityRecommendationModel>(
+  final RxList<Activity> recommendedActivities = RxList<ActivityModel>(
     [],
   );
 
@@ -308,13 +307,13 @@ class HomeController extends GetxController {
   Future<void> fulfillActionStatus({required String? mood}) async {
     toggleProcessor();
     final ratedActionOrFailure = await rateRecommendationFlow(
-      RateRecommendationFlowParams(
-        feedback: FeedbackModel(
+      RateActivityParams(
+        feedback: ActivityRatingModel(
           actionId: currentActivePostOnboardingFeedbackAction.value!.actionId,
           //! coz. not necessary
           recommendationId: '',
           feedbackThoughts: '',
-          subjectMoodVO: FeedbackMoodModel(
+          subjectMoodVO: MoodFeedbackModelForActivity(
             activityType: 'RECOMMENDATION',
             mood: mood,
           ),

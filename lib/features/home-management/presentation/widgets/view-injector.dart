@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import '../../../../core/activity/presentation/controller/path-controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
+
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
+import '../../../rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 import '../controller/home-controller.dart';
 import 'feedback-view.dart';
 import 'recommendation-view.dart';
-import '../../../rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 
 class ViewInjector extends StatelessWidget {
   const ViewInjector({
     Key? key,
     required this.homeController,
     required this.durationController,
-    required this.pathController,
+    required this.activityController,
     required this.rapportBuildingController,
   }) : super(key: key);
 
   final HomeController homeController;
 
   final DurationTrackerController durationController;
-  final PathController pathController;
+  final PerformActivityController activityController;
   final RapportBuildingController rapportBuildingController;
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class ViewInjector extends StatelessWidget {
           if (!homeController.fulfilledAllPostOnboardingActions.value) {
             return FeedbackView(
               isGuidedPlan: homeController.chosenPath.value == 'BIG_GOALS',
-              pathController: pathController,
+              activityController: activityController,
               durationController: durationController,
               rapportBuildingController: rapportBuildingController,
               homeController: homeController,
@@ -49,7 +50,6 @@ class ViewInjector extends StatelessWidget {
             return RecommendationView(
               controller: homeController,
               durationController: durationController,
-              pathController: pathController,
             );
           }
         }
@@ -58,7 +58,6 @@ class ViewInjector extends StatelessWidget {
           return RecommendationView(
             controller: homeController,
             durationController: durationController,
-            pathController: pathController,
           );
         }
       },

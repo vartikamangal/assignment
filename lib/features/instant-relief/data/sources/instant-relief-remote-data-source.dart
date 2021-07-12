@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
@@ -10,7 +9,7 @@ import 'package:tatsam_app_experimental/features/instant-relief/data/models/inst
 
 abstract class InstantReliefRemoteDataSource {
   Future<List<InstantReliefAreaModel>> getReliefAreas();
-  Future<List<ActivityRecommendationModel>> getRecommendations({
+  Future<List<ActivityModel>> getRecommendations({
     required String? instantLifeArea,
   });
   Future<List<EmergencyNumberModel>> fetchEmergencyNumbers();
@@ -39,7 +38,7 @@ class InstantReliefRemoteDataSourceImpl
   }
 
   @override
-  Future<List<ActivityRecommendationModel>> getRecommendations({
+  Future<List<ActivityModel>> getRecommendations({
     String? instantLifeArea,
   }) async {
     final response = await client!.post(
@@ -48,7 +47,7 @@ class InstantReliefRemoteDataSourceImpl
     throwExceptionIfResponseError!(statusCode: response.statusCode);
     final rawRecommendations = jsonDecode(response.body) as List;
     return rawRecommendations
-        .map((rawRecommendation) => ActivityRecommendationModel.fromJson(
+        .map((rawRecommendation) => ActivityModel.fromJson(
               rawRecommendation as Map<String, dynamic>,
             ))
         .toList();

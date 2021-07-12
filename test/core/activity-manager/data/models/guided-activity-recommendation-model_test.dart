@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/guided-activity-recommendation-model.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/guided-activity-recommendation.dart';
 
 void main() {

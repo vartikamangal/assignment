@@ -108,12 +108,13 @@ void main() {
   }
 
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getLifeAreas();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //act
+      when(remoteDataSource!.getAreas()).thenThrow(ServerException());
+       await repositoryImpl.getLifeAreas();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test('should return List<LifeAreaModel>', () async {
       //arrange
       when(remoteDataSource!.getAreas()).thenAnswer(

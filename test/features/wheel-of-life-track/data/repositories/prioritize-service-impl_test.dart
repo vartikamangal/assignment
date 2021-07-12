@@ -109,12 +109,15 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.prioritize(lifeAreas: tLifeAreaPrioritizationModel);
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteService!.prioritize(lifeAreas: tLifeAreaPrioritizationModel))
+          .thenAnswer((realInvocation) async => SuccessPrioritize());
+      //act
+      await serviceImpl.prioritize(lifeAreas: tLifeAreaPrioritizationModel);
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return SuccessPriotize when the call to remote resource is successfull',
         () async {

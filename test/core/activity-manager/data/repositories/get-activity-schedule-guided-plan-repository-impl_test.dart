@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/activity-scedule-guided-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/guided-activity-recommendation-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/path-information-model.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/repositories/get-activity-schedule-guided-plan-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/activity/data/sources/get-activity-schedule-for-guided-plan-remote-data-source.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
@@ -73,12 +73,14 @@ void main() {
 
   //! Actual tests go here
   runTestOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getSchedule();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      when(remoteDataSource!.getSchedule())
+          .thenAnswer((_) async => tActivityScheduled);
+      //act
+      await repositoryImpl.getSchedule();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return a scheduledactivity when call to remote data source is successfull',
         () async {

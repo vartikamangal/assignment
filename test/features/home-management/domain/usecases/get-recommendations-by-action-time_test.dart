@@ -2,12 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
-import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-step.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/domain/entities/activity-step.dart';
 import 'package:tatsam_app_experimental/features/home-management/domain/repositories/get-recommendations-by-action-time-repository.dart';
 import 'package:tatsam_app_experimental/features/home-management/domain/usecases/get-recommendations-by-action-time.dart';
+
 import 'get-recommendations-by-action-time_test.mocks.dart';
 
 @GenerateMocks([GetRecommendationsByActionTimeRepository])

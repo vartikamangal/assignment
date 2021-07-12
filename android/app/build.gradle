@@ -46,6 +46,11 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    //[MANUALLY-ADDED] This will disable lintint during release builds 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "in.tatsam.app"

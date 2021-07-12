@@ -10,7 +10,7 @@ import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/color-pallete.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 // ignore: must_be_immutable
 
 class PlanContainer extends StatelessWidget {
@@ -77,20 +77,31 @@ class PlanContainer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          InitCap(title!),
-                          style: isFaded!
-                              ? AppTextStyle.Darkblueheader.copyWith(
-                                  color: greyboxshade,
-                                )
-                              : AppTextStyle.Darkblueheader,
-                          textScaleFactor: textScaleFactor,
+                        Padding(
+                          padding:  EdgeInsets.only(right: 30),
+                          child: SizedBox(
+                              height: description==''?62:32,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                AutoSizeText(
+                                  InitCap(title!),
+                                  style: isFaded!
+                                      ? AppTextStyle.Darkblueheader.copyWith(
+                                    color: greyboxshade,
+                                  )
+                                      : AppTextStyle.Darkblueheader,
+                                  textScaleFactor: textScaleFactor,
+                                  maxLines: 2,
+                                  textAlign: TextAlign.left,)
+                                ],
+                              )),
                         ),
                         if (isFaded! || description == '')
                           EmptySpacePlaceHolder()
                         else
                           Padding(
-                            padding:  EdgeInsets.only(top: ScaleManager.spaceScale(spaceing: 7).value),
+                            padding:  EdgeInsets.only(top: ScaleManager.spaceScale(spaceing: 4).value),
                             child: Text(
                               description!,
                               style: AppTextStyle.ligntbluedescription,
@@ -134,5 +145,6 @@ String InitCap(String title) {
     result =
         '$result${'${title.split(' ')[i][0].toUpperCase()}${title.split(' ')[i].substring(1).toLowerCase()} '}';
   }
+
   return result;
 }

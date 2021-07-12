@@ -3,10 +3,10 @@
 import 'package:equatable/equatable.dart';
 
 // Project imports:
-import 'recommendation-activity.dart';
+import 'activity.dart';
 
 class Recommendation extends Equatable {
-  final ActivityRecommendation activity;
+  final Activity activity;
   final double weight;
   const Recommendation({
     required this.activity,
@@ -16,7 +16,7 @@ class Recommendation extends Equatable {
   List<Object> get props => [activity, weight];
 
   Recommendation copyWith({
-    ActivityRecommendation? activity,
+    Activity? activity,
     double? weight,
   }) {
     return Recommendation(

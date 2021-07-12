@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-activity-model.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-model.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-step-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/data/models/activity-step-model.dart';
+
+import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
   const List<Recommendation> tRecommendationModel = <RecommendationModel>[
@@ -34,7 +38,7 @@ void main() {
                 categoryShortDescription: "Focus on the body",
                 iconVO: ImageProp(urlShort: '', urlLarge: '', urlMedium: '')),
             recommendationStepsVO: <RecommendationStepModel>[
-              /*   RecommendationStepModel(
+                 RecommendationStepModel(
               id: 3171,
               stepTitle: "Content",
               stepHelp: "" ,
@@ -46,51 +50,21 @@ void main() {
               templateName: "PLAIN_TEXT",
               stepContent: "What is your fondest childhood memory? What made it special?"
           ),
-          RecommendationStepModel(
-            id: 3170,
-            stepTitle: "Instructions",
-            stepHelp: "",
-            stepName: "INSTRUCTIONS",
-            stepSequence: 2,
-            iconVO: ImageProp(urlShort: '',
-                urlLarge: '',
-                urlMedium: ''),
-            templateName: "PLAIN_TEXT",
-            stepContent: "The idea here is to record detailed descriptions of certain aspects of events, thoughts and feelings. Be as descriptive as possible and write down everything! The act of writing gives you perspectives that you may not consider if you just think about something.",
-
-          ),
-          RecommendationStepModel(
-              id: 3169,
-              stepTitle: "Did you know?",
-              stepHelp: "",
-              stepName: "DID_YOU_KNOW",
-              stepSequence: 1,
-              iconVO: ImageProp(urlShort: '',
-                  urlLarge: '',
-                  urlMedium: ''),
-              templateName: "PLAIN_TEXT",
-              stepContent: "Some useful did you know fact"
-          ),*/
             ],
             tags: <TagModel>[
-              /*TagModel(name: "ROMANCE",
+              TagModel(name: "ROMANCE",
               tagCategory: "AREAS",
               displayName: "Romance",
               parentName: null),
-          TagModel(name: "ROMANCE_LOW",
-              tagCategory: "WOL_SATISFACTION_RATING",
-              displayName: "Satisfaction low for Romance",
-              parentName: "ROMANCE"),
-          TagModel(name: "WORK_FROM_HOME",
-              tagCategory: "FOCUS_ISSUE",
-              displayName:"Work form home",
-              parentName: null),
-          TagModel(name: "LOSING_TEMPER",
-              tagCategory: "INSTANT_RELIEF",
-              displayName: "Losing Temper",
-              parentName: null),*/
             ]),
         weight: 1.0)
+  ];
+
+  const tTags=<TagModel>[
+    TagModel(name: "LOSING_TEMPER",
+        tagCategory: "INSTANT_RELIEF",
+        displayName: "Losing Temper",
+        parentName: null),
   ];
 
   group('Model RecommendationModel ', () {
@@ -110,19 +84,19 @@ void main() {
     //           RecommendationModel.fromJson(area as Map<String, dynamic>))
     //           .toList();
     //       //assert
-    //       expect(result, tRecommendationModel);
+    //       // expect(result, tRecommendationModel);
     //     });
-    // test('toJson should transform the model into a Map again', () async {
-    //   //arrange
-    //   final expectedJson =
-    //   jsonDecode(fixtureReader(filename: 'raw-tag-model.json'))
-    //   as List;
-    //   //act
-    //   final result = tTags
-    //       .map((area) => (area as TagModel).toJson())
-    //       .toList();
-    //   //assert
-    //   expect(result, expectedJson);
-    // });
+    test('toJson should transform the model into a Map again', () async {
+      //arrange
+      final expectedJson =
+      jsonDecode(fixtureReader(filename: 'raw-tag-model.json'))
+      as List;
+      //act
+      final result = tTags
+          .map((area) => (area as TagModel).toJson())
+          .toList();
+      //assert
+      expect(result, expectedJson);
+    });
   });
 }

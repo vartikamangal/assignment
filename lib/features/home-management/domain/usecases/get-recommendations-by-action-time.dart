@@ -3,22 +3,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 // Project imports:
-import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-activity.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/home-management/domain/repositories/get-recommendations-by-action-time-repository.dart';
 
 class GetRecommendationsByActionTime
-    implements
-        Usecase<List<ActivityRecommendation>,
-            GetRecommendationsByActionTimeParams> {
+    implements Usecase<List<Activity>, GetRecommendationsByActionTimeParams> {
   final GetRecommendationsByActionTimeRepository repository;
 
   GetRecommendationsByActionTime({
     required this.repository,
   });
   @override
-  Future<Either<Failure, List<ActivityRecommendation>>?> call(
+  Future<Either<Failure, List<Activity>>?> call(
       GetRecommendationsByActionTimeParams params) async {
     return repository.getRecommendations(
       actionTime: params.actionTime,

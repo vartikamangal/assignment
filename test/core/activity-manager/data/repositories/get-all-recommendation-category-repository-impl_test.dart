@@ -59,12 +59,15 @@ void main() {
 
   //! Actual tests go here
   runTestOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getAllCategories();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteDataSource!.getAllCategories())
+          .thenAnswer((_) async => tRecommendationCategory);
+      //act
+      await repositoryImpl.getAllCategories();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return a List<InstReliefArea> when call to remote data source is successfull',
         () async {

@@ -12,10 +12,15 @@ import 'package:tatsam_app_experimental/core/app-page-status/data/sources/app-pa
 import 'package:tatsam_app_experimental/core/app-page-status/domain/repository/app-page-status-repository.dart';
 import 'package:tatsam_app_experimental/core/app-page-status/domain/usecases/get-last-abandoned-page.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/cache-clearing-service-impl.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/data/repositories/cache-most-recent-acitivty-service-impl.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/cache-clearing-local-service.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/data/services/cache-most-recent-activity-local-service.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/cache-clearing-service.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/cache-most-recent-acitivity-service.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/cache-most-recent-acitivity.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/check-if-first-time-user.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/clear-dirty-cache-on-first-run.dart';
+import 'package:tatsam_app_experimental/core/cache-manager/presentation/controllers/activity_cache_controller.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/presentation/controllers/mood-data-cache-controller.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
@@ -102,6 +107,12 @@ Future<void> initCoreDependencies() async {
     () => MoodDataCacheController(
       getCachedMood: sl_core_dependencies(),
       cacheMood: sl_core_dependencies(),
+    ),
+  );
+  Get.lazyPut<ActivityCacheController>(
+    () => ActivityCacheController(
+      cacheMostRecentAcitivity: sl_core_dependencies(),
+      persistActivityFeedback: sl_core_dependencies(),
     ),
   );
   // Usecases
@@ -200,6 +211,11 @@ Future<void> initCoreDependencies() async {
       repository: sl_core_dependencies(),
     ),
   );
+  sl_core_dependencies.registerLazySingleton(
+    () => CacheMostRecentAcitivity(
+      service: sl_core_dependencies(),
+    ),
+  );
 
   // Respos/Services
   sl_core_dependencies.registerLazySingleton(
@@ -261,6 +277,12 @@ Future<void> initCoreDependencies() async {
       localDataSource: sl_core_dependencies(),
     ),
   );
+  sl_core_dependencies.registerLazySingleton<CacheMostRecentAcitivtyService>(
+    () => CacheMostRecentActivityServiceImpl(
+      localService: sl_core_dependencies(),
+      baseRepository: sl_core_dependencies(),
+    ),
+  );
   // Sources
   sl_core_dependencies
       .registerLazySingleton<StartRecordingVoiceNoteLocalService>(
@@ -314,6 +336,12 @@ Future<void> initCoreDependencies() async {
   );
   sl_core_dependencies.registerLazySingleton<AppPageStatusLocalDataSource>(
     () => AppPageStatusLocalDataSourceImpl(),
+  );
+  sl_core_dependencies
+      .registerLazySingleton<CacheMostRecentAcitivityLocalService>(
+    () => CacheMostRecentAcitivityLocalServiceImpl(
+      localClient: sl_core_dependencies(),
+    ),
   );
   //Core
   sl_core_dependencies.registerLazySingleton(

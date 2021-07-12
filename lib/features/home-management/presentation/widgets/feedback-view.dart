@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
 
 import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
@@ -14,14 +15,14 @@ class FeedbackView extends StatefulWidget {
   final bool isGuidedPlan;
   final HomeController homeController;
   final DurationTrackerController durationController;
-  final PathController pathController;
+  final PerformActivityController activityController;
   final RapportBuildingController rapportBuildingController;
   const FeedbackView({
     Key? key,
     required this.isGuidedPlan,
     required this.durationController,
     required this.homeController,
-    required this.pathController,
+    required this.activityController,
     required this.rapportBuildingController,
   }) : super(key: key);
 
