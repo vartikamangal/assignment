@@ -3,6 +3,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/pill-loader.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
@@ -76,13 +77,13 @@ class PathSelfDrivenPlan extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Obx(
                     () => _controller.isLoading.value
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            // ignore: prefer_const_literals_to_create_immutables
-                            children: [
-                              const CircularProgressIndicator(),
-                            ],
-                          )
+                        ? Padding(
+                          padding:  EdgeInsets.only( left: ScaleManager.spaceScale(spaceing: 29)
+                              .value,
+                            right: ScaleManager.spaceScale(spaceing: 29)
+                                .value,),
+                          child: PillLoader(haveDescription: true),
+                        )
                         : Column(
                             children: [
                               for (var category
@@ -107,8 +108,7 @@ class PathSelfDrivenPlan extends StatelessWidget {
                                       description: category.displaySubtitle,
                                       isFaded: false,
                                       requireBottomSpacing: true,
-                                      image:
-                                          '${ImagePath.selfDrivenOption}${category.categoryName!.toLowerCase()}.png',
+                                      image:category.iconVO ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
                                     ),
                                   ),
                                 ),

@@ -12,7 +12,7 @@ class Issue extends Equatable {
   final String? focusName;
   final String? displayName;
   final String? messageOnSelection;
-  final ImageProp? issueIcon;
+  final String? issueIcon;
 
   const Issue({
     required this.issueId,

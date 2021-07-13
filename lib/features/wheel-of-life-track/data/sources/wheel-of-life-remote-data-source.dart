@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
@@ -35,6 +36,7 @@ class WheelOfLifeRemoteDataSourceImpl implements WheelOfLifeRemoteDataSource {
     final response = await client!.get(
       uri: APIRoute.getWolAreas,
     );
+    log(response.body);
     throwExceptionIfResponseError!(statusCode: response.statusCode);
     return (jsonDecode(response.body) as List)
         .map((rawAreaJson) =>

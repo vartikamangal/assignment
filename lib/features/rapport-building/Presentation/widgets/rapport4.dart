@@ -1,6 +1,7 @@
 // Flutter imports:
 // Package imports:
 import 'package:animator/animator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -81,9 +82,11 @@ class MidPageContentsD extends StatelessWidget {
                     height: ScaleManager.spaceScale(
                       spaceing: 88,
                     ).value,
-                    child: Image.asset(
-                      '${ImagePath.lightBlueEmoji}${'${_onBoardingController.selectedEmotion.value}.png'}',
-                      scale: imageScale,
+                    child:CachedNetworkImage(
+                      imageUrl:_onBoardingController.selectedEmotionIconUrl.value,
+                      height:ScaleManager.spaceScale(
+                        spaceing: 88,
+                      ).value ,
                     ),
                   ),
                 ),

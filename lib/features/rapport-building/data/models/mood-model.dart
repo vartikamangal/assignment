@@ -24,11 +24,7 @@ class MoodModel extends Mood {
       moodName: jsonMap['moodName'] as String?,
       moodDescription: jsonMap['moodDescription'] as String?,
       //todo To be change with real image logic later
-      icon: const ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
-      ),
+      icon: ImagePropModel.fromJson(jsonMap['icon'] as Map<String, dynamic>),
     );
   }
 

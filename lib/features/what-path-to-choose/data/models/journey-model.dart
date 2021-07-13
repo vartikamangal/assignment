@@ -11,7 +11,7 @@ class JourneyModel extends Journey {
     required String? title,
     required String? subtitle,
     required String? description,
-    required ImageProp? icon,
+    required String? icon,
     required String? pathName,
   }) : super(
           pathName: pathName,
@@ -29,11 +29,7 @@ class JourneyModel extends Journey {
       subtitle: jsonMap['subtitle'] as String?,
       description: jsonMap['description'] as String?,
       //TODO change this after complete impl of ImageProp
-      icon: const ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
-      ),
+      icon: jsonMap['iconVO'] as String?,
       pathName: jsonMap['pathName'] as String?,
     );
   }
@@ -43,7 +39,7 @@ class JourneyModel extends Journey {
       "id": id,
       "title": title,
       "subtitle": subtitle,
-      "iconVO": null,
+      "iconVO": icon,
       "description": description,
       "pathName": pathName,
     };

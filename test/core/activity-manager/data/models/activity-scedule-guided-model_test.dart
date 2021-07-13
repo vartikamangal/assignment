@@ -32,7 +32,7 @@ void main() {
           helpContent: "Just putting some help content for future use",
           lengthOfPlan: 23),
       activitySchedule: <GuidedActivityRecommendationModel>[
-   /*     GuidedActivityRecommendationModel(
+        GuidedActivityRecommendationModel(
             id: 3443,
             dayNumber: 1,
             icon: ImageProp(),
@@ -40,7 +40,7 @@ void main() {
             title: "Day 1",
             subtitle: "Perform this day with smile",
             helpContent: "Some useless help content",
-            recommendationList: <ActivityRecommendationModel>[])*/
+            recommendationList: <ActivityRecommendationModel>[])
       ],
     )
   ];

@@ -2,10 +2,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-// Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 // Package imports:
 import 'package:hive/hive.dart';
 import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
@@ -71,7 +68,8 @@ abstract class SessionManager {
     return deviceID == null
         ? {
             'content-type': 'application/json',
-            Secrets.HEADER_TATSAM_USER: '{"deviceIdentifier": "${await getDeviceId()}"}',
+            Secrets.HEADER_TATSAM_USER:
+                '{"deviceIdentifier": "${await getDeviceId()}"}',
             'Authorization': 'Bearer $accessToken',
           }
         : {
@@ -92,7 +90,7 @@ abstract class SessionManager {
     final box = await Hive.openBox(PersistenceConst.CORE_BOX);
     try {
       final headerData = jsonDecode(
-        header['tatsam_user'] as String,
+        header[Secrets.HEADER_TATSAM_USER.toLowerCase()] as String,
       );
       box.put(
         PersistenceConst.CORE_DEVICE_ID,

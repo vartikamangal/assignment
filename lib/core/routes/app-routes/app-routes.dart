@@ -22,7 +22,6 @@ import 'package:tatsam_app_experimental/features/profile-screen/presentation/wid
 
 // Project imports:
 import '../../../features/focus/presentation/screen/focus-screen.dart';
-import '../../../features/focus/presentation/widgets/issue-detail.dart';
 import '../../../features/focus/presentation/widgets/selected-issue-details.dart';
 import '../../../features/home-management/presentation/screens/onboarding-incomplete.dart';
 import '../../../features/hub/presentation/screen/hub-screen.dart';
@@ -154,20 +153,7 @@ class GenerateRoute {
         type: PageTransitionType.fade,
       );
     }
-    if (route == RouteName.issueDetail) {
-      return PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 350),
-        pageBuilder: (context, animation, secondaryAnimation) => IssueDetail(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(1, 0),
-            end: Offset.zero,
-          ).animate(animation),
-          child: child,
-        ),
-      );
-    }
+
     if (route == RouteName.selectedIssueDetail) {
       return MaterialPageRoute(builder: (_) => SelectedIssueDetails());
     }

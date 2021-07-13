@@ -71,7 +71,37 @@ void main() {
                       "This is physical category for body",
                   categoryShortDescription: "Focus on the body",
                   iconVO: null),
-           activitySteps: [],
+              recommendationStepsVO: <RecommendationStep>[
+                RecommendationStep(
+                    id: 3171,
+                    stepTitle: "Content",
+                    stepHelp: "",
+                    stepName: "CONTENT",
+                    stepSequence: 3,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent:
+                        "What is your fondest childhood memory? What made it special?"),
+                RecommendationStep(
+                    id: 3170,
+                    stepTitle: "Instructions",
+                    stepHelp: "",
+                    stepName: "INSTRUCTIONS",
+                    stepSequence: 2,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent:
+                        "The idea here is to record detailed descriptions of certain aspects of events, thoughts and feelings. Be as descriptive as possible and write down everything! The act of writing gives you perspectives that you may not consider if you just think about something."),
+                RecommendationStep(
+                    id: 3169,
+                    stepTitle: "Did you know?",
+                    stepHelp: "",
+                    stepName: "DID_YOU_KNOW",
+                    stepSequence: 1,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent: "Some useful did you know fact"),
+              ],
             ),
             Activity(
               id: "554e6ad7-42ca-4c56-bc0a-4cf96a902812",
@@ -98,7 +128,40 @@ void main() {
                 categoryDetailedDescription: "This is Spiritual category",
                 categoryShortDescription: "Focus on the world around",
                 iconVO: null,
-              ), activitySteps: [],
+              ),
+              recommendationStepsVO: <RecommendationStep>[
+                RecommendationStep(
+                    id: 3142,
+                    stepTitle: "Content",
+                    stepHelp:
+                        "Focus on the small, positive things âor become more aware of the small, good things that were already happening in your life.",
+                    stepName: "CONTENT",
+                    stepSequence: 3,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent:
+                        "What were 3 surprises that came your way this week?"),
+                RecommendationStep(
+                    id: 3141,
+                    stepTitle: "Instructions",
+                    stepHelp: "",
+                    stepName: "INSTRUCTIONS",
+                    stepSequence: 2,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent:
+                        "To stimulate the experience of gratitude take a minute to ponder what life would be like without all that you have. Focus on people, surprises, your environment or events rather than material possessions."),
+                RecommendationStep(
+                    id: 3140,
+                    stepTitle: "Did you know?",
+                    stepHelp: "",
+                    stepName: "DID_YOU_KNOW",
+                    stepSequence: 1,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent:
+                        "Grateful people experience fewer aches and pains and they report feeling healthier than other people"),
+              ],
             ),
             Activity(
               id: "29f29728-424e-4ae8-8338-e0fbaaedc101",
@@ -124,7 +187,38 @@ void main() {
                 categoryDetailedDescription: "This is emotional category",
                 categoryShortDescription: "Focus on your relationships",
                 iconVO: null,
-              ), activitySteps: [],
+              ),
+              recommendationStepsVO: <RecommendationStep>[
+                RecommendationStep(
+                    id: 3323,
+                    stepTitle: "Content",
+                    stepHelp: "",
+                    stepName: "CONTENT",
+                    stepSequence: 3,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent:
+                        "What is your fondest childhood memory? What made it special?"),
+                RecommendationStep(
+                    id: 3322,
+                    stepTitle: "Instructions",
+                    stepHelp: "",
+                    stepName: "INSTRUCTIONS",
+                    stepSequence: 2,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent:
+                        "The idea here is to record detailed descriptions of certain aspects of events, thoughts and feelings. Be as descriptive as possible and write down everything! The act of writing gives you perspectives that you may not consider if you just think about something."),
+                RecommendationStep(
+                    id: 3321,
+                    stepTitle: "Did you know?",
+                    stepHelp: "",
+                    stepName: "DID_YOU_KNOW",
+                    stepSequence: 1,
+                    iconVO: null,
+                    templateName: "PLAIN_TEXT",
+                    stepContent: "Some useful did you know fact"),
+              ],
             )
           ])
     ],

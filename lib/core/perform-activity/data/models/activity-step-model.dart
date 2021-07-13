@@ -11,7 +11,7 @@ class ActivityStepModel extends ActivityStep {
     required String? stepHelp,
     required String? stepName,
     required int? stepSequence,
-    required ImageProp iconVO,
+    required String? iconVO,
     required String? templateName,
     required String? stepContent,
   }) : super(
@@ -32,7 +32,7 @@ class ActivityStepModel extends ActivityStep {
       stepHelp: jsonMap['stepHelp'] as String?,
       stepName: jsonMap['stepName'] as String?,
       stepSequence: jsonMap['stepSequence'] as int?,
-      iconVO: const ImageProp(),
+      iconVO: jsonMap['iconVO'] as String?,
       templateName: jsonMap['templateName'] as String?,
       stepContent: jsonMap['stepContent'] as String?,
     );
@@ -45,7 +45,7 @@ class ActivityStepModel extends ActivityStep {
       "stepHelp": stepHelp,
       "stepName": stepName,
       "stepSequence": stepSequence,
-      "iconVO": null,
+      "iconVO": iconVO,
       "templateName": templateName,
       "stepContent": stepContent,
     };

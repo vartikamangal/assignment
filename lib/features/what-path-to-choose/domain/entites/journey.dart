@@ -12,7 +12,7 @@ class Journey extends Equatable {
   final String? title;
   final String? subtitle;
   final String? description;
-  final ImageProp? icon;
+  final String? icon;
   final String? pathName;
   const Journey({
     required this.id,

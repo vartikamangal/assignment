@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
@@ -38,6 +39,7 @@ class FocusRemoteDataSourceImpl implements FocusRemoteDataSource {
     final response = await client!.get(
       uri: APIRoute.getAllIssues,
     );
+    log(response.body);
     throwExceptionIfResponseError!(statusCode: response.statusCode);
     final rawIssues = jsonDecode(response.body) as List;
     return rawIssues

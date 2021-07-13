@@ -1,6 +1,7 @@
 // Flutter imports:
 // Package imports:
 import 'package:animator/animator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,10 @@ import 'customDropDownBtn.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-content-according-to-mood.dart';
 
 class MidPageContentC extends StatelessWidget {
-  final String selectedEmotion;
+  final String selectedEmotionIconUrl;
   final RapportBuildingController controller;
   const MidPageContentC({
-    required this.selectedEmotion,
+    required this.selectedEmotionIconUrl,
     required this.controller,
   });
   @override
@@ -87,9 +88,11 @@ class MidPageContentC extends StatelessWidget {
                   ).value,
                   child: DiagonalAnimation(
                     0.4,
-                    Image.asset(
-                      '${ImagePath.lightBlueEmoji}${'$selectedEmotion.png'}',
-                      scale: imageScale,
+                    CachedNetworkImage(
+                      imageUrl:selectedEmotionIconUrl,
+                      height: ScaleManager.spaceScale(
+                        spaceing: 88,
+                      ).value,
                     ),
                     1,
                     300.0,

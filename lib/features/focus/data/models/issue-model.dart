@@ -11,7 +11,7 @@ class IssueModel extends Issue {
     required String? focusName,
     required String? displayName,
     required String? messageOnSelection,
-    required ImageProp? issueIcon,
+    required String? issueIcon,
   }) : super(
           messageOnSelection: messageOnSelection,
           issueIcon: issueIcon,
@@ -27,11 +27,7 @@ class IssueModel extends Issue {
       displayName: jsonMap['displayName'] as String?,
       messageOnSelection: jsonMap['messageOnSelection'] as String?,
       //TODO To ImageProp.fromJson not Impletemented yet!
-      issueIcon: const ImageProp(
-        urlLarge: null,
-        urlMedium: null,
-        urlShort: null,
-      ),
+      issueIcon:jsonMap['iconVO'] as String?,
     );
   }
 
@@ -42,7 +38,7 @@ class IssueModel extends Issue {
       "messageOnSelection": messageOnSelection,
       "focusName": focusName,
       //TODO To ImageProp.toJson not Impletemented yet!
-      "iconVO": null
+      "iconVO": issueIcon
     };
   }
 }

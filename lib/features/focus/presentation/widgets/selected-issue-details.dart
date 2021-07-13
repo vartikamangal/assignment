@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,9 +43,11 @@ class SelectedIssueDetails extends StatelessWidget {
                         width: ScaleManager.spaceScale(
                           spaceing: 274,
                         ).value,
-                        child: Image.asset(
-                          _controller.selectedIssueImage,
-                          scale: imageScaleFactor,
+                        child: CachedNetworkImage(
+                          imageUrl:_controller.selectedIssueImage,
+                          height: ScaleManager.spaceScale(
+                            spaceing: 274,
+                          ).value,
                         ),
                       ),
                     ),

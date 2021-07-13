@@ -9,7 +9,7 @@ class GuidedActivityRecommendationModel extends GuidedActivityRecommendation {
   const GuidedActivityRecommendationModel({
     required int? id,
     required int? dayNumber,
-    required ImageProp? icon,
+    required String? icon,
     required String? description,
     required String? title,
     required String? subtitle,
@@ -32,7 +32,7 @@ class GuidedActivityRecommendationModel extends GuidedActivityRecommendation {
       id: jsonMap['id'] as int?,
       dayNumber: jsonMap['dayNumber'] as int?,
       //TODO to be implemented once image is done
-      icon: const ImageProp(),
+      icon: jsonMap['icon'] as String?,
       description: jsonMap['description'] as String?,
       title: jsonMap['title'] as String?,
       subtitle: jsonMap['subtitle'] as String?,

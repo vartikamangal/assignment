@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 // Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -107,12 +108,8 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
                       spaceing: 138,
                     ).value,
                     duration: const Duration(milliseconds: 350),
-                    child: Hero(
-                      tag: '${ImagePath.selfDrivenOption}physical.png',
-                      child: Image.asset(
-                        '${ImagePath.selfDrivenOption}physical.png',
-                        scale: imageScaleFactor,
-                      ),
+                    child: NotNullImage(
+                      image: _activityController.activity.value!.iconVO??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
                     ),
                   ),
                   Container(
@@ -177,7 +174,7 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
                                   children: rapportController.moods.value
                                       .map(
                                         (mood) => emotionSelector(
-                                          mood.moodName!.toLowerCase(),
+                                            mood.moodIcon!.url!,
                                           () async {
                                             await _contentPageController
                                                 .rateOngoingActivity(
@@ -220,6 +217,22 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class NotNullImage extends StatelessWidget {
+  String? image;
+  NotNullImage({required this.image});
+  // ignore: empty_constructor_bodies
+  @override
+  Widget build(BuildContext context) {
+    return  Hero(
+      tag: image!,
+      child: CachedNetworkImage(
+        imageUrl :image!,
+        // scale: imageScaleFactor,
       ),
     );
   }

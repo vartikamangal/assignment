@@ -58,7 +58,7 @@ class WhatPathToChoose extends StatelessWidget {
               : _AvailablePathsWidget(
                   controller: _controller,
                 ),
-        ),
+        )
       ],
     );
   }
@@ -99,13 +99,15 @@ class _AvailablePathsWidget extends StatelessWidget {
                     spaceing: 42,
                   ).value,
                 ),
+
+                ///have to add default image
                 child: RadialBoxForPathSelection(
                   title: path.title,
-                  imgUrl: "assets/choose-path-screen/${path.pathName}.png",
+                  imgUrl: path.icon ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
                   subtitle: path.subtitle,
                   onPressed: () {
                     _controller.selectJourney(
-                      journey: path,
+                      journey: path,selectedJourneyImageUrl: path.icon ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'
                     );
                   },
                 ),

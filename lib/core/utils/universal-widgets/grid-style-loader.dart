@@ -19,7 +19,7 @@ class GridLoaderScreen extends StatelessWidget {
       height: Get.height * 0.9,
       width: Get.width,
       child: GridView.builder(
-        physics: const BouncingScrollPhysics(),
+        physics:NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),

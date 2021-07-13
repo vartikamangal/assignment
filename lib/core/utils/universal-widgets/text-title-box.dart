@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
-
+///this is used only for the what path to choose screen
 class RadialBoxForPathSelection extends StatelessWidget {
   final Callback? onPressed;
   final String? title;
@@ -105,9 +106,11 @@ class RadialBoxForPathSelection extends StatelessWidget {
                   color: Colors.transparent,
                   shape: BoxShape.circle,
                 ),
-                child: Image.asset(
-                  imgUrl!,
-                  scale: imageScaleFactor,
+                child: CachedNetworkImage(
+                  imageUrl:imgUrl!,
+                  height: ScaleManager.spaceScale(
+                    spaceing: 91,
+                  ).value,
                 ),
               ),
             ),

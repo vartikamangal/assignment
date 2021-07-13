@@ -27,51 +27,31 @@ void main() {
       moodName: "Very sad",
       moodId: 1,
       moodDescription: "Very sad",
-      moodIcon: ImageProp(
-        urlLarge: 'http://cdn.tatsam.in/assets/moods/small/1',
-        urlMedium: 'http://cdn.tatsam.in/assets/moods/medium/1',
-        urlShort: 'http://cdn.tatsam.in/assets/moods/large/1',
-      ),
+      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
     Mood(
       moodName: "Sad",
       moodId: 2,
       moodDescription: "Sad",
-      moodIcon: ImageProp(
-        urlLarge: 'http://cdn.tatsam.in/assets/moods/small/1',
-        urlMedium: 'http://cdn.tatsam.in/assets/moods/medium/1',
-        urlShort: 'http://cdn.tatsam.in/assets/moods/large/1',
-      ),
+      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
     Mood(
       moodName: "Normal",
       moodId: 3,
       moodDescription: "Normal",
-      moodIcon: ImageProp(
-        urlLarge: 'http://cdn.tatsam.in/assets/moods/small/1',
-        urlMedium: 'http://cdn.tatsam.in/assets/moods/medium/1',
-        urlShort: 'http://cdn.tatsam.in/assets/moods/large/1',
-      ),
+      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
     Mood(
       moodName: "Happy",
       moodId: 4,
       moodDescription: "Happy",
-      moodIcon: ImageProp(
-        urlLarge: 'http://cdn.tatsam.in/assets/moods/small/1',
-        urlMedium: 'http://cdn.tatsam.in/assets/moods/medium/1',
-        urlShort: 'http://cdn.tatsam.in/assets/moods/large/1',
-      ),
+      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
     Mood(
       moodName: "Very happy",
       moodId: 5,
       moodDescription: "Very happy",
-      moodIcon: ImageProp(
-        urlLarge: 'http://cdn.tatsam.in/assets/moods/small/1',
-        urlMedium: 'http://cdn.tatsam.in/assets/moods/medium/1',
-        urlShort: 'http://cdn.tatsam.in/assets/moods/large/1',
-      ),
+      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
   ];
 

@@ -80,6 +80,7 @@ class ChoosePathController extends GetxController {
   RxBool isLoading = RxBool(false);
   RxBool isProcessing = RxBool(false);
   RxBool isJourneySelected = RxBool(false);
+  String selectedJourneyImageUrl='';
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;
@@ -90,7 +91,8 @@ class ChoosePathController extends GetxController {
   }
 
   // ignore: use_setters_to_change_properties
-  void selectJourney({required Journey journey}) {
+  void selectJourney({required Journey journey, required String selectedJourneyImageUrl}) {
+    selectedJourneyImageUrl=selectedJourneyImageUrl;
     selectedJourney.value = journey;
     isJourneySelected.value = true;
   }

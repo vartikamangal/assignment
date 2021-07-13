@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -39,10 +40,11 @@ class ReliefAreaCard extends StatelessWidget {
                 width: ScaleManager.spaceScale(
                   spaceing: 106,
                 ).value,
-                child: Image.asset(
-                  imageAddress,
-                  height: 100,
-                  scale: imageScaleFactor,
+                child:CachedNetworkImage(
+                  imageUrl: imageAddress,
+                  height: ScaleManager.spaceScale(
+                    spaceing: 100,
+                  ).value,
                 ),
               ),
             ),

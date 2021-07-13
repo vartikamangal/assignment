@@ -133,7 +133,7 @@ class GuidedPathPlanInside extends StatelessWidget {
           },
           title: activity.title.toString(),
           description: '',
-          image: '${ImagePath.guidedOption}day 2.png',
+          image: activity.iconVO??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
         ),
       );
     }

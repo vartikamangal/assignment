@@ -13,6 +13,7 @@ import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/bottom-right-text-button.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/null-handled-image.dart';
 
 class InstructionsScreen extends StatelessWidget {
   final PerformActivityController _activityController = Get.find();
@@ -51,17 +52,7 @@ class InstructionsScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Hero(
-                            tag: '${ImagePath.selfDrivenOption}physical.png',
-                            child: Image.asset(
-                              '${ImagePath.selfDrivenOption}physical.png',
-                              height:
-                                  ScaleManager.spaceScale(spaceing: 140).value,
-                              width:
-                                  ScaleManager.spaceScale(spaceing: 138).value,
-                              scale: imageScaleFactor,
-                            ),
-                          ),
+                          NullHandledImage(image:  _activityController.activity.value!.iconVO??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',)
                         ],
                       ),
                       Container(

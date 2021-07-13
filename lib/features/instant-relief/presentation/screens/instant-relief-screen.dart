@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/grid-style-loader.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,6 +38,7 @@ class InstantReliefScreen extends StatelessWidget {
             backgroundColor: Theme.of(context).canvasColor,
             elevation: 0,
             leading: TopAppBar(onPressed: () {
+             // print(_controller.instantLifeAreas[1].icon);
               Get.back();
             })),
         body: CustomScrollView(
@@ -129,9 +131,9 @@ class InstantReliefScreen extends StatelessWidget {
                         left: ScaleManager.spaceScale(
                           spaceing: 23,
                         ).value,
-                        bottom: ScaleManager.spaceScale(
+                       /* bottom: ScaleManager.spaceScale(
                           spaceing: 33,
-                        ).value,
+                        ).value,*/
                         top: ScaleManager.spaceScale(
                           spaceing: 33,
                         ).value,
@@ -150,17 +152,15 @@ class InstantReliefScreen extends StatelessWidget {
             SliverToBoxAdapter(
                 child: Obx(
               () => _controller.isProcessing.value
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircularProgressIndicator(),
-                      ],
-                    )
+                  ? const GridLoaderScreen()
                   : Padding(
                       padding: EdgeInsets.only(
                         left: ScaleManager.spaceScale(
                           spaceing: 46,
                         ).value,
+                        top: ScaleManager.spaceScale(
+                      spaceing: 33,
+                      ).value,
                         right: ScaleManager.spaceScale(
                           spaceing: 58,
                         ).value,
@@ -171,8 +171,7 @@ class InstantReliefScreen extends StatelessWidget {
                             _controller.instantLifeAreas.length, (index) {
                           final area = _controller.instantLifeAreas[index];
                           return ReliefAreaCard(
-                            imageAddress:
-                                '${ImagePath.selfDrivenOption}physical.png',
+                            imageAddress:'https://images.unsplash.com/photo-1547721064-da6cfb341d50'/*area.icon==''?'https://images.unsplash.com/photo-1547721064-da6cfb341d50':area.icon!*/,
                             title: area.title,
                             onTap: () async {
                               _controller.instantReliefArea =

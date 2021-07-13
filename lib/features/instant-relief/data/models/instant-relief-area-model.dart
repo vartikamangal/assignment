@@ -12,7 +12,7 @@ class InstantReliefAreaModel extends InstantReliefArea {
     required String? subtitle,
     required String? instantReliefName,
     required String? description,
-    required ImageProp? icon,
+    required String? icon,
   }) : super(
           description: description,
           icon: icon,
@@ -30,11 +30,7 @@ class InstantReliefAreaModel extends InstantReliefArea {
       instantReliefName: jsonMap['instantReliefName'] as String?,
       description: jsonMap['description'] as String?,
       //TODO make sure to change this once ImageProp.fromJson() is implemented
-      icon: const ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
-      ),
+      icon:jsonMap['iconVO'] as String?,
     );
   }
 
@@ -46,7 +42,7 @@ class InstantReliefAreaModel extends InstantReliefArea {
       "instantReliefName": instantReliefName,
       "description": description,
       //TODO make sure to change this once ImageProp.toJson() is implemented
-      "iconVO": null,
+      "iconVO": icon,
     };
   }
 }

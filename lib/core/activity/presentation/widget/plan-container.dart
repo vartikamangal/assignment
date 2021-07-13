@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -12,6 +13,7 @@ import '../../../../core/utils/color-pallete.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 // ignore: must_be_immutable
+
 
 class PlanContainer extends StatelessWidget {
   String? title;
@@ -78,9 +80,9 @@ class PlanContainer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding:  EdgeInsets.only(right: 30),
+                          padding:  EdgeInsets.only(right: ScaleManager.spaceScale(spaceing: 30).value),
                           child: SizedBox(
-                              height: description==''?62:32,
+                              height: description==''?ScaleManager.spaceScale(spaceing: 62).value:ScaleManager.spaceScale(spaceing: 33).value,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -115,10 +117,10 @@ class PlanContainer extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Image.asset(
-                    image!,
+                  child:  CachedNetworkImage(
+                    imageUrl:image!,
                     height: ScaleManager.spaceScale(spaceing: 91).value,
-                    scale: imageScaleFactor,
+                    //scale: imageScaleFactor,
                   ),
                 ),
               ],

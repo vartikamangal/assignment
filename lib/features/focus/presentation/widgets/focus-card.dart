@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -16,7 +17,7 @@ class FocusCard extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  final String imageAddress;
+  final String? imageAddress;
   final String? title;
   final Callback onTap;
 
@@ -43,11 +44,11 @@ class FocusCard extends StatelessWidget {
                 spaceing: 106,
               ).value,
               child: Hero(
-                tag: imageAddress,
-                child: Image.asset(
-                  imageAddress,
+                tag: imageAddress!,
+                child: CachedNetworkImage(
+                  imageUrl: imageAddress!,
                   height: 100,
-                  scale: imageScaleFactor,
+                 // scale: imageScaleFactor,
                 ),
               ),
             ),

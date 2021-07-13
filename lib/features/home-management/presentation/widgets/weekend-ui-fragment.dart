@@ -159,7 +159,7 @@ class SmallActivityPill extends StatelessWidget {
                 spaceing: 45,
               ).value),
               width: ScaleManager.spaceScale(
-                spaceing: 180,
+                spaceing: 380,
               ).value,
               decoration: BoxDecoration(
                 //color: Colors.red,

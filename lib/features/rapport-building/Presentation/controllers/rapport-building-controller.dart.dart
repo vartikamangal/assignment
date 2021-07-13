@@ -51,6 +51,7 @@ class RapportBuildingController extends GetxController {
   RxBool isProcessing = RxBool(false);
   final String activityTypeForRapportSection = "ONBOARDING";
   RxList<Mood> moods = RxList([]);
+  final VoiceNoteController _voiceNoteController = Get.find();
 
   /// This will give us basic userInfo like subjectInfo
   /// Which is to be used in common-feedback persistence
@@ -84,7 +85,6 @@ class RapportBuildingController extends GetxController {
   /////////////////////////////////////////////////////////////////////////////////////////
   //            //? UseCase assistors
   /////////////////////////////////////////////////////////////////////////////////////////
-
   Future<void> changeNickNameAndMoveOnwards() async {
     toggleProcessor();
     await SessionManager.persistUsername(
@@ -97,10 +97,10 @@ class RapportBuildingController extends GetxController {
     );
     toggleProcessor();
     userNameSetOrFailure!.fold(
-      (failure) {
+          (failure) {
         ErrorInfo.show(failure);
       },
-      (fetchedSubjectInfo) {
+          (fetchedSubjectInfo) {
         subjectInfo.value = fetchedSubjectInfo;
         currentOnBoardPageCounter.value += 1;
         currentSelectedPage.value = MidPageContentB(
@@ -113,10 +113,10 @@ class RapportBuildingController extends GetxController {
   Future<void> getAllAvailableMoods() async {
     final moodsOrFailure = await getAllMoods(NoParams());
     moodsOrFailure!.fold(
-      (failure) {
+          (failure) {
         ErrorInfo.show(failure);
       },
-      (moodsFetched) {
+          (moodsFetched) {
         moods.assignAll(moodsFetched);
       },
     );
@@ -151,16 +151,16 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     final setMoodOrFailure = await setSubjectMood(
       SetSubjectMoodParams(
-        moodName: selectedEmotion.value.toUpperCase(),
+        moodName:  selectedMood.value!.moodName!.toUpperCase(),
         activityType: activityTypeForRapportSection,
       ),
     );
     toggleProcessor();
     setMoodOrFailure!.fold(
-      (failure) {
+          (failure) {
         ErrorInfo.show(failure);
       },
-      (fetchedUserMoodStatus) async {
+          (fetchedUserMoodStatus) async {
         await Get.find<MoodDataCacheController>()
             .cacheGivenMood(
           moodModel: selectedMood.value as MoodModel,
@@ -169,7 +169,7 @@ class RapportBuildingController extends GetxController {
           userMoodStatus.value = fetchedUserMoodStatus;
           currentOnBoardPageCounter.value += 1;
           currentSelectedPage.value = MidPageContentC(
-            selectedEmotion: selectedEmotion.value,
+            selectedEmotionIconUrl: selectedEmotionIconUrl.value,
             controller: this,
           );
         });
@@ -179,12 +179,12 @@ class RapportBuildingController extends GetxController {
 
   Future<void> fetchAvailableDurations() async {
     final availableDurationsOrFailure =
-        await getAvailableFeelingDuration(NoParams());
+    await getAvailableFeelingDuration(NoParams());
     availableDurationsOrFailure!.fold(
-      (failure) {
+          (failure) {
         ErrorInfo.show(failure);
       },
-      (fetchedDurationList) {
+          (fetchedDurationList) {
         log('available durations fetched');
         availableDurations.assignAll(fetchedDurationList);
         //TODO adding an extra duration coz. of the design thing, Will optimize in future
@@ -212,38 +212,36 @@ class RapportBuildingController extends GetxController {
     );
     toggleProcessor();
     moodTrackingStatusOrFailure!.fold(
-      (failure) {
+          (failure) {
         ErrorInfo.show(failure);
       },
-      (moodTrackStatus) {
+          (moodTrackStatus) {
         log('mood duration set successfully!');
         currentSelectedPage.value = MidPageContentsD();
       },
     );
   }
 
-  Future<void> persistSubjectFeeing({
-    required String feeling,
-  }) async {
+  Future<void> persistSubjectFeeing({required String feeling}) async {
     toggleProcessor();
     final persistStatus = await saveFeedback(
       SaveFeedbackParams(
         subjetcId: subjectInfo.value!.subjectId!.id,
         activityType: 'ONBOARDING',
         textFeedback: feeling,
-        voiceNote: Get.find<VoiceNoteController>().currentVoiceNotePath.value,
+        voiceNote: _voiceNoteController.currentVoiceNotePath.value,
         timeOfCreation: DateTime.now().toString(),
         boxKey: PersistenceConst.RAPPORT_FEELING_BOX,
       ),
     );
     toggleProcessor();
     persistStatus!.fold(
-      (failure) {
+          (failure) {
         ErrorInfo.show(failure);
       },
-      (persistenceMessage) async {
+          (persistenceMessage) async {
         log('feeling persisted');
-        Get.find<VoiceNoteController>().cleanVoiceFilePath();
+        _voiceNoteController.cleanVoiceFilePath();
       },
     );
   }
@@ -251,14 +249,13 @@ class RapportBuildingController extends GetxController {
   ////////////////////////////////////////////////////////////////////////////////
   //           //? UI RELATED CHANGES METHODS
   ////////////////////////////////////////////////////////////////////////////////
-
   final FocusNode focusNode = FocusNode();
   // For getting the intro-page wherever user is
   RxInt currentOnBoardPageCounter = 0.obs;
   // Maximum no. of intro pages on wol_areas_page
   int maxIntroPages = 3;
   //for getting selected emotion
-  RxString selectedEmotion = RxString('');
+  RxString selectedEmotionIconUrl = RxString('');
   // for setting a nickName
   RxString userName = RxString('');
   // For making global widget changes as per the selected index
@@ -282,7 +279,7 @@ class RapportBuildingController extends GetxController {
   // for setting a emotion
   // ignore: avoid_setters_without_getters
   Future<void> setEmotion(String emojiName, Mood mood) async {
-    selectedEmotion.value = emojiName;
+    selectedEmotionIconUrl.value = mood.moodIcon!.url!;
     selectedMood.value = mood;
     await setSubjectMoodAndMoveOnwards();
   }
@@ -346,7 +343,7 @@ class RapportBuildingController extends GetxController {
         break;
       case 2:
         currentSelectedPage.value = MidPageContentC(
-          selectedEmotion: selectedEmotion.value,
+          selectedEmotionIconUrl: selectedEmotionIconUrl.value,
           controller: this,
         );
         break;

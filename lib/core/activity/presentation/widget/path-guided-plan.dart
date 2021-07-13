@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/pill-loader.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 
 // Project imports:
@@ -82,9 +83,7 @@ class PathGuidedPlan extends StatelessWidget {
                 sliver: SliverToBoxAdapter(
                   child: Obx(
                     () => _controller.isLoading.value
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
+                        ?  PillLoader(haveDescription: true)
                         : Column(
                             children: _buildPlan(),
                           ),
@@ -106,7 +105,7 @@ class PathGuidedPlan extends StatelessWidget {
           requireBottomSpacing: true,
           title: planItem.title,
           description: planItem.dayNumber == 1 ? planItem.subtitle : '',
-          image: '${ImagePath.guidedOption}day 2.png',
+          image: planItem.icon??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
           // ignore: avoid_bool_literals_in_conditional_expressions
           isFaded: planItem.dayNumber == 1 ? false : true,
           onPressed: () {

@@ -1,6 +1,7 @@
 // Dart imports:
 
 // Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // Package imports:
@@ -14,6 +15,7 @@ import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/bottomRightButton.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/null-handled-image.dart';
 
 // main(List<String> args) {
 //   DidYouKnowScreen.pageName
@@ -76,19 +78,7 @@ class DidYouKnowScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           //TODO change this after
-                          Hero(
-                            tag: '${ImagePath.selfDrivenOption}physical.png',
-                            child: Image.asset(
-                              '${ImagePath.selfDrivenOption}physical.png',
-                              height: ScaleManager.spaceScale(
-                                spaceing: 140,
-                              ).value,
-                              width: ScaleManager.spaceScale(
-                                spaceing: 138,
-                              ).value,
-                              scale: imageScaleFactor,
-                            ),
-                          ),
+                          NullHandledImage(image: _activityController.activeStep.value!.iconVO ??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',)
                         ],
                       ),
                       SizedBox(

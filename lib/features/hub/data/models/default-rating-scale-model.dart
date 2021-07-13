@@ -27,11 +27,7 @@ class DefaultRatingScaleModel extends DefaultRatingScale {
       minValue: jsonMap['minValue'] as int?,
       maxValue: jsonMap['maxValue'] as int?,
       //TODO to be replaced with actual ImagePropModel once implemented
-      icon: const ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
-      ),
+      icon: ImagePropModel.fromJson(jsonMap['icon'] as Map<String, dynamic>),
     );
   }
 }

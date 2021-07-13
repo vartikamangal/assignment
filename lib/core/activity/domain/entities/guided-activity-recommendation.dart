@@ -10,7 +10,7 @@ import 'activity.dart';
 class GuidedActivityRecommendation extends Equatable {
   final int? id;
   final int? dayNumber;
-  final ImageProp? icon;
+  final String? icon;
   final String? description;
   final String? title;
   final String? subtitle;

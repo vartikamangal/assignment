@@ -3,30 +3,56 @@
         "id": 1,
         "moodName": "VERY_BAD",
         "moodDescription": "Very sad",
-        "icon": null
+        "icon": {
+            "id": 1,
+            "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png",
+            "iconType": "URL",
+            "iconName": "logo-512x512"
+        }
     },
     {
         "id": 2,
         "moodName": "BAD",
         "moodDescription": "Sad",
-        "icon": null
+        "icon": {
+            "id": 1,
+            "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png",
+            "iconType": "URL",
+            "iconName": "logo-512x512"
+        }
     },
     {
         "id": 3,
         "moodName": "NEUTRAL",
         "moodDescription": "Neutral",
-        "icon": null
+        "icon": {
+            "id": 1,
+            "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png",
+            "iconType": "URL",
+            "iconName": "logo-512x512"
+        }
     },
     {
         "id": 4,
         "moodName": "GOOD",
         "moodDescription": "Happy",
-        "icon": null
+        "icon": {
+            "id": 1,
+            "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png",
+            "iconType": "URL",
+            "iconName": "logo-512x512"
+        }
     },
     {
         "id": 5,
         "moodName": "VERY_GOOD",
         "moodDescription": "Very Happy",
-        "icon": null
+        "icon": {
+
+            "id": 1,
+            "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png",
+            "iconType": "URL",
+            "iconName": "logo-512x512"
+        }
     }
 ]

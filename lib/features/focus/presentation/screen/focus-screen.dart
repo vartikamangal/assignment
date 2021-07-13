@@ -1,4 +1,5 @@
 import 'package:animator/animator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -105,11 +106,11 @@ class FocusScreen extends StatelessWidget {
                         final issueImageAddr =
                             '${ImagePath.issues}${'${_controller.issues[index]!.focusName!.toLowerCase()}.png'}';
                         return FocusCard(
-                          imageAddress: issueImageAddr,
+                          imageAddress: _controller.issues[index]!.issueIcon==null?'https://images.unsplash.com/photo-1547721064-da6cfb341d50':_controller.issues[index]!.issueIcon,
                           title: _controller.issues[index]!.displayName,
                           onTap: () {
                             _controller.getDescription(
-                              issueImageAddr,
+                              _controller.issues[index]!.issueIcon ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
                               _controller.issues[index],
                             );
                             _controller.removeIssue( _controller.issues[index],);
@@ -168,8 +169,8 @@ class _MiddleExpandableContainer extends StatelessWidget {
               else
                 Hero(
                   tag: imageUrl,
-                  child: Image.asset(
-                    imageUrl,
+                  child:CachedNetworkImage(
+                    imageUrl:imageUrl,
                     width: ScaleManager.spaceScale(
                       spaceing: 152,
                     ).value,

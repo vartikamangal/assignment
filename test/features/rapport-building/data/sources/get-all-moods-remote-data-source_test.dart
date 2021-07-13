@@ -38,53 +38,48 @@ Future<void> main() async {
       id: 1,
       moodName: "VERY_BAD",
       moodDescription: "Very sad",
-      icon: ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
+      icon: ImagePropModel(
+        iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
+        iconType: "URL",
       ),
     ),
     MoodModel(
       id: 2,
       moodName: "BAD",
       moodDescription: "Sad",
-      icon: ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
+      icon: ImagePropModel(
+        iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
+        iconType: "URL",
       ),
     ),
     MoodModel(
       id: 3,
       moodName: "NEUTRAL",
       moodDescription: "Neutral",
-      icon: ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
+      icon: ImagePropModel(
+        iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
+        iconType: "URL",
       ),
     ),
     MoodModel(
       id: 4,
       moodName: "GOOD",
       moodDescription: "Happy",
-      icon: ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
+      icon: ImagePropModel(
+        iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
+        iconType: "URL",
       ),
     ),
     MoodModel(
       id: 5,
       moodName: "VERY_GOOD",
       moodDescription: "Very Happy",
-      icon: ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
+      icon: ImagePropModel(
+        iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
+        iconType: "URL",
       ),
     ),
-  ];
+  ];;
 
   // Helper functions
 

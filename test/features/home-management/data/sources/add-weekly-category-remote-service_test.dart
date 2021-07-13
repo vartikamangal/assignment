@@ -45,7 +45,7 @@ Future<void> main() async{
     displaySubtitle: "Focus on your mind",
     categoryDetailedDescription: "This is mental category",
     categoryShortDescription: "Focus on your mind",
-    iconVO: ImageProp(urlShort: null, urlLarge: null, urlMedium: null),
+    iconVO: null,
   );
 
   void setupHttpFailureClient404() {

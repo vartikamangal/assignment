@@ -12,7 +12,7 @@ class RecommendationCategory extends Equatable {
   final String? displaySubtitle;
   final String? categoryDetailedDescription;
   final String? categoryShortDescription;
-  final ImageProp? iconVO;
+  final String? iconVO;
   const RecommendationCategory({
     required this.id,
     required this.categoryName,
@@ -42,7 +42,7 @@ class RecommendationCategory extends Equatable {
     String? displaySubtitle,
     String? categoryDetailedDescription,
     String? categoryShortDescription,
-    ImageProp? iconVO,
+    String? iconVO,
   }) {
     return RecommendationCategory(
       id: id ?? this.id,

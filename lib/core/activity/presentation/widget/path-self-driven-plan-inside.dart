@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/core/activity/presentation/widget/pill-loader.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
@@ -86,33 +87,42 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
               )
             else
               SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    for (var activity in _controller.recommendationActivities)
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: ScaleManager.spaceScale(spaceing: 29).value,
-                          right: ScaleManager.spaceScale(spaceing: 29).value,
+                child: Obx(
+                  ()=> _controller.isLoading.value
+                      ? Padding(
+                    padding:  EdgeInsets.only( left: ScaleManager.spaceScale(spaceing: 29)
+                        .value,
+                      right: ScaleManager.spaceScale(spaceing: 29)
+                          .value,),
+                    child: PillLoader(haveDescription: false),
+                  )
+                      : Column(
+                    children: [
+                      for (var activity in _controller.recommendationActivities)
+                        Container(
+                          margin: EdgeInsets.only(
+                            left: ScaleManager.spaceScale(spaceing: 29).value,
+                            right: ScaleManager.spaceScale(spaceing: 29).value,
+                          ),
+                          child: PlanContainer(
+                            title: activity.activity.title,
+                            requireBottomSpacing: true,
+                            description: "",
+                            isFaded: false,
+                            image:activity.activity.iconVO?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+                            onPressed: () async {
+                              Navigator.of(context).pushNamed(
+                                RouteName.activityScreen,
+                                arguments: {
+                                  "activity": activity.activity,
+                                  "isInstantActivity": false,
+                                },
+                              );
+                            },
+                          ),
                         ),
-                        child: PlanContainer(
-                          title: activity.activity.title,
-                          requireBottomSpacing: true,
-                          description: "",
-                          isFaded: false,
-                          image:
-                              '${ImagePath.selfDrivenOption}${activity.activity.categoryVO!.displayTitle!.toLowerCase()}.png',
-                          onPressed: () async {
-                            Navigator.of(context).pushNamed(
-                              RouteName.activityScreen,
-                              arguments: {
-                                "activity": activity.activity,
-                                "isInstantActivity": false,
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
           ],

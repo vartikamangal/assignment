@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/activity-status.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
 import '../../../../fixtures/fixture-reader.dart';
 

@@ -12,7 +12,7 @@ class RecommendationCategoryModel extends RecommendationCategory {
     required String? displaySubtitle,
     required String? categoryDetailedDescription,
     required String? categoryShortDescription,
-    required ImageProp? iconVO,
+    required String? iconVO,
   }) : super(
           id: id,
           categoryDetailedDescription: categoryDetailedDescription,
@@ -33,7 +33,7 @@ class RecommendationCategoryModel extends RecommendationCategory {
           jsonMap['categoryDetailedDescription'] as String?,
       categoryShortDescription: jsonMap['categoryShortDescription'] as String?,
       //TODO Fix this once images are there on server
-      iconVO: const ImageProp(),
+      iconVO: jsonMap['iconVO'] as String?,
     );
   }
 
@@ -45,7 +45,7 @@ class RecommendationCategoryModel extends RecommendationCategory {
       "displaySubtitle": displaySubtitle,
       "categoryDetailedDescription": categoryDetailedDescription,
       "categoryShortDescription": categoryShortDescription,
-      "iconVO": null,
+      "iconVO": iconVO,
     };
   }
 }

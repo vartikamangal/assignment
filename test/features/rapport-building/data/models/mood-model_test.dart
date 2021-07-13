@@ -16,11 +16,9 @@ void main() {
     id: 1,
     moodName: 'VERY_BAD',
     moodDescription: 'Very sad',
-    icon: ImageProp(
-      urlLarge: '',
-      urlMedium: '',
-      urlShort: '',
-    ),
+    icon: ImagePropModel(
+        iconType: 'URL',
+        iconLocator: 'https://images.tatsam.in/Logo+512+x+512.png'),
   );
 
   group('MODEL MoodModel ', () {

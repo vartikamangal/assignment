@@ -11,7 +11,7 @@ class Activity extends Equatable {
   final String? id;
   final String? title;
   final String? subtitle;
-  final ImageProp? iconVO;
+  final String? iconVO;
   final int? durationInMinutes;
   final String? messageOnReceivingFeedback;
   final String? messageOnCompletion;
@@ -68,7 +68,7 @@ class Activity extends Equatable {
     String? id,
     String? title,
     String? subtitle,
-    ImageProp? iconVO,
+    String? iconVO,
     int? durationInMinutes,
     String? messageOnReceivingFeedback,
     String? messageOnCompletion,

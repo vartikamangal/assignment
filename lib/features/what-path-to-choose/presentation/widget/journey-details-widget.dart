@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/features/what-path-to-choose/presentation/controller/choose-path-controller.dart';
 
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
@@ -17,6 +19,7 @@ class JourneyDetails extends StatelessWidget {
   final Journey? journey;
   final VoidCallback startJourneyFunction;
 
+
   const JourneyDetails({
     Key? key,
     required this.journey,
@@ -24,6 +27,7 @@ class JourneyDetails extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final ChoosePathController controller = Get.find();
     final imageScale = ScaleManager.imageScale.value;
     final String journeyIconUrl =
         'assets/choose-path-screen/${journey!.pathName}.png';
@@ -70,9 +74,9 @@ class JourneyDetails extends StatelessWidget {
                       ).value,
                     ),
                   ),
-                  DividedImageComponent(
-                    imgUrl: journeyIconUrl,
-                  ),
+                Obx(()=>  DividedImageComponent(
+                  imgUrl: journey!.icon ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+                ),),
                   Expanded(
                     flex: 3,
                     child: TextDescriptionBox(

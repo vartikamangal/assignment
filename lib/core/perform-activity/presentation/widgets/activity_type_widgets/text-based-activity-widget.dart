@@ -14,6 +14,7 @@ import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-ui-fragment.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/null-handled-image.dart';
 
 class TextBasedActivity extends StatelessWidget {
   TextBasedActivity({
@@ -44,19 +45,7 @@ class TextBasedActivity extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Hero(
-                    tag: '${ImagePath.selfDrivenOption}physical.png',
-                    child: Image.asset(
-                      '${ImagePath.selfDrivenOption}physical.png',
-                      height: ScaleManager.spaceScale(
-                        spaceing: 140,
-                      ).value,
-                      width: ScaleManager.spaceScale(
-                        spaceing: 138,
-                      ).value,
-                      scale: imageScaleFactor,
-                    ),
-                  ),
+                  NullHandledImage(image: activityController.activity.value!.iconVO??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',)
                 ],
               ),
               Container(
