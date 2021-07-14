@@ -7,10 +7,12 @@ import 'package:tatsam_app_experimental/features/instant-relief/presentation/con
 
 class ActivityRootScreen extends StatefulWidget {
   final Activity activity;
+  final String redirectRoute;
   final bool isInstantActivity;
   const ActivityRootScreen({
     Key? key,
     required this.activity,
+    required this.redirectRoute,
     required this.isInstantActivity,
   }) : super(key: key);
 
@@ -29,6 +31,7 @@ class _ActivityRootScreenState extends State<ActivityRootScreen> {
       activityController.initializeActivityAndProceed(
         activityToStart: widget.activity,
         isInstantActivity: widget.isInstantActivity,
+        redirectRoute: widget.redirectRoute,
       );
     });
   }

@@ -38,7 +38,7 @@ Future<void> main() async {
       id: 1,
       moodName: "VERY_BAD",
       moodDescription: "Very sad",
-      icon: ImagePropModel(
+      icon: ImageModel(
         iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
         iconType: "URL",
       ),
@@ -47,7 +47,7 @@ Future<void> main() async {
       id: 2,
       moodName: "BAD",
       moodDescription: "Sad",
-      icon: ImagePropModel(
+      icon: ImageModel(
         iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
         iconType: "URL",
       ),
@@ -56,7 +56,7 @@ Future<void> main() async {
       id: 3,
       moodName: "NEUTRAL",
       moodDescription: "Neutral",
-      icon: ImagePropModel(
+      icon: ImageModel(
         iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
         iconType: "URL",
       ),
@@ -65,7 +65,7 @@ Future<void> main() async {
       id: 4,
       moodName: "GOOD",
       moodDescription: "Happy",
-      icon: ImagePropModel(
+      icon: ImageModel(
         iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
         iconType: "URL",
       ),
@@ -74,7 +74,7 @@ Future<void> main() async {
       id: 5,
       moodName: "VERY_GOOD",
       moodDescription: "Very Happy",
-      icon: ImagePropModel(
+      icon: ImageModel(
         iconLocator: "https://images.tatsam.in/Logo+512+x+512.png",
         iconType: "URL",
       ),

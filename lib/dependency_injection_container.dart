@@ -4,6 +4,7 @@ import 'package:tatsam_app_experimental/dependency_manager/home-management-depen
 import 'package:tatsam_app_experimental/dependency_manager/perform-activity-dependency-manager.dart';
 import 'package:tatsam_app_experimental/dependency_manager/profile_dependency_managers.dart';
 import 'package:tatsam_app_experimental/dependency_manager/root-dependency-manager.dart';
+import 'package:tatsam_app_experimental/dependency_manager/view-all-content-dependency-manager.dart';
 
 import './dependency_manager/core_dependency_managers.dart';
 import './dependency_manager/focus-dependency-manaer.dart';
@@ -30,4 +31,5 @@ Future<void> initializeDependencies() async {
   await initHomeManagementDependencies();
   await initProfileDependencies();
   await initPerformActivityDependencies();
+  await initViewAllContentDependencies();
 }

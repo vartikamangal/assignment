@@ -1,8 +1,6 @@
 // Dart imports:
 import 'dart:developer';
 
-// Flutter imports:
-import 'package:flutter/cupertino.dart';
 // Package imports:
 import 'package:get/get.dart';
 
@@ -13,11 +11,6 @@ import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/session-manager/session-manager.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../perform-activity/domain/entities/activity-status.dart';
-import '../../data/models/activity-scedule-guided-model.dart';
-import '../../data/models/activity-status-model.dart';
-import '../../data/models/guided-activity-recommendation-model.dart';
-import '../../data/models/recommendation-category-model.dart';
-import '../../data/models/recommendation-model.dart';
 import '../../domain/entities/activity-schedule-guided.dart';
 import '../../domain/entities/guided-activity-recommendation.dart';
 import '../../domain/entities/recommendation-category.dart';
@@ -40,18 +33,17 @@ class PathController extends GetxController {
     required this.retrieveUserPath,
   });
   /////// Dynamic Data Containers ////////////
-  RxList<RecommendationCategory> recommendationCategories =
-      RxList<RecommendationCategoryModel>(
+  RxList<RecommendationCategory> recommendationCategories = RxList(
     [],
   );
-  RxList<Recommendation> recommendationActivities = RxList<RecommendationModel>(
+  RxList<Recommendation> recommendationActivities = RxList(
     [],
   );
 
   //? From here we will get journeyId, actionId & recommendationId
-  Rxn<ActivityStatus> currentOngoingActivity = Rxn<ActivityStatusModel>();
+  Rxn<ActivityStatus> currentOngoingActivity = Rxn();
 
-  Rxn<ActivitySceduleGuided> guidedPlan = Rxn<ActivityScheduleGuidedModel>();
+  Rxn<ActivitySceduleGuided> guidedPlan = Rxn();
 
   // data holder for user-selected-path
   RxString userSelectedPath = RxString('');
@@ -94,12 +86,12 @@ class PathController extends GetxController {
 
   /// Fetches the Self Driven activies and then navigates to Plan details
   Future<void> fetchCategoryActivitiesAndProceed({
-    required RecommendationCategoryModel categoryModel,
+    required RecommendationCategory category,
   }) async {
     toggleProcessor();
     final fetchedCategoryActivitiesOrFailure = await getCategoryActivities(
       GetCategoryActivitiesParams(
-        category: categoryModel,
+        category: category,
       ),
     );
     toggleProcessor();
@@ -110,7 +102,7 @@ class PathController extends GetxController {
       (fetchedActivities) {
         recommendationActivities.assignAll(fetchedActivities);
         log('activities fetched, Now moving forward');
-        selectedCategory.value = categoryModel;
+        selectedCategory.value = category;
         Get.toNamed(
           RouteName.pathSelfDrivenPlanInside,
         );
@@ -141,10 +133,8 @@ class PathController extends GetxController {
   RxString selectedOption = RxString('');
   RxString userName = RxString('');
   RxString userTextFeedback = RxString('');
-  Rxn<RecommendationCategoryModel> selectedCategory =
-      Rxn<RecommendationCategoryModel>();
-  Rxn<GuidedActivityRecommendation> selectedDayPlan =
-      Rxn<GuidedActivityRecommendationModel>();
+  Rxn<RecommendationCategory> selectedCategory = Rxn();
+  Rxn<GuidedActivityRecommendation> selectedDayPlan = Rxn();
 
   ///for focus on text field
   RxBool isFocusOn = RxBool(false);
@@ -163,14 +153,6 @@ class PathController extends GetxController {
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;
-  }
-
-  /// During refactoring the [FocusNode] was needed to pass from
-  /// one class to another via multiple passes just for a simple
-  /// focus mechanism, So kept it isolated here
-  final FocusNode focusNode = FocusNode();
-  void unfocusAllFields() {
-    focusNode.unfocus();
   }
 
   //* for changing and storing the dynamically typed recommendation-text-feedback

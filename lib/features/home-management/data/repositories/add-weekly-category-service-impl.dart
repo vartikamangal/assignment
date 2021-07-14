@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
 
-import '../../../../core/activity/data/models/recommendation-category-model.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/repository/base-repository-impl.dart';
 import '../../domain/repositories/add-weekly-category-service.dart';
@@ -17,12 +18,12 @@ class AddWeeklyCategoryServiceImpl implements AddWeeklyCategoryService {
   @override
   Future<Either<Failure, Unit>?> addWeeklyCategory({
     int? weekNumber,
-    RecommendationCategoryModel? category,
+    RecommendationCategory? category,
   }) async {
     return baseRepository(
       () => remoteService!.addWeeklyCategory(
         weekNumber: weekNumber,
-        category: category,
+        category: RecommendationCategoryModel.fromDomain(category!),
       ),
     );
   }

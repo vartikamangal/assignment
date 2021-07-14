@@ -13,7 +13,7 @@ class RapportStepModel extends RapportStep {
     required String? stepHelp,
     required String? stepDescription,
     required int? stepSequence,
-    required ImageProp? icon,
+    required ImageEntity? icon,
     required String? templateName,
   }) : super(
           stepSequence: stepSequence,

@@ -7,6 +7,7 @@ import 'package:tatsam_app_experimental/core/activity/data/models/activity-statu
 import 'package:tatsam_app_experimental/core/cache-manager/data/services/persist-activity-feedback-local-service.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/domain/entities/activity-status.dart';
 
 import '../../domain/repositories/persist-activity-feedback-repository.dart';
 import '../models/activity-feedback-model.dart';
@@ -20,13 +21,13 @@ class PersistAcitivityFeedbackRepositoryImpl
   });
   @override
   Future<Either<Failure, Unit>> persistFeedback({
-    ActivityStatusModel? activityStatusModel,
+    ActivityStatus? activityStatus,
     String? textInput,
     String? voiceNoteInput,
   }) async {
     try {
       final status = await localService!.persistFeedback(
-        activityStatusModel: activityStatusModel,
+        activityStatusModel: ActivityStatusModel.fromDomain(activityStatus!),
         textInput: textInput,
         voiceNoteInput: voiceNoteInput,
       );

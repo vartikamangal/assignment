@@ -92,6 +92,7 @@ class FocusController extends GetxController {
   Rxn<Issue> selectedIssue = Rxn<IssueModel>();
   RxInt count = 0.obs;
   RxList<Issue?> removedItem = RxList<IssueModel?>([]);
+  //String CommonImageUrl='https://images.unsplash.com/photo-1547721064-da6cfb341d50';
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;

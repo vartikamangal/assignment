@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/data/models/cache-acitivity-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/cache-most-recent-acitivity.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/persist-activity-feedbacks.dart';
@@ -39,7 +38,7 @@ class ActivityCacheController extends GetxController {
   }) async {
     final failureOrResult = await persistActivityFeedback(
       PersistActivityFeedbackParams(
-        activityStatusModel: activityStatus as ActivityStatusModel,
+        activityStatus: activityStatus,
         textInput: textFeedback,
         voiceNoteInput: voicenotePath,
       ),

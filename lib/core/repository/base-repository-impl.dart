@@ -13,7 +13,7 @@ class BaseRepository {
     required this.handleException,
   });
 
-  Future<Either<Failure, T>?> call<T>(Future<T> Function() apiCall) async {
+  Future<Either<Failure, T>> call<T>(Future<T> Function() apiCall) async {
     return callIfNetworkConnected(
       () async => handleException(
         () async => apiCall(),

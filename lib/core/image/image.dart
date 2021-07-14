@@ -1,49 +1,62 @@
 // Package imports:
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/data/models/data-model.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/domain/entities/entity.dart';
 
-class ImageProp extends Equatable {
-  final String? url;
-  final String? type;
+const String fallbackIconUrl = "https://images.tatsam.in/Logo+512+x+512.png";
+const String fallbackIconType = "png";
 
-  const ImageProp({
-    @required this.type,
-    @required this.url,
+// can't keep name as Image as it conflicts with flutter's "Image" widget
+class ImageEntity extends Entity {
+  final String url;
+  final String type;
+
+  ImageEntity({
+    required this.type,
+    required this.url,
   });
-  @override
-  List<Object> get props => [type!, url!];
 
-  ImageProp copyWith({
-    String ? url,
-    String ? type,
+  ImageEntity copyWith({
+    String? url,
+    String? type,
   }) {
-    return ImageProp(
+    return ImageEntity(
       url: url ?? this.url,
       type: type ?? this.type,
     );
   }
-
-  @override
-  bool get stringify => true;
 }
 
-class ImagePropModel extends ImageProp {
-  const ImagePropModel({
-    @required String? iconLocator,
-    @required String? iconType,
-  }) : super(url: iconLocator, type: iconType);
+class ImageModel extends DataModel<ImageEntity> {
+  String? iconLocator;
+  String? iconType;
 
-  factory ImagePropModel.fromJson(Map<String, dynamic> json) {
-    return ImagePropModel(
-      iconLocator: json['iconLocator'] as String,
-      iconType: json['iconType'] as String,
-    );
+  ImageModel.fromJson(Map<String, dynamic> json)
+      : iconLocator = json['iconLocator'] as String,
+        iconType = json['iconType'] as String;
+
+  ImageModel.fromDomain(ImageEntity image)
+      : iconLocator = image.url,
+        iconType = image.type;
+
+  @override
+  Map<String, dynamic> toJson() {
+    // This thing giving Auth Error while Adding Focus
+    // return {
+    //   "iconLocator": iconLocator,
+    //   "iconType": iconType,
+    // };
+    return {};
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "iconLocator": url,
-      "iconType": type,
-    };
+  ImageModel.fallbackIcon()
+      : iconLocator = fallbackIconUrl,
+        iconType = fallbackIconType;
+
+  @override
+  ImageEntity toDomain() {
+    return ImageEntity(
+      type: iconType ?? fallbackIconType,
+      url: iconLocator ?? fallbackIconUrl,
+    );
   }
 }

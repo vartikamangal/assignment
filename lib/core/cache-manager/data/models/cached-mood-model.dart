@@ -8,7 +8,7 @@ class CachedMoodModel extends CachedMood {
     required int? moodId,
     required String? moodName,
     required String? moodDescription,
-    required ImageProp? moodIcon,
+    required ImageEntity? moodIcon,
   }) : super(
           moodDescription: moodDescription,
           moodIcon: moodIcon,

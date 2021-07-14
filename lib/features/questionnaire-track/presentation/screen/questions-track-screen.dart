@@ -1,20 +1,14 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-
-// Project imports:
-import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/buttons/inactive-bottom-right-button.dart';
+
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/bottomRightButton.dart';
-import '../../../../core/utils/color-pallete.dart';
 import '../../../hub/presentation/controller/hub-controller.dart';
 import '../../data/models/question-model.dart';
 import '../controller/question-controller.dart';
@@ -29,7 +23,7 @@ class QuestionsTrackScreen extends StatelessWidget {
     final textScaleFactor = ScaleManager.textScale.value;
     return Scaffold(
       appBar: AppBar(
-        leading: TopAppBar(onPressed: (){
+        leading: TopAppBar(onPressed: () {
           Navigator.of(context).pop();
         }),
         backgroundColor: Theme.of(context).canvasColor,
@@ -58,14 +52,14 @@ class QuestionsTrackScreen extends StatelessWidget {
                 ).value,
               ),
               Container(
-                constraints: BoxConstraints(minHeight: Get.height*0.63),
+                constraints: BoxConstraints(minHeight: Get.height * 0.63),
                 child: Obx(
                   () => controller.isLoading.value
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
-                    shrinkWrap: true,
+                          shrinkWrap: true,
                           controller: controller.scrollController,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
@@ -98,16 +92,19 @@ class QuestionsTrackScreen extends StatelessWidget {
                                       );
                                     },
                                     emotionValue: (controller
-                                            .questionToAnswerMap[question] as num)
+                                                .questionToAnswerMap[question]
+                                            as num)
                                         .toDouble(),
                                     index: 1,
                                     value: (controller
-                                            .questionToAnswerMap[question] as num)
+                                                .questionToAnswerMap[question]
+                                            as num)
                                         .roundToDouble(),
                                   );
                           },
-                          itemCount:
-                              controller.questionToAnswerMap.keys.toList().length,
+                          itemCount: controller.questionToAnswerMap.keys
+                              .toList()
+                              .length,
                         ),
                 ),
               ),
@@ -122,7 +119,7 @@ class QuestionsTrackScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          if (controller.isAllQuestionAnswered.value == true)
+                          if (controller.allQuestionAnswered.value == true)
                             BottomRightButton(
                               onPressed: () async {
                                 await controller.attempQuestionsTrigger();

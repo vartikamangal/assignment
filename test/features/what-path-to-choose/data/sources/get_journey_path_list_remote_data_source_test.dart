@@ -43,11 +43,7 @@ Future<void> main() async {
       subtitle: "Weekly focus areas. Choose your own experiences.",
       description:
           "Only one area of focus per week, Daily small wins at your own pace",
-      icon: ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
-      ),
+      icon: "",
       pathName: "SMALL_WINS",
     ),
     JourneyModel(
@@ -56,11 +52,7 @@ Future<void> main() async {
       subtitle: "Daily plans. Crafted for you by Tatsam experts.",
       description:
           "All areas tackled everyday, requires focus & commitment. Holistic way from day 1.",
-      icon: ImageProp(
-        urlLarge: '',
-        urlMedium: '',
-        urlShort: '',
-      ),
+      icon: "",
       pathName: "BIG_GOALS_PATH",
     ),
   ];

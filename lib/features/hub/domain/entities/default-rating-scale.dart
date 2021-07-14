@@ -12,7 +12,7 @@ class DefaultRatingScale extends Equatable {
   final String? ratingScaleName;
   final int? minValue;
   final int? maxValue;
-  final ImageProp? icon;
+  final ImageEntity? icon;
   const DefaultRatingScale({
     required this.id,
     required this.ratingScaleName,
@@ -39,14 +39,14 @@ class DefaultRatingScale extends Equatable {
     String? ratingScaleName,
     int? minValue,
     int? maxValue,
-    ImageProp? icon,
+    ImageEntity? icon,
   }) {
     return DefaultRatingScale(
       id: id ?? this.id,
       ratingScaleName: ratingScaleName ?? this.ratingScaleName,
       minValue: minValue ?? this.minValue,
       maxValue: maxValue ?? this.maxValue,
-      icon: icon ?? this.icon,
+      icon: icon ?? this.icon
     );
   }
 }

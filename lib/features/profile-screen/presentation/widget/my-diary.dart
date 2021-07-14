@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,9 +52,11 @@ class MyDiary extends GetWidget<ProfileController> {
                 spaceing: 20,
               ).value,
             ),
-            _buildDiary(
-              controller.diaryLogs,
-              controller,
+            Obx(
+              () => _buildDiary(
+                controller.diaryLogs,
+                controller,
+              ),
             ),
           ],
         ),
@@ -65,11 +69,13 @@ Widget _buildDiary(List<ActivityFeedback> logs, ProfileController controller) {
   final List<DiaryContent> _contents = [];
   logs.forEach(
     (diaryLog) {
+      log(diaryLog.toString());
+
       /// TODO: Fix null error in below LOC
       final selectedMoodImage =
-          '${ImagePath.lightBlueEmoji}${'${controller.actionIdToActionMap[int.parse(diaryLog.actionId!)]!.feedbackMood!.toLowerCase()}.png'}';
+          '${ImagePath.lightBlueEmoji}${'${controller.actionIdToActionMap[int.parse(diaryLog.actionId!)]?.feedbackMood!.toLowerCase()}.png'}';
       final activityPerformed =
-          controller.actionIdToActionMap[int.parse(diaryLog.actionId!)]!.title;
+          controller.actionIdToActionMap[int.parse(diaryLog.actionId!)]?.title;
       _contents.add(
         DiaryContent(
           imageAddress: 'assets/profile-icon/user-image.png',

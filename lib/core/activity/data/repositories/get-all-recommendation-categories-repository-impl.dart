@@ -21,7 +21,11 @@ class GetAllRecommendationCategoriesRepositoryImpl
   Future<Either<Failure, List<RecommendationCategory>>?>
       getAllCategories() async {
     return baseRepository(
-      () => remoteDataSource!.getAllCategories(),
+      () => remoteDataSource!.getAllCategories().then((categories) => categories
+          .map(
+            (category) => category.toDomain(),
+          )
+          .toList()),
     );
   }
 }

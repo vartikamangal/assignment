@@ -1,42 +1,43 @@
 // Flutter imports:
 
 // Project imports:
+import 'package:tatsam_app_experimental/features/view-all-content/data/models/data-model.dart';
+
 import '../../../../core/image/image.dart';
 import '../../domain/entities/recommendation-category.dart';
 
-class RecommendationCategoryModel extends RecommendationCategory {
-  const RecommendationCategoryModel({
-    required int? id,
-    required String? categoryName,
-    required String? displayTitle,
-    required String? displaySubtitle,
-    required String? categoryDetailedDescription,
-    required String? categoryShortDescription,
-    required String? iconVO,
-  }) : super(
-          id: id,
-          categoryDetailedDescription: categoryDetailedDescription,
-          categoryName: categoryName,
-          categoryShortDescription: categoryShortDescription,
-          iconVO: iconVO,
-          displaySubtitle: displaySubtitle,
-          displayTitle: displayTitle,
-        );
+class RecommendationCategoryModel extends DataModel<RecommendationCategory> {
+  int? id;
+  String? categoryName;
+  String? displayTitle;
+  String? displaySubtitle;
+  String? categoryDetailedDescription;
+  String? categoryShortDescription;
+  ImageModel? iconVO;
 
-  factory RecommendationCategoryModel.fromJson(Map<String, dynamic> jsonMap) {
-    return RecommendationCategoryModel(
-      id: jsonMap['id'] as int?,
-      categoryName: jsonMap['categoryName'] as String?,
-      displayTitle: jsonMap['displayTitle'] as String?,
-      displaySubtitle: jsonMap['displaySubtitle'] as String?,
-      categoryDetailedDescription:
-          jsonMap['categoryDetailedDescription'] as String?,
-      categoryShortDescription: jsonMap['categoryShortDescription'] as String?,
-      //TODO Fix this once images are there on server
-      iconVO: jsonMap['iconVO'] as String?,
-    );
-  }
+  RecommendationCategoryModel.fromJson(Map<String, dynamic> jsonMap)
+      : id = jsonMap['id'] as int,
+        categoryName = jsonMap['categoryName'] as String,
+        displayTitle = jsonMap['displayTitle'] as String,
+        displaySubtitle = jsonMap['displaySubtitle'] as String,
+        categoryDetailedDescription =
+            jsonMap['categoryDetailedDescription'] as String,
+        categoryShortDescription =
+            jsonMap['categoryShortDescription'] as String,
+        iconVO = jsonMap["iconVO"] != null
+            ? ImageModel.fromJson(jsonMap['iconVO'] as Map<String, dynamic>)
+            : ImageModel.fallbackIcon();
 
+  RecommendationCategoryModel.fromDomain(RecommendationCategory category)
+      : id = category.id,
+        iconVO = ImageModel.fromDomain(category.iconVO!),
+        categoryDetailedDescription = category.categoryDetailedDescription,
+        displaySubtitle = category.displaySubtitle,
+        displayTitle = category.displayTitle,
+        categoryName = category.categoryName,
+        categoryShortDescription = category.categoryShortDescription;
+
+  @override
   Map<String, dynamic> toJson() {
     return {
       "id": 2,
@@ -45,7 +46,20 @@ class RecommendationCategoryModel extends RecommendationCategory {
       "displaySubtitle": displaySubtitle,
       "categoryDetailedDescription": categoryDetailedDescription,
       "categoryShortDescription": categoryShortDescription,
-      "iconVO": iconVO,
+      "iconVO": iconVO?.toJson(),
     };
+  }
+
+  @override
+  RecommendationCategory toDomain() {
+    return RecommendationCategory(
+      id: id,
+      categoryName: categoryName,
+      displayTitle: displayTitle,
+      displaySubtitle: displaySubtitle,
+      categoryDetailedDescription: categoryDetailedDescription,
+      categoryShortDescription: categoryShortDescription,
+      iconVO: iconVO?.toDomain(),
+    );
   }
 }

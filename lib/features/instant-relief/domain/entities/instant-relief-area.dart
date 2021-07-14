@@ -13,7 +13,7 @@ class InstantReliefArea extends Equatable {
   final String? subtitle;
   final String? instantReliefName;
   final String? description;
-  final String? icon;
+  final ImageEntity? icon;
 
   const InstantReliefArea({
     required this.id,

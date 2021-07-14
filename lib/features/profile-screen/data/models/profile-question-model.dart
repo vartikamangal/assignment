@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
-
 import '../../../../core/activity/data/models/tag-model.dart';
 import '../../../questionnaire-track/data/models/question-option-model.dart';
 import '../../domain/entities/profile-question.dart';
 import 'question-info-model.dart';
 
 class ProfileQuestionModel extends ProfileQuestion {
-  const ProfileQuestionModel({
+  ProfileQuestionModel({
     required String? id,
     required String? questionType,
     required String? status,
@@ -21,7 +19,7 @@ class ProfileQuestionModel extends ProfileQuestion {
           status: status,
           questionInformation: questionInformation,
           lastModifiedTime: lastModifiedTime,
-          tags: tags,
+          tags: tags.map((tag) => tag.toDomain()).toList(),
           questionOptions: questionOptions,
           id: id,
           creationTime: creationTime,

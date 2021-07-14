@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
-
 import '../error/exceptions.dart';
 
 class ThrowExceptionIfResponseError {

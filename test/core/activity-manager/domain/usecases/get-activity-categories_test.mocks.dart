@@ -6,7 +6,7 @@ import 'dart:async' as _i3;
 
 import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart'
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart'
     as _i7;
 import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation.dart'
     as _i6;
@@ -31,7 +31,7 @@ class MockGetCategoryActivitiesRepository extends _i1.Mock
 
   @override
   _i3.Future<_i4.Either<_i5.Failure, List<_i6.Recommendation>>?> getActivities(
-          {_i7.RecommendationCategoryModel? category}) =>
+          {_i7.RecommendationCategory? category}) =>
       (super.noSuchMethod(
               Invocation.method(#getActivities, [], {#category: category}),
               returnValue: Future<

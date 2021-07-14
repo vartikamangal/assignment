@@ -1,15 +1,14 @@
 // Flutter imports:
 // Package imports:
 import 'package:dartz/dartz.dart';
-// Project imports:
-import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/entities/activity-feedback.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/domain/entities/activity-status.dart';
 
 abstract class PersistActivityFeedbackRepository {
   /// Should cache the provided data args, to be treated as recommendation persisted data
   Future<Either<Failure, Unit>> persistFeedback({
-    required ActivityStatusModel? activityStatusModel,
+    required ActivityStatus? activityStatus,
     required String textInput,
     required String? voiceNoteInput,
   });

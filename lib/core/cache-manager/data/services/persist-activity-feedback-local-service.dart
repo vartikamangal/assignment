@@ -55,8 +55,11 @@ class PersistActivityFeedbackLocalServiceImpl
         ).toJson(),
       );
 
-      /// Added to the old list
-      oldCachedFeedbacks.add(recommendationInput);
+      if (activityStatusModel.feedbackThoughts!.isNotEmpty) {
+        /// Added to the old list
+        /// If it has content
+        oldCachedFeedbacks.add(recommendationInput);
+      }
 
       /// List of feedbacks updated
       //! Keep a note that once it is sent to server, remove it from here {CONSULT}

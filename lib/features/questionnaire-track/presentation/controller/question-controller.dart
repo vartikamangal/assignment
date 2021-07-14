@@ -17,6 +17,8 @@ import '../../domain/entities/questionnaire.dart';
 import '../../domain/usecases/attempt-questions.dart';
 import '../../domain/usecases/get-questionnaire-by-id.dart';
 
+const String defaultDropDownLabel = "Select";
+
 class QuestionnaireConroller extends GetxController {
   ///////// Usecases /////////////
   final GetQuestionnaireById getQuestionnaireById;
@@ -28,6 +30,7 @@ class QuestionnaireConroller extends GetxController {
   });
   //////// Dynamic Data Holders ///////////
   Rxn<Questionnaire> questionnaire = Rxn<QuestionnaireModel>();
+  // Will keep a track of various single-type questions
   RxMap<Question, dynamic> questionToAnswerMap = RxMap<QuestionModel, dynamic>(
     {},
   );
@@ -53,7 +56,6 @@ class QuestionnaireConroller extends GetxController {
       },
       (fetchedQuestionnaire) {
         questionnaire.value = fetchedQuestionnaire;
-        // ignore: avoid_function_literals_in_foreach_calls
         questionnaire.value!.questionVO.forEach(
           (question) {
             log(question.questionOptionVO.toString());
@@ -71,8 +73,8 @@ class QuestionnaireConroller extends GetxController {
             questionToAnswerMap.addIf(
               question.questionType == 'SINGLE_CHOICE',
               question,
-              // When user opts any answer N/A will be replaced by QuestionOptionModel
-              'Select',
+              // When user opts any answer Select will be replaced by QuestionOptionModel
+              defaultDropDownLabel,
             );
             dropDownStatus.addIf(
               question.questionType == 'SINGLE_CHOICE',
@@ -117,28 +119,7 @@ class QuestionnaireConroller extends GetxController {
   RxBool toShowBottomBtn = RxBool(false);
   RxBool isLoading = RxBool(false);
   RxBool isProcessing = RxBool(false);
-  RxBool isAllQuestionAnswered = RxBool(false);
-
-  Future<void> IsAllQuestionAnsweredAndMapped() async {
-    toggleProcessor();
-    final questionAttemptedOrFailure = await atemptQuestions(
-      AttemptQuestionnaireParams(
-        questionToAnswerMap: questionToAnswerMap,
-        questionToScaleMap: questionToScaleMap,
-        questionnaire: questionnaire.value,
-      ),
-    );
-    toggleProcessor();
-    questionAttemptedOrFailure!.fold(
-          (failure) {
-        ErrorInfo.show(failure);
-      },
-          (attemptStatus) async {
-        log('successfully attempted questions!');
-        isAllQuestionAnswered.value = true;
-      },
-    );
-  }
+  RxBool allQuestionAnswered = RxBool(false);
 
   void toggleBottomButtonVisibility({
     required double position,
@@ -157,7 +138,6 @@ class QuestionnaireConroller extends GetxController {
     dropDownStatus[questionModel] = !dropDownStatus[questionModel]!;
   }
 
-
   void toggleLoader() {
     isLoading.value = !isLoading.value;
   }
@@ -166,11 +146,6 @@ class QuestionnaireConroller extends GetxController {
     isProcessing.value = !isProcessing.value;
   }
 
-  Future<void> setup() async {
-    toggleLoader();
-    await fetchQuestionnaire();
-    toggleLoader();
-  }
   ///multiple choice question answer update
   Future<void> answerMcqTypeQuestion({
     required QuestionModel questionModel,
@@ -180,7 +155,6 @@ class QuestionnaireConroller extends GetxController {
     questionToAnswerMap[questionModel] = optionSelected;
     // Closes the dropdown
     toggleDropdown(questionModel: questionModel);
-    await IsAllQuestionAnsweredAndMapped();
   }
 
   ///scale rating type questions
@@ -189,7 +163,25 @@ class QuestionnaireConroller extends GetxController {
     required dynamic option,
   }) async {
     questionToAnswerMap[question] = option;
-    await IsAllQuestionAnsweredAndMapped();
+  }
+
+  Future<void> setup() async {
+    toggleLoader();
+    await fetchQuestionnaire();
+    toggleLoader();
+  }
+
+  /// If answer map will have [defaultDropDownLabel] in its values
+  /// it means user has not answered all questions
+  void checkAllQuestionsAnswered() {
+    final notAnsweredAllQuestions = questionToAnswerMap.containsValue(
+      defaultDropDownLabel,
+    );
+    if (notAnsweredAllQuestions) {
+      allQuestionAnswered.value = false;
+    } else {
+      allQuestionAnswered.value = true;
+    }
   }
 
   @override
@@ -204,5 +196,8 @@ class QuestionnaireConroller extends GetxController {
         );
       },
     );
+    questionToAnswerMap.stream.listen((event) {
+      checkAllQuestionsAnswered();
+    });
   }
 }

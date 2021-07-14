@@ -28,9 +28,13 @@ class InstantReliefRepositoryImpl implements InstantReliefRepository {
     String? instantLifeArea,
   }) async {
     return baseRepository(
-      () => remoteDataSource!.getRecommendations(
-        instantLifeArea: instantLifeArea,
-      ),
+      () => remoteDataSource!
+          .getRecommendations(
+            instantLifeArea: instantLifeArea,
+          )
+          .then((listOfActivityModel) => listOfActivityModel
+              .map((activityModel) => activityModel.toDomain())
+              .toList()),
     );
   }
 

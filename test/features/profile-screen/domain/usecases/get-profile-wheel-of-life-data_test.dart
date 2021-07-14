@@ -44,7 +44,7 @@ void main() {
               ratingScaleName: '',
               minValue: 0,
               maxValue: 0,
-              icon: ImageProp())),
+              icon: "")),
       createdWhen: DateTime.now());
 
   final tHubStatus = HubStatus(
@@ -59,7 +59,7 @@ void main() {
     targetFocus: const TargetFocusList(id: 0, targetFocusList: [
       Issue(
           issueId: 0,
-          issueIcon: ImageProp(),
+          issueIcon: "",
           displayName: '',
           focusName: '',
           messageOnSelection: '')

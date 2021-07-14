@@ -1,19 +1,19 @@
 // Flutter imports:
 // Package imports:
-import 'package:equatable/equatable.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/domain/entities/entity.dart';
 
 // Project imports:
 import '../../../../core/image/image.dart';
 
-class RecommendationCategory extends Equatable {
+class RecommendationCategory extends Entity {
   final int? id;
   final String? categoryName;
   final String? displayTitle;
   final String? displaySubtitle;
   final String? categoryDetailedDescription;
   final String? categoryShortDescription;
-  final String? iconVO;
-  const RecommendationCategory({
+  final ImageEntity? iconVO;
+  RecommendationCategory({
     required this.id,
     required this.categoryName,
     required this.displayTitle,
@@ -22,18 +22,6 @@ class RecommendationCategory extends Equatable {
     required this.categoryShortDescription,
     required this.iconVO,
   });
-  @override
-  List<Object?> get props {
-    return [
-      id,
-      categoryName,
-      displayTitle,
-      displaySubtitle,
-      categoryDetailedDescription,
-      categoryShortDescription,
-      iconVO,
-    ];
-  }
 
   RecommendationCategory copyWith({
     int? id,
@@ -42,7 +30,7 @@ class RecommendationCategory extends Equatable {
     String? displaySubtitle,
     String? categoryDetailedDescription,
     String? categoryShortDescription,
-    String? iconVO,
+    ImageEntity? iconVO,
   }) {
     return RecommendationCategory(
       id: id ?? this.id,
@@ -58,5 +46,32 @@ class RecommendationCategory extends Equatable {
   }
 
   @override
-  bool get stringify => true;
+  String toString() {
+    return 'RecommendationCategory(id: $id, categoryName: $categoryName, displayTitle: $displayTitle, displaySubtitle: $displaySubtitle, categoryDetailedDescription: $categoryDetailedDescription, categoryShortDescription: $categoryShortDescription, iconVO: $iconVO)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RecommendationCategory &&
+        other.id == id &&
+        other.categoryName == categoryName &&
+        other.displayTitle == displayTitle &&
+        other.displaySubtitle == displaySubtitle &&
+        other.categoryDetailedDescription == categoryDetailedDescription &&
+        other.categoryShortDescription == categoryShortDescription &&
+        other.iconVO == iconVO;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        categoryName.hashCode ^
+        displayTitle.hashCode ^
+        displaySubtitle.hashCode ^
+        categoryDetailedDescription.hashCode ^
+        categoryShortDescription.hashCode ^
+        iconVO.hashCode;
+  }
 }

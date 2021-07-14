@@ -10,7 +10,7 @@ class CachedMood extends Equatable {
   final int? moodId;
   final String? moodName;
   final String? moodDescription;
-  final ImageProp? moodIcon;
+  final ImageEntity? moodIcon;
 
   const CachedMood({
     required this.moodId,

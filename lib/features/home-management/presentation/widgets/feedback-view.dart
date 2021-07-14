@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
 
-import '../../../../core/activity/presentation/controller/path-controller.dart';
 import '../../../../core/duration-tracker/duration-tracker-controller.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
@@ -86,7 +85,7 @@ class _FeedbackViewState extends State<FeedbackView> {
                                       widget.rapportBuildingController.moods
                                           .map(
                                             (mood) => emotionSelector(
-                                              mood.moodName!.toLowerCase(),
+                                              mood.moodIcon?.url,
                                               () async {
                                                 //TODO ADD THE RATE USECASE IN HOME-CONTROLLER TOO
                                                 //TODO and then implement similiar method for fulfilling the action

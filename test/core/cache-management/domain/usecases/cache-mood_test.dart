@@ -20,7 +20,7 @@ void main() {
   });
 
   const tMood = CachedMoodModel(
-      moodId: 0, moodName: '', moodDescription: '', moodIcon: ImageProp());
+      moodId: 0, moodName: '', moodDescription: '', moodIcon: ImageEntity());
   const tUnit = unit;
   group('USECASE: sevice.cacheMood()', () {
     test('Should cache mood from service', () async {

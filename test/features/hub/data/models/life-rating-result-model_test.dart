@@ -23,7 +23,7 @@ void main() {
               ratingScaleName: 'ratingScaleName',
               minValue: 0,
               maxValue: 100,
-              icon: ImageProp(urlShort: '', urlMedium: '', urlLarge: ''))),
+              icon: "")),
       createdWhen: DateTime.parse('2021-05-10T13:19:41.543Z'));
   group('Model LifeRatingResultModel', () {
     test('should be a extended version of LifeRatingResult', () async {

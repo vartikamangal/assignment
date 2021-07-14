@@ -1,13 +1,13 @@
 // Flutter imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:tatsam_app_experimental/core/image/image.dart';
+import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 
-// Project imports:
-import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 
 Widget emotionSelector(
-  String emotionUrl,
+  String? emotionUrl,
   Function() onPressed, {
   required double height,
   required double width,
@@ -20,7 +20,7 @@ Widget emotionSelector(
     child: InkWell(
       onTap: onPressed,
       child: Hero(
-        tag: emotionUrl,
+        tag: emotionUrl ?? fallbackIconUrl,
         child: SizedBox(
           height: ScaleManager.spaceScale(
             spaceing: height,
@@ -29,8 +29,26 @@ Widget emotionSelector(
             spaceing: width,
           ).value,
           child: CachedNetworkImage(
-            imageUrl: emotionUrl,
-            //placeholder: (context, url) => CircularProgressIndicator(),
+            imageUrl: emotionUrl ?? fallbackIconUrl,
+            placeholder: (context, url) => Padding(
+              padding: EdgeInsets.all(ScaleManager.spaceScale(
+                spaceing: 12,
+              ).value),
+              child: SizedBox(
+                height: ScaleManager.spaceScale(
+                  spaceing: 2,
+                ).value,
+                width: ScaleManager.spaceScale(
+                  spaceing: 20,
+                ).value,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    blueDarkShade,
+                  ),
+                  strokeWidth: 2,
+                ),
+              ),
+            ),
             errorWidget: (context, url, error) => const Icon(Icons.error),
             //scale: ScaleManager.imageScale.value,
           ),

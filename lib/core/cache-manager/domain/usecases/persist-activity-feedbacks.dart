@@ -2,10 +2,9 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-// Project imports:
-import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/repositories/persist-activity-feedback-repository.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/domain/entities/activity-status.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 
 class PersistActivityFeedback
@@ -19,7 +18,7 @@ class PersistActivityFeedback
   Future<Either<Failure, Unit>> call(
       PersistActivityFeedbackParams params) async {
     return service!.persistFeedback(
-      activityStatusModel: params.activityStatusModel,
+      activityStatus: params.activityStatus,
       textInput: params.textInput,
       voiceNoteInput: params.voiceNoteInput,
     );
@@ -27,17 +26,17 @@ class PersistActivityFeedback
 }
 
 class PersistActivityFeedbackParams extends Equatable {
-  final ActivityStatusModel? activityStatusModel;
+  final ActivityStatus? activityStatus;
   final String textInput;
   final String? voiceNoteInput;
   const PersistActivityFeedbackParams({
-    required this.activityStatusModel,
+    required this.activityStatus,
     required this.textInput,
     required this.voiceNoteInput,
   });
   @override
   List<Object?> get props => [
-        activityStatusModel,
+        activityStatus,
         textInput,
         voiceNoteInput,
       ];

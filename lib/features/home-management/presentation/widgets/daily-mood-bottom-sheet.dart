@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/universal-widgets/bottomsheet-fixed-top.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
-import '../controller/home-controller.dart';
 import '../../../rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 import '../../../rapport-building/Presentation/widgets/emotion_selector.dart';
+import '../controller/home-controller.dart';
 
 class DailyMoodBottomSheet extends StatelessWidget {
   DailyMoodBottomSheet({Key? key}) : super(key: key);
@@ -60,7 +61,7 @@ class DailyMoodBottomSheet extends StatelessWidget {
                           children: _rapportController.moods
                               .map(
                                 (mood) => emotionSelector(
-                                  mood.moodName!.toLowerCase(),
+                                  mood.moodIcon!.url,
                                   () async {
                                     await _homeController.popupSetMoodAssist(
                                       moodName: mood.moodName,

@@ -1,21 +1,20 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
 
 // Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entities/mood.dart';
 
 class MoodModel extends Mood {
-  const MoodModel({
+  MoodModel({
     required int? id,
     required String? moodName,
     required String? moodDescription,
-    required ImageProp? icon,
+    required ImageModel? icon,
   }) : super(
           moodName: moodName,
           moodId: id,
           moodDescription: moodDescription,
-          moodIcon: icon,
+          moodIcon: icon?.toDomain(),
         );
 
   factory MoodModel.fromJson(Map<String, dynamic> jsonMap) {
@@ -23,8 +22,9 @@ class MoodModel extends Mood {
       id: jsonMap['id'] as int?,
       moodName: jsonMap['moodName'] as String?,
       moodDescription: jsonMap['moodDescription'] as String?,
-      //todo To be change with real image logic later
-      icon: ImagePropModel.fromJson(jsonMap['icon'] as Map<String, dynamic>),
+      icon: jsonMap['icon'] == null
+          ? ImageModel.fallbackIcon()
+          : ImageModel.fromJson(jsonMap['icon'] as Map<String, dynamic>),
     );
   }
 
@@ -33,8 +33,7 @@ class MoodModel extends Mood {
       "id": moodId,
       "moodName": moodName,
       "moodDescription": moodDescription,
-      //todo To be change with real image logic later
-      "icon": null
+      "icon": ImageModel.fromDomain(moodIcon!).toJson()
     };
   }
 }

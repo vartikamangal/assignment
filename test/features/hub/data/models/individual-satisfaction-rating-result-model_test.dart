@@ -17,7 +17,7 @@ void main() {
           ratingScaleName: null,
           minValue: 0,
           maxValue: 0,
-          icon: ImageProp(urlShort: '', urlMedium: '', urlLarge: '')));
+          icon: ""));
   group('Model IndividualSatisfactionRatingResultModel', () {
     test('should be a extended version of IndividualSatisfactionRating',
         () async {

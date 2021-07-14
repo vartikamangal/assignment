@@ -4,15 +4,13 @@ import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/controller/path-controller.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/base_content_widget.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
-class VideoBasedActivity extends StatelessWidget {
-  VideoBasedActivity({
-    Key? key,
-  }) : super(key: key);
+class VideoBasedActivity extends BaseContentWidget {
   final PathController _controller = Get.find();
   final PerformActivityController _activityController = Get.find();
   @override
@@ -36,7 +34,12 @@ class VideoBasedActivity extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   /// Video content
-                  const _PlayableContent(videoUrl: testPlayable),
+                  Obx(
+                    () => _PlayableContent(
+                      videoUrl:
+                          _activityController.activeStep.value!.stepContent!,
+                    ),
+                  ),
                   SizedBox(height: ScaleManager.spaceScale(spaceing: 28).value),
                   Padding(
                     padding: EdgeInsets.only(
@@ -84,9 +87,6 @@ class VideoBasedActivity extends StatelessWidget {
   }
 }
 
-const String testPlayable =
-    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
-
 /// Actual Video Player Fragment
 class _PlayableContent extends StatefulWidget {
   const _PlayableContent({
@@ -99,11 +99,14 @@ class _PlayableContent extends StatefulWidget {
 }
 
 class __PlayableContentState extends State<_PlayableContent> {
-  final BetterPlayerDataSource dataSource =
-      BetterPlayerDataSource(BetterPlayerDataSourceType.network, testPlayable);
+  late BetterPlayerDataSource dataSource;
   late BetterPlayerController controller;
   @override
   void initState() {
+    dataSource = BetterPlayerDataSource(
+      BetterPlayerDataSourceType.network,
+      widget.videoUrl,
+    );
     controller = BetterPlayerController(
       const BetterPlayerConfiguration(autoPlay: true),
       betterPlayerDataSource: dataSource,

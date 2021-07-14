@@ -10,7 +10,7 @@ class ActivityStep extends Equatable {
   final String? stepHelp;
   final String? stepName;
   final int? stepSequence;
-  final String? iconVO;
+  final ImageEntity? iconVO;
   final String? templateName;
   final String? stepContent;
   const ActivityStep({
@@ -43,7 +43,7 @@ class ActivityStep extends Equatable {
     String? stepHelp,
     String? stepName,
     int? stepSequence,
-    String? iconVO,
+    ImageEntity? iconVO,
     String? templateName,
     String? stepContent,
   }) {

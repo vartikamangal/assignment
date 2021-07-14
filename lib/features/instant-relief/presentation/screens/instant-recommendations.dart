@@ -106,6 +106,7 @@ class InstantRecommendationsScreen extends StatelessWidget {
                                     "activity":
                                         _instantRecommendationsController
                                             .instantRecommendations[i],
+                                    "redirectRoute": RouteName.instantRelief,
                                     "isInstantActivity": true,
                                   },
                                 );

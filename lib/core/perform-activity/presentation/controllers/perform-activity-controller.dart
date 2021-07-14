@@ -14,7 +14,6 @@ import 'package:tatsam_app_experimental/core/perform-activity/presentation/contr
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/content_screen.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/did_you_know_screen.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/instructions_screen.dart';
-import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/helper_functions/ask_cofirmation_on_back_button_push.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
@@ -79,6 +78,10 @@ class PerformActivityController extends GetxController {
   /// Holds the text being typed by user in content-screen of activity-flow
   RxnString textFeedback = RxnString();
 
+  /// Once user completes an antivity he will
+  /// be redirected to this route
+  final RxString _redirectRoute = RxString('/');
+
   set userTextFeedback(String feedback) {
     textFeedback.value = feedback;
   }
@@ -93,10 +96,12 @@ class PerformActivityController extends GetxController {
 
   void initializeActivityAndProceed({
     required Activity activityToStart,
+    required String redirectRoute,
     required bool isInstantActivity,
   }) {
     activity.value = activityToStart;
     isInstant.value = isInstantActivity;
+    _redirectRoute.value = redirectRoute;
     final allStepsSupported = activity.value!.activitySteps!.every(
       (step) => stepNameToRoute.keys.toList().contains(step.stepName),
     );
@@ -184,12 +189,8 @@ class PerformActivityController extends GetxController {
   }
 
   void navigatePostActivityCompletion() {
-    if (isInstant.value) {
-      //! [CRITICAL] to be debugged
-      Get.offNamedUntil(RouteName.instantRecommendations, (route) => false);
-    } else {
-      Get.offAllNamed(RouteName.onBoardingIncomplete);
-    }
+    log(_redirectRoute.value.toString());
+    Get.offNamedUntil(_redirectRoute.value.toString(), (route) => false);
   }
 
   Future<void> resetPageState() async {

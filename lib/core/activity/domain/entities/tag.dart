@@ -1,15 +1,13 @@
 // Flutter imports:
-import 'package:flutter/foundation.dart';
-
 // Package imports:
-import 'package:equatable/equatable.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/domain/entities/entity.dart';
 
-class Tag extends Equatable {
+class Tag extends Entity {
   final String? name;
   final String? tagCategory;
   final String? displayName;
   final String? parentName;
-  const Tag({
+  Tag({
     required this.name,
     required this.tagCategory,
     required this.displayName,
@@ -17,22 +15,26 @@ class Tag extends Equatable {
   });
 
   @override
-  List<Object?> get props => [name, tagCategory, displayName, parentName];
+  String toString() {
+    return 'Tag(name: $name, tagCategory: $tagCategory, displayName: $displayName, parentName: $parentName)';
+  }
 
   @override
-  bool get stringify => true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  Tag copyWith({
-    String? name,
-    String? tagCategory,
-    String? displayName,
-    String? parentName,
-  }) {
-    return Tag(
-      name: name ?? this.name,
-      tagCategory: tagCategory ?? this.tagCategory,
-      displayName: displayName ?? this.displayName,
-      parentName: parentName ?? this.parentName,
-    );
+    return other is Tag &&
+        other.name == name &&
+        other.tagCategory == tagCategory &&
+        other.displayName == displayName &&
+        other.parentName == parentName;
+  }
+
+  @override
+  int get hashCode {
+    return name.hashCode ^
+        tagCategory.hashCode ^
+        displayName.hashCode ^
+        parentName.hashCode;
   }
 }

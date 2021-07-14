@@ -47,7 +47,7 @@ void main() {
         displaySubtitle: "Focus on your mind",
         categoryDetailedDescription: "This is mental category",
         categoryShortDescription: "Focus on your mind",
-        iconVO: ImageProp(urlShort: '', urlLarge: '', urlMedium: ''))
+        iconVO: '')
   ];
 
   void runTestOnline(Callback body) {

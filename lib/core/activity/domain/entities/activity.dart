@@ -1,5 +1,6 @@
 // Package imports:
-import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/domain/entities/entity.dart';
 
 // Project imports:
 import '../../../image/image.dart';
@@ -7,11 +8,11 @@ import '../../../perform-activity/domain/entities/activity-step.dart';
 import 'recommendation-category.dart';
 import 'tag.dart';
 
-class Activity extends Equatable {
+class Activity extends Entity {
   final String? id;
   final String? title;
   final String? subtitle;
-  final String? iconVO;
+  final ImageEntity? iconVO;
   final int? durationInMinutes;
   final String? messageOnReceivingFeedback;
   final String? messageOnCompletion;
@@ -23,7 +24,8 @@ class Activity extends Equatable {
   final RecommendationCategory? categoryVO; //Modify
   final List<ActivityStep>? activitySteps; // Modify List<T>
   final List<Tag> tags; // Modify List<T>
-  const Activity({
+
+  Activity({
     required this.id,
     required this.title,
     required this.subtitle,
@@ -40,64 +42,50 @@ class Activity extends Equatable {
     required this.activitySteps,
     required this.tags,
   });
+
   @override
-  List<Object?> get props {
-    return [
-      id,
-      title,
-      subtitle,
-      iconVO,
-      durationInMinutes,
-      messageOnReceivingFeedback,
-      messageOnCompletion,
-      recommendationStatus,
-      frequencyMetric,
-      frequency,
-      actionTime,
-      criticality,
-      categoryVO,
-      activitySteps,
-      tags,
-    ];
+  String toString() {
+    return 'PActivity(id: $id, title: $title, subtitle: $subtitle, iconVO: $iconVO, durationInMinutes: $durationInMinutes, messageOnReceivingFeedback: $messageOnReceivingFeedback, messageOnCompletion: $messageOnCompletion, recommendationStatus: $recommendationStatus, frequencyMetric: $frequencyMetric, frequency: $frequency, actionTime: $actionTime, criticality: $criticality, categoryVO: $categoryVO, activitySteps: $activitySteps, tags: $tags)';
   }
 
   @override
-  bool get stringify => true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-  Activity copyWith({
-    String? id,
-    String? title,
-    String? subtitle,
-    String? iconVO,
-    int? durationInMinutes,
-    String? messageOnReceivingFeedback,
-    String? messageOnCompletion,
-    String? recommendationStatus,
-    String? frequencyMetric,
-    int? frequency,
-    String? actionTime,
-    String? criticality,
-    RecommendationCategory? categoryVO,
-    List<ActivityStep>? activitySteps,
-    List<Tag>? tags,
-  }) {
-    return Activity(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      subtitle: subtitle ?? this.subtitle,
-      iconVO: iconVO ?? this.iconVO,
-      durationInMinutes: durationInMinutes ?? this.durationInMinutes,
-      messageOnReceivingFeedback:
-          messageOnReceivingFeedback ?? this.messageOnReceivingFeedback,
-      messageOnCompletion: messageOnCompletion ?? this.messageOnCompletion,
-      recommendationStatus: recommendationStatus ?? this.recommendationStatus,
-      frequencyMetric: frequencyMetric ?? this.frequencyMetric,
-      frequency: frequency ?? this.frequency,
-      actionTime: actionTime ?? this.actionTime,
-      criticality: criticality ?? this.criticality,
-      categoryVO: categoryVO ?? this.categoryVO,
-      activitySteps: activitySteps ?? this.activitySteps,
-      tags: tags ?? this.tags,
-    );
+    return other is Activity &&
+        other.id == id &&
+        other.title == title &&
+        other.subtitle == subtitle &&
+        other.iconVO == iconVO &&
+        other.durationInMinutes == durationInMinutes &&
+        other.messageOnReceivingFeedback == messageOnReceivingFeedback &&
+        other.messageOnCompletion == messageOnCompletion &&
+        other.recommendationStatus == recommendationStatus &&
+        other.frequencyMetric == frequencyMetric &&
+        other.frequency == frequency &&
+        other.actionTime == actionTime &&
+        other.criticality == criticality &&
+        other.categoryVO == categoryVO &&
+        listEquals(other.activitySteps, activitySteps) &&
+        listEquals(other.tags, tags);
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        title.hashCode ^
+        subtitle.hashCode ^
+        iconVO.hashCode ^
+        durationInMinutes.hashCode ^
+        messageOnReceivingFeedback.hashCode ^
+        messageOnCompletion.hashCode ^
+        recommendationStatus.hashCode ^
+        frequencyMetric.hashCode ^
+        frequency.hashCode ^
+        actionTime.hashCode ^
+        criticality.hashCode ^
+        categoryVO.hashCode ^
+        activitySteps.hashCode ^
+        tags.hashCode;
   }
 }

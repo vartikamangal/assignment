@@ -1,6 +1,7 @@
 // Flutter imports:
 // Package imports:
 import 'package:dartz/dartz.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 
 // Project imports:
@@ -21,12 +22,16 @@ class GetCategoryActivitiesRepositoryImpl
   });
   @override
   Future<Either<Failure, List<Recommendation>>?> getActivities({
-    RecommendationCategoryModel? category,
+    RecommendationCategory? category,
   }) async {
     return baseRepository(
-      () => remoteDataSource!.getActivities(
-        category: category,
-      ),
+      () => remoteDataSource!
+          .getActivities(
+            category: RecommendationCategoryModel.fromDomain(category!),
+          )
+          .then((listOfRecommendationModels) => listOfRecommendationModels
+              .map((recommendationModel) => recommendationModel.toDomain())
+              .toList()),
     );
   }
 }

@@ -27,6 +27,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
 import 'package:tatsam_app_experimental/core/repository/handle-exception.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/data/repository/get-recorder-stats-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/data/repository/voice-note-player-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/data/source/get-recorder-stats-local-data-source.dart';
@@ -114,6 +115,9 @@ Future<void> initCoreDependencies() async {
       cacheMostRecentAcitivity: sl_core_dependencies(),
       persistActivityFeedback: sl_core_dependencies(),
     ),
+  );
+  Get.lazyPut<BaseUrlController>(
+    () => BaseUrlController(),
   );
   // Usecases
   sl_core_dependencies.registerLazySingleton(

@@ -81,6 +81,7 @@ class ChoosePathController extends GetxController {
   RxBool isProcessing = RxBool(false);
   RxBool isJourneySelected = RxBool(false);
   String selectedJourneyImageUrl='';
+  String CommonImageUrl='https://images.unsplash.com/photo-1547721064-da6cfb341d50';
 
   void toggleProcessor() {
     isProcessing.value = !isProcessing.value;

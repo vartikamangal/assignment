@@ -19,7 +19,7 @@ void main() {
       subtitle: "subtitle",
       instantReliefName: "instantReliefName",
       description: "description",
-      icon: ImageProp(urlShort: "", urlLarge: "", urlMedium: ""),
+      icon: '',
     )
   ];
   group('Model InstantReliefAreaModel ', () {

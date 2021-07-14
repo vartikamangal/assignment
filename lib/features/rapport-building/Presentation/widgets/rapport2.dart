@@ -125,7 +125,7 @@ class MidPageContentB extends StatelessWidget {
                         children: onBoardingController.moods.value
                             .map(
                               (mood) => emotionSelector(
-                                  mood.moodIcon!.url!,
+                                  mood.moodIcon!.url,
                                 () {
                                   !onBoardingController.isProcessing.value?
                                   onBoardingController.setEmotion(

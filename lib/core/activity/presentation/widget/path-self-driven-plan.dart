@@ -12,7 +12,6 @@ import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
-import '../../data/models/recommendation-category-model.dart';
 import '../controller/path-controller.dart';
 import 'plan-container.dart';
 
@@ -99,8 +98,7 @@ class PathSelfDrivenPlan extends StatelessWidget {
                                     onTap: () async {
                                       await _controller
                                           .fetchCategoryActivitiesAndProceed(
-                                        categoryModel: category
-                                            as RecommendationCategoryModel,
+                                        category: category,
                                       );
                                     },
                                     child: PlanContainer(
@@ -108,7 +106,7 @@ class PathSelfDrivenPlan extends StatelessWidget {
                                       description: category.displaySubtitle,
                                       isFaded: false,
                                       requireBottomSpacing: true,
-                                      image:category.iconVO ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+                                      image:category.iconVO!.url,
                                     ),
                                   ),
                                 ),

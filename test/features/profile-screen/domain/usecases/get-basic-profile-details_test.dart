@@ -37,14 +37,14 @@ void main() {
             focusName: '',
             displayName: '',
             messageOnSelection: '',
-            issueIcon: ImageProp())
+            issueIcon: '')
       ],
       journeyPath: JourneyModel(
           id: 0,
           title: '',
           subtitle: '',
           description: '',
-          icon: ImageProp(),
+          icon: '',
           pathName: ''));
 
   group("USECASE : getBasicProfileDetails()", () {

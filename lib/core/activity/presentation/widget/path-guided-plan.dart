@@ -105,7 +105,7 @@ class PathGuidedPlan extends StatelessWidget {
           requireBottomSpacing: true,
           title: planItem.title,
           description: planItem.dayNumber == 1 ? planItem.subtitle : '',
-          image: planItem.icon??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+          image: planItem.icon!.url,
           // ignore: avoid_bool_literals_in_conditional_expressions
           isFaded: planItem.dayNumber == 1 ? false : true,
           onPressed: () {

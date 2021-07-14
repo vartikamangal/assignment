@@ -97,10 +97,10 @@ class RapportBuildingController extends GetxController {
     );
     toggleProcessor();
     userNameSetOrFailure!.fold(
-          (failure) {
+      (failure) {
         ErrorInfo.show(failure);
       },
-          (fetchedSubjectInfo) {
+      (fetchedSubjectInfo) {
         subjectInfo.value = fetchedSubjectInfo;
         currentOnBoardPageCounter.value += 1;
         currentSelectedPage.value = MidPageContentB(
@@ -113,10 +113,10 @@ class RapportBuildingController extends GetxController {
   Future<void> getAllAvailableMoods() async {
     final moodsOrFailure = await getAllMoods(NoParams());
     moodsOrFailure!.fold(
-          (failure) {
+      (failure) {
         ErrorInfo.show(failure);
       },
-          (moodsFetched) {
+      (moodsFetched) {
         moods.assignAll(moodsFetched);
       },
     );
@@ -151,16 +151,16 @@ class RapportBuildingController extends GetxController {
     toggleProcessor();
     final setMoodOrFailure = await setSubjectMood(
       SetSubjectMoodParams(
-        moodName:  selectedMood.value!.moodName!.toUpperCase(),
+        moodName: selectedMood.value!.moodName!.toUpperCase(),
         activityType: activityTypeForRapportSection,
       ),
     );
     toggleProcessor();
     setMoodOrFailure!.fold(
-          (failure) {
+      (failure) {
         ErrorInfo.show(failure);
       },
-          (fetchedUserMoodStatus) async {
+      (fetchedUserMoodStatus) async {
         await Get.find<MoodDataCacheController>()
             .cacheGivenMood(
           moodModel: selectedMood.value as MoodModel,
@@ -179,12 +179,12 @@ class RapportBuildingController extends GetxController {
 
   Future<void> fetchAvailableDurations() async {
     final availableDurationsOrFailure =
-    await getAvailableFeelingDuration(NoParams());
+        await getAvailableFeelingDuration(NoParams());
     availableDurationsOrFailure!.fold(
-          (failure) {
+      (failure) {
         ErrorInfo.show(failure);
       },
-          (fetchedDurationList) {
+      (fetchedDurationList) {
         log('available durations fetched');
         availableDurations.assignAll(fetchedDurationList);
         //TODO adding an extra duration coz. of the design thing, Will optimize in future
@@ -212,10 +212,10 @@ class RapportBuildingController extends GetxController {
     );
     toggleProcessor();
     moodTrackingStatusOrFailure!.fold(
-          (failure) {
+      (failure) {
         ErrorInfo.show(failure);
       },
-          (moodTrackStatus) {
+      (moodTrackStatus) {
         log('mood duration set successfully!');
         currentSelectedPage.value = MidPageContentsD();
       },
@@ -236,10 +236,10 @@ class RapportBuildingController extends GetxController {
     );
     toggleProcessor();
     persistStatus!.fold(
-          (failure) {
+      (failure) {
         ErrorInfo.show(failure);
       },
-          (persistenceMessage) async {
+      (persistenceMessage) async {
         log('feeling persisted');
         _voiceNoteController.cleanVoiceFilePath();
       },
@@ -279,7 +279,7 @@ class RapportBuildingController extends GetxController {
   // for setting a emotion
   // ignore: avoid_setters_without_getters
   Future<void> setEmotion(String emojiName, Mood mood) async {
-    selectedEmotionIconUrl.value = mood.moodIcon!.url!;
+    selectedEmotionIconUrl.value = mood.moodIcon!.url;
     selectedMood.value = mood;
     await setSubjectMoodAndMoveOnwards();
   }

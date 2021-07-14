@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
-import '../../../../core/activity/data/models/recommendation-category-model.dart';
-import '../../../../core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
 
+import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../repositories/add-weekly-category-service.dart';
 
@@ -24,7 +23,7 @@ class AddWeeklyCategory implements Usecase<Unit, AddWeeklyCategoryParams> {
 
 class AddWeeklyCategoryParams extends Equatable {
   final int? weekNumber;
-  final RecommendationCategoryModel category;
+  final RecommendationCategory category;
   const AddWeeklyCategoryParams({
     required this.weekNumber,
     required this.category,

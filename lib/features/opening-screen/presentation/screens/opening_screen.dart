@@ -4,7 +4,6 @@ import 'dart:ui';
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';

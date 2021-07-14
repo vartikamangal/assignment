@@ -2,11 +2,11 @@
 // Package imports:
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
 
 // Project imports:
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../data/models/recommendation-category-model.dart';
 import '../entities/recommendation.dart';
 import '../repositories/get-category-activities-repository.dart';
 
@@ -27,7 +27,7 @@ class GetCategoryActivities
 }
 
 class GetCategoryActivitiesParams extends Equatable {
-  final RecommendationCategoryModel category;
+  final RecommendationCategory category;
 
   const GetCategoryActivitiesParams({
     required this.category,

@@ -1,11 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../controller/profile-controller.dart';
-import 'bottom-sheet.dart';
+
 
 class PiChart extends GetWidget<ProfileController> {
   final List<WOLAreaData> chartData;
@@ -68,7 +67,7 @@ class PiChart extends GetWidget<ProfileController> {
             explodeOffset: '2%',
             explodeGesture: ActivationMode.none,
             enableSmartLabels: true,
-            dataLabelSettings: DataLabelSettings(
+            dataLabelSettings: const DataLabelSettings(
               //  isVisible: true,
               labelAlignment: ChartDataLabelAlignment.bottom,
             ),

@@ -171,7 +171,7 @@ class InstantReliefScreen extends StatelessWidget {
                             _controller.instantLifeAreas.length, (index) {
                           final area = _controller.instantLifeAreas[index];
                           return ReliefAreaCard(
-                            imageAddress:'https://images.unsplash.com/photo-1547721064-da6cfb341d50'/*area.icon==''?'https://images.unsplash.com/photo-1547721064-da6cfb341d50':area.icon!*/,
+                            imageAddress:area.icon!.url ,
                             title: area.title,
                             onTap: () async {
                               _controller.instantReliefArea =

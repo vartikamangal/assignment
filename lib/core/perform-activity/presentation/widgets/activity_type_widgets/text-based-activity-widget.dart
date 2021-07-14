@@ -4,7 +4,10 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/controller/path-controller.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/content_page_controller.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/text_content_controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/base_content_widget.dart';
 import 'package:tatsam_app_experimental/core/responsive/responsive-builder.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
@@ -16,14 +19,11 @@ import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-ui-fragment.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/null-handled-image.dart';
 
-class TextBasedActivity extends StatelessWidget {
-  TextBasedActivity({
-    Key? key,
-  }) : super(key: key);
-
+class TextBasedActivity extends BaseContentWidget {
   final PathController _controller = Get.find();
   final PerformActivityController activityController = Get.find();
   final VoiceNoteController _voiceNoteController = Get.find();
+  final TextContentController _contentPageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class TextBasedActivity extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  NullHandledImage(image: activityController.activity.value!.iconVO??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',)
+                  NullHandledImage(image: activityController.activity.value!.iconVO!.url,)
                 ],
               ),
               Container(
@@ -70,7 +70,7 @@ class TextBasedActivity extends StatelessWidget {
                 ),
                 child: Obx(
                   () => Text(
-                    activityController.activeStep.value!.stepTitle!,
+                    activityController.activeStep.value!.stepContent!,
                     style: AppTextStyle.Darkbluebold,
                     textScaleFactor: textScaleFactor,
                   ),
@@ -78,7 +78,7 @@ class TextBasedActivity extends StatelessWidget {
               ),
               _FeedbackComponent(
                 voiceNoteController: _voiceNoteController,
-                controller: _controller,
+                controller: _contentPageController,
               ),
             ],
           ),
@@ -102,13 +102,13 @@ class _FeedbackComponent extends StatelessWidget {
   const _FeedbackComponent({
     Key? key,
     required VoiceNoteController voiceNoteController,
-    required PathController controller,
+    required TextContentController controller,
   })   : _voiceNoteController = voiceNoteController,
         _controller = controller,
         super(key: key);
 
   final VoiceNoteController _voiceNoteController;
-  final PathController _controller;
+  final TextContentController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +175,7 @@ class _TextInputComponent extends StatelessWidget {
 
   final double micSize;
   final double fontSize;
-  final PathController controller;
+  final TextContentController controller;
   final VoiceNoteController voiceNoteController;
 
   @override
@@ -185,7 +185,7 @@ class _TextInputComponent extends StatelessWidget {
         color: blueDarkShade,
         fontSize: fontSize,
       ),
-      focusNode: controller.focusNode,
+      focusNode: Get.find<ContentPageController>().focusNode,
       decoration: InputDecoration(
         hintText: 'Write here',
         hintStyle: AppTextStyle.hintStyle.copyWith(
@@ -214,7 +214,7 @@ class _TextInputComponent extends StatelessWidget {
         ),
       ),
       onChanged: (recommendationText) {
-        controller.textFeedback = recommendationText;
+        controller.textFeedback.value = recommendationText;
       },
     );
   }

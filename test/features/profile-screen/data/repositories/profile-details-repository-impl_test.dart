@@ -44,13 +44,13 @@ void main() {
       focusName: 'focusName',
       displayName: 'displayName',
       messageOnSelection: 'messageOnSelection',
-      issueIcon: ImageProp());
+      issueIcon: "");
   const tJourneyModel = JourneyModel(
       id: 1,
       title: 'title',
       subtitle: 'subtitle',
       description: 'description',
-      icon: ImageProp(),
+      icon: "",
       pathName: 'pathName');
 
   const tProfileData = ProfileDataModel(

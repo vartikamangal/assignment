@@ -127,13 +127,14 @@ class GuidedPathPlanInside extends StatelessWidget {
               RouteName.activityScreen,
               arguments: {
                 "activity": activity,
+                "redirectRoute": RouteName.onBoardingIncomplete,
                 "isInstantActivity": false,
               },
             );
           },
           title: activity.title.toString(),
           description: '',
-          image: activity.iconVO??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+          image: activity.iconVO!.url,
         ),
       );
     }

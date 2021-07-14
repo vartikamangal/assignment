@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/success/success-interface.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey.dart';

@@ -37,14 +37,14 @@ class MockInstantReliefRemoteDataSource extends _i1.Mock
                   <_i4.InstantReliefAreaModel>[]))
           as _i3.Future<List<_i4.InstantReliefAreaModel>>);
   @override
-  _i3.Future<List<_i5.ActivityRecommendationModel>> getRecommendations(
+  _i3.Future<List<_i5.ActivityModel>> getRecommendations(
           {String? instantLifeArea}) =>
       (super.noSuchMethod(
               Invocation.method(
                   #getRecommendations, [], {#instantLifeArea: instantLifeArea}),
-              returnValue: Future<List<_i5.ActivityRecommendationModel>>.value(
-                  <_i5.ActivityRecommendationModel>[]))
-          as _i3.Future<List<_i5.ActivityRecommendationModel>>);
+              returnValue:
+                  Future<List<_i5.ActivityModel>>.value(<_i5.ActivityModel>[]))
+          as _i3.Future<List<_i5.ActivityModel>>);
   @override
   _i3.Future<List<_i6.EmergencyNumberModel>> fetchEmergencyNumbers() =>
       (super.noSuchMethod(Invocation.method(#fetchEmergencyNumbers, []),

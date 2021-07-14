@@ -103,11 +103,11 @@ class _AvailablePathsWidget extends StatelessWidget {
                 ///have to add default image
                 child: RadialBoxForPathSelection(
                   title: path.title,
-                  imgUrl: path.icon ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+                  imgUrl: path.icon!.url,
                   subtitle: path.subtitle,
                   onPressed: () {
                     _controller.selectJourney(
-                      journey: path,selectedJourneyImageUrl: path.icon ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'
+                      journey: path,selectedJourneyImageUrl: path.icon!.url
                     );
                   },
                 ),

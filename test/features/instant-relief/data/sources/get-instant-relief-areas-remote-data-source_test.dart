@@ -39,7 +39,7 @@ Future<void> main() async {
         subtitle: "subtitle",
         instantReliefName: "instantReliefName",
         description: "description",
-        icon: ImageProp(urlMedium: '', urlLarge: '', urlShort: ''))
+        icon: "")
   ];
 
   // Helper functions

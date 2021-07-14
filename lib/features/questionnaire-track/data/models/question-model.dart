@@ -1,13 +1,12 @@
 // Flutter imports:
-import 'package:flutter/cupertino.dart';
-
 // Project imports:
 import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart';
+
 import '../../domain/entities/question.dart';
 import 'question-option-model.dart';
 
 class QuestionModel extends Question {
-  const QuestionModel({
+  QuestionModel({
     required String? id,
     required String? questionType,
     required String? status,
@@ -27,7 +26,7 @@ class QuestionModel extends Question {
           questionText: questionText,
           questionType: questionType,
           status: status,
-          tags: tags,
+          tags: tags.map((tag) => tag.toDomain()).toList(),
           lastModifiedTime: lastModifiedTime,
           questionnaireId: questionnaireId,
           name: name,

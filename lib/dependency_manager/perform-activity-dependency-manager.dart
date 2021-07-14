@@ -9,6 +9,7 @@ import 'package:tatsam_app_experimental/core/perform-activity/domain/usecases/st
 import 'package:tatsam_app_experimental/core/perform-activity/domain/usecases/update-activity-status.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/content_page_controller.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/text_content_controller.dart';
 import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 final sl_perform_activity = GetIt.instance;
@@ -22,6 +23,9 @@ Future<void> initPerformActivityDependencies() async {
   Get.lazyPut<ContentPageController>(() => ContentPageController(
         rateActivity: sl_perform_activity(),
       ));
+  Get.lazyPut<TextContentController>(
+    () => TextContentController(),
+  );
 
   // Usecases
   sl_perform_activity.registerLazySingleton(

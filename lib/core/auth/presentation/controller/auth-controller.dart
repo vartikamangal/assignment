@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/app-config.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/check-if-already-logged-in.dart';
 import 'package:tatsam_app_experimental/core/auth/domain/usecases/oauth-signup.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/domain/usecases/retrieve-user-onboarding-status.dart';
@@ -45,8 +46,23 @@ class AuthController extends GetxController {
       (loginStatus) async {
         await checkUserOnboardingStatus().then(
           (value) {
-            navigateBasedOnOnboardingStatus(
-              isPreviouslyOnboarded: userPreviouslyOnboarded.value,
+            AppConfig.of(Get.context!).env.map(
+              prod: (_) {
+                navigateBasedOnOnboardingStatus(
+                  isPreviouslyOnboarded: userPreviouslyOnboarded.value,
+                );
+              },
+              staging: (_) {
+                navigateBasedOnOnboardingStatus(
+                  isPreviouslyOnboarded: userPreviouslyOnboarded.value,
+                );
+              },
+              dev: (_) {
+                Navigator.of(Get.context!).pushNamedAndRemoveUntil(
+                  RouteName.originDevOpeningScreen,
+                  (_) => false,
+                );
+              },
             );
           },
         );
@@ -70,9 +86,27 @@ class AuthController extends GetxController {
         );
       },
       (status) async {
-        Navigator.of(Get.context!).pushNamedAndRemoveUntil(
-          redirectRoute,
-          (_) => false,
+        /// Once login is done
+        /// Make user move to some page based on environment
+        AppConfig.of(Get.context!).env.map(
+          prod: (_) {
+            Navigator.of(Get.context!).pushNamedAndRemoveUntil(
+              redirectRoute,
+              (_) => false,
+            );
+          },
+          staging: (_) {
+            Navigator.of(Get.context!).pushNamedAndRemoveUntil(
+              redirectRoute,
+              (_) => false,
+            );
+          },
+          dev: (_) {
+            Navigator.of(Get.context!).pushNamedAndRemoveUntil(
+              RouteName.originDevOpeningScreen,
+              (_) => false,
+            );
+          },
         );
       },
     );

@@ -23,7 +23,7 @@ void main() {
           focusName: '',
           displayName: '',
           messageOnSelection: '',
-          issueIcon: ImageProp(),
+          issueIcon: null,
         )
       ],
       journeyPath: JourneyModel(
@@ -31,7 +31,7 @@ void main() {
           title: '',
           subtitle: '',
           description: '',
-          icon: ImageProp(urlShort: '', urlMedium: '', urlLarge: ''),
+          icon: null,
           pathName: ''));
 
   group('Model ProfileDataModel', () {

@@ -8,17 +8,18 @@ import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart
 import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/data/models/activity-step-model.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/domain/entities/activity-step.dart';
 
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
   const List<Recommendation> tRecommendationModel = <RecommendationModel>[
     RecommendationModel(
-        activity: ActivityRecommendationModel(
+        activity: ActivityModel(
             id: "08c3275f-e45e-4b6a-bfe7-280266baf6c5",
             title: "GUIDED EXERCISE - 2",
             subtitle: "Subtitle for GUIDED EXERCISE",
-            iconVO: ImageProp(urlShort: '', urlLarge: '', urlMedium: ''),
+            iconVO: '',
             durationInMinutes: 15,
             messageOnReceivingFeedback: " This is an encouraging message",
             messageOnCompletion:
@@ -36,32 +37,32 @@ void main() {
                 categoryDetailedDescription:
                     "This is physical category for body",
                 categoryShortDescription: "Focus on the body",
-                iconVO: ImageProp(urlShort: '', urlLarge: '', urlMedium: '')),
-            recommendationStepsVO: <RecommendationStepModel>[
-                 RecommendationStepModel(
-              id: 3171,
-              stepTitle: "Content",
-              stepHelp: "" ,
-              stepName: "CONTENT",
-              stepSequence: 3,
-              iconVO: ImageProp(urlShort: '',
-                  urlLarge: '',
-                  urlMedium: ''),
-              templateName: "PLAIN_TEXT",
-              stepContent: "What is your fondest childhood memory? What made it special?"
-          ),
+                iconVO: ''),
+            activitySteps: <ActivityStep>[
+              ActivityStep(
+                  id: 3171,
+                  stepTitle: "Content",
+                  stepHelp: "",
+                  stepName: "CONTENT",
+                  stepSequence: 3,
+                  iconVO: '',
+                  templateName: "PLAIN_TEXT",
+                  stepContent:
+                      "What is your fondest childhood memory? What made it special?"),
             ],
             tags: <TagModel>[
-              TagModel(name: "ROMANCE",
-              tagCategory: "AREAS",
-              displayName: "Romance",
-              parentName: null),
+              TagModel(
+                  name: "ROMANCE",
+                  tagCategory: "AREAS",
+                  displayName: "Romance",
+                  parentName: null),
             ]),
         weight: 1.0)
   ];
 
-  const tTags=<TagModel>[
-    TagModel(name: "LOSING_TEMPER",
+  const tTags = <TagModel>[
+    TagModel(
+        name: "LOSING_TEMPER",
         tagCategory: "INSTANT_RELIEF",
         displayName: "Losing Temper",
         parentName: null),
@@ -89,12 +90,9 @@ void main() {
     test('toJson should transform the model into a Map again', () async {
       //arrange
       final expectedJson =
-      jsonDecode(fixtureReader(filename: 'raw-tag-model.json'))
-      as List;
+          jsonDecode(fixtureReader(filename: 'raw-tag-model.json')) as List;
       //act
-      final result = tTags
-          .map((area) => (area as TagModel).toJson())
-          .toList();
+      final result = tTags.map((area) => (area as TagModel).toJson()).toList();
       //assert
       expect(result, expectedJson);
     });

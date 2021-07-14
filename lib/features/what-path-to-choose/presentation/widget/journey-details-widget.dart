@@ -75,7 +75,7 @@ class JourneyDetails extends StatelessWidget {
                     ),
                   ),
                 Obx(()=>  DividedImageComponent(
-                  imgUrl: journey!.icon ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+                  imgUrl: journey!.icon!.url,
                 ),),
                   Expanded(
                     flex: 3,

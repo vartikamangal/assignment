@@ -1,7 +1,7 @@
 // Flutter imports:
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
@@ -11,9 +11,7 @@ import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/color-pallete.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 // ignore: must_be_immutable
-
 
 class PlanContainer extends StatelessWidget {
   String? title;
@@ -80,22 +78,27 @@ class PlanContainer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding:  EdgeInsets.only(right: ScaleManager.spaceScale(spaceing: 30).value),
+                          padding: EdgeInsets.only(
+                              right:
+                                  ScaleManager.spaceScale(spaceing: 30).value),
                           child: SizedBox(
-                              height: description==''?ScaleManager.spaceScale(spaceing: 62).value:ScaleManager.spaceScale(spaceing: 33).value,
+                              height: description == ''
+                                  ? ScaleManager.spaceScale(spaceing: 65).value
+                                  : ScaleManager.spaceScale(spaceing: 33).value,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                AutoSizeText(
-                                  InitCap(title!),
-                                  style: isFaded!
-                                      ? AppTextStyle.Darkblueheader.copyWith(
-                                    color: greyboxshade,
+                                  AutoSizeText(
+                                    InitCap(title!),
+                                    style: isFaded!
+                                        ? AppTextStyle.Darkblueheader.copyWith(
+                                            color: greyboxshade,
+                                          )
+                                        : AppTextStyle.Darkblueheader,
+                                    textScaleFactor: textScaleFactor,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.left,
                                   )
-                                      : AppTextStyle.Darkblueheader,
-                                  textScaleFactor: textScaleFactor,
-                                  maxLines: 2,
-                                  textAlign: TextAlign.left,)
                                 ],
                               )),
                         ),
@@ -103,7 +106,9 @@ class PlanContainer extends StatelessWidget {
                           EmptySpacePlaceHolder()
                         else
                           Padding(
-                            padding:  EdgeInsets.only(top: ScaleManager.spaceScale(spaceing: 4).value),
+                            padding: EdgeInsets.only(
+                                top:
+                                    ScaleManager.spaceScale(spaceing: 4).value),
                             child: Text(
                               description!,
                               style: AppTextStyle.ligntbluedescription,
@@ -117,8 +122,8 @@ class PlanContainer extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.topLeft,
-                  child:  CachedNetworkImage(
-                    imageUrl:image!,
+                  child: CachedNetworkImage(
+                    imageUrl: image!,
                     height: ScaleManager.spaceScale(spaceing: 91).value,
                     //scale: imageScaleFactor,
                   ),

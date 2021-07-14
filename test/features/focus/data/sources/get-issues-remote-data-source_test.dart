@@ -39,21 +39,21 @@ Future<void> main() async {
       displayName: "Sleep",
       messageOnSelection:
           " I want to sleep better. More, restful, deeper sleep for my mind and my body",
-      issueIcon: ImageProp(),
+      issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
     ),
     IssueModel(
       issueId: 2,
       focusName: "WORK_FROM_HOME",
       displayName: "Work form home",
       messageOnSelection: "I want to manage my life better as I work from home",
-      issueIcon: ImageProp(),
+      issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
     ),
     IssueModel(
       issueId: 3,
       focusName: "REDUCE_STRESS",
       displayName: "Reduce stress",
       messageOnSelection: "I want to reduce stress",
-      issueIcon: ImageProp(),
+      issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
     )
   ];
 

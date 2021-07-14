@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/widget/pill-loader.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
-// Project imports:
-import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-state.dart';
 
-import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../controller/path-controller.dart';
@@ -19,7 +16,6 @@ import 'plan-container.dart';
 // ignore: must_be_immutable
 class PathSelfDrivenPlanInside extends StatelessWidget {
   final PathController _controller = Get.find();
-  final DurationTrackerController _durationController = Get.find();
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
@@ -88,41 +84,46 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
             else
               SliverToBoxAdapter(
                 child: Obx(
-                  ()=> _controller.isLoading.value
+                  () => _controller.isLoading.value
                       ? Padding(
-                    padding:  EdgeInsets.only( left: ScaleManager.spaceScale(spaceing: 29)
-                        .value,
-                      right: ScaleManager.spaceScale(spaceing: 29)
-                          .value,),
-                    child: PillLoader(haveDescription: false),
-                  )
-                      : Column(
-                    children: [
-                      for (var activity in _controller.recommendationActivities)
-                        Container(
-                          margin: EdgeInsets.only(
+                          padding: EdgeInsets.only(
                             left: ScaleManager.spaceScale(spaceing: 29).value,
                             right: ScaleManager.spaceScale(spaceing: 29).value,
                           ),
-                          child: PlanContainer(
-                            title: activity.activity.title,
-                            requireBottomSpacing: true,
-                            description: "",
-                            isFaded: false,
-                            image:activity.activity.iconVO?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
-                            onPressed: () async {
-                              Navigator.of(context).pushNamed(
-                                RouteName.activityScreen,
-                                arguments: {
-                                  "activity": activity.activity,
-                                  "isInstantActivity": false,
-                                },
-                              );
-                            },
-                          ),
+                          child: PillLoader(haveDescription: false),
+                        )
+                      : Column(
+                          children: [
+                            for (var activity
+                                in _controller.recommendationActivities)
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: ScaleManager.spaceScale(spaceing: 29)
+                                      .value,
+                                  right: ScaleManager.spaceScale(spaceing: 29)
+                                      .value,
+                                ),
+                                child: PlanContainer(
+                                  title: activity.activity.title,
+                                  requireBottomSpacing: true,
+                                  description: "",
+                                  isFaded: false,
+                                  image: activity.activity.iconVO?.url,
+                                  onPressed: () async {
+                                    Navigator.of(context).pushNamed(
+                                      RouteName.activityScreen,
+                                      arguments: {
+                                        "activity": activity.activity,
+                                        "isInstantActivity": false,
+                                        "redirectRoute":
+                                            RouteName.onBoardingIncomplete,
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                          ],
                         ),
-                    ],
-                  ),
                 ),
               ),
           ],

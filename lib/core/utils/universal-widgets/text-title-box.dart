@@ -11,6 +11,7 @@ import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import '../../responsive/scale-manager.dart';
 import '../app-text-style-components/app-text-styles.dart';
 import '../color-pallete.dart';
+import 'circular-image-loader.dart';
 ///this is used only for the what path to choose screen
 class RadialBoxForPathSelection extends StatelessWidget {
   final Callback? onPressed;
@@ -108,6 +109,9 @@ class RadialBoxForPathSelection extends StatelessWidget {
                 ),
                 child: CachedNetworkImage(
                   imageUrl:imgUrl!,
+                  placeholder: (context, url) =>CircularImageLoader(height: ScaleManager.spaceScale(
+                    spaceing: 91,
+                  ).value,),
                   height: ScaleManager.spaceScale(
                     spaceing: 91,
                   ).value,

@@ -5,13 +5,13 @@ import '../../../image/image.dart';
 import '../../domain/entities/activity-step.dart';
 
 class ActivityStepModel extends ActivityStep {
-  const ActivityStepModel({
+  ActivityStepModel({
     required int? id,
     required String? stepTitle,
     required String? stepHelp,
     required String? stepName,
     required int? stepSequence,
-    required String? iconVO,
+    required ImageModel? iconVO,
     required String? templateName,
     required String? stepContent,
   }) : super(
@@ -22,7 +22,7 @@ class ActivityStepModel extends ActivityStep {
           id: id,
           stepName: stepName,
           stepTitle: stepTitle,
-          iconVO: iconVO,
+          iconVO: iconVO?.toDomain(),
         );
 
   factory ActivityStepModel.fromJson(Map<String, dynamic> jsonMap) {
@@ -32,7 +32,9 @@ class ActivityStepModel extends ActivityStep {
       stepHelp: jsonMap['stepHelp'] as String?,
       stepName: jsonMap['stepName'] as String?,
       stepSequence: jsonMap['stepSequence'] as int?,
-      iconVO: jsonMap['iconVO'] as String?,
+      iconVO: jsonMap['iconVO'] == null
+          ? ImageModel.fallbackIcon()
+          : ImageModel.fromJson(jsonMap['iconVO'] as Map<String, dynamic>),
       templateName: jsonMap['templateName'] as String?,
       stepContent: jsonMap['stepContent'] as String?,
     );
@@ -45,7 +47,7 @@ class ActivityStepModel extends ActivityStep {
       "stepHelp": stepHelp,
       "stepName": stepName,
       "stepSequence": stepSequence,
-      "iconVO": iconVO,
+      "iconVO": ImageModel.fromDomain(iconVO!).toJson(),
       "templateName": templateName,
       "stepContent": stepContent,
     };

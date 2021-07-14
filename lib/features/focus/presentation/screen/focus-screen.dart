@@ -106,11 +106,11 @@ class FocusScreen extends StatelessWidget {
                         final issueImageAddr =
                             '${ImagePath.issues}${'${_controller.issues[index]!.focusName!.toLowerCase()}.png'}';
                         return FocusCard(
-                          imageAddress: _controller.issues[index]!.issueIcon==null?'https://images.unsplash.com/photo-1547721064-da6cfb341d50':_controller.issues[index]!.issueIcon,
+                          imageAddress: _controller.issues[index]!.issueIcon!.url ,
                           title: _controller.issues[index]!.displayName,
                           onTap: () {
                             _controller.getDescription(
-                              _controller.issues[index]!.issueIcon ?? 'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+                              _controller.issues[index]!.issueIcon!.url,
                               _controller.issues[index],
                             );
                             _controller.removeIssue( _controller.issues[index],);

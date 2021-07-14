@@ -14,7 +14,7 @@ import 'package:tatsam_app_experimental/core/activity/data/sources/get-category-
 @GenerateMocks([ApiClient])
 Future<void> main() async {
   late GetCategoryActivitiesRemoteDataSourceImpl remoteDataSourceImpl;
-  MockApiClient? client;
+  late MockApiClient client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
@@ -29,14 +29,14 @@ Future<void> main() async {
   // Helper functions
 
   void setupHttpSuccessClient200() {
-    when(client!.get(uri: APIRoute.getAllRecommendationsByCategory)).thenAnswer(
+    when(client.get(uri: APIRoute.getAllRecommendationsByCategory)).thenAnswer(
       (_) async => http.Response(
           fixtureReader(filename: 'recommendation-model.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
-    when(client!.get(uri: APIRoute.getAllRecommendationsByCategory)).thenAnswer(
+    when(client.get(uri: APIRoute.getAllRecommendationsByCategory)).thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }
@@ -54,6 +54,5 @@ Future<void> main() async {
     //     client.get(uri: APIRoute.getAllRecommendationsByCategory),
     //   );
     // });
-    //
   });
 }

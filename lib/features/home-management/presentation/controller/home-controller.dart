@@ -9,10 +9,6 @@ import 'package:tatsam_app_experimental/core/perform-activity/data/models/mood-f
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
 import 'package:tatsam_app_experimental/features/hub/presentation/controller/hub-controller.dart';
 
-// Project imports:
-import '../../../../core/activity/data/models/activity-model.dart';
-import '../../../../core/activity/data/models/recommendation-category-model.dart';
-import '../../../../core/activity/data/models/recommendation-model.dart';
 import '../../../../core/activity/domain/entities/activity.dart';
 import '../../../../core/activity/domain/entities/recommendation-category.dart';
 import '../../../../core/activity/domain/entities/recommendation.dart';
@@ -58,7 +54,6 @@ class HomeController extends GetxController {
   final RetrieveMostRecentActivity retrieveMostRecentActivity;
   final RetrieveUserPath retrieveUserPath;
   final GetRecommendationsByActionTime getRecommendationsByActionTime;
-
   /// usecase for saving user's onboardeing staus
   final SaveUserOnboardingStatus userOnboardingStatus;
 
@@ -109,7 +104,7 @@ class HomeController extends GetxController {
   static const String activityTypeHomepage = 'APP_OPEN';
   final Rxn<CacheAcitivityModel> mostRecentAcitivity =
       Rxn<CacheAcitivityModel>();
-  final RxList<Activity> recommendedActivities = RxList<ActivityModel>(
+  final RxList<Activity> recommendedActivities = RxList(
     [],
   );
 
@@ -120,13 +115,11 @@ class HomeController extends GetxController {
     [],
   );
 
-  final RxList<RecommendationCategory> categoriesForWeeklyFeedback =
-      RxList<RecommendationCategoryModel>(
+  final RxList<RecommendationCategory> categoriesForWeeklyFeedback = RxList(
     [],
   );
 
-  final RxList<Recommendation> subActivitesOfCategories =
-      RxList<RecommendationModel>(
+  final RxList<Recommendation> subActivitesOfCategories = RxList(
     [],
   );
 
@@ -391,7 +384,7 @@ class HomeController extends GetxController {
   /// Should be called when user clicks on any of the above obtained category pills
   /// Adds the category passed to the category list and Then fetches the activities for that category
   Future<void> fetchAcitivitiesForCategory({
-    required RecommendationCategoryModel category,
+    required RecommendationCategory category,
   }) async {
     toggleProcessor();
     await addToWeeklyCategory(
@@ -421,7 +414,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> addToWeeklyCategory({
-    required RecommendationCategoryModel category,
+    required RecommendationCategory category,
   }) async {
     final statusOrFailure = await addWeeklyCategory(
       AddWeeklyCategoryParams(

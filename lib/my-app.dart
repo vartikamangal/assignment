@@ -3,6 +3,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/app-config.dart';
 import 'package:tatsam_app_experimental/core/analytics/analytics-setup.dart';
 
 // Project imports:
@@ -35,7 +36,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       defaultTransition: Transition.fadeIn,
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteName.rootView,
+      initialRoute: _getInitialRouteBasedOnEnv(context),
       onGenerateRoute: GenerateRoute.generateRoute,
       localizationsDelegates: context.localizationDelegates,
       theme: ThemeData(
@@ -45,4 +46,12 @@ class _MyAppState extends State<MyApp> {
       locale: context.locale,
     );
   }
+}
+
+String _getInitialRouteBasedOnEnv(BuildContext context) {
+  return AppConfig.of(context).env.map(
+        prod: (_) => RouteName.rootView,
+        staging: (_) => RouteName.rootView,
+        dev: (_) => RouteName.devRootScreen,
+      );
 }

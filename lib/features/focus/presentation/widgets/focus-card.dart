@@ -8,7 +8,7 @@ import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
-
+import '../../../../core/utils/universal-widgets/circular-image-loader.dart';
 class FocusCard extends StatelessWidget {
   const FocusCard({
     Key? key,
@@ -47,7 +47,12 @@ class FocusCard extends StatelessWidget {
                 tag: imageAddress!,
                 child: CachedNetworkImage(
                   imageUrl: imageAddress!,
-                  height: 100,
+                  placeholder: (context, url) =>CircularImageLoader(height: ScaleManager.spaceScale(
+                    spaceing: 100,
+                  ).value,),
+                  height: ScaleManager.spaceScale(
+                spaceing: 100,
+                ).value,
                  // scale: imageScaleFactor,
                 ),
               ),

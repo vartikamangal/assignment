@@ -1,19 +1,17 @@
 // Flutter imports:
 // Package imports:
-import 'package:equatable/equatable.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/domain/entities/entity.dart';
 
 // Project imports:
 import 'activity.dart';
 
-class Recommendation extends Equatable {
+class Recommendation extends Entity {
   final Activity activity;
   final double weight;
-  const Recommendation({
+  Recommendation({
     required this.activity,
     required this.weight,
   });
-  @override
-  List<Object> get props => [activity, weight];
 
   Recommendation copyWith({
     Activity? activity,
@@ -26,5 +24,17 @@ class Recommendation extends Equatable {
   }
 
   @override
-  bool get stringify => true;
+  String toString() => 'Recommendation(activity: $activity, weight: $weight)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Recommendation &&
+        other.activity == activity &&
+        other.weight == weight;
+  }
+
+  @override
+  int get hashCode => activity.hashCode ^ weight.hashCode;
 }

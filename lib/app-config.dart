@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tatsam_app_experimental/core/env.dart';
+import 'package:tatsam_app_experimental/core/environment/env.dart';
 
 class AppConfig extends InheritedWidget {
   const AppConfig({
@@ -11,7 +11,7 @@ class AppConfig extends InheritedWidget {
 
   final String appTitle;
   final TestSecrets secrets;
-  final Env env;
+  final Environment env;
 
   static AppConfig of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType(aspect: AppConfig)!;

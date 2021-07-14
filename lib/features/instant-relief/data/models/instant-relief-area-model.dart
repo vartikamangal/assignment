@@ -1,21 +1,20 @@
 // Flutter imports:
-import 'package:flutter/foundation.dart';
 
 // Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entities/instant-relief-area.dart';
 
 class InstantReliefAreaModel extends InstantReliefArea {
-  const InstantReliefAreaModel({
+  InstantReliefAreaModel({
     required int? id,
     required String? title,
     required String? subtitle,
     required String? instantReliefName,
     required String? description,
-    required String? icon,
+    required ImageModel? icon,
   }) : super(
           description: description,
-          icon: icon,
+          icon: icon?.toDomain(),
           id: id,
           title: title,
           instantReliefName: instantReliefName,
@@ -29,8 +28,9 @@ class InstantReliefAreaModel extends InstantReliefArea {
       subtitle: jsonMap['subtitle'] as String?,
       instantReliefName: jsonMap['instantReliefName'] as String?,
       description: jsonMap['description'] as String?,
-      //TODO make sure to change this once ImageProp.fromJson() is implemented
-      icon:jsonMap['iconVO'] as String?,
+      icon: jsonMap['iconVO'] == null
+          ? ImageModel.fallbackIcon()
+          : ImageModel.fromJson(jsonMap['iconVO'] as Map<String, dynamic>),
     );
   }
 
@@ -41,8 +41,7 @@ class InstantReliefAreaModel extends InstantReliefArea {
       "subtitle": subtitle,
       "instantReliefName": instantReliefName,
       "description": description,
-      //TODO make sure to change this once ImageProp.toJson() is implemented
-      "iconVO": icon,
+      "iconVO": ImageModel.fromDomain(icon!).toJson(),
     };
   }
 }

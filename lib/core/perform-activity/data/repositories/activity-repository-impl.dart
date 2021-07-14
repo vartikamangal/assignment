@@ -20,7 +20,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
   }) async {
     return baseRepository(
       () => remoteDataSource.rateActivity(
-        feedback: feedback as ActivityRatingModel,
+        feedback: feedback,
       ),
     );
   }
@@ -31,10 +31,12 @@ class ActivityRepositoryImpl implements ActivityRepository {
     required bool isInstantActivity,
   }) async {
     return baseRepository(
-      () => remoteDataSource.startActivity(
-        recommendationId: recommendationId,
-        isInstantActivity: isInstantActivity,
-      ),
+      () => remoteDataSource
+          .startActivity(
+            recommendationId: recommendationId,
+            isInstantActivity: isInstantActivity,
+          )
+          .then((activityStatusModel) => activityStatusModel.toDomain()),
     );
   }
 
@@ -44,10 +46,12 @@ class ActivityRepositoryImpl implements ActivityRepository {
     required int actionId,
   }) async {
     return baseRepository(
-      () => remoteDataSource.updateActivityStatus(
-        status: status,
-        actionId: actionId,
-      ),
+      () => remoteDataSource
+          .updateActivityStatus(
+            status: status,
+            actionId: actionId,
+          )
+          .then((activityStatusModel) => activityStatusModel.toDomain()),
     );
   }
 }

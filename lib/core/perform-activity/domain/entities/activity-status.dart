@@ -1,7 +1,7 @@
 // Package imports:
-import 'package:equatable/equatable.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/domain/entities/entity.dart';
 
-class ActivityStatus extends Equatable {
+class ActivityStatus extends Entity {
   /// This one is action id
   final int? id;
   final String? journeyId;
@@ -9,7 +9,7 @@ class ActivityStatus extends Equatable {
   final String? actionStatus;
   final String? feedbackMood;
   final String? feedbackThoughts;
-  const ActivityStatus({
+  ActivityStatus({
     required this.id,
     required this.journeyId,
     required this.recommendationId,
@@ -17,17 +17,6 @@ class ActivityStatus extends Equatable {
     required this.feedbackMood,
     required this.feedbackThoughts,
   });
-  @override
-  List<Object?> get props {
-    return [
-      id,
-      journeyId,
-      recommendationId,
-      actionStatus,
-      feedbackMood,
-      feedbackThoughts,
-    ];
-  }
 
   ActivityStatus copyWith({
     int? id,
@@ -48,5 +37,30 @@ class ActivityStatus extends Equatable {
   }
 
   @override
-  bool get stringify => true;
+  String toString() {
+    return 'ActivityStatus(id: $id, journeyId: $journeyId, recommendationId: $recommendationId, actionStatus: $actionStatus, feedbackMood: $feedbackMood, feedbackThoughts: $feedbackThoughts)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ActivityStatus &&
+        other.id == id &&
+        other.journeyId == journeyId &&
+        other.recommendationId == recommendationId &&
+        other.actionStatus == actionStatus &&
+        other.feedbackMood == feedbackMood &&
+        other.feedbackThoughts == feedbackThoughts;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        journeyId.hashCode ^
+        recommendationId.hashCode ^
+        actionStatus.hashCode ^
+        feedbackMood.hashCode ^
+        feedbackThoughts.hashCode;
+  }
 }

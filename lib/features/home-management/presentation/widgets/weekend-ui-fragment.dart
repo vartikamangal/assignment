@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import '../../../../core/activity/data/models/recommendation-category-model.dart';
+
 import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
@@ -84,6 +86,7 @@ class WeekendUiFragment extends StatelessWidget {
                         final activity =
                             controller.subActivitesOfCategories[index];
                         return SmallActivityPill(
+                          imageUrl: activity.activity.iconVO!.url,
                           title: activity.activity.title,
                           onPressed: () async {
                             await controller.updateWeeklyActivity(
@@ -111,9 +114,10 @@ class WeekendUiFragment extends StatelessWidget {
                             controller.categoriesForWeeklyFeedback[index];
                         return SmallActivityPill(
                           title: category.displayTitle,
+                          imageUrl: category.iconVO!.url,
                           onPressed: () async {
                             await controller.fetchAcitivitiesForCategory(
-                              category: category as RecommendationCategoryModel,
+                              category: category,
                             );
                           },
                         );
@@ -134,9 +138,11 @@ class SmallActivityPill extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.title,
+    required this.imageUrl,
   }) : super(key: key);
   final String? title;
   final Callback onPressed;
+  final String? imageUrl;
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
@@ -154,19 +160,18 @@ class SmallActivityPill extends StatelessWidget {
                   spaceing: 5,
                 ).value),
             child: Container(
-              constraints: BoxConstraints(
-                  minHeight: ScaleManager.spaceScale(
+              height: ScaleManager.spaceScale(
                 spaceing: 45,
-              ).value),
+              ).value,
               width: ScaleManager.spaceScale(
-                spaceing: 380,
+                spaceing: 181,
               ).value,
               decoration: BoxDecoration(
                 //color: Colors.red,
                 border: Border.all(
                   color: greyLightShade,
                   width: ScaleManager.spaceScale(
-                    spaceing: 2,
+                    spaceing: 1,
                   ).value,
                 ),
                 borderRadius: BorderRadius.circular(
@@ -175,45 +180,37 @@ class SmallActivityPill extends StatelessWidget {
                   ).value,
                 ),
               ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: ScaleManager.spaceScale(
-                    spaceing: 3,
-                  ).value,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: ScaleManager.spaceScale(
-                      spaceing: 42,
-                    ).value,
+              child: SizedBox(
+                height: ScaleManager.spaceScale(
+                  spaceing: 42,
+                ).value,
+                width: ScaleManager.spaceScale(
+                  spaceing: 75,
+                ).value,
+                child: Center(
+                  child: AutoSizeText( title!,
+                  style: AppTextStyle.Darkbluebold.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: blueDarkerShade,
                   ),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          title!,
-                          style: AppTextStyle.Darkbluebold.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: blueDarkerShade,
-                          ),
-                          textScaleFactor: textScaleFactor,
-                        ),
-                      ),
-                    ],
+                  maxLines: 1,
+                  textScaleFactor: textScaleFactor,
                   ),
-                ),
+                ),),
               ),
             ),
-          ),
+
           Align(
             alignment: Alignment.topLeft,
             child: SizedBox(
               height: ScaleManager.spaceScale(
                 spaceing: 47,
               ).value,
-              child: Image.asset(
-                '${ImagePath.selfDrivenOption}physical.png',
-                scale: imageScaleFactor,
+              child: CachedNetworkImage(
+                imageUrl:imageUrl!,
+                height: ScaleManager.spaceScale(
+                  spaceing: 47,
+                ).value,
               ),
             ),
           )

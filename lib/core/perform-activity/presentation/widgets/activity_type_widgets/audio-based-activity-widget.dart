@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/controller/path-controller.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/base_content_widget.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
@@ -13,11 +14,10 @@ import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/mini-loader.dart';
 
-class AudioBasedActivity extends StatelessWidget {
-  AudioBasedActivity({
-    Key? key,
-  }) : super(key: key);
+class AudioBasedActivity extends BaseContentWidget {
   final PathController _controller = Get.find();
+  final PerformActivityController _activityController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -32,9 +32,14 @@ class AudioBasedActivity extends StatelessWidget {
               ),
               ListView(
                 shrinkWrap: true,
-                children: const [
+                children: [
                   /// Audio-visual content
-                  _PlayableContent(videoUrl: testPlayable),
+                  Obx(
+                    () => _PlayableContent(
+                      videoUrl:
+                          _activityController.activeStep.value!.stepContent!,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -55,8 +60,6 @@ class AudioBasedActivity extends StatelessWidget {
   }
 }
 
-const String testPlayable =
-    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3";
 const String testLoopingAnimation =
     "https://cdn.dribbble.com/users/405145/screenshots/4191607/yogabreathing_1_4x3.gif";
 
@@ -72,8 +75,7 @@ class _PlayableContent extends StatefulWidget {
 }
 
 class __PlayableContentState extends State<_PlayableContent> {
-  final BetterPlayerDataSource dataSource =
-      BetterPlayerDataSource(BetterPlayerDataSourceType.network, testPlayable);
+  late BetterPlayerDataSource dataSource;
   late BetterPlayerController controller;
 
   /// for linear progress indicator
@@ -83,6 +85,10 @@ class __PlayableContentState extends State<_PlayableContent> {
   Duration elapsedTime = const Duration();
   @override
   void initState() {
+    dataSource = BetterPlayerDataSource(
+      BetterPlayerDataSourceType.network,
+      widget.videoUrl,
+    );
     controller = BetterPlayerController(
       const BetterPlayerConfiguration(autoPlay: true),
       betterPlayerDataSource: dataSource,

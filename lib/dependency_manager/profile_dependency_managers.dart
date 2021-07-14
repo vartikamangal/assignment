@@ -32,6 +32,7 @@ Future<void> initProfileDependencies() async {
       repository: sl_profile(),
     ),
   );
+
   sl_profile.registerLazySingleton(
     () => GetMoodLogs(
       repository: sl_profile(),

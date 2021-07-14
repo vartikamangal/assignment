@@ -60,7 +60,7 @@ void main() {
           title: "Day 1",
           subtitle: "Perform this day with smile",
           helpContent: "Some useless help content",
-          recommendationList: <ActivityRecommendationModel>[])
+          recommendationList: <ActivityModel>[])
     ],
   );
 

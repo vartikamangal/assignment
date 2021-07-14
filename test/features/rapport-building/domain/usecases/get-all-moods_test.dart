@@ -27,31 +27,31 @@ void main() {
       moodName: "Very sad",
       moodId: 1,
       moodDescription: "Very sad",
-      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
     Mood(
       moodName: "Sad",
       moodId: 2,
       moodDescription: "Sad",
-      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
     Mood(
       moodName: "Normal",
       moodId: 3,
       moodDescription: "Normal",
-      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
     Mood(
       moodName: "Happy",
       moodId: 4,
       moodDescription: "Happy",
-      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
     Mood(
       moodName: "Very happy",
       moodId: 5,
       moodDescription: "Very happy",
-      moodIcon: ImageProp(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
     ),
   ];
 

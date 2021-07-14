@@ -1,20 +1,19 @@
 // Flutter imports:
-import 'package:flutter/foundation.dart';
 
 // Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entities/issue.dart';
 
 class IssueModel extends Issue {
-  const IssueModel({
+  IssueModel({
     required int? issueId,
     required String? focusName,
     required String? displayName,
     required String? messageOnSelection,
-    required String? issueIcon,
+    required ImageModel? issueIcon,
   }) : super(
           messageOnSelection: messageOnSelection,
-          issueIcon: issueIcon,
+          issueIcon: issueIcon?.toDomain(),
           issueId: issueId,
           focusName: focusName,
           displayName: displayName,
@@ -26,8 +25,9 @@ class IssueModel extends Issue {
       focusName: jsonMap['focusName'] as String?,
       displayName: jsonMap['displayName'] as String?,
       messageOnSelection: jsonMap['messageOnSelection'] as String?,
-      //TODO To ImageProp.fromJson not Impletemented yet!
-      issueIcon:jsonMap['iconVO'] as String?,
+      issueIcon: jsonMap['icon'] == null
+          ? ImageModel.fallbackIcon()
+          : ImageModel.fromJson(jsonMap['icon'] as Map<String, dynamic>),
     );
   }
 
@@ -37,8 +37,7 @@ class IssueModel extends Issue {
       "displayName": displayName,
       "messageOnSelection": messageOnSelection,
       "focusName": focusName,
-      //TODO To ImageProp.toJson not Impletemented yet!
-      "iconVO": issueIcon
+      "iconVO": ImageModel.fromDomain(issueIcon!).toJson(),
     };
   }
 }

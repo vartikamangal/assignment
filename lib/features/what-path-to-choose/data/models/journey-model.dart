@@ -1,23 +1,22 @@
 // Flutter imports:
-import 'package:flutter/foundation.dart';
 
 // Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entites/journey.dart';
 
 class JourneyModel extends Journey {
-  const JourneyModel({
+  JourneyModel({
     required int? id,
     required String? title,
     required String? subtitle,
     required String? description,
-    required String? icon,
+    required ImageModel? icon,
     required String? pathName,
   }) : super(
           pathName: pathName,
           subtitle: subtitle,
           title: title,
-          icon: icon,
+          icon: icon?.toDomain(),
           description: description,
           id: id,
         );
@@ -28,18 +27,20 @@ class JourneyModel extends Journey {
       title: jsonMap['title'] as String?,
       subtitle: jsonMap['subtitle'] as String?,
       description: jsonMap['description'] as String?,
-      //TODO change this after complete impl of ImageProp
-      icon: jsonMap['iconVO'] as String?,
+      icon: jsonMap['iconVO'] == null
+          ? ImageModel.fallbackIcon()
+          : ImageModel.fromJson(jsonMap['iconVO'] as Map<String, dynamic>),
       pathName: jsonMap['pathName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    print(icon);
     return {
       "id": id,
       "title": title,
       "subtitle": subtitle,
-      "iconVO": icon,
+      "iconVO": ImageModel.fromDomain(icon!).toJson(),
       "description": description,
       "pathName": pathName,
     };

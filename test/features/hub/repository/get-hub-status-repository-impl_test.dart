@@ -56,7 +56,7 @@ void main() {
 
   const tIssue = IssueModel(
       issueId: 1,
-      issueIcon: ImageProp(),
+      issueIcon: "",
       displayName: 'displayName',
       focusName: 'focusName',
       messageOnSelection: 'messageOnSelection');

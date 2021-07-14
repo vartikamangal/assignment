@@ -25,11 +25,7 @@ void main() {
   const tIssues = <Issue>[
     Issue(
       issueId: 1,
-      issueIcon: ImageProp(
-        urlShort: "https://cdn.tatsam.in/assets/issues/short/1",
-        urlLarge: "https://cdn.tatsam.in/assets/issues/medium/1",
-        urlMedium: "https://cdn.tatsam.in/assets/issues/large/1",
-      ),
+      issueIcon:'',
       displayName: 'Sleep',
       focusName: 'SLEEP',
       messageOnSelection:
@@ -37,11 +33,7 @@ void main() {
     ),
     Issue(
       issueId: 1,
-      issueIcon: ImageProp(
-        urlShort: "https://cdn.tatsam.in/assets/issues/short/1",
-        urlLarge: "https://cdn.tatsam.in/assets/issues/medium/1",
-        urlMedium: "https://cdn.tatsam.in/assets/issues/large/1",
-      ),
+      issueIcon: '',
       displayName: 'Sleep',
       focusName: 'SLEEP',
       messageOnSelection:
@@ -49,11 +41,7 @@ void main() {
     ),
     Issue(
       issueId: 1,
-      issueIcon: ImageProp(
-        urlShort: "https://cdn.tatsam.in/assets/issues/short/1",
-        urlLarge: "https://cdn.tatsam.in/assets/issues/medium/1",
-        urlMedium: "https://cdn.tatsam.in/assets/issues/large/1",
-      ),
+      issueIcon: '',
       displayName: 'Sleep',
       focusName: 'SLEEP',
       messageOnSelection:

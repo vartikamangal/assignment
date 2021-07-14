@@ -11,7 +11,7 @@ class Mood extends Equatable {
   final int? moodId;
   final String? moodName;
   final String? moodDescription;
-  final ImageProp? moodIcon;
+  final ImageEntity? moodIcon;
 
   const Mood({
     required this.moodId,

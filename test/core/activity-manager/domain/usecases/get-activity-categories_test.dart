@@ -5,7 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/activity.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
-import 'package:tatsam_app_experimental/core/activity/domain/entities/activity-step.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/repositories/get-category-activities-repository.dart';
@@ -55,38 +54,7 @@ void main() {
                     "This is physical category for body",
                 categoryShortDescription: "Focus on the body",
                 iconVO: null),
-            recommendationStepsVO: <RecommendationStep>[
-              RecommendationStep(
-                  id: 3171,
-                  stepTitle: "Content",
-                  stepHelp: "",
-                  stepName: "CONTENT",
-                  stepSequence: 3,
-                  iconVO: null,
-                  templateName: "PLAIN_TEXT",
-                  stepContent:
-                      "What is your fondest childhood memory? What made it special?"),
-              RecommendationStep(
-                id: 3170,
-                stepTitle: "Instructions",
-                stepHelp: "",
-                stepName: "INSTRUCTIONS",
-                stepSequence: 2,
-                iconVO: null,
-                templateName: "PLAIN_TEXT",
-                stepContent:
-                    "The idea here is to record detailed descriptions of certain aspects of events, thoughts and feelings. Be as descriptive as possible and write down everything! The act of writing gives you perspectives that you may not consider if you just think about something.",
-              ),
-              RecommendationStep(
-                  id: 3169,
-                  stepTitle: "Did you know?",
-                  stepHelp: "",
-                  stepName: "DID_YOU_KNOW",
-                  stepSequence: 1,
-                  iconVO: null,
-                  templateName: "PLAIN_TEXT",
-                  stepContent: "Some useful did you know fact"),
-            ],
+
             tags: <Tag>[
               Tag(
                   name: "ROMANCE",
@@ -108,7 +76,7 @@ void main() {
                   tagCategory: "INSTANT_RELIEF",
                   displayName: "Losing Temper",
                   parentName: null),
-            ]),
+            ], activitySteps: []),
         weight: 1.0),
     Recommendation(
         activity: Activity(
@@ -133,37 +101,6 @@ void main() {
               categoryDetailedDescription: "This is physical category for body",
               categoryShortDescription: "Focus on the body",
               iconVO: null),
-          recommendationStepsVO: <RecommendationStep>[
-            RecommendationStep(
-                id: 96,
-                stepTitle: "Content",
-                stepHelp: "",
-                stepName: "CONTENT",
-                stepSequence: 3,
-                iconVO: null,
-                templateName: "PLAIN_TEXT",
-                stepContent:
-                    "What is your fondest childhood memory? What made it special?"),
-            RecommendationStep(
-                id: 95,
-                stepTitle: "Instructions",
-                stepHelp: "",
-                stepName: "INSTRUCTIONS",
-                stepSequence: 2,
-                iconVO: null,
-                templateName: "PLAIN_TEXT",
-                stepContent:
-                    "The idea here is to record detailed descriptions of certain aspects of events, thoughts and feelings. Be as descriptive as possible and write down everything! The act of writing gives you perspectives that you may not consider if you just think about something."),
-            RecommendationStep(
-                id: 94,
-                stepTitle: "Did you know?",
-                stepHelp: "",
-                stepName: "DID_YOU_KNOW",
-                stepSequence: 1,
-                iconVO: null,
-                templateName: "PLAIN_TEXT",
-                stepContent: "Some useful did you know fact"),
-          ],
           tags: <Tag>[
             Tag(
                 name: "WORK_FROM_HOME",
@@ -185,7 +122,7 @@ void main() {
                 tagCategory: "AREAS",
                 displayName: "Romance",
                 parentName: null),
-          ],
+          ], activitySteps: [],
         ),
         weight: 1.0),
     Recommendation(
@@ -211,37 +148,6 @@ void main() {
               categoryDetailedDescription: "This is physical category for body",
               categoryShortDescription: "Focus on the body",
               iconVO: null),
-          recommendationStepsVO: <RecommendationStep>[
-            RecommendationStep(
-                id: 3329,
-                stepTitle: "Content",
-                stepHelp: "",
-                stepName: "CONTENT",
-                stepSequence: 3,
-                iconVO: null,
-                templateName: "PLAIN_TEXT",
-                stepContent:
-                    "What is your fondest childhood memory? What made it special?"),
-            RecommendationStep(
-                id: 3328,
-                stepTitle: "Instructions",
-                stepHelp: "",
-                stepName: "INSTRUCTIONS",
-                stepSequence: 2,
-                iconVO: null,
-                templateName: "PLAIN_TEXT",
-                stepContent:
-                    " The idea here is to record detailed descriptions of certain aspects of events, thoughts and feelings. Be as descriptive as possible and write down everything! The act of writing gives you perspectives that you may not consider if you just think about something."),
-            RecommendationStep(
-                id: 3327,
-                stepTitle: "Did you know?",
-                stepHelp: "",
-                stepName: "DID_YOU_KNOW",
-                stepSequence: 1,
-                iconVO: null,
-                templateName: "PLAIN_TEXT",
-                stepContent: "Some useful did you know fact"),
-          ],
           tags: <Tag>[
             Tag(
                 name: "LOSING_TEMPER",
@@ -263,7 +169,7 @@ void main() {
                 tagCategory: "FOCUS_ISSUE",
                 displayName: "Work form home",
                 parentName: null),
-          ],
+          ], activitySteps: [],
         ),
         weight: 1.0),
   ];

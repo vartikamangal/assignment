@@ -3,12 +3,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart';
-import 'package:tatsam_app_experimental/core/activity/presentation/controller/path-controller.dart';
 import 'package:tatsam_app_experimental/core/cache-manager/presentation/controllers/activity_cache_controller.dart';
 // Project imports:
 import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/content_page_controller.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/text_content_controller.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
@@ -17,19 +17,17 @@ import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/bottom-middle-button.dart';
-import '../widgets/activity_type_widgets/activty-content-injector.dart';
 
 class ContentScreen extends StatelessWidget {
   final PerformActivityController activityController = Get.find();
-  final PathController _pathController = Get.find();
+  final ContentPageController _contentPageController = Get.find();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => activityController.refreshStateOnBackButtonPress(),
       child: GestureDetector(
         onTap: () {
-          //TODO Bring this thing to perform activity itself
-          _pathController.unfocusAllFields();
+          _contentPageController.unfocusTextField();
         },
         child: SafeArea(
           top: false,
@@ -45,7 +43,9 @@ class ContentScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(
                           bottom: ScaleManager.spaceScale(spaceing: 40).value),
-                      child: ActivityContentInjector(),
+                      child: Obx(
+                        () => _contentPageController.contentWidget.value,
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -81,6 +81,7 @@ class FooterContent extends StatelessWidget {
   final PerformActivityController _controller;
   final DurationTrackerController _durationController = Get.find();
   final ActivityCacheController cacheController = Get.find();
+  final ContentPageController _contentPageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -152,13 +153,8 @@ class FooterContent extends StatelessWidget {
                   title: tr('i am done').toUpperCase(),
                   onPressed: () async {
                     _durationController.stop();
-                    cacheController.persistFeedback(
-                      activityStatus: _controller.onGoingActivityStatus.value
-                          as ActivityStatusModel,
-                      textFeedback: _controller.textFeedback.value ?? '',
-                      voicenotePath: Get.find<VoiceNoteController>()
-                          .currentVoiceNotePath
-                          .value,
+                    Get.find<TextContentController>().cacheActivityFeedback(
+                      activityType: _controller.activeStep.value!.templateName!,
                     );
                     Get.find<VoiceNoteController>().resetPlayerState();
                     Get.toNamed(RouteName.activityCompletionScreen);

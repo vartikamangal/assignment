@@ -23,9 +23,13 @@ class GetRecommendationsByActionTimeRepositoryRepositoryImpl
     String? actionTime,
   }) async {
     return baseRepository(
-      () => remoteDataSource!.getRecommendations(
-        actionTime: actionTime,
-      ),
+      () => remoteDataSource!
+          .getRecommendations(
+            actionTime: actionTime,
+          )
+          .then((listOfActivityModel) => listOfActivityModel
+              .map((activityModel) => activityModel.toDomain())
+              .toList()),
     );
   }
 }

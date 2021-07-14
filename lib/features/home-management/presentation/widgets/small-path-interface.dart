@@ -39,11 +39,12 @@ class SmallWinsPath extends StatelessWidget {
                         RouteName.activityScreen,
                         arguments: {
                           "activity": excerciseName,
+                          "redirectRoute": RouteName.onBoardingIncomplete,
                           "isInstantActivity": false,
                         },
                       );
                     },
-                    image: '${ImagePath.selfDrivenOption}physical.png',
+                    image: excerciseName.iconVO!.url,
                   ),
                 )
                 .toList(),

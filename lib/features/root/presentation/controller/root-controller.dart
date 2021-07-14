@@ -10,6 +10,7 @@ import 'package:tatsam_app_experimental/features/hub/data/models/hub-status-mode
 import 'package:tatsam_app_experimental/features/hub/domain/entities/hub-status.dart';
 import 'package:tatsam_app_experimental/features/hub/domain/usecases/get-hub-status.dart';
 
+import '../../../../app-config.dart';
 import '../../../../core/cache-manager/domain/usecases/log-app-start-time.dart';
 import '../../../../core/cache-manager/domain/usecases/retireve-last-logged-app-init.dart';
 import '../../../../core/cache-manager/domain/usecases/retrieve-user-onboarding-status.dart';
@@ -147,14 +148,18 @@ class RootController extends GetxController {
   }) async {
     addDelay(() {
       if (isLoggedIn) {
-        if (hasOnboardedPreviously.value) {
-          Navigator.of(Get.context!).pushNamedAndRemoveUntil(
-            RouteName.onBoardingIncomplete,
-            (route) => false,
-          );
-        } else {
-          gotoRecentlyLeftPage();
-        }
+        /// Navigate based on Environment
+        AppConfig.of(Get.context!).env.map(
+          prod: (_) {
+            performBasicNavigation();
+          },
+          staging: (_) {
+            performBasicNavigation();
+          },
+          dev: (_) {
+            _performNavigationForTesters();
+          },
+        );
       } else {
         Navigator.of(Get.context!).pushNamedAndRemoveUntil(
           RouteName.origin,
@@ -162,6 +167,28 @@ class RootController extends GetxController {
         );
       }
     });
+  }
+
+  /// For performing generic login flow
+  /// Not private because needed in [DevOpeningScreen]
+  void performBasicNavigation() {
+    if (hasOnboardedPreviously.value) {
+      Navigator.of(Get.context!).pushNamedAndRemoveUntil(
+        RouteName.onBoardingIncomplete,
+        (route) => false,
+      );
+    } else {
+      gotoRecentlyLeftPage();
+    }
+  }
+
+  /// In case of dev environment, we need to show options for going
+  /// to other test pages as well
+  void _performNavigationForTesters() {
+    Navigator.of(Get.context!).pushNamedAndRemoveUntil(
+      RouteName.originDevOpeningScreen,
+      (route) => false,
+    );
   }
 
   Future<void> logAppInit() async {

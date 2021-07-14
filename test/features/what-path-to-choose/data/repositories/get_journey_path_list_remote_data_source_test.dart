@@ -49,11 +49,7 @@ void main() {
         subtitle: "Weekly focus areas. Choose your own experiences.",
         description:
             "Only one area of focus per week, Daily small wins at your own pace",
-        icon: ImageProp(
-          urlLarge: '',
-          urlMedium: '',
-          urlShort: '',
-        ),
+        icon:"",
         pathName: "SMALL_WINS")
   ];
 

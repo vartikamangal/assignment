@@ -3,7 +3,7 @@
 // Package imports:
 import 'package:tatsam_app_experimental/app-config.dart';
 import 'package:tatsam_app_experimental/core/analytics/analytics-setup.dart';
-import 'package:tatsam_app_experimental/core/env.dart';
+import 'package:tatsam_app_experimental/core/environment/env.dart';
 import 'package:tatsam_app_experimental/main_common.dart';
 import 'package:tatsam_app_experimental/my-app.dart';
 
@@ -15,7 +15,7 @@ Future<void> main() async {
   await mainCommon();
   final configureApp = AppConfig(
     appTitle: 'Production',
-    env: Env.prod,
+    env: const Environment.prod(),
     secrets: const TestSecrets(secretKey: 'this_is_a_test_key_for_prod'),
     child: MyApp(
       analyticsService: sl_core_dependencies<SetupAnalytics>(),

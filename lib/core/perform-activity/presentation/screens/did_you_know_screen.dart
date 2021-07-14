@@ -78,7 +78,7 @@ class DidYouKnowScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           //TODO change this after
-                          NullHandledImage(image: _activityController.activeStep.value!.iconVO ??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',)
+                          NullHandledImage(image: _activityController.activeStep.value!.iconVO!.url)
                         ],
                       ),
                       SizedBox(

@@ -42,7 +42,7 @@ Future<void> main() async {
     displayName: "Sleep",
     messageOnSelection:
         " I want to sleep better. More, restful, deeper sleep for my mind and my body",
-    issueIcon: ImageProp(),
+    issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
   );
 
   void setupHttpSuccessClient200({required String testFileName}) {

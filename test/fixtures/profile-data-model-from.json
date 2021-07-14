@@ -12,7 +12,7 @@
         "focusName": "",
         "displayName": "",
         "messageOnSelection": "",
-        "issueIcon": null
+        "issueIcon": ""
       }
     ],
     "journeyPath": {
@@ -20,7 +20,7 @@
       "title": "",
       "subtitle": "",
       "description": "",
-      "icon": null,
+      "icon": "",
       "pathName": ""
     }
   }

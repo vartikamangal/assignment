@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import '../../responsive/scale-manager.dart';
 import '../color-pallete.dart';
-
+import 'circular-image-loader.dart';
 Widget DividedImageComponent({required String? imgUrl}) {
   final imageScaleFactor = ScaleManager.imageScale.value;
   return SizedBox(
@@ -29,6 +29,9 @@ Widget DividedImageComponent({required String? imgUrl}) {
             ).value,
             child: CachedNetworkImage(
               imageUrl:imgUrl!,
+              placeholder: (context, url) =>CircularImageLoader(height: ScaleManager.spaceScale(
+                spaceing: 92,
+              ).value,),
               height: ScaleManager.spaceScale(
                 spaceing: 92,
               ).value,

@@ -49,11 +49,12 @@ class BigGoalsPath extends StatelessWidget {
                 RouteName.activityScreen,
                 arguments: {
                   "activity": activity,
+                  "redirectRoute": RouteName.onBoardingIncomplete,
                   "isInstantActivity": false,
                 },
               );
             },
-            image: '${ImagePath.selfDrivenOption}physical.png',
+            image: activity.iconVO!.url,
           ),
         ),
       );

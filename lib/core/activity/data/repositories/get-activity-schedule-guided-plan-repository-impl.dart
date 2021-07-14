@@ -21,7 +21,9 @@ class GetActivityScheduleGuidedPlanRepositoryImpl
   @override
   Future<Either<Failure, ActivitySceduleGuided>?> getSchedule() async {
     return baseRepository(
-      () => remoteDataSource!.getSchedule(),
+      () => remoteDataSource!
+          .getSchedule()
+          .then((guidedScehduleModel) => guidedScehduleModel.toDomain()),
     );
   }
 }

@@ -18,7 +18,7 @@ class ReliefAreaCard extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
-  final String imageAddress;
+  final String? imageAddress;
   final String? title;
   final Callback onTap;
 
@@ -41,7 +41,7 @@ class ReliefAreaCard extends StatelessWidget {
                   spaceing: 106,
                 ).value,
                 child:CachedNetworkImage(
-                  imageUrl: imageAddress,
+                  imageUrl: imageAddress!,
                   height: ScaleManager.spaceScale(
                     spaceing: 100,
                   ).value,

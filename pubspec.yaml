@@ -60,6 +60,8 @@ dependencies:
   syncfusion_flutter_charts: ^19.1.69+1
   url_launcher: ^6.0.7
   auto_size_text: ^3.0.0-nullsafety.0
+  pagination_view: ^2.0.0-nullsafety.0
+  freezed_annotation: ^0.14.2
   cached_network_image: ^3.0.0
 
 dev_dependencies:
@@ -69,6 +71,7 @@ dev_dependencies:
   hive_generator: ^1.1.0
   lint: ^1.5.3
   mockito: ^5.0.10
+  freezed: ^0.14.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

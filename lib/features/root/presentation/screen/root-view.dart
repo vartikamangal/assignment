@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/universal-widgets/mini-loader.dart';
 import '../../../../core/utils/universal-widgets/splash-screen-elements.dart';

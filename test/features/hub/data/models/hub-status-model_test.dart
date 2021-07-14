@@ -25,7 +25,7 @@ void main() {
 
   const tIssue = IssueModel(
       issueId: null,
-      issueIcon: ImageProp(),
+      issueIcon: "",
       displayName: 'displayName',
       focusName: 'focusName',
       messageOnSelection: 'messageOnSelection');

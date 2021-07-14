@@ -52,7 +52,7 @@ class InstructionsScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          NullHandledImage(image:  _activityController.activity.value!.iconVO??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',)
+                          NullHandledImage(image:  _activityController.activity.value!.iconVO!.url,)
                         ],
                       ),
                       Container(

@@ -1,24 +1,23 @@
 // Flutter imports:
 // Package imports:
-import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/domain/entities/entity.dart';
 
 // Project imports:
 import '../../../../core/image/image.dart';
 import 'activity.dart';
 
-//? Will also be used as returning response in daywise plan api guided
-class GuidedActivityRecommendation extends Equatable {
+class GuidedActivityRecommendation extends Entity {
   final int? id;
   final int? dayNumber;
-  final String? icon;
+  final ImageEntity? icon;
   final String? description;
   final String? title;
   final String? subtitle;
   final String? helpContent;
-  // Difference SELF & GUIDED varNames are will be leading to either code-duplicacy or second-condition cehck
-  // Currently going with the extra condition check method {in models}
   final List<Activity> recommendationList;
-  const GuidedActivityRecommendation({
+
+  GuidedActivityRecommendation({
     required this.id,
     required this.dayNumber,
     required this.icon,
@@ -28,20 +27,58 @@ class GuidedActivityRecommendation extends Equatable {
     required this.helpContent,
     required this.recommendationList,
   });
-  @override
-  List<Object?> get props {
-    return [
-      id,
-      dayNumber,
-      icon,
-      description,
-      title,
-      subtitle,
-      helpContent,
-      recommendationList,
-    ];
+
+  GuidedActivityRecommendation copyWith({
+    int? id,
+    int? dayNumber,
+    ImageEntity? icon,
+    String? description,
+    String? title,
+    String? subtitle,
+    String? helpContent,
+    List<Activity>? recommendationList,
+  }) {
+    return GuidedActivityRecommendation(
+      id: id ?? this.id,
+      dayNumber: dayNumber ?? this.dayNumber,
+      icon: icon ?? this.icon,
+      description: description ?? this.description,
+      title: title ?? this.title,
+      subtitle: subtitle ?? this.subtitle,
+      helpContent: helpContent ?? this.helpContent,
+      recommendationList: recommendationList ?? this.recommendationList,
+    );
   }
 
   @override
-  bool get stringify => true;
+  String toString() {
+    return 'GuidedActivityRecommendation(id: $id, dayNumber: $dayNumber, icon: $icon, description: $description, title: $title, subtitle: $subtitle, helpContent: $helpContent, recommendationList: $recommendationList)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is GuidedActivityRecommendation &&
+        other.id == id &&
+        other.dayNumber == dayNumber &&
+        other.icon == icon &&
+        other.description == description &&
+        other.title == title &&
+        other.subtitle == subtitle &&
+        other.helpContent == helpContent &&
+        listEquals(other.recommendationList, recommendationList);
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        dayNumber.hashCode ^
+        icon.hashCode ^
+        description.hashCode ^
+        title.hashCode ^
+        subtitle.hashCode ^
+        helpContent.hashCode ^
+        recommendationList.hashCode;
+  }
 }

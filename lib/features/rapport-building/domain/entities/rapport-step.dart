@@ -14,7 +14,7 @@ class RapportStep extends Equatable {
   final String? stepHelp;
   final String? stepDescription;
   final int? stepSequence;
-  final ImageProp? icon;
+  final ImageEntity? icon;
   final String? templateName;
 
   const RapportStep({

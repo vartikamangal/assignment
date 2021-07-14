@@ -1,20 +1,12 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/data/models/activity_rating_model.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/data/models/mood-feedback-model-for-activity.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/domain/usecases/rate-activity.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
-import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/activity_type_widgets/audio-based-activity-widget.dart';
-import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/activity_type_widgets/text-based-activity-widget.dart';
-import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/activity_type_widgets/video-based-activity-widget.dart';
-
-// enum ActivityType {
-//   TEXT,
-//   AUDIO,
-//   VIDEO,
-// }
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/base_content_widget.dart';
 
 /// Valid for the content page's activity UI fragment
 enum ContentUIStatus {
@@ -22,12 +14,6 @@ enum ContentUIStatus {
   LOADED,
   FAILED,
 }
-
-Map<String, Widget> templateNameToContentWidget = {
-  "PLAIN_TEXT": TextBasedActivity(),
-  "AUDIO_CONTENT": AudioBasedActivity(),
-  "VIDEO_CONTENT": VideoBasedActivity(),
-};
 
 class ContentPageController extends GetxController {
   final RateActivity rateActivity;
@@ -38,14 +24,23 @@ class ContentPageController extends GetxController {
   final PerformActivityController parentController = Get.find();
 
   /// Stores what widget to show in content block
-  Rxn<Widget> contentWidget = Rxn();
+  Rx<BaseContentWidget> contentWidget = Rx(ContentInitializing());
 
   /// Stores the status of activity content ui
   Rx<ContentUIStatus> contentUIStatus = Rx(ContentUIStatus.INITIALIZING);
 
+  /// Unfocus helper in case of TextField
+  final FocusNode focusNode = FocusNode();
+
+  /// Unfocuses the view from above [FocusNode]
+  void unfocusTextField() {
+    focusNode.unfocus();
+  }
+
   void initializeActivityContent({required String templateName}) {
-    final contentSupported =
-        templateNameToContentWidget.keys.toList().contains(templateName);
+    final contentSupported = ContentWidgetFactory.isTemplateNameSupported(
+      templateName: templateName,
+    );
     if (contentSupported) {
       contentUIStatus.value = ContentUIStatus.LOADED;
       _setContentWidget(templateName: templateName);
@@ -56,7 +51,8 @@ class ContentPageController extends GetxController {
   }
 
   void _setContentWidget({required String templateName}) {
-    contentWidget.value = templateNameToContentWidget[templateName];
+    contentWidget.value =
+        ContentWidgetFactory.getContentWidget(templateName: templateName);
   }
 
   Future<void> rateOngoingActivity({

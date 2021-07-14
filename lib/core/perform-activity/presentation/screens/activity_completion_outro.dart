@@ -109,7 +109,7 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
                     ).value,
                     duration: const Duration(milliseconds: 350),
                     child: NotNullImage(
-                      image: _activityController.activity.value!.iconVO??'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
+                      image: _activityController.activity.value!.iconVO!.url,
                     ),
                   ),
                   Container(
@@ -174,7 +174,7 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
                                   children: rapportController.moods.value
                                       .map(
                                         (mood) => emotionSelector(
-                                            mood.moodIcon!.url!,
+                                            mood.moodIcon!.url,
                                           () async {
                                             await _contentPageController
                                                 .rateOngoingActivity(

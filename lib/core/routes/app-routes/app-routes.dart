@@ -12,13 +12,13 @@ import 'package:tatsam_app_experimental/core/activity/presentation/widget/guided
 import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-guided-plan.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-self-driven-plan-inside.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/widget/path-self-driven-plan.dart';
+import 'package:tatsam_app_experimental/core/environment/dev/presentation/dev-opening-screen.dart';
+import 'package:tatsam_app_experimental/core/environment/dev/presentation/dev_settings_screen.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/activity_completion_outro.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/activity_root_screen.dart';
-import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/content_screen.dart';
-import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/did_you_know_screen.dart';
-import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/instructions_screen.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/screen/profile-screen.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/presentation/widget/setting-screen.dart';
+import 'package:tatsam_app_experimental/features/view-all-content/presentation/screens/list-all-activties-screen.dart';
 
 // Project imports:
 import '../../../features/focus/presentation/screen/focus-screen.dart';
@@ -35,9 +35,12 @@ import '../../../features/sign-up/presentation/screen/sign-up-screen.dart';
 import '../../../features/what-path-to-choose/presentation/screen/choose-path-screen.dart';
 import '../../../features/wheel-of-life-track/presentation/screens/wheel-of-life-screen.dart';
 import '../../auth/presentation/screens/auth-screen-test.dart';
+import '../../environment/dev/presentation/dev_root_screen.dart';
 
 abstract class RouteName {
   static const origin = '/';
+  static const devRootScreen = '/dev/root';
+  static const originDevOpeningScreen = '/dev/opning-screen';
   static const rootView = '/root';
   static const authview = '/authview';
   static const rapportPages = '/rapport';
@@ -66,10 +69,9 @@ abstract class RouteName {
   static const profileScreen = '/profile_screen';
   static const settingScreen = '/setting_screen';
   static const activityScreen = "/activity";
-  static const activityDYNScreen = "/activity/did_you_know";
-  static const activityInsScreen = "/activity/instructions";
-  static const activityContentScreen = "/activity/content";
   static const activityCompletionScreen = "/activity/complete";
+  static const listAllActivities = "/list-all-activities";
+  static const devSettingsScreen = "/dev/settings";
   RouteName._();
 }
 
@@ -80,6 +82,18 @@ class GenerateRoute {
     if (route == RouteName.origin) {
       return PageTransition(
         child: OpeningScreen(),
+        type: PageTransitionType.fade,
+      );
+    }
+    if (route == RouteName.devRootScreen) {
+      return PageTransition(
+        child: const DevRootView(),
+        type: PageTransitionType.fade,
+      );
+    }
+    if (route == RouteName.originDevOpeningScreen) {
+      return PageTransition(
+        child: const DevOpeningScreen(),
         type: PageTransitionType.fade,
       );
     }
@@ -295,58 +309,18 @@ class GenerateRoute {
     }
     if (route == RouteName.activityScreen) {
       final args = settings.arguments as Map<String, dynamic>;
-      final isInstantActivity = args["isInstantActivity"] as bool;
+      final redirectRoute = args["redirectRoute"] as String;
       final activity = args["activity"] as Activity;
+      final isInstantActivity = args["isInstantActivity"] as bool;
       return PageRouteBuilder(
         reverseTransitionDuration: const Duration(),
         transitionDuration: const Duration(),
         pageBuilder: (context, animation, secondaryAnimation) =>
             ActivityRootScreen(
           activity: activity,
+          redirectRoute: redirectRoute,
           isInstantActivity: isInstantActivity,
         ),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeThroughTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        ),
-      );
-    }
-    if (route == RouteName.activityDYNScreen) {
-      return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(),
-        transitionDuration: const Duration(),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            DidYouKnowScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeThroughTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        ),
-      );
-    }
-    if (route == RouteName.activityInsScreen) {
-      return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(),
-        transitionDuration: const Duration(),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            InstructionsScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeThroughTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        ),
-      );
-    }
-    if (route == RouteName.activityContentScreen) {
-      return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(),
-        transitionDuration: const Duration(),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            ContentScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeThroughTransition(
           animation: animation,
@@ -361,6 +335,34 @@ class GenerateRoute {
         transitionDuration: const Duration(),
         pageBuilder: (context, animation, secondaryAnimation) =>
             ActivityCompletionOutro(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.listAllActivities) {
+      return PageRouteBuilder(
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const ListAllActivitiesScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeThroughTransition(
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        ),
+      );
+    }
+    if (route == RouteName.devSettingsScreen) {
+      return PageRouteBuilder(
+        reverseTransitionDuration: const Duration(),
+        transitionDuration: const Duration(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            DevSettingsScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             FadeThroughTransition(
           animation: animation,
