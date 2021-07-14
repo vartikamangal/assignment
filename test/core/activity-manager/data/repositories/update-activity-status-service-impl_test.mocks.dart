@@ -8,7 +8,7 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tatsam_app_experimental/core/activity/data/models/activity-status-model.dart'
     as _i3;
-import 'package:tatsam_app_experimental/core/activity/data/models/feedback-model.dart'
+import 'package:tatsam_app_experimental/core/perform-activity/data/models/activity_rating_model.dart'
     as _i6;
 import 'package:tatsam_app_experimental/core/perform-activity/data/sources/activity-remote-data-source.dart'
     as _i4;
@@ -38,7 +38,7 @@ class MockAcitivityRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i5.Future<_i2.Unit> rateActivity({_i6.FeedbackModel? feedback}) =>
+  _i5.Future<_i2.Unit> rateActivity({_i6.ActivityRatingModel? feedback}) =>
       (super.noSuchMethod(
               Invocation.method(#rateActivity, [], {#feedback: feedback}),
               returnValue: Future<_i2.Unit>.value(_FakeUnit()))

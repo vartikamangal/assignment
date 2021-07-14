@@ -40,13 +40,14 @@ class MockInstantReliefRepository extends _i1.Mock
                       List<_i6.InstantReliefArea>>?>.value())
           as _i3.Future<_i4.Either<_i5.Failure, List<_i6.InstantReliefArea>>?>);
   @override
-  _i3.Future<_i4.Either<_i5.Failure, List<_i7.ActivityRecommendation>>?>
-      getRecommendations({String? instantLifeArea}) => (super.noSuchMethod(
-          Invocation.method(
-              #getRecommendations, [], {#instantLifeArea: instantLifeArea}),
-          returnValue: Future<
-              _i4.Either<_i5.Failure, List<_i7.ActivityRecommendation>>?>.value()) as _i3
-          .Future<_i4.Either<_i5.Failure, List<_i7.ActivityRecommendation>>?>);
+  _i3.Future<_i4.Either<_i5.Failure, List<_i7.Activity>>?> getRecommendations(
+          {String? instantLifeArea}) =>
+      (super.noSuchMethod(
+              Invocation.method(
+                  #getRecommendations, [], {#instantLifeArea: instantLifeArea}),
+              returnValue:
+                  Future<_i4.Either<_i5.Failure, List<_i7.Activity>>?>.value())
+          as _i3.Future<_i4.Either<_i5.Failure, List<_i7.Activity>>?>);
   @override
   _i3.Future<_i4.Either<_i5.Failure, List<_i8.EmergencyNumber>>?>
       fetchEmergencyNumbers() => (super.noSuchMethod(

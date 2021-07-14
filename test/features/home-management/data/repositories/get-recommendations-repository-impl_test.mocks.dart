@@ -27,13 +27,12 @@ class MockGetRecommendationsByActionTimeRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i4.ActivityRecommendationModel>> getRecommendations(
+  _i3.Future<List<_i4.ActivityModel>> getRecommendations(
           {String? actionTime}) =>
       (super.noSuchMethod(
           Invocation.method(#getRecommendations, [], {#actionTime: actionTime}),
-          returnValue: Future<List<_i4.ActivityRecommendationModel>>.value(
-              <_i4.ActivityRecommendationModel>[])) as _i3
-          .Future<List<_i4.ActivityRecommendationModel>>);
+          returnValue: Future<List<_i4.ActivityModel>>.value(
+              <_i4.ActivityModel>[])) as _i3.Future<List<_i4.ActivityModel>>);
 }
 
 /// A class which mocks [NetworkInfo].

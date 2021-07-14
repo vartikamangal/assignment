@@ -14,8 +14,8 @@ class ImageProp extends Equatable {
   List<Object> get props => [type!, url!];
 
   ImageProp copyWith({
-    String ? url,
-    String ? type,
+    String? url,
+    String? type,
   }) {
     return ImageProp(
       url: url ?? this.url,
