@@ -36,13 +36,13 @@ Future<void> main() async {
     );
   });
   //Helper Variables
-  const IssueModel tIssueModel = IssueModel(
+  final IssueModel tIssueModel = IssueModel(
     issueId: 1,
     focusName: "SLEEP",
     displayName: "Sleep",
     messageOnSelection:
         " I want to sleep better. More, restful, deeper sleep for my mind and my body",
-    issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+    issueIcon: null,
   );
 
   void setupHttpSuccessClient200({required String testFileName}) {

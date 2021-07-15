@@ -23,18 +23,18 @@ void main() {
       deviceIndentifier: null,
       gender: null);
 
-  const tIssue = IssueModel(
+  final tIssue = IssueModel(
       issueId: null,
-      issueIcon: "",
+      issueIcon: null,
       displayName: 'displayName',
       focusName: 'focusName',
       messageOnSelection: 'messageOnSelection');
 
-  const tTargetFocus = TargetFocusListModel(id: 1, targetFocusList: [tIssue]);
+  final tTargetFocus = TargetFocusListModel(id: 1, targetFocusList: [tIssue]);
 
   const tLifePriorities = LifePrioritiesModel(
       id: 1, areasInOrderOfPriority: ['areasInOrderOfPriority']);
-  const tHubStatusModel = HubStatusModel(
+  final tHubStatusModel = HubStatusModel(
       id: 1,
       subjectInformation: tSubjectInformationModel,
       targetFocus: tTargetFocus,

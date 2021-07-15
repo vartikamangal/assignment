@@ -23,7 +23,7 @@ void main() {
     useCase = AtemptQuestions(service: service);
   });
 
-  const tTag = [
+  final tTag = [
     Tag(
         name: 'name',
         tagCategory: 'tagCategory',
@@ -37,7 +37,7 @@ void main() {
         optionCategory: 'optionCategory',
         additionalInformation: [])
   ];
-  const tQuestion = [
+  final tQuestion = [
     Question(
         id: 'id',
         questionType: 'questionType',
@@ -51,7 +51,7 @@ void main() {
         lastModifiedTime: 'lastModifiedTime',
         questionnaireId: 'questionnaireId')
   ];
-  const tQuestionnair = Questionnaire(
+  final tQuestionnair = Questionnaire(
       id: 'id',
       name: 'name',
       title: 'title',

@@ -114,7 +114,7 @@ void main() {
         id: 1,
         subjectId: const SubjectIdModel(id: ''),
         wolArea: 'Test Life Area',
-        rating: const IndividualSatisfactionRatingResultModel(
+        rating:  IndividualSatisfactionRatingResultModel(
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -141,7 +141,7 @@ void main() {
       userID: '',
       deviceIndentifier: 'test_device_id',
     ),
-    targetFocus: const TargetFocusListModel(id: 1, targetFocusList: [
+    targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -163,7 +163,7 @@ void main() {
         id: 1,
         subjectId: const SubjectIdModel(id: ''),
         wolArea: 'Test Life Area',
-        rating: const IndividualSatisfactionRatingResultModel(
+        rating:  IndividualSatisfactionRatingResultModel(
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -189,7 +189,7 @@ void main() {
       userID: '',
       deviceIndentifier: 'test_device_id',
     ),
-    targetFocus: const TargetFocusListModel(id: 1, targetFocusList: [
+    targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -211,7 +211,7 @@ void main() {
         id: 1,
         subjectId: const SubjectIdModel(id: ''),
         wolArea: 'Test Life Area',
-        rating: const IndividualSatisfactionRatingResultModel(
+        rating:  IndividualSatisfactionRatingResultModel(
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -238,7 +238,7 @@ void main() {
       userID: '',
       deviceIndentifier: 'test_device_id',
     ),
-    targetFocus: const TargetFocusListModel(id: 1, targetFocusList: [
+    targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -260,7 +260,7 @@ void main() {
         id: 1,
         subjectId: const SubjectIdModel(id: ''),
         wolArea: 'Test Life Area',
-        rating: const IndividualSatisfactionRatingResultModel(
+        rating:  IndividualSatisfactionRatingResultModel(
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -270,7 +270,7 @@ void main() {
       ),
     },
     attemptedQuestions: true,
-    journeyPath: const JourneyModel(
+    journeyPath:  JourneyModel(
       id: 1,
       title: 'TEST',
       subtitle: 'TEST',

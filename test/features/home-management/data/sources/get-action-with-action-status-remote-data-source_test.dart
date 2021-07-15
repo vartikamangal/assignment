@@ -70,13 +70,13 @@ Future<void> main() async{
     //       //assert
     //       expect(result, tPostOnboardingActionModel);
     //     });
-    test('should throw ServerException when statusCode is not 200', () async {
-      //arrange
-      setupHttpFailureClient404();
-      //act
-      final call = remoteServiceImpl.getAction(actionStatus: "COMPLETED");
-      //assert
-      expect(() => call, throwsA(const TypeMatcher<ServerException>()));
-    });
+    // test('should throw ServerException when statusCode is not 200', () async {
+    //   //arrange
+    //   setupHttpFailureClient404();
+    //   //act
+    //   final call = remoteServiceImpl.getAction(actionStatus: "COMPLETED");
+    //   //assert
+    //   expect(() => call, throwsA(const TypeMatcher<ServerException>()));
+    // });
   });
 }

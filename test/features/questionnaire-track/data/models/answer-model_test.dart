@@ -11,7 +11,7 @@ import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
   const tQuestionIdModel =
-  QuestionIdModel(id: '04ca410e-5188-4d09-8802-b61d5ac3b357');
+      QuestionIdModel(id: '04ca410e-5188-4d09-8802-b61d5ac3b357');
 
   const tQuestionOptionModel = [
     QuestionOptionModel(
@@ -26,10 +26,8 @@ void main() {
       optionChosen: tQuestionOptionModel,
       additionalInformation: '');
 
-  const tAnswerModel1=AnswerModel(
-      question: tQuestionIdModel,
-      optionChosen: [],
-      additionalInformation: '');
+  const tAnswerModel1 = AnswerModel(
+      question: tQuestionIdModel, optionChosen: [], additionalInformation: '');
 
   group('Model AnswerModel', () {
     test('should be a extended version of AnswerModel', () async {
@@ -40,7 +38,7 @@ void main() {
     test(' .fromJson should return a valid AnswerModel', () async {
       //arrange
       final jsonMap = jsonDecode(fixtureReader(filename: 'answer-model.json'))
-      as Map<String, dynamic>;
+          as Map<String, dynamic>;
       //act
       final result = AnswerModel.fromJson(jsonMap);
       //assert

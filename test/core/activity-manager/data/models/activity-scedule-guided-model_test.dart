@@ -12,37 +12,8 @@ import 'package:tatsam_app_experimental/core/image/image.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const List<ActivitySceduleGuided> tActivitySceduleGuidedModel =
+  const List<ActivityScheduleGuidedModel> tActivitySceduleGuidedModel =
       <ActivityScheduleGuidedModel>[
-    ActivityScheduleGuidedModel(
-      id: 3441,
-      tags: <TagModel>[
-        TagModel(
-          name: "LOSING_TEMPER",
-          tagCategory: "INSTANT_RELIEF",
-          displayName: "Losing Temper",
-          parentName: null,
-        )
-      ],
-      pathInformation: PathInformationModel(
-          id: 3442,
-          description: "Curated Path for stress management",
-          title: "Stress management",
-          subtitle: "This will help you manage stress better",
-          helpContent: "Just putting some help content for future use",
-          lengthOfPlan: 23),
-      activitySchedule: <GuidedActivityRecommendationModel>[
-   /*     GuidedActivityRecommendationModel(
-            id: 3443,
-            dayNumber: 1,
-            icon: ImageProp(),
-            description: "Day 1 of stress management",
-            title: "Day 1",
-            subtitle: "Perform this day with smile",
-            helpContent: "Some useless help content",
-            recommendationList: <ActivityRecommendationModel>[])*/
-      ],
-    )
   ];
 
   group('Model ActivityScheduleGuidedModel ', () {

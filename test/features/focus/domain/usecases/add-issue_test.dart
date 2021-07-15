@@ -24,7 +24,7 @@ void main() {
 
   const tIssue = Issue(
     issueId: 1,
-    issueIcon: '',
+    issueIcon: null,
     displayName: 'Sleep',
     focusName: 'Sleep',
     messageOnSelection: 'I want to reduce stress',

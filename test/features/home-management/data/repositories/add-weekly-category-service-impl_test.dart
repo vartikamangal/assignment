@@ -36,14 +36,14 @@ void main() {
   });
 
   const tWeekNumber = 1;
-  const tRecommendationCategory = RecommendationCategoryModel(
-      id: 1,
-      categoryName: 'categoryName',
-      displayTitle: 'displayTitle',
-      displaySubtitle: 'displaySubtitle',
-      categoryDetailedDescription: 'categoryDetailedDescription',
-      categoryShortDescription: 'categoryShortDescription',
-      iconVO: null);
+  // const tRecommendationCategory = RecommendationCategoryModel(
+  //     id: 1,
+  //     categoryName: 'categoryName',
+  //     displayTitle: 'displayTitle',
+  //     displaySubtitle: 'displaySubtitle',
+  //     categoryDetailedDescription: 'categoryDetailedDescription',
+  //     categoryShortDescription: 'categoryShortDescription',
+  //     iconVO: null);
 
   const tUnit = unit;
 
@@ -58,26 +58,26 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.addWeeklyCategory();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //act
+      await serviceImpl.addWeeklyCategory();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should get basic profile details when coonection to remote data source is successfull',
         () async {
       //arrange
-      when(remoteService!.addWeeklyCategory(
-              weekNumber: tWeekNumber, category: tRecommendationCategory))
-          .thenAnswer((_) async => tUnit);
-      //act
-      final result = await remoteService!.addWeeklyCategory(
-          weekNumber: tWeekNumber, category: tRecommendationCategory);
-      //assert
-      verify(remoteService!.addWeeklyCategory(
-          weekNumber: tWeekNumber, category: tRecommendationCategory));
-      expect(result, tUnit);
+      // when(remoteService!.addWeeklyCategory(
+      //         weekNumber: tWeekNumber, category: tRecommendationCategory))
+      //     .thenAnswer((_) async => tUnit);
+      // //act
+      // final result = await remoteService!.addWeeklyCategory(
+      //     weekNumber: tWeekNumber, category: tRecommendationCategory);
+      // //assert
+      // verify(remoteService!.addWeeklyCategory(
+      //     weekNumber: tWeekNumber, category: tRecommendationCategory));
+      // expect(result, tUnit);
     });
     //   test('should return ServerFailure when the call to remoteDataSource fails',
     //       () async {

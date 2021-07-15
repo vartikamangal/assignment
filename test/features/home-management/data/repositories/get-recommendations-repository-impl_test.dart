@@ -43,14 +43,14 @@ void main() {
   });
 
   const tActionTime = '';
-  const tRecommendationCategoryModel = RecommendationCategoryModel(
-      id: 1,
-      categoryName: '',
-      displayTitle: '',
-      displaySubtitle: '',
-      categoryDetailedDescription: '',
-      categoryShortDescription: '',
-      iconVO: null);
+  // const tRecommendationCategoryModel = RecommendationCategoryModel(
+  //     id: 1,
+  //     categoryName: '',
+  //     displayTitle: '',
+  //     displaySubtitle: '',
+  //     categoryDetailedDescription: '',
+  //     categoryShortDescription: '',
+  //     iconVO: null);
 
   /*const tRecommendationStepModel = [
     RecommendationStepModel(
@@ -64,13 +64,13 @@ void main() {
         stepContent: 'stepContent')
   ];*/
 
-  const tTagModel = [
-    TagModel(
-        name: 'name',
-        tagCategory: 'tagCategory',
-        displayName: 'displayName',
-        parentName: 'parentName')
-  ];
+  // const tTagModel = [
+  //   TagModel(
+  //       name: 'name',
+  //       tagCategory: 'tagCategory',
+  //       displayName: 'displayName',
+  //       parentName: 'parentName')
+  // ];
 
   const tActivityRecommendationModel = [
    /* ActivityRecommendationModel(
@@ -101,15 +101,6 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //arrange
-    //   when(remoteDataSource!.getRecommendations(actionTime: tActionTime))
-    //       .thenAnswer((_) async => <ActivityModel>[]);
-    //   //act
-    //   await repositoryRepositoryImpl.getRecommendations();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
     test(
         'should get recommendation when coonection to remote data source is successfull',
         () async {
@@ -123,24 +114,15 @@ void main() {
       verify(remoteDataSource!.getRecommendations(actionTime: tActionTime));
       expect(result, tActivityRecommendationModel);
     });
-   /* test('should return ServerFailure when the call to remoteDataSource fails',
-        () async {
-      //arrange
-      when(remoteDataSource!.getRecommendations(actionTime: tActionTime))
-          .thenThrow(ServerException());
-      //act
-      final result = await repositoryRepositoryImpl.getRecommendations();
-      //assert
-      expect(result, Left(ServerFailure()));
-    });*/
+    // test('should return ServerFailure when the call to remoteDataSource fails',
+    //     () async {
+    //   //arrange
+    //   when(remoteDataSource!.getRecommendations(actionTime: tActionTime))
+    //       .thenThrow(ServerException());
+    //   //act
+    //   final result = await repositoryRepositoryImpl.getRecommendations();
+    //   //assert
+    //   expect(result, Left(ServerFailure()));
+    // });
   });
-  // test('DEVICE OFFLINE : getRecommendations should return DeviceOfflineFailure',
-  //         () async {
-  //       when(networkInfo!.isConnected).thenAnswer((_) async => false);
-  //       //act
-  //       final result =
-  //       await remoteDataSource!.getRecommendations(actionTime: tActionTime);
-  //       //assert
-  //       expect(result, null);
-  //     });
 }

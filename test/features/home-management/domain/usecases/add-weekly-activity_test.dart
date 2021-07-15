@@ -7,7 +7,6 @@ import 'package:tatsam_app_experimental/features/home-management/domain/usecases
 import 'add-weekly-activity_test.mocks.dart';
 
 @GenerateMocks([AddWeeklyCategoryService])
-
 void main() {
   late MockAddWeeklyCategoryService service;
   late AddWeeklyActivity useCase;
@@ -23,7 +22,7 @@ void main() {
   group('USECASE: addWeeklyActivity()', () {
     test('should add weekly activity to service', () async {
       when(service.addWeeklyActivity(
-          category: tCategory, recommendationId: tRecommendationId))
+              category: tCategory, recommendationId: tRecommendationId))
           .thenAnswer((_) async => const Right(tUnit));
 
       final result = await useCase(const AddWeeklyActivityParams(

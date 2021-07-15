@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -22,8 +21,8 @@ void main() {
     test(' .fromJson should return a valid QuestionOptionModel', () async {
       //arrange
       final jsonMap =
-      jsonDecode(fixtureReader(filename: 'question-option-model.json'))
-      as Map<String, dynamic>;
+          jsonDecode(fixtureReader(filename: 'question-option-model.json'))
+              as Map<String, dynamic>;
       //act
       final result = QuestionOptionModel.fromJson(jsonMap);
       //assert
@@ -33,8 +32,8 @@ void main() {
     test('toJson should return a properly parsed Map from the model', () async {
       //act
       final expectedJson =
-      jsonDecode(fixtureReader(filename: 'question-option-model.json'))
-      as Map<String, dynamic>;
+          jsonDecode(fixtureReader(filename: 'question-option-model.json'))
+              as Map<String, dynamic>;
       //act
       final result = tQuestionOptionModel.toJson();
       //assert

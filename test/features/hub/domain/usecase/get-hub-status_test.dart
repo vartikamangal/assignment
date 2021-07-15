@@ -14,7 +14,6 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/entitie
 import 'get-hub-status_test.mocks.dart';
 
 @GenerateMocks([GetHubStatusRepository])
-
 void main() {
   late MockGetHubStatusRepository repository;
   late GetHubStatus usecase;

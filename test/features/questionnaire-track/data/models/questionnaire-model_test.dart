@@ -10,13 +10,13 @@ import 'package:tatsam_app_experimental/features/questionnaire-track/domain/enti
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const tTagModel = [
-    TagModel(
-        name: 'name',
-        tagCategory: 'tagCategory',
-        displayName: 'displayName',
-        parentName: 'parentName')
-  ];
+  // const tTagModel = [
+  //   TagModel(
+  //       name: 'name',
+  //       tagCategory: 'tagCategory',
+  //       displayName: 'displayName',
+  //       parentName: 'parentName')
+  // ];
   const tQuestionOptionModel = [
     QuestionOptionModel(
         id: 'id',
@@ -24,13 +24,13 @@ void main() {
         optionCategory: 'optionCategory',
         additionalInformation: [])
   ];
-  const tQuestionModel = [
+  final tQuestionModel = [
     QuestionModel(
         id: 'id',
         questionType: 'questionType',
         status: 'status',
         name: 'name',
-        tags: tTagModel,
+        tags: [],
         questionOptionVO: tQuestionOptionModel,
         questionText: 'questionText',
         questionExplanation: 'questionExplanation',
@@ -44,7 +44,7 @@ void main() {
       title: 'title',
       description: 'description',
       creationDate: 'creationDate',
-      questionVO: tQuestionModel);
+      questionVO: []);
   const tQuestionnaireModel1 = QuestionnaireModel(
       id: 'id',
       name: 'name',

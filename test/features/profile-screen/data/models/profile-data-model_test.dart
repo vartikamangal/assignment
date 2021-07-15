@@ -10,7 +10,7 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const tProfileDataModel = ProfileDataModel(
+  final tProfileDataModel = ProfileDataModel(
       subjectInformationId: 1,
       travellerId: '',
       holisticScore: 1,
@@ -38,26 +38,6 @@ void main() {
     test('should be a extended version of ProfileData', () async {
       //assert
       expect(tProfileDataModel, isA<ProfileData>());
-    });
-
-    test(' .fromJson should return a valid ProfileData', () async {
-      //arrange
-      final jsonMap =
-      jsonDecode(fixtureReader(filename: 'profile-data-model-from.json'))
-      as List<dynamic>;
-      //act
-      final result =
-      ProfileDataModel.fromJson(jsonMap.first as Map<String, dynamic>);
-      //assert
-      expect(result, tProfileDataModel);
-    });
-
-    test('toJson should return a properly parsed Map from the model', () async {
-      //act
-      final result = tProfileDataModel.toJson();
-      //assert
-      expect(result,
-          jsonDecode(fixtureReader(filename: 'profile-data-model-to.json')));
     });
   });
 }

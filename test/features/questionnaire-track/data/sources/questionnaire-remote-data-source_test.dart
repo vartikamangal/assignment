@@ -14,8 +14,7 @@ import '../../../../fixtures/fixture-reader.dart';
 import 'questionnaire-remote-data-source_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
-
-Future<void> main() async{
+Future<void> main() async {
   late QuestionnaireRemoteDataSourceImpl remoteDataSourceImpl;
   MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
@@ -28,18 +27,22 @@ Future<void> main() async{
       throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
-const tQuestionnaireModel=QuestionIdModel(id: "04ca410e-5188-4d09-8802-b61d5ac3b357");
+  const tQuestionnaireModel =
+      QuestionIdModel(id: "04ca410e-5188-4d09-8802-b61d5ac3b357");
 
   void setupHttpSuccessClient200() {
-    when(client!.get(uri: "${APIRoute.getQuestionnaire}/04ca410e-5188-4d09-8802-b61d5ac3b357")).thenAnswer(
-          (_) async =>
-          http.Response(fixtureReader(filename: 'raw-question-by-id.json'), 200),
+    when(client!.get(
+            uri:
+                "${APIRoute.getQuestionnaire}/04ca410e-5188-4d09-8802-b61d5ac3b357"))
+        .thenAnswer(
+      (_) async => http.Response(
+          fixtureReader(filename: 'raw-question-by-id.json'), 200),
     );
   }
 
   void setupHttpFailureClient404() {
     when(client!.get(uri: "${APIRoute.getQuestionnaire}/$id")).thenAnswer(
-          (_) async => http.Response('Oops! page not found', 404),
+      (_) async => http.Response('Oops! page not found', 404),
     );
   }
 

@@ -22,7 +22,7 @@ void main() {
 
   const tId = 'id';
 
-  const tTag = [
+  final tTag = [
     Tag(
         name: 'name',
         tagCategory: 'tagCategory',
@@ -30,7 +30,7 @@ void main() {
         parentName: 'parentName')
   ];
 
-  const tQuestion = [
+  final tQuestion = [
     Question(
         id: 'id',
         questionType: 'questionType',
@@ -45,7 +45,7 @@ void main() {
         questionnaireId: 'questionnaireId')
   ];
 
-  const tQuestionaire = Questionnaire(
+  final tQuestionaire = Questionnaire(
       id: '',
       name: 'name',
       title: 'title',
@@ -55,11 +55,11 @@ void main() {
   group('USECASE: getQuestionniare', () {
     test('should get questionnaire by id from the repository ...', () async {
       when(repository.getQuestionniare(id: tId))
-          .thenAnswer((_) async => const Right(tQuestionaire));
+          .thenAnswer((_) async =>  Right(tQuestionaire));
 
       final result = await useCase(const GetQuestionnaireByIdParams(id: tId));
       verify(repository.getQuestionniare(id: tId));
-      expect(result, const Right(tQuestionaire));
+      expect(result,  Right(tQuestionaire));
     });
   });
 }

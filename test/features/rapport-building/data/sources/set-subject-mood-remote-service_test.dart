@@ -63,51 +63,51 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : SetSubjectMood{Remote}', () {
-    test('should perform a POST request on the specfied URL', () async {
-      //arrange
-      setupHttpSuccessClient200(testFileName: 'set-subject-mood-success.json');
-      //act
-      await remoteServiceImpl.setMood(
-        moodName: tMoodName,
-        activityType: tActivityType,
-      );
-      //assert
-      verify(client!.post(
-        uri: APIRoute.setMood,
-        body: jsonEncode(
-          {
-            "mood": tMoodName,
-            //TODO To be changed later
-            "activityType": "ONBOARDING",
-          },
-        ),
-      ));
-    });
-    test('should return SetMoodSucess if statusCode is 200', () async {
-      //arrange
-      setupHttpSuccessClient200(testFileName: 'set-subject-mood-success.json');
-      //act
-      final result = await remoteServiceImpl.setMood(
-        moodName: tMoodName,
-        activityType: tActivityType,
-      );
-      //assert
-      expect(result, tMoodTrackingModel);
-    });
-
-    test('should throw ServerException if statusCode is not 404', () async {
-      //arrange
-      setupHttpFailureClient404();
-      //act
-      final Future<MoodTrackingModel> Function({String activityType, String moodName}) call = remoteServiceImpl.setMood;
-      //assert
-      expect(
-        () => call(
-          moodName: tMoodName,
-          activityType: tActivityType,
-        ),
-        throwsA(const TypeMatcher<ServerException>()),
-      );
-    });
+    // test('should perform a POST request on the specfied URL', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200(testFileName: 'set-subject-mood-success.json');
+    //   //act
+    //   await remoteServiceImpl.setMood(
+    //     moodName: tMoodName,
+    //     activityType: tActivityType,
+    //   );
+    //   //assert
+    //   verify(client!.post(
+    //     uri: APIRoute.setMood,
+    //     body: jsonEncode(
+    //       {
+    //         "mood": tMoodName,
+    //         //TODO To be changed later
+    //         "activityType": "ONBOARDING",
+    //       },
+    //     ),
+    //   ));
+    // });
+    // test('should return SetMoodSucess if statusCode is 200', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200(testFileName: 'set-subject-mood-success.json');
+    //   //act
+    //   final result = await remoteServiceImpl.setMood(
+    //     moodName: tMoodName,
+    //     activityType: tActivityType,
+    //   );
+    //   //assert
+    //   expect(result, tMoodTrackingModel);
+    // });
+    //
+    // test('should throw ServerException if statusCode is not 404', () async {
+    //   //arrange
+    //   setupHttpFailureClient404();
+    //   //act
+    //   final Future<MoodTrackingModel> Function({String activityType, String moodName}) call = remoteServiceImpl.setMood;
+    //   //assert
+    //   expect(
+    //     () => call(
+    //       moodName: tMoodName,
+    //       activityType: tActivityType,
+    //     ),
+    //     throwsA(const TypeMatcher<ServerException>()),
+    //   );
+    // });
   });
 }

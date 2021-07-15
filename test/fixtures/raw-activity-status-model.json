@@ -1,0 +1,10 @@
+[
+    {
+        "id": null,
+        "journeyId": "journeyId",
+        "recommendationId": "recommendationId",
+        "actionStatus": "actionStatus",
+        "feedbackMood": "feedbackMood",
+        "feedbackThoughts": "feedbackThoughts"
+    }
+]

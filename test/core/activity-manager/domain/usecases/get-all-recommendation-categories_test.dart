@@ -19,7 +19,7 @@ void main() {
     useCase = GetAllRecommendationCategories(repository: repository);
   });
 
-  const tRecommendationCategories = <RecommendationCategory>[
+  final tRecommendationCategories = <RecommendationCategory>[
     RecommendationCategory(
         id: 1,
         categoryName: "PHYSICAL",
@@ -58,12 +58,12 @@ void main() {
     test('should return a list of issues using repository', () async {
       //arrange
       when(repository.getAllCategories())
-          .thenAnswer((_) async => const Right(tRecommendationCategories));
+          .thenAnswer((_) async =>  Right(tRecommendationCategories));
       //act
       final result = await useCase(NoParams());
       //assert
       verify(repository.getAllCategories());
-      expect(result, const Right(tRecommendationCategories));
+      expect(result,  Right(tRecommendationCategories));
     });
   });
 }

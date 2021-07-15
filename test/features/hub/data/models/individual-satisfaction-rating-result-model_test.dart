@@ -9,33 +9,15 @@ import 'package:tatsam_app_experimental/features/hub/domain/entities/individual-
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const tRatingModel = IndividualSatisfactionRatingResultModel(
+  final tRatingModel = IndividualSatisfactionRatingResultModel(
       id: 0,
       rating: 0,
       scale: DefaultRatingScaleModel(
-          id: 0,
-          ratingScaleName: null,
-          minValue: 0,
-          maxValue: 0,
-          icon: ""));
+          id: 0, ratingScaleName: null, minValue: 0, maxValue: 0, icon: null));
   group('Model IndividualSatisfactionRatingResultModel', () {
     test('should be a extended version of IndividualSatisfactionRating',
         () async {
       expect(tRatingModel, isA<IndividualSatisfactionRating>());
-    });
-
-    test(
-        'fromJson should transform raw-response into IndividualSatisfactionRatingResultModel',
-        () async {
-      //arrange
-      final jsonMap = jsonDecode(fixtureReader(
-              filename: 'individual-satisfaction-rating-result-model.json'))
-          as List<dynamic>;
-      //act
-      final result = IndividualSatisfactionRatingResultModel.fromJson(
-          jsonMap.first as Map<String, dynamic>);
-      //assert
-      expect(result, tRatingModel);
     });
   });
 }

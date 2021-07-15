@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -15,11 +16,12 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/repository/wheel-of-life-repository-impl.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/wheel-of-life-remote-data-source.dart';
 import 'get-life-areas-repository-impl_test.mocks.dart';
-@GenerateMocks([WheelOfLifeRemoteDataSource,NetworkInfo])
+
+@GenerateMocks([WheelOfLifeRemoteDataSource, NetworkInfo])
 //@GenerateMocks([NetworkInfo])
 
 void main() {
-  late  MockWheelOfLifeRemoteDataSource? remoteDataSource;
+  late MockWheelOfLifeRemoteDataSource? remoteDataSource;
   MockNetworkInfo? networkInfo;
   late WheelOfLifeRepositoryImpl repositoryImpl;
   HandleException handleException;
@@ -111,7 +113,7 @@ void main() {
     test('should check if the device is online', () async {
       //act
       when(remoteDataSource!.getAreas()).thenThrow(ServerException());
-       await repositoryImpl.getLifeAreas();
+      await repositoryImpl.getLifeAreas();
       //assert
       verify(networkInfo!.isConnected);
     });

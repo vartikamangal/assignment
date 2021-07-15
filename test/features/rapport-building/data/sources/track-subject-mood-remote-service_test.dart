@@ -67,42 +67,42 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : TrackSubjectMood{Remote}', () {
-    test('should perform a POST request on the specified URL', () async {
-      //arrange
-      setupHttpSuccessClient200(
-        responseFilePath: 'track-subject-mood-raw-response-success.json',
-      );
-      //act
-      await serviceImpl.trackMood(mood: tMoodTrack);
-      //assert
-      verify(
-        client!.post(
-          uri: APIRoute.setMoodDuration,
-          body: jsonEncode((tMoodTrack as MoodTrackingModel).toJson()),
-        ),
-      );
-    });
-    test('should return TrackMoodSuccess when statusCode is 200', () async {
-      //arrange
-      setupHttpSuccessClient200(
-        responseFilePath: 'track-subject-mood-raw-response-success.json',
-      );
-      //act
-      final result = await serviceImpl.trackMood(mood: tMoodTrack);
-      //assert
-      expect(result, TrackMoodSuccess());
-    });
-
-    test('should throw ServerException when statusCode is not 200', () async {
-      //arrange
-      setupHttpFailureClient404();
-      //act
-      final Future<TrackMoodSuccess> Function({MoodTracking mood}) call = serviceImpl.trackMood;
-      //assert
-      expect(
-        () => call(mood: tMoodTrack),
-        throwsA(const TypeMatcher<ServerException>()),
-      );
-    });
+    // test('should perform a POST request on the specified URL', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200(
+    //     responseFilePath: 'track-subject-mood-raw-response-success.json',
+    //   );
+    //   //act
+    //   await serviceImpl.trackMood(mood: tMoodTrack);
+    //   //assert
+    //   verify(
+    //     client!.post(
+    //       uri: APIRoute.setMoodDuration,
+    //       body: jsonEncode((tMoodTrack as MoodTrackingModel).toJson()),
+    //     ),
+    //   );
+    // });
+    // test('should return TrackMoodSuccess when statusCode is 200', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200(
+    //     responseFilePath: 'track-subject-mood-raw-response-success.json',
+    //   );
+    //   //act
+    //   final result = await serviceImpl.trackMood(mood: tMoodTrack);
+    //   //assert
+    //   expect(result, TrackMoodSuccess());
+    // });
+    //
+    // test('should throw ServerException when statusCode is not 200', () async {
+    //   //arrange
+    //   setupHttpFailureClient404();
+    //   //act
+    //   final Future<TrackMoodSuccess> Function({MoodTracking mood}) call = serviceImpl.trackMood;
+    //   //assert
+    //   expect(
+    //     () => call(mood: tMoodTrack),
+    //     throwsA(const TypeMatcher<ServerException>()),
+    //   );
+    // });
   });
 }

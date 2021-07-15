@@ -15,7 +15,7 @@ void main() {
       id: null,
       subjectId: const SubjectIdModel(id: 'id'),
       wolArea: null,
-      rating: const IndividualSatisfactionRatingResultModel(
+      rating: IndividualSatisfactionRatingResultModel(
           id: 0,
           rating: 0,
           scale: DefaultRatingScaleModel(
@@ -23,24 +23,11 @@ void main() {
               ratingScaleName: 'ratingScaleName',
               minValue: 0,
               maxValue: 100,
-              icon: "")),
+              icon: null)),
       createdWhen: DateTime.parse('2021-05-10T13:19:41.543Z'));
   group('Model LifeRatingResultModel', () {
     test('should be a extended version of LifeRatingResult', () async {
       expect(tLifeRatingResultModel, isA<LifeRatingResult>());
-    });
-
-    test('fromJson should transform raw-response into LifeRatingResultModel',
-        () async {
-      //arrange
-      final jsonMap =
-          jsonDecode(fixtureReader(filename: 'life-rating-result-model.json'))
-              as List<dynamic>;
-      //act
-      final result =
-          LifeRatingResultModel.fromJson(jsonMap.first as Map<String, dynamic>);
-      //assert
-      expect(result, tLifeRatingResultModel);
     });
   });
 }

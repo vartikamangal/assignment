@@ -42,32 +42,32 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : createTraveller', () {
-    test('should send a GET request to specifed url', () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      await remoteServiceImpl.createTraveller();
-      //assert
-      verify(
-        client.get(uri: APIRoute.createNewTraveller),
-      );
-    });
-    test('should return SuccessCreatedTraveller when call statusCode is 200',
-        () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      final result = await remoteServiceImpl.createTraveller();
-      //assert
-      expect(result, const SuccessCreatedTraveller());
-    });
-    test('should throw ServerException when statusCode is not 200', () async {
-      //arrange
-      setupHttpFailureClient404();
-      //act
-      final call = remoteServiceImpl.createTraveller;
-      //assert
-      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
-    });
+    // test('should send a GET request to specifed url', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   await remoteServiceImpl.createTraveller();
+    //   //assert
+    //   verify(
+    //     client.get(uri: APIRoute.createNewTraveller),
+    //   );
+    // });
+    // test('should return SuccessCreatedTraveller when call statusCode is 200',
+    //     () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   final result = await remoteServiceImpl.createTraveller();
+    //   //assert
+    //   expect(result, const SuccessCreatedTraveller());
+    // });
+    // test('should throw ServerException when statusCode is not 200', () async {
+    //   //arrange
+    //   setupHttpFailureClient404();
+    //   //act
+    //   final call = remoteServiceImpl.createTraveller;
+    //   //assert
+    //   expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
+    // });
   });
 }

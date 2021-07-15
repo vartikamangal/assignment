@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -17,8 +18,7 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/data/reposi
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/sources/path-operations-remote-data-source.dart';
 import 'get_journey_path_list_remote_data_source_test.mocks.dart';
 
-@GenerateMocks([PathOperationsRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([PathOperationsRemoteDataSource, NetworkInfo])
 void main() {
   late MockPathOperationsRemoteDataSource? remoteDataSource;
   MockNetworkInfo? networkInfo;
@@ -42,14 +42,14 @@ void main() {
     );
   });
 
-  const tJourneyModel = <JourneyModel>[
+  final tJourneyModel = <JourneyModel>[
     JourneyModel(
         id: 1,
         title: "Small Wins Path",
         subtitle: "Weekly focus areas. Choose your own experiences.",
         description:
             "Only one area of focus per week, Daily small wins at your own pace",
-        icon:"",
+        icon: null,
         pathName: "SMALL_WINS")
   ];
 
@@ -62,12 +62,15 @@ void main() {
 
   //! Actual tests go here
   runTestOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getJourneyPaths();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteDataSource!.getJourneys())
+          .thenAnswer((_) async => tJourneyModel);
+      //act
+      await repositoryImpl.getJourneyPaths();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return a List<IssueModel> when call to remote data source is successfull',
         () async {
@@ -78,7 +81,7 @@ void main() {
       final result = await repositoryImpl.getJourneyPaths();
       //assert
       verify(remoteDataSource!.getJourneys());
-      expect(result, const Right(tJourneyModel));
+      expect(result, Right(tJourneyModel));
     });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',

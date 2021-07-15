@@ -21,11 +21,10 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/models/su
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-information.dart';
 import 'get-hub-status-repository-impl_test.mocks.dart';
 
-@GenerateMocks([GetHubStatusRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([GetHubStatusRemoteDataSource, NetworkInfo])
 void main() {
-  MockGetHubStatusRemoteDataSource ? remoteDataSource;
-  MockNetworkInfo ? networkInfo;
+  MockGetHubStatusRemoteDataSource? remoteDataSource;
+  MockNetworkInfo? networkInfo;
   late GetHubStatusRepositoryImpl repositoryImpl;
   BaseRepository baseRepository;
   CallIfNetworkConnected callIfNetworkConnected;
@@ -54,25 +53,29 @@ void main() {
       deviceIndentifier: 'deviceIndentifier',
       gender: Gender.Male);
 
-  const tIssue = IssueModel(
+  final tIssue = IssueModel(
       issueId: 1,
-      issueIcon: "",
+      issueIcon: null,
       displayName: 'displayName',
       focusName: 'focusName',
       messageOnSelection: 'messageOnSelection');
 
-  const tTargetFocus = TargetFocusListModel(id: 1, targetFocusList: [tIssue]);
+  final tTargetFocus = TargetFocusListModel(id: 1, targetFocusList: [tIssue]);
 
   const tLifePriorities = LifePrioritiesModel(
       id: 1, areasInOrderOfPriority: ['areasInOrderOfPriority']);
 
-  const tHubStatus = HubStatusModel(
+  final tHubStatus = HubStatusModel(
       id: 1,
       subjectInformation: tSubjectInformationModel,
       targetFocus: tTargetFocus,
       lifePriorities: tLifePriorities,
       lifeSatisfactionRatings: {},
-      attemptedQuestions: false, journeyPath: null, latestMood: '', journeyStatus: '', journeyStartedAt: null);
+      attemptedQuestions: false,
+      journeyPath: null,
+      latestMood: '',
+      journeyStatus: '',
+      journeyStartedAt: null);
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : get-hub-status', () {
       setUp(() {
@@ -84,17 +87,21 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getHubStatus();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteDataSource!.getHubStatus())
+          .thenAnswer((_) async => tHubStatus);
+      //act
+      await repositoryImpl.getHubStatus();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should get hub status when coonection to remote data source is successfull',
         () async {
       //arrange
-      when(remoteDataSource!.getHubStatus()).thenAnswer((_) async => tHubStatus);
+      when(remoteDataSource!.getHubStatus())
+          .thenAnswer((_) async => tHubStatus);
       //act
       final result = await remoteDataSource!.getHubStatus();
       //assert
@@ -111,12 +118,4 @@ void main() {
       expect(result, Left(ServerFailure()));
     });
   });
-  // test('DEVICE OFFLINE : getHubStatus should return DeviceOfflineFailure',
-  //     () async {
-  //   when(networkInfo!.isConnected).thenAnswer((_) async => false);
-  //   //act
-  //   final result = await remoteDataSource!.getHubStatus();
-  //   //assert
-  //   expect(result, null);
-  // });
 }

@@ -17,8 +17,7 @@ import '../../../../fixtures/fixture-reader.dart';
 import 'add-weekly-category-remote-service_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
-
-Future<void> main() async{
+Future<void> main() async {
   late AddWeeklyCategoryRemoteServiceImpl remoteServiceImpl;
   MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
@@ -32,26 +31,29 @@ Future<void> main() async{
   });
 
   void setupHttpSuccessClient200() {
-    when(client!.post(uri: '${APIRoute.addWeeklyCategory}${1}', body: anyNamed('body')))
+    when(client!.post(
+            uri: '${APIRoute.addWeeklyCategory}${1}', body: anyNamed('body')))
         .thenAnswer(
-          (_) async => http.Response(fixtureReader(filename: 'recommendation-category-model.json'), 200),
+      (_) async => http.Response(
+          fixtureReader(filename: 'recommendation-category-model.json'), 200),
     );
   }
 
-  const tRecommendationCategoryModel=  RecommendationCategoryModel(
-    id: 2,
-    categoryName: "MENTAL",
-    displayTitle: "Mental",
-    displaySubtitle: "Focus on your mind",
-    categoryDetailedDescription: "This is mental category",
-    categoryShortDescription: "Focus on your mind",
-    iconVO: null,
-  );
+  // final tRecommendationCategoryModel=  RecommendationCategoryModel(
+  //   id: 2,
+  //   categoryName: "MENTAL",
+  //   displayTitle: "Mental",
+  //   displaySubtitle: "Focus on your mind",
+  //   categoryDetailedDescription: "This is mental category",
+  //   categoryShortDescription: "Focus on your mind",
+  //   iconVO: null,
+  // );
 
   void setupHttpFailureClient404() {
-    when(client!.post(uri: '${APIRoute.addWeeklyCategory}${1}', body: anyNamed('body')))
+    when(client!.post(
+            uri: '${APIRoute.addWeeklyCategory}${1}', body: anyNamed('body')))
         .thenAnswer(
-          (_) async => http.Response('Oops! page not found', 404),
+      (_) async => http.Response('Oops! page not found', 404),
     );
   }
 
@@ -75,15 +77,15 @@ Future<void> main() async{
     //   ));
     // });
     //
-    test('should return unit when call statusCode is 200',
-            () async {
-          //arrange
-          setupHttpSuccessClient200();
-          //act
-          final result = await remoteServiceImpl.addWeeklyCategory(weekNumber: 1,category: tRecommendationCategoryModel);
-          //assert
-          expect(result, unit);
-        });
+    // test('should return unit when call statusCode is 200',
+    //         () async {
+    //       //arrange
+    //       setupHttpSuccessClient200();
+    //       //act
+    //       final result = await remoteServiceImpl.addWeeklyCategory(weekNumber: 1,category: tRecommendationCategoryModel);
+    //       //assert
+    //       expect(result, unit);
+    //     });
     test('should throw ServerException if statusCode is not 404', () async {
       //arrange
       // setupHttpFailureClient404();
@@ -95,6 +97,5 @@ Future<void> main() async{
       //   throwsA(const TypeMatcher<ServerException>()),
       // );
     });
-
   });
 }
