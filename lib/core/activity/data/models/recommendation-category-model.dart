@@ -15,6 +15,15 @@ class RecommendationCategoryModel extends DataModel<RecommendationCategory> {
   String? categoryShortDescription;
   ImageModel? iconVO;
 
+  RecommendationCategoryModel(
+      {this.id,
+      this.categoryName,
+      this.displayTitle,
+      this.displaySubtitle,
+      this.categoryDetailedDescription,
+      this.categoryShortDescription,
+      this.iconVO});
+
   RecommendationCategoryModel.fromJson(Map<String, dynamic> jsonMap)
       : id = jsonMap['id'] as int,
         categoryName = jsonMap['categoryName'] as String,

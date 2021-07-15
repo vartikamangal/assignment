@@ -11,6 +11,8 @@ class TagModel extends DataModel<Tag> {
   String? displayName;
   String? parentName;
 
+  TagModel({this.name, this.tagCategory, this.displayName, this.parentName});
+
   TagModel.fromJson(Map<String, dynamic> jsonMap)
       : name = jsonMap['name'] as String,
         tagCategory = jsonMap['tagCategory'] as String,

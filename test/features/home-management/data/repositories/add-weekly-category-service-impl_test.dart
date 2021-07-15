@@ -36,7 +36,7 @@ void main() {
   });
 
   const tWeekNumber = 1;
-  const tRecommendationCategory = RecommendationCategoryModel(
+  final tRecommendationCategory = RecommendationCategoryModel(
       id: 1,
       categoryName: 'categoryName',
       displayTitle: 'displayTitle',

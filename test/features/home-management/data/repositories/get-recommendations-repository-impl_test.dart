@@ -43,7 +43,7 @@ void main() {
   });
 
   const tActionTime = '';
-  const tRecommendationCategoryModel = RecommendationCategoryModel(
+  final tRecommendationCategoryModel = RecommendationCategoryModel(
       id: 1,
       categoryName: '',
       displayTitle: '',
@@ -64,7 +64,7 @@ void main() {
         stepContent: 'stepContent')
   ];*/
 
-  const tTagModel = [
+  final tTagModel = [
     TagModel(
         name: 'name',
         tagCategory: 'tagCategory',
@@ -73,7 +73,7 @@ void main() {
   ];
 
   const tActivityRecommendationModel = [
-   /* ActivityRecommendationModel(
+    /* ActivityRecommendationModel(
         id: '',
         title: 'title',
         subtitle: 'subtitle',
@@ -123,7 +123,7 @@ void main() {
       verify(remoteDataSource!.getRecommendations(actionTime: tActionTime));
       expect(result, tActivityRecommendationModel);
     });
-   /* test('should return ServerFailure when the call to remoteDataSource fails',
+    /* test('should return ServerFailure when the call to remoteDataSource fails',
         () async {
       //arrange
       when(remoteDataSource!.getRecommendations(actionTime: tActionTime))
