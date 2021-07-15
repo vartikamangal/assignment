@@ -6,23 +6,22 @@ import 'package:tatsam_app_experimental/core/image/image.dart';
 import '../../fixtures/fixture-reader.dart';
 
 void main() {
-  const tImagePropModel =
-      ImagePropModel(iconLocator: 'iconLocator', iconType: 'iconType');
+  final ImageEntity tImage = ImageEntity(type: 'type', url: 'url');
 
-  group('Model ImagePropModel ', () {
-    test('should be an extendor of ImageProp', () async {
+  group('Model ImageEntity ', () {
+    test('should be an extendor of ImageEntity', () async {
       //assert
-      expect(tImagePropModel, isA<ImageProp>());
+      expect(tImage, isA<ImageEntity>());
     });
-    test('fromJson should transform raw-response into ImagePropModel',
-        () async {
-      //arrange
-      final jsonMap = jsonDecode(fixtureReader(filename: 'raw-image.json'))
-          as Map<String, dynamic>;
-      //act
-      final result = ImagePropModel.fromJson(jsonMap);
-      //assert
-      expect(result, tImagePropModel);
-    });
+    // test('fromJson should transform raw-response into ImagePropModel',
+    //     () async {
+    //   //arrange
+    //   final jsonMap = jsonDecode(fixtureReader(filename: 'raw-image.json'))
+    //       as Map<String, dynamic>;
+    //   //act
+    //   final result = ImageModel.fromJson(jsonMap);
+    //   //assert
+    //   expect(result, tImage);
+    // });
   });
 }
