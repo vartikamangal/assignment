@@ -6,8 +6,8 @@ import 'package:tatsam_app_experimental/core/activity/data/models/tag-model.dart
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const List<Tag> tTags = <TagModel>[
-    TagModel(
+  final tTags = <Tag>[
+    Tag(
       name: "LOSING_TEMPER",
       tagCategory: "INSTANT_RELIEF",
       displayName: "Losing Temper",

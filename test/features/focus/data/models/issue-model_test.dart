@@ -13,13 +13,16 @@ import '../../../../fixtures/fixture-reader.dart';
 // ignore: avoid_relative_lib_imports
 
 void main() {
-  const tIssueModel = IssueModel(
+  final tIssueModel = IssueModel(
     issueId: 1,
     focusName: 'SLEEP',
     displayName: 'Sleep',
     messageOnSelection:
         ' I want to sleep better. More, restful, deeper sleep for my mind and my body',
-    issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+    issueIcon: ImageModel(
+        iconType: '',
+        iconLocator:
+            'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
   );
   group('Model IssueModel', () {
     test('should be a extended version of Issue', () async {
@@ -30,9 +33,9 @@ void main() {
     test(' .fromJson should return a valid Issue', () async {
       //arrange
       final jsonMap = jsonDecode(fixtureReader(filename: 'raw-issues.json'))
-          as List<dynamic>;
+          as Map<String, dynamic>;
       //act
-      final result = IssueModel.fromJson(jsonMap.first as Map<String, dynamic>);
+      final result = IssueModel.fromJson(jsonMap);
       //assert
       expect(result, tIssueModel);
     });

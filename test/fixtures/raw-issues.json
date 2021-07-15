@@ -1,22 +1,10 @@
-[
-  {
-    "id":1,
-    "displayName":"Sleep",
-    "messageOnSelection":" I want to sleep better. More, restful, deeper sleep for my mind and my body",
-    "focusName":"SLEEP",
-    "iconVO":null
-  },
-  {
-    "id":2,
-    "displayName":"Work form home",
-    "messageOnSelection":"I want to manage my life better as I work from home",
-    "focusName":"WORK_FROM_HOME",
-    "iconVO":null
-  },
-  {
-    "id":3,
-    "displayName":"Reduce stress",
-    "messageOnSelection":"I want to reduce stress",
-    "focusName":"REDUCE_STRESS",
-    "iconVO":"https://images.unsplash.com/photo-1547721064-da6cfb341d50"
-  }]
+{
+  "id": 1,
+  "displayName": "Sleep",
+  "messageOnSelection": " I want to sleep better. More, restful, deeper sleep for my mind and my body",
+  "focusName": "SLEEP",
+  "iconVO": {
+    "iconType": "",
+    "iconLocator": "https://images.unsplash.com/photo-1547721064-da6cfb341d50"
+  }
+}

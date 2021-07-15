@@ -19,15 +19,18 @@ void main() {
     useCase = CacheMood(service: service);
   });
 
-  const tMood = CachedMoodModel(
-      moodId: 0, moodName: '', moodDescription: '', moodIcon: ImageEntity());
+  final tMood = CachedMoodModel(
+      moodId: 0,
+      moodName: '',
+      moodDescription: '',
+      moodIcon: ImageEntity(type: '', url: ''));
   const tUnit = unit;
   group('USECASE: sevice.cacheMood()', () {
     test('Should cache mood from service', () async {
       when(service.cacheMood(mood: tMood))
           .thenAnswer((_) async => const Right(tUnit));
 
-      final result = await useCase(const CacheMoodParams(mood: tMood));
+      final result = await useCase(CacheMoodParams(mood: tMood));
 
       verify(service.cacheMood(mood: tMood));
       expect(result, const Right(tUnit));

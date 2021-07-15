@@ -17,7 +17,6 @@ import '../../../../fixtures/fixture-reader.dart';
 import 'get-issues-remote-data-source_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
-
 Future<void> main() async {
   late FocusRemoteDataSourceImpl remoteDataSourceImpl;
   MockApiClient? client;
@@ -32,29 +31,27 @@ Future<void> main() async {
     );
   });
 
-  const tIssueModel = <IssueModel>[
+  final tIssueModel = <IssueModel>[
     IssueModel(
-      issueId: 1,
-      focusName: "SLEEP",
-      displayName: "Sleep",
-      messageOnSelection:
-          " I want to sleep better. More, restful, deeper sleep for my mind and my body",
-      issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
-    ),
+        issueId: 1,
+        focusName: "SLEEP",
+        displayName: "Sleep",
+        messageOnSelection:
+            " I want to sleep better. More, restful, deeper sleep for my mind and my body",
+        issueIcon: null),
     IssueModel(
-      issueId: 2,
-      focusName: "WORK_FROM_HOME",
-      displayName: "Work form home",
-      messageOnSelection: "I want to manage my life better as I work from home",
-      issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
-    ),
+        issueId: 2,
+        focusName: "WORK_FROM_HOME",
+        displayName: "Work form home",
+        messageOnSelection:
+            "I want to manage my life better as I work from home",
+        issueIcon: null),
     IssueModel(
-      issueId: 3,
-      focusName: "REDUCE_STRESS",
-      displayName: "Reduce stress",
-      messageOnSelection: "I want to reduce stress",
-      issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
-    )
+        issueId: 3,
+        focusName: "REDUCE_STRESS",
+        displayName: "Reduce stress",
+        messageOnSelection: "I want to reduce stress",
+        issueIcon: null)
   ];
 
   void setupHttpSuccessClient200() {

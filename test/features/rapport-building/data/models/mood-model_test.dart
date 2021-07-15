@@ -12,7 +12,7 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/entitie
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const tMoodModel = MoodModel(
+  final tMoodModel = MoodModel(
     id: 1,
     moodName: 'VERY_BAD',
     moodDescription: 'Very sad',

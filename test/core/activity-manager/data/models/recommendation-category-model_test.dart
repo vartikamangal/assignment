@@ -9,8 +9,8 @@ import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
   const List<RecommendationCategory> tRecommendationCategoryModel =
-  <RecommendationCategoryModel>[
-    RecommendationCategoryModel(
+      <RecommendationCategory>[
+    RecommendationCategory(
       id: 2,
       categoryName: "MENTAL",
       displayTitle: "Mental",
@@ -28,24 +28,24 @@ void main() {
     });
     test(
         'fromJson should transform raw-response into RecommendationCategoryModel',
-            () async {
-          //arrange
-          final jsonMap = jsonDecode(
+        () async {
+      //arrange
+      final jsonMap = jsonDecode(
               fixtureReader(filename: 'recommendation-category-model.json'))
           as List;
-          //act
-          final result = jsonMap
-              .map((area) => RecommendationCategoryModel.fromJson(
+      //act
+      final result = jsonMap
+          .map((area) => RecommendationCategoryModel.fromJson(
               area as Map<String, dynamic>))
-              .toList();
-          //assert
-          expect(result, tRecommendationCategoryModel);
-        });
+          .toList();
+      //assert
+      expect(result, tRecommendationCategoryModel);
+    });
     test('toJson should transform the model into a Map again', () async {
       //arrange
       final expectedJson = jsonDecode(
-          fixtureReader(filename: 'recommendation-category-model.json'))
-      as List?;
+              fixtureReader(filename: 'recommendation-category-model.json'))
+          as List?;
       //act
       final result = tRecommendationCategoryModel
           .map((area) => (area as RecommendationCategoryModel).toJson())

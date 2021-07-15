@@ -30,6 +30,8 @@ class ImageModel extends DataModel<ImageEntity> {
   String? iconLocator;
   String? iconType;
 
+  ImageModel({required this.iconLocator, required this.iconType});
+
   ImageModel.fromJson(Map<String, dynamic> json)
       : iconLocator = json['iconLocator'] as String,
         iconType = json['iconType'] as String;
