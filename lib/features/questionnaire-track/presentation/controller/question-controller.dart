@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/error/display-error-info.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 
 import '../../../hub/presentation/controller/hub-controller.dart';
 import '../../data/models/question-model.dart';
@@ -43,6 +44,7 @@ class QuestionnaireConroller extends GetxController {
       RxMap<QuestionModel, QuestionOption>(
     {},
   );
+  Rx<PageState> pageState = Rx<PageState>(PageState.LOADING);
   ///////  Usecase Helpers //////////
   Future<void> fetchQuestionnaire() async {
     final questionnaireOrFailure = await getQuestionnaireById(
@@ -52,7 +54,11 @@ class QuestionnaireConroller extends GetxController {
     );
     questionnaireOrFailure!.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        pageState.value = PageState.FAILURE;
+        log(
+          "<--------- [ERROR] Problems in fetching questionnaire -------->",
+          error: failure,
+        );
       },
       (fetchedQuestionnaire) {
         questionnaire.value = fetchedQuestionnaire;
@@ -84,13 +90,14 @@ class QuestionnaireConroller extends GetxController {
             );
           },
         );
+        pageState.value = PageState.LOADED;
         log('questionnaire fetched!');
       },
     );
   }
 
   Future<void> attempQuestionsTrigger() async {
-    toggleProcessor();
+    pageState.value = PageState.LOADING;
     final questionAttemptedOrFailure = await atemptQuestions(
       AttemptQuestionnaireParams(
         questionToAnswerMap: questionToAnswerMap,
@@ -98,13 +105,14 @@ class QuestionnaireConroller extends GetxController {
         questionnaire: questionnaire.value,
       ),
     );
-    toggleProcessor();
     questionAttemptedOrFailure!.fold(
       (failure) {
+        pageState.value = PageState.FAILURE;
         ErrorInfo.show(failure);
       },
       (attemptStatus) async {
         log('successfully attempted questions!');
+        pageState.value = PageState.LOADED;
         await Get.find<HubController>().fetchHubStatusFinal().then(
               (value) => Navigator.of(Get.context!).pop(),
             );

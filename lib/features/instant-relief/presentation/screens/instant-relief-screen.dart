@@ -13,8 +13,6 @@ import 'package:tatsam_app_experimental/features/instant-relief/data/models/inst
 import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// Project imports:
-import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/middle-call-us-button.dart';
@@ -38,7 +36,6 @@ class InstantReliefScreen extends StatelessWidget {
             backgroundColor: Theme.of(context).canvasColor,
             elevation: 0,
             leading: TopAppBar(onPressed: () {
-             // print(_controller.instantLifeAreas[1].icon);
               Get.back();
             })),
         body: CustomScrollView(
@@ -49,19 +46,13 @@ class InstantReliefScreen extends StatelessWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.only(
-                  left: ScaleManager.spaceScale(
-                    spaceing: 21,
-                  ).value,
-                  right: ScaleManager.spaceScale(
-                    spaceing: 21,
-                  ).value,
+                  left: ScaleManager.spaceScale(spaceing: 21).value,
+                  right: ScaleManager.spaceScale(spaceing: 21).value,
                 ),
                 child: Column(
                   children: [
                     SizedBox(
-                      height: ScaleManager.spaceScale(
-                        spaceing: 61,
-                      ).value,
+                      height: ScaleManager.spaceScale(spaceing: 61).value,
                     ),
                     Text(
                       tr('instant relief'),
@@ -70,17 +61,11 @@ class InstantReliefScreen extends StatelessWidget {
                       textScaleFactor: textScaleFactor.value,
                     ),
                     SizedBox(
-                      height: ScaleManager.spaceScale(
-                        spaceing: 12,
-                      ).value,
+                      height: ScaleManager.spaceScale(spaceing: 12).value,
                     ),
                     SizedBox(
-                      height: ScaleManager.spaceScale(
-                        spaceing: 65,
-                      ).value,
-                      width: ScaleManager.spaceScale(
-                        spaceing: 226,
-                      ).value,
+                      height: ScaleManager.spaceScale(spaceing: 65).value,
+                      width: ScaleManager.spaceScale(spaceing: 226).value,
                       child: TopRightCallbutton(
                         onPressed: () {
                           launch(
@@ -90,27 +75,19 @@ class InstantReliefScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: ScaleManager.spaceScale(
-                        spaceing: 19,
-                      ).value,
+                      height: ScaleManager.spaceScale(spaceing: 19).value,
                     ),
                     Container(
                       margin: EdgeInsets.only(
-                        left: ScaleManager.spaceScale(
-                          spaceing: 23,
-                        ).value,
-                        right: ScaleManager.spaceScale(
-                          spaceing: 22,
-                        ).value,
+                        left: ScaleManager.spaceScale(spaceing: 23).value,
+                        right: ScaleManager.spaceScale(spaceing: 22).value,
                       ),
                       height: 1,
                       width: Get.width,
                       color: greyline,
                     ),
                     SizedBox(
-                      height: ScaleManager.spaceScale(
-                        spaceing: 30,
-                      ).value,
+                      height: ScaleManager.spaceScale(spaceing: 30).value,
                     ),
                     Text(
                       tr('instant relief description'),
@@ -128,18 +105,9 @@ class InstantReliefScreen extends StatelessWidget {
                     ),
                     Container(
                       margin: EdgeInsets.only(
-                        left: ScaleManager.spaceScale(
-                          spaceing: 23,
-                        ).value,
-                       /* bottom: ScaleManager.spaceScale(
-                          spaceing: 33,
-                        ).value,*/
-                        top: ScaleManager.spaceScale(
-                          spaceing: 33,
-                        ).value,
-                        right: ScaleManager.spaceScale(
-                          spaceing: 22,
-                        ).value,
+                        left: ScaleManager.spaceScale(spaceing: 23).value,
+                        top: ScaleManager.spaceScale(spaceing: 33).value,
+                        right: ScaleManager.spaceScale(spaceing: 22).value,
                       ),
                       height: 1,
                       width: Get.width,
@@ -155,15 +123,9 @@ class InstantReliefScreen extends StatelessWidget {
                   ? const GridLoaderScreen()
                   : Padding(
                       padding: EdgeInsets.only(
-                        left: ScaleManager.spaceScale(
-                          spaceing: 46,
-                        ).value,
-                        top: ScaleManager.spaceScale(
-                      spaceing: 33,
-                      ).value,
-                        right: ScaleManager.spaceScale(
-                          spaceing: 58,
-                        ).value,
+                        left: ScaleManager.spaceScale(spaceing: 46).value,
+                        top: ScaleManager.spaceScale(spaceing: 33).value,
+                        right: ScaleManager.spaceScale(spaceing: 58).value,
                       ),
                       child: Wrap(
                         alignment: WrapAlignment.spaceBetween,
@@ -171,7 +133,7 @@ class InstantReliefScreen extends StatelessWidget {
                             _controller.instantLifeAreas.length, (index) {
                           final area = _controller.instantLifeAreas[index];
                           return ReliefAreaCard(
-                            imageAddress:area.icon!.url ,
+                            imageAddress: area.icon!.url,
                             title: area.title,
                             onTap: () async {
                               _controller.instantReliefArea =
@@ -191,30 +153,4 @@ class InstantReliefScreen extends StatelessWidget {
       ),
     );
   }
-
-  //! Not in use currently
-  // List<Widget> _buildInstantReliefAreas() {
-  //   final List<Widget> _areas = [];
-  //   int areaFillCount = 0;
-
-  //   while (areaFillCount < _controller.instantLifeAreas.length) {
-  //     final area = _controller.instantLifeAreas[areaFillCount];
-  //     _areas.add(
-  //       Padding(
-  //         padding: EdgeInsets.only(
-  //           bottom: ScaleManager.spaceScale(
-  //             spaceing: 46,
-  //           ).value,
-  //         ),
-  //         child: FocusCard(
-  //           imageAddress: '${ImagePath.selfDrivenOption}physical.png',
-  //           title: _controller.instantLifeAreas[areaFillCount].title,
-  //           onTap: () {},
-  //         ),
-  //       ),
-  //     );
-  //     areaFillCount = areaFillCount + 2;
-  //   }
-  //   return _areas;
-  // }
 }

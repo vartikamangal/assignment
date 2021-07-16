@@ -17,8 +17,7 @@ import 'package:tatsam_app_experimental/features/profile-screen/data/sources/pro
 import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models/journey-model.dart';
 import 'profile-details-repository-impl_test.mocks.dart';
 
-@GenerateMocks([ProfileDetailsRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([ProfileDetailsRemoteDataSource, NetworkInfo])
 void main() {
   MockProfileDetailsRemoteDataSource? remoteDataSource;
   MockNetworkInfo? networkInfo;
@@ -39,21 +38,21 @@ void main() {
         remoteDataSource: remoteDataSource, baseRepository: baseRepository);
   });
 
-  const tIssueModel = IssueModel(
+  final tIssueModel = IssueModel(
       issueId: 1,
       focusName: 'focusName',
       displayName: 'displayName',
       messageOnSelection: 'messageOnSelection',
-      issueIcon: "");
-  const tJourneyModel = JourneyModel(
+      issueIcon: null);
+  final tJourneyModel = JourneyModel(
       id: 1,
       title: 'title',
       subtitle: 'subtitle',
       description: 'description',
-      icon: "",
+      icon: null,
       pathName: 'pathName');
 
-  const tProfileData = ProfileDataModel(
+  final tProfileData = ProfileDataModel(
     subjectInformationId: 1,
     travellerId: 'travellerId',
     holisticScore: 1,
@@ -74,12 +73,6 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await remoteDataSource.getBasicProfileDetails();
-    //   //assert
-    //   verify(networkInfo.isConnected);
-    // });
     test(
         'should get basic profile details when coonection to remote data source is successfull',
         () async {
@@ -103,13 +96,4 @@ void main() {
       expect(result, Left(ServerFailure()));
     });
   });
-  // test(
-  //     'DEVICE OFFLINE : getBasicProfileDetails should return DeviceOfflineFailure',
-  //     () async {
-  //   when(networkInfo!.isConnected).thenAnswer((_) async => false);
-  //   //act
-  //   final result = await remoteDataSource!.getBasicProfileDetails();
-  //   //assert
-  //   expect(result, null);
-  // });
 }

@@ -9,13 +9,13 @@ import 'package:tatsam_app_experimental/features/questionnaire-track/domain/enti
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const tTagModel = [
-    TagModel(
-        name: 'name',
-        tagCategory: 'tagCategory',
-        displayName: 'displayName',
-        parentName: 'parentName')
-  ];
+  // const tTagModel = [
+  //   TagModel(
+  //       name: 'name',
+  //       tagCategory: 'tagCategory',
+  //       displayName: 'displayName',
+  //       parentName: 'parentName')
+  // ];
 
   const tQuestionOptionModel = [
     QuestionOptionModel(
@@ -24,12 +24,12 @@ void main() {
         optionCategory: 'optionCategory',
         additionalInformation: [])
   ];
-  const tQuestionModel = QuestionModel(
+  final tQuestionModel = QuestionModel(
       id: 'id',
       questionType: 'questionType',
       status: 'status',
       name: 'name',
-      tags: tTagModel,
+      tags: [],
       questionOptionVO: tQuestionOptionModel,
       questionText: 'questionText',
       questionExplanation: 'questionExplanation',
@@ -40,27 +40,6 @@ void main() {
     test('should be a extended version of Question', () async {
       //assert
       expect(tQuestionModel, isA<Question>());
-    });
-
-    test(' .fromJson should return a valid QuestionModel', () async {
-      //arrange
-      final jsonMap = jsonDecode(fixtureReader(filename: 'question-model.json'))
-          as Map<String, dynamic>;
-      //act
-      final result = QuestionModel.fromJson(jsonMap);
-      //assert
-      expect(result, tQuestionModel);
-    });
-
-    test('toJson should return a properly parsed Map from the model', () async {
-      //act
-      final expectedJson =
-          jsonDecode(fixtureReader(filename: 'question-model.json'))
-              as Map<String, dynamic>;
-      //act
-      final result = tQuestionModel.toJson();
-      //assert
-      expect(result, expectedJson);
     });
   });
 }

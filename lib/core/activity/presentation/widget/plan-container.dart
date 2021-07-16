@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:tatsam_app_experimental/features/hub/presentation/widgets/circular-shimmer-loading.dart';
 
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
@@ -30,8 +31,6 @@ class PlanContainer extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    title = '${title![0].toUpperCase()}${title!.substring(1).toLowerCase()}';
-    final imageScaleFactor = ScaleManager.imageScale.value;
     final textScaleFactor = ScaleManager.textScale.value;
     return GestureDetector(
       onTap: isFaded! ? () {} : onPressed,
@@ -82,14 +81,16 @@ class PlanContainer extends StatelessWidget {
                               right:
                                   ScaleManager.spaceScale(spaceing: 30).value),
                           child: SizedBox(
-                              height: description == ''
-                                  ? ScaleManager.spaceScale(spaceing: 65).value
-                                  : ScaleManager.spaceScale(spaceing: 33).value,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  AutoSizeText(
-                                    InitCap(title!),
+                            height: description == ''
+                                ? ScaleManager.spaceScale(spaceing: 65).value
+                                : ScaleManager.spaceScale(spaceing: 33).value,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: AutoSizeText(
+                                    ///TODO Null Check refactorinig still needed
+                                    title!.capitalize!,
                                     style: isFaded!
                                         ? AppTextStyle.Darkblueheader.copyWith(
                                             color: greyboxshade,
@@ -98,9 +99,11 @@ class PlanContainer extends StatelessWidget {
                                     textScaleFactor: textScaleFactor,
                                     maxLines: 2,
                                     textAlign: TextAlign.left,
-                                  )
-                                ],
-                              )),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                         if (isFaded! || description == '')
                           EmptySpacePlaceHolder()
@@ -110,9 +113,9 @@ class PlanContainer extends StatelessWidget {
                                 top:
                                     ScaleManager.spaceScale(spaceing: 4).value),
                             child: Text(
-                              description!,
+                              description ?? '',
                               style: AppTextStyle.ligntbluedescription,
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.start,
                               textScaleFactor: textScaleFactor,
                             ),
                           )
@@ -120,13 +123,15 @@ class PlanContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.topLeft,
+                Positioned(
+                  left: 0,
                   child: CachedNetworkImage(
-                    imageUrl: image!,
-                    height: ScaleManager.spaceScale(spaceing: 91).value,
-                    //scale: imageScaleFactor,
-                  ),
+                      imageUrl: image!,
+                      height: ScaleManager.spaceScale(spaceing: 91).value,
+                      placeholder: (_, __) =>
+                          const CircularShimmerLoader(height: 91, width: 91)
+                      //scale: imageScaleFactor,
+                      ),
                 ),
               ],
             ),
@@ -143,15 +148,4 @@ class PlanContainer extends StatelessWidget {
       ),
     );
   }
-}
-
-String InitCap(String title) {
-  int count = title.split(' ').length;
-  String result = '';
-  for (int i = 0; i < count; i++) {
-    result =
-        '$result${'${title.split(' ')[i][0].toUpperCase()}${title.split(' ')[i].substring(1).toLowerCase()} '}';
-  }
-
-  return result;
 }

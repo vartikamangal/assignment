@@ -53,7 +53,6 @@ class InstantReliefController extends GetxController {
 
   Future<void> setup() async {
     toggleProcessor();
-    print("hi");
     //TODO Still to be done
     //await fetchEmergencyNumbers();
     await fetchInstantActivities();
@@ -88,11 +87,9 @@ class InstantReliefController extends GetxController {
     activitiesOrFailure!.fold(
       (failure) {
         ErrorInfo.show(failure);
-        print("hello");
       },
       (instantActivities) {
         instantLifeAreas.addAll(instantActivities);
-        print("hello");
         stdout.write(
           'Instant Activites Gotten!',
         );

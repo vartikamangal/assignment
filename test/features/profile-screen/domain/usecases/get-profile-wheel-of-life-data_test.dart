@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project Import:
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
@@ -22,7 +23,6 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/entitie
 import 'get-profile-questions_test.mocks.dart';
 
 @GenerateMocks([ProfileDetailsRepository])
-
 void main() {
   late MockProfileDetailsRepository repository;
   late GetProfileWheelOfLifeData useCase;
@@ -44,7 +44,7 @@ void main() {
               ratingScaleName: '',
               minValue: 0,
               maxValue: 0,
-              icon: "")),
+              icon: null)),
       createdWhen: DateTime.now());
 
   final tHubStatus = HubStatus(
@@ -59,7 +59,7 @@ void main() {
     targetFocus: const TargetFocusList(id: 0, targetFocusList: [
       Issue(
           issueId: 0,
-          issueIcon: "",
+          issueIcon: null,
           displayName: '',
           focusName: '',
           messageOnSelection: '')

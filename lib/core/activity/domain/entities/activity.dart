@@ -22,7 +22,7 @@ class Activity extends Entity {
   final String? actionTime;
   final String? criticality; //creation time //tags are not sametype
   final RecommendationCategory? categoryVO; //Modify
-  final List<ActivityStep>? activitySteps; // Modify List<T>
+  final List<ActivityStep> _activitySteps; // Modify List<T>
   final List<Tag> tags; // Modify List<T>
 
   Activity({
@@ -39,13 +39,13 @@ class Activity extends Entity {
     required this.actionTime,
     required this.criticality,
     required this.categoryVO,
-    required this.activitySteps,
+    required List<ActivityStep> activitySteps,
     required this.tags,
-  });
+  }) : _activitySteps = activitySteps;
 
   @override
   String toString() {
-    return 'PActivity(id: $id, title: $title, subtitle: $subtitle, iconVO: $iconVO, durationInMinutes: $durationInMinutes, messageOnReceivingFeedback: $messageOnReceivingFeedback, messageOnCompletion: $messageOnCompletion, recommendationStatus: $recommendationStatus, frequencyMetric: $frequencyMetric, frequency: $frequency, actionTime: $actionTime, criticality: $criticality, categoryVO: $categoryVO, activitySteps: $activitySteps, tags: $tags)';
+    return 'PActivity(id: $id, title: $title, subtitle: $subtitle, iconVO: $iconVO, durationInMinutes: $durationInMinutes, messageOnReceivingFeedback: $messageOnReceivingFeedback, messageOnCompletion: $messageOnCompletion, recommendationStatus: $recommendationStatus, frequencyMetric: $frequencyMetric, frequency: $frequency, actionTime: $actionTime, criticality: $criticality, categoryVO: $categoryVO, activitySteps: $_activitySteps, tags: $tags)';
   }
 
   @override
@@ -68,6 +68,11 @@ class Activity extends Entity {
         other.categoryVO == categoryVO &&
         listEquals(other.activitySteps, activitySteps) &&
         listEquals(other.tags, tags);
+  }
+
+  List<ActivityStep> get activitySteps {
+    _activitySteps.sort((a, b) => a.stepSequence!.compareTo(b.stepSequence!));
+    return _activitySteps;
   }
 
   @override

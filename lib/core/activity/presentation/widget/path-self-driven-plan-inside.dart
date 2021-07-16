@@ -38,8 +38,9 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.only(
-                        left: ScaleManager.spaceScale(spaceing: 42).value,
-                        top: ScaleManager.spaceScale(spaceing: 2).value),
+                      left: ScaleManager.spaceScale(spaceing: 42).value,
+                      top: ScaleManager.spaceScale(spaceing: 2).value,
+                    ),
                     child: Text(
                       _controller.selectedCategory.value!.displayTitle!,
                       style: AppTextStyle.Askfeeling,
@@ -48,7 +49,9 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(
-                        left: ScaleManager.spaceScale(spaceing: 42).value),
+                      left: ScaleManager.spaceScale(spaceing: 42).value,
+                      right: ScaleManager.spaceScale(spaceing: 30).value,
+                    ),
                     child: Text(
                       _controller
                           .selectedCategory.value!.categoryDetailedDescription!,
@@ -59,7 +62,7 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(
                       left: ScaleManager.spaceScale(spaceing: 42).value,
-                      top: ScaleManager.spaceScale(spaceing: 9).value,
+                      top: ScaleManager.spaceScale(spaceing: 13).value,
                       bottom: ScaleManager.spaceScale(spaceing: 12).value,
                     ),
                     child: Text(
@@ -78,7 +81,9 @@ class PathSelfDrivenPlanInside extends StatelessWidget {
                       top: ScaleManager.spaceScale(spaceing: 34).value,
                       left: ScaleManager.spaceScale(spaceing: 42).value,
                       right: ScaleManager.spaceScale(spaceing: 57).value),
-                  child: EmptyState(),
+                  child: const EmptyState(
+                    text: "Oops! No content found",
+                  ),
                 ),
               )
             else

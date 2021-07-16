@@ -31,28 +31,28 @@ Future<void> main() async {
       throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
-  const tActivityScheduledGuidedModel = ActivityScheduleGuidedModel(
-    id: 3441,
-    tags: [],
-    pathInformation: PathInformationModel(
-        id: 3442,
-        description: "Curated Path for stress management",
-        title: "Stress management",
-        subtitle: "This will help you manage stress better",
-        helpContent: "Just putting some help content for future use",
-        lengthOfPlan: 23),
-    activitySchedule: <GuidedActivityRecommendationModel>[
-      GuidedActivityRecommendationModel(
-          id: 3443,
-          dayNumber: 1,
-          icon: null,
-          description: "Day 1 of stress management",
-          title: "Day 1",
-          subtitle: "Perform this day with smile",
-          helpContent: "Some useless help content",
-          recommendationList: <ActivityModel>[])
-    ],
-  );
+  // final tActivityScheduledGuidedModel = ActivityScheduleGuidedModel(
+  //   id: 3441,
+  //   tags: [],
+  //   pathInformation: PathInformationModel(
+  //       id: 3442,
+  //       description: "Curated Path for stress management",
+  //       title: "Stress management",
+  //       subtitle: "This will help you manage stress better",
+  //       helpContent: "Just putting some help content for future use",
+  //       lengthOfPlan: 23),
+  //   activitySchedule: <GuidedActivityRecommendationModel>[
+  //     GuidedActivityRecommendationModel(
+  //         id: 3443,
+  //         dayNumber: 1,
+  //         icon: null,
+  //         description: "Day 1 of stress management",
+  //         title: "Day 1",
+  //         subtitle: "Perform this day with smile",
+  //         helpContent: "Some useless help content",
+  //         recommendationList: <ActivityModel>[])
+  //   ],
+  // );
 
   // Helper functions
 

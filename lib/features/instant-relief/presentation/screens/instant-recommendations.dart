@@ -7,7 +7,6 @@ import 'package:tatsam_app_experimental/core/utils/universal-widgets/mini-loader
 import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 
 import '../../../../core/activity/presentation/widget/plan-container.dart';
-import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../controllers/instant-relief-controller.dart';
@@ -46,7 +45,11 @@ class InstantRecommendationsScreen extends StatelessWidget {
                               left: ScaleManager.spaceScale(spaceing: 42).value,
                               top: ScaleManager.spaceScale(spaceing: 2).value),
                           child: Text(
-                            _instantReliefController.selectedArea.value!.title!,
+                            //TODO To be fixed later
+                            // UI shouldn't be resposible for handling null values
+                            _instantReliefController
+                                    .selectedArea.value!.title ??
+                                'N/A',
                             style: AppTextStyle.Askfeeling,
                             textScaleFactor: textScaleFactor,
                           ),
@@ -57,7 +60,8 @@ class InstantRecommendationsScreen extends StatelessWidget {
                                   ScaleManager.spaceScale(spaceing: 42).value),
                           child: Text(
                             _instantReliefController
-                                .selectedArea.value!.subtitle!,
+                                    .selectedArea.value!.subtitle ??
+                                '',
                             style: AppTextStyle.pathdescription,
                             textScaleFactor: textScaleFactor,
                           ),
@@ -97,8 +101,8 @@ class InstantRecommendationsScreen extends StatelessWidget {
                               requireBottomSpacing: true,
                               description: "",
                               isFaded: false,
-                              image:
-                                  '${ImagePath.selfDrivenOption}physical.png',
+                              image: _instantRecommendationsController
+                                  .instantRecommendations[i].iconVO?.url,
                               onPressed: () async {
                                 Navigator.of(context).pushNamed(
                                   RouteName.activityScreen,
@@ -119,7 +123,12 @@ class InstantRecommendationsScreen extends StatelessWidget {
                 ],
               );
             case PageState.FAILURE:
-              return Center(child: EmptyState());
+              return const Center(
+                /// Shitty name, but EmptyState --> ErrorStateUI
+                child: EmptyState(
+                  text: "Oops! Something went wrong",
+                ),
+              );
             default:
               return const MiniLoader();
           }

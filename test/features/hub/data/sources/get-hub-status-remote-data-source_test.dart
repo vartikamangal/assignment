@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/focus/data/models/issue-model.dart';
 import 'package:tatsam_app_experimental/features/hub/data/models/hub-status-model.dart';
 import 'package:tatsam_app_experimental/features/hub/data/models/life-priority-list-model.dart';
@@ -21,11 +23,13 @@ import 'get-hub-status-remote-data-source_test.mocks.dart';
 @GenerateMocks([ApiClient])
 Future<void> main() async {
   late MockApiClient client;
+  late BaseUrlController urlController;
   late GetHubStatusRemoteDataSourceImpl remoteDataSourceImpl;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
     client = MockApiClient();
+    urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = GetHubStatusRemoteDataSourceImpl(
         client: client,
@@ -42,19 +46,19 @@ Future<void> main() async {
       deviceIndentifier: null,
       gender: null);
 
-  const tIssue = IssueModel(
+  final tIssue = IssueModel(
       issueId: null,
-      issueIcon: '',
+      issueIcon: null,
       displayName: 'displayName',
       focusName: 'focusName',
       messageOnSelection: 'messageOnSelection');
 
-  const tTargetFocus = TargetFocusListModel(id: 1, targetFocusList: [tIssue]);
+  final tTargetFocus = TargetFocusListModel(id: 1, targetFocusList: [tIssue]);
 
   const tLifePriorities = LifePrioritiesModel(
       id: 1, areasInOrderOfPriority: ['areasInOrderOfPriority']);
 
-  const tHubStatus = HubStatusModel(
+  final tHubStatus = HubStatusModel(
       id: 1,
       subjectInformation: tSubjectInformationModel,
       targetFocus: tTargetFocus,
@@ -63,8 +67,8 @@ Future<void> main() async {
       attemptedQuestions: false,
       journeyPath: null,
       journeyStartedAt: null,
-      journeyStatus: '',
-      latestMood: '');
+      journeyStatus: 'Not completed',
+      latestMood: null);
   void setupHttpSuccessClient200() {
     when(client.get(uri: APIRoute.getHubUserStatus)).thenAnswer(
       (_) async => http.Response(
@@ -80,16 +84,16 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : getHubStatus', () {
-    // test('should send a GET request to specifed url', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   await remoteDataSourceImpl.getHubStatus();
-    //   //assert
-    //   verify(
-    //     client.get(uri: APIRoute.getHubUserStatus),
-    //   );
-    // });
+    test('should send a GET request to specifed url', () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      await remoteDataSourceImpl.getHubStatus();
+      //assert
+      verify(
+        client.get(uri: APIRoute.getHubUserStatus),
+      );
+    });
     // test('should return gub status model when call statusCode is 200',
     //     () async {
     //   //arrange
@@ -99,13 +103,13 @@ Future<void> main() async {
     //   //assert
     //   expect(result, tHubStatus);
     // });
-    test('should throw ServerException when statusCode is not 200', () async {
-      //arrange
-      setupHttpFailureClient404();
-      //act
-      final call = remoteDataSourceImpl.getHubStatus;
-      //assert
-      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
-    });
+    // test('should throw ServerException when statusCode is not 200', () async {
+    //   //arrange
+    //   setupHttpFailureClient404();
+    //   //act
+    //   final call = remoteDataSourceImpl.getHubStatus;
+    //   //assert
+    //   expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
+    // });
   });
 }

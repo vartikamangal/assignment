@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project Imports:
 import 'package:tatsam_app_experimental/core/activity/domain/entities/tag.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
@@ -36,9 +37,7 @@ void main() {
             creationTime: DateTime.now(),
             lastModifiedTime: DateTime.now(),
             name: '',
-            tags: const [
-              Tag(name: '', tagCategory: '', displayName: '', parentName: '')
-            ],
+            tags: const [],
             questionOptions: [
               QuestionOption(
                   id: '',

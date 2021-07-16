@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:tatsam_app_experimental/core/activity/data/models/activity-model.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
@@ -59,13 +58,13 @@ class InstantReliefRemoteDataSourceImpl
     final response = await client!.get(
       uri: APIRoute.getInstantReliefAreas,
     );
-    log(response.body);
     throwExceptionIfResponseError!(statusCode: response.statusCode);
     final instantReliefAreasRaw = jsonDecode(response.body) as List;
-    return instantReliefAreasRaw
+    final result = instantReliefAreasRaw
         .map((instantReliefArea) => InstantReliefAreaModel.fromJson(
               instantReliefArea as Map<String, dynamic>,
             ))
         .toList();
+    return result;
   }
 }

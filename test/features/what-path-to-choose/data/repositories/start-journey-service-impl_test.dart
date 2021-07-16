@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -18,8 +19,7 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/data/source
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
 import 'start-journey-service-impl_test.mocks.dart';
 
-@GenerateMocks([PathOperationsRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([PathOperationsRemoteDataSource, NetworkInfo])
 void main() {
   MockNetworkInfo? networkInfo;
   MockPathOperationsRemoteDataSource? remoteService;
@@ -43,13 +43,13 @@ void main() {
     );
   });
 
-  const tJourney = JourneyModel(
+  final tJourney = JourneyModel(
       id: 1,
       title: "Small Wins Path",
       subtitle: "Weekly focus areas. Choose your own experiences.",
       description:
           "Only one area of focus per week, Daily small wins at your own pace",
-      icon: "",
+      icon: null,
       pathName: "SMALL_WINS");
 
   void runTestsOnline(Callback body) {
@@ -72,12 +72,14 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.startJourney(journey: tJourney);
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      when(remoteService!.startJourney(journey: tJourney))
+          .thenAnswer((_) async => SuccessJourneyStart());
+      //act
+      await serviceImpl.startJourney(journey: tJourney);
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return startJourneySuccess if call to remote data source is successfull',
         () async {

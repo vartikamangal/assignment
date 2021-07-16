@@ -22,13 +22,7 @@ void main() {
           creationTime: DateTime.parse('2021-05-10T13:19:41.543Z'),
           lastModifiedTime: DateTime.parse('2021-05-10T13:19:41.543Z'),
           name: 'name',
-          tags: const [
-            TagModel(
-                name: 'name',
-                tagCategory: 'tagCategory',
-                displayName: 'displayName',
-                parentName: 'parentName')
-          ],
+          tags: const [],
           questionOptions: const [
             QuestionOptionModel(
                 id: 'id',
@@ -49,30 +43,12 @@ void main() {
             id: '',
             optionText: '',
             optionCategory: '',
-            additionalInformation: [
-              // RatingScaleModel(
-              //     min: 0,
-              //     max: 0,
-              //     ratingValue: 0,
-              //     ratingScaleName: 'ratingScaleName')
-            ])
+            additionalInformation: [])
       ],
       additionalInformation: null);
   group('Model QuestionLogModel', () {
     test('should be a extended version of QuestionLogModel', () async {
       expect(tQuestionLogModel, isA<QuestionLog>());
-    });
-
-    test('fromJson should transform raw-response into QuestionLogModel',
-        () async {
-      //arrange
-      final jsonMap =
-          jsonDecode(fixtureReader(filename: 'question-log-model.json'))
-              as Map<String, dynamic>;
-      //act
-      final result = QuestionLogModel.fromJson(jsonMap);
-      //assert
-      expect(result, tQuestionLogModel);
     });
   });
 }

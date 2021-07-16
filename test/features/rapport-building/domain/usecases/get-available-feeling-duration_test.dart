@@ -9,9 +9,8 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/usecase
 import 'get-available-feeling-duration_test.mocks.dart';
 
 @GenerateMocks([RapportBuildingRepository])
-
 void main() {
- late  MockRapportBuildingRepository repository;
+  late MockRapportBuildingRepository repository;
   late GetAvailableFeelingDuration usecase;
 
   setUp(() {

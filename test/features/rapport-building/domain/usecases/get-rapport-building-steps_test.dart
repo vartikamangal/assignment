@@ -10,7 +10,6 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/usecase
 import 'get-rapport-building-steps_test.mocks.dart';
 
 @GenerateMocks([RapportBuildingRepository])
-
 void main() {
   late MockRapportBuildingRepository repository;
   late GetRapportBuildingSteps usecase;

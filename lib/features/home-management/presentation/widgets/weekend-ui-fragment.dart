@@ -18,6 +18,7 @@ class WeekendUiFragment extends StatelessWidget {
   }) : super(key: key);
 
   final HomeController controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
@@ -143,6 +144,7 @@ class SmallActivityPill extends StatelessWidget {
   final String? title;
   final Callback onPressed;
   final String? imageUrl;
+
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
@@ -160,11 +162,11 @@ class SmallActivityPill extends StatelessWidget {
                   spaceing: 5,
                 ).value),
             child: Container(
+              width: ScaleManager.spaceScale(
+                spaceing: 180,
+              ).value,
               height: ScaleManager.spaceScale(
                 spaceing: 45,
-              ).value,
-              width: ScaleManager.spaceScale(
-                spaceing: 181,
               ).value,
               decoration: BoxDecoration(
                 //color: Colors.red,
@@ -180,26 +182,39 @@ class SmallActivityPill extends StatelessWidget {
                   ).value,
                 ),
               ),
-              child: SizedBox(
-                height: ScaleManager.spaceScale(
-                  spaceing: 42,
-                ).value,
-                width: ScaleManager.spaceScale(
-                  spaceing: 75,
-                ).value,
-                child: Center(
-                  child: AutoSizeText( title!,
-                  style: AppTextStyle.Darkbluebold.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: blueDarkerShade,
+              child: Padding(
+                padding: EdgeInsets.only(
+                    left: ScaleManager.spaceScale(
+                      spaceing: 47,
+                    ).value,
+                    right: ScaleManager.spaceScale(
+                      spaceing: 15,
+                    ).value,
+                    bottom: ScaleManager.spaceScale(
+                      spaceing: 5,
+                    ).value,
+                    top: ScaleManager.spaceScale(
+                      spaceing: 5,
+                    ).value),
+                child: SizedBox(
+                  height: ScaleManager.spaceScale(
+                    spaceing: 30,
+                  ).value,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: AutoSizeText(
+                      title!,
+                      style: AppTextStyle.Darkbluebold.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: blueDarkerShade,
+                      ),
+                      textScaleFactor: textScaleFactor,
+                    ),
                   ),
-                  maxLines: 1,
-                  textScaleFactor: textScaleFactor,
-                  ),
-                ),),
+                ),
               ),
             ),
-
+          ),
           Align(
             alignment: Alignment.topLeft,
             child: SizedBox(
@@ -207,7 +222,7 @@ class SmallActivityPill extends StatelessWidget {
                 spaceing: 47,
               ).value,
               child: CachedNetworkImage(
-                imageUrl:imageUrl!,
+                imageUrl: imageUrl!,
                 height: ScaleManager.spaceScale(
                   spaceing: 47,
                 ).value,

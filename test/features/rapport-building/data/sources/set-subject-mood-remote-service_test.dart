@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/annotations.dart';
@@ -14,6 +15,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
@@ -24,10 +26,12 @@ import 'set-subject-mood-remote-service_test.mocks.dart';
 
 Future<void> main() async {
   late RapportBuildingRemoteDataSourceImpl remoteServiceImpl;
+  late BaseUrlController urlController;
   MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   setUp(() {
     client = MockApiClient();
+    urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteServiceImpl = RapportBuildingRemoteDataSourceImpl(
         client: client,

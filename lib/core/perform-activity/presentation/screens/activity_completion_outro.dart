@@ -3,7 +3,6 @@ import 'dart:developer';
 
 // Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,6 @@ import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/controllers/rapport-building-controller.dart.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/Presentation/widgets/emotion_selector.dart';
 
-import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 
@@ -90,6 +88,9 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
                       spaceing: 10,
                     ).value,
                   ),
+
+                  /// TODO Every activity is not first activity bro!
+                  /// Make it dynamic!
                   Text(
                     'You just finished your first practice!',
                     style: AppTextStyle.actiontoperform,
@@ -119,6 +120,7 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
                       () => Text(
                         _activityController.activity.value!.title!,
                         style: AppTextStyle.Askfeeling,
+                        textAlign: TextAlign.center,
                         textScaleFactor: textScaleFactor,
                       ),
                     ),
@@ -133,11 +135,14 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
                         spaceing: 27,
                       ).value,
                     ),
-                    child: Text(
-                      tr('play section message1'),
-                      style: AppTextStyle.growthtext,
-                      textAlign: TextAlign.center,
-                      textScaleFactor: textScaleFactor,
+                    child: Obx(
+                      () => Text(
+                        _activityController
+                            .activity.value!.messageOnCompletion!,
+                        style: AppTextStyle.growthtext,
+                        textAlign: TextAlign.center,
+                        textScaleFactor: textScaleFactor,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -174,7 +179,7 @@ class _ActivityCompletionOutroState extends State<ActivityCompletionOutro> {
                                   children: rapportController.moods.value
                                       .map(
                                         (mood) => emotionSelector(
-                                            mood.moodIcon!.url,
+                                          mood.moodIcon!.url,
                                           () async {
                                             await _contentPageController
                                                 .rateOngoingActivity(
@@ -228,10 +233,10 @@ class NotNullImage extends StatelessWidget {
   // ignore: empty_constructor_bodies
   @override
   Widget build(BuildContext context) {
-    return  Hero(
+    return Hero(
       tag: image!,
       child: CachedNetworkImage(
-        imageUrl :image!,
+        imageUrl: image!,
         // scale: imageScaleFactor,
       ),
     );

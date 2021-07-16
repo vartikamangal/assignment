@@ -21,10 +21,10 @@ void main() {
     useCase = GetCachedMood(service: service);
   });
   const tMood1 = CachedMoodModel(
-      moodId: 0, moodName: '', moodDescription: '', moodIcon: ImageEntity());
+      moodId: 0, moodName: '', moodDescription: '', moodIcon: null);
   // TODO Resolve daubt.
   const tMood = CachedMood(
-      moodId: 0, moodName: '', moodDescription: '', moodIcon: ImageEntity());
+      moodId: 0, moodName: '', moodDescription: '', moodIcon: null);
   group('USECASE: service.getCacheMood()', () {
     test('Should get cached mood from service', () async {
       when(service.getCacheMood()).thenAnswer((_) async => const Right(tMood1));

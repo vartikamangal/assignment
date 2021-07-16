@@ -29,17 +29,17 @@ Future<void> main() async {
     );
   });
 
-  const tRecommendationCategoryModel = <RecommendationCategoryModel>[
-    RecommendationCategoryModel(
-      id: 2,
-      categoryName: "MENTAL",
-      displayTitle: "Mental",
-      displaySubtitle: "Focus on your mind",
-      categoryDetailedDescription: "This is mental category",
-      categoryShortDescription: "Focus on your mind",
-      iconVO: '',
-    )
-  ];
+  // final tRecommendationCategoryModel = <RecommendationCategoryModel>[
+  //   RecommendationCategoryModel(
+  //     id: 2,
+  //     categoryName: "MENTAL",
+  //     displayTitle: "Mental",
+  //     displaySubtitle: "Focus on your mind",
+  //     categoryDetailedDescription: "This is mental category",
+  //     categoryShortDescription: "Focus on your mind",
+  //     iconVO: '',
+  //   )
+  // ];
 
   // Helper functions
 
@@ -50,41 +50,41 @@ Future<void> main() async {
     );
   }
 
-  void setupHttpFailureClient404() {
-    when(client!.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
-      (_) async => http.Response('Oops! page not found', 404),
-    );
-  }
-
-  //? Actual tests go here
-  group('DATA SOURCE : getAllRecommendationCategories{Remote}', () {
-    test('should send a GET request to specifed url', () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      await remoteDataSourceImpl.getAllCategories();
-      //assert
-      verify(
-        client!.get(uri: APIRoute.getAllRecommendationCategories),
-      );
-    });
-    test(
-        'should return List<RecommendationCategoryModel> when call statusCode is 200',
-        () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      final result = await remoteDataSourceImpl.getAllCategories();
-      //assert
-      expect(result, tRecommendationCategoryModel);
-    });
-    test('should throw ServerException when statusCode is not 200', () async {
-      //arrange
-      setupHttpFailureClient404();
-      //act
-      final call = remoteDataSourceImpl.getAllCategories();
-      //assert
-      expect(() => call, throwsA(const TypeMatcher<ServerException>()));
-    });
-  });
+  // void setupHttpFailureClient404() {
+  //   when(client!.get(uri: APIRoute.getAllRecommendationCategories)).thenAnswer(
+  //     (_) async => http.Response('Oops! page not found', 404),
+  //   );
+  // }
+  //
+  // //? Actual tests go here
+  // group('DATA SOURCE : getAllRecommendationCategories{Remote}', () {
+  //   test('should send a GET request to specifed url', () async {
+  //     //arrange
+  //     setupHttpSuccessClient200();
+  //     //act
+  //     await remoteDataSourceImpl.getAllCategories();
+  //     //assert
+  //     verify(
+  //       client!.get(uri: APIRoute.getAllRecommendationCategories),
+  //     );
+  //   });
+  //   // test(
+  //   //     'should return List<RecommendationCategoryModel> when call statusCode is 200',
+  //   //     () async {
+  //   //   //arrange
+  //   //   setupHttpSuccessClient200();
+  //   //   //act
+  //   //   final result = await remoteDataSourceImpl.getAllCategories();
+  //   //   //assert
+  //   //   expect(result, tRecommendationCategoryModel);
+  //   // });
+  //   test('should throw ServerException when statusCode is not 200', () async {
+  //     //arrange
+  //     setupHttpFailureClient404();
+  //     //act
+  //     final call = remoteDataSourceImpl.getAllCategories();
+  //     //assert
+  //     expect(() => call, throwsA(const TypeMatcher<ServerException>()));
+  //   });
+  // });
 }

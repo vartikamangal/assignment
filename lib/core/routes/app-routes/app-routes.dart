@@ -344,17 +344,8 @@ class GenerateRoute {
       );
     }
     if (route == RouteName.listAllActivities) {
-      return PageRouteBuilder(
-        reverseTransitionDuration: const Duration(),
-        transitionDuration: const Duration(),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const ListAllActivitiesScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-            FadeThroughTransition(
-          animation: animation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        ),
+      return MaterialPageRoute(
+        builder: (context) => const ListAllActivitiesScreen(),
       );
     }
     if (route == RouteName.devSettingsScreen) {

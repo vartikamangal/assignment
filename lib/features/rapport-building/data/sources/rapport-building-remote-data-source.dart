@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
@@ -46,12 +46,14 @@ class RapportBuildingRemoteDataSourceImpl
     );
     throwExceptionIfResponseError!(statusCode: response.statusCode);
     final rawDurationList = jsonDecode(response.body) as List;
-    return rawDurationList
+    final result = rawDurationList
         .map(
           (rawDuration) => FeelingDurationModel.fromJson(
               rawDuration as Map<String, dynamic>),
         )
         .toList();
+    log(result.toString());
+    return result;
   }
 
   @override
@@ -60,9 +62,15 @@ class RapportBuildingRemoteDataSourceImpl
       uri: APIRoute.getMoods,
     );
     throwExceptionIfResponseError!(statusCode: response.statusCode);
-    return (jsonDecode(response.body) as List)
+    log(response.body);
+    final moods = (jsonDecode(response.body) as List)
         .map((moodRaw) => MoodModel.fromJson(moodRaw as Map<String, dynamic>))
         .toList();
+
+    /// Move to entity!!
+    /// Make a new Enity and Model --> Moods & MoodsModel
+    moods.sort((a, b) => a.moodId!.compareTo(b.moodId!));
+    return moods;
   }
 
   @override

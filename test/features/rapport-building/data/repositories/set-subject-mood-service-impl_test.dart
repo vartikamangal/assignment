@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -17,7 +18,7 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/sources/r
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
 import 'set-subject-mood-service-impl_test.mocks.dart';
 
-@GenerateMocks([RapportBuildingRemoteDataSource,NetworkInfo])
+@GenerateMocks([RapportBuildingRemoteDataSource, NetworkInfo])
 void main() {
   late MockNetworkInfo? networkInfo;
   MockRapportBuildingRemoteDataSource? remoteService;
@@ -74,15 +75,20 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.setSubjectMood(
-    //     activityType: tActivityType,
-    //     moodName: tMood,
-    //   );
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteService!.setMood(
+        moodName: tMood,
+        activityType: tActivityType,
+      )).thenThrow(ServerException());
+      //act
+      await serviceImpl.setSubjectMood(
+        activityType: tActivityType,
+        moodName: tMood,
+      );
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return SetMoodSuccess if call to remote data source is successfull',
         () async {

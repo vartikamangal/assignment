@@ -8,7 +8,6 @@ import 'package:tatsam_app_experimental/features/home-management/domain/usecases
 import 'toggle-mood-popup-shown-state_test.mocks.dart';
 
 @GenerateMocks([MoodPopupShownRepository])
-
 void main() {
   late MockMoodPopupShownRepository repository;
   late ToggleMoodPopupShownState useCase;

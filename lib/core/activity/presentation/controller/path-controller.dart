@@ -3,6 +3,7 @@ import 'dart:developer';
 
 // Package imports:
 import 'package:get/get.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 
 // Project imports:
 import '../../../../core/cache-manager/domain/usecases/retireve-user-path.dart';
@@ -45,6 +46,9 @@ class PathController extends GetxController {
 
   Rxn<ActivitySceduleGuided> guidedPlan = Rxn();
 
+  // Holds page state
+  Rx<PageState> pageState = Rx(PageState.LOADING);
+
   // data holder for user-selected-path
   RxString userSelectedPath = RxString('');
 
@@ -54,17 +58,23 @@ class PathController extends GetxController {
 
   //! Gets the Self Driven Plan Data
   Future<void> fetchCategories() async {
+    pageState.value = PageState.LOADING;
     final fetchedCategoriesOrFailure =
         await getAllRecommendationCategories(NoParams());
     fetchedCategoriesOrFailure!.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        pageState.value = PageState.FAILURE;
+        log(
+          "<----- Problems in fetching plan from server ----->",
+          error: failure,
+        );
       },
       (fetchedRecommendationcatgories) async {
-        log('self driven plan fetched');
         recommendationCategories.assignAll(
           fetchedRecommendationcatgories,
         );
+        pageState.value = PageState.LOADED;
+        log('self driven plan fetched');
       },
     );
   }
@@ -75,11 +85,16 @@ class PathController extends GetxController {
         await getActivityScheduleForGuidedPlan(NoParams());
     fetchedActivitiesOrFailure!.fold(
       (failure) {
-        ErrorInfo.show(failure);
+        pageState.value = PageState.FAILURE;
+        log(
+          "<----- Problems in fetching plan from server ----->",
+          error: failure,
+        );
       },
       (fetchedRecommendationcatgories) {
-        log('guided plan activities fetched');
         guidedPlan.value = fetchedRecommendationcatgories;
+        pageState.value = PageState.LOADED;
+        log('guided plan activities fetched');
       },
     );
   }

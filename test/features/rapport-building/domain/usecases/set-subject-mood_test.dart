@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
@@ -11,7 +12,6 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/usecase
 import 'set-subject-mood_test.mocks.dart';
 
 @GenerateMocks([RapportBuildingRepository])
-
 void main() {
   late MockRapportBuildingRepository? setSubjectMoodService;
   late SetSubjectMood useCase;

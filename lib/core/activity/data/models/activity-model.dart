@@ -1,4 +1,5 @@
 // Project imports:
+
 import 'package:tatsam_app_experimental/core/perform-activity/domain/entities/activity-step.dart';
 import 'package:tatsam_app_experimental/features/view-all-content/data/models/data-model.dart';
 
@@ -7,14 +8,6 @@ import '../../../perform-activity/data/models/activity-step-model.dart';
 import '../../domain/entities/activity.dart';
 import 'recommendation-category-model.dart';
 import 'tag-model.dart';
-
-/// Will sort the activitySteps by the order they are displayed in the view
-extension on List<ActivityStepModel> {
-  List<ActivityStepModel> sortActivitySteps() {
-    sort((a, b) => a.stepSequence!.compareTo(b.stepSequence!));
-    return this;
-  }
-}
 
 class ActivityModel extends DataModel<Activity> {
   String? id;
@@ -37,9 +30,9 @@ class ActivityModel extends DataModel<Activity> {
       : id = jsonMap['id'] as String?,
         title = jsonMap['title'] as String?,
         subtitle = jsonMap['subtitle'] as String?,
-        iconVO = jsonMap["iconVo"] != null
-            ? ImageModel.fromJson(jsonMap['iconVO'] as Map<String, dynamic>)
-            : ImageModel.fallbackIcon(),
+        iconVO = jsonMap["iconVO"] == null
+            ? ImageModel.fallbackIcon()
+            : ImageModel.fromJson(jsonMap['iconVO'] as Map<String, dynamic>),
         durationInMinutes = jsonMap['durationInMinutes'] as int?,
         messageOnReceivingFeedback =
             jsonMap['messageOnReceivingFeedback'] as String?,
@@ -74,8 +67,7 @@ class ActivityModel extends DataModel<Activity> {
                       ),
                     )
                     .toList()
-                    .sortActivitySteps()
-                : null,
+                : [],
         tags = (jsonMap['tags'] as List)
             .map(
               (tag) => TagModel.fromJson(
@@ -112,7 +104,7 @@ class ActivityModel extends DataModel<Activity> {
       id: id,
       messageOnCompletion: messageOnCompletion,
       subtitle: subtitle,
-      activitySteps: activitySteps,
+      activitySteps: activitySteps ?? [],
       criticality: criticality,
       durationInMinutes: durationInMinutes,
       messageOnReceivingFeedback: messageOnCompletion,

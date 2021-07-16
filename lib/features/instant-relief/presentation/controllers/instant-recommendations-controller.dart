@@ -27,7 +27,6 @@ class InstantRecommendationsController extends GetxController {
     );
     recommendationsOrFailure!.fold(
       (failure) {
-        //! app should crash here
         pageStatus.value = PageState.FAILURE;
         ErrorInfo.show(failure);
       },

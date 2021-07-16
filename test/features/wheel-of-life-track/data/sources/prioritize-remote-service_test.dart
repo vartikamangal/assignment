@@ -3,17 +3,21 @@ import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model-for-prioritization.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/life-area-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/sources/wheel-of-life-remote-data-source.dart';
@@ -23,14 +27,15 @@ import '../../../../fixtures/fixture-reader.dart';
 import 'get-life-areas-remote-data-source_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
-
 Future<void> main() async {
   MockApiClient? client;
+  late BaseUrlController urlController;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   late WheelOfLifeRemoteDataSourceImpl remoteServiceImpl;
 
   setUp(() {
     client = MockApiClient();
+    urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteServiceImpl = WheelOfLifeRemoteDataSourceImpl(
       client: client,
@@ -141,7 +146,9 @@ Future<void> main() async {
       //arrange
       setupHttpFailureClient404();
       //act
-      final Future<SuccessPrioritize> Function({LifeAreaModelForPrioritization lifeAreas}) call = remoteServiceImpl.prioritize;
+      final Future<SuccessPrioritize> Function(
+              {LifeAreaModelForPrioritization lifeAreas}) call =
+          remoteServiceImpl.prioritize;
       //assert
       expect(
         () => call(lifeAreas: tLifeAreaPrioritizationModel),

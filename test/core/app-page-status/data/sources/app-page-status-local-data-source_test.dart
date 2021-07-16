@@ -114,7 +114,11 @@ void main() {
         id: 1,
         subjectId: const SubjectIdModel(id: ''),
         wolArea: 'Test Life Area',
+<<<<<<< HEAD
         rating: IndividualSatisfactionRatingResultModel(
+=======
+        rating:  IndividualSatisfactionRatingResultModel(
+>>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -141,7 +145,11 @@ void main() {
       userID: '',
       deviceIndentifier: 'test_device_id',
     ),
+<<<<<<< HEAD
     targetFocus: TargetFocusListModel(id: 1, targetFocusList: [
+=======
+    targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
+>>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -163,7 +171,11 @@ void main() {
         id: 1,
         subjectId: const SubjectIdModel(id: ''),
         wolArea: 'Test Life Area',
+<<<<<<< HEAD
         rating: IndividualSatisfactionRatingResultModel(
+=======
+        rating:  IndividualSatisfactionRatingResultModel(
+>>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -189,7 +201,11 @@ void main() {
       userID: '',
       deviceIndentifier: 'test_device_id',
     ),
+<<<<<<< HEAD
     targetFocus: TargetFocusListModel(id: 1, targetFocusList: [
+=======
+    targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
+>>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -211,7 +227,11 @@ void main() {
         id: 1,
         subjectId: const SubjectIdModel(id: ''),
         wolArea: 'Test Life Area',
+<<<<<<< HEAD
         rating: IndividualSatisfactionRatingResultModel(
+=======
+        rating:  IndividualSatisfactionRatingResultModel(
+>>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -238,7 +258,11 @@ void main() {
       userID: '',
       deviceIndentifier: 'test_device_id',
     ),
+<<<<<<< HEAD
     targetFocus: TargetFocusListModel(id: 1, targetFocusList: [
+=======
+    targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
+>>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -260,7 +284,11 @@ void main() {
         id: 1,
         subjectId: const SubjectIdModel(id: ''),
         wolArea: 'Test Life Area',
+<<<<<<< HEAD
         rating: IndividualSatisfactionRatingResultModel(
+=======
+        rating:  IndividualSatisfactionRatingResultModel(
+>>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -270,7 +298,11 @@ void main() {
       ),
     },
     attemptedQuestions: true,
+<<<<<<< HEAD
     journeyPath: JourneyModel(
+=======
+    journeyPath:  JourneyModel(
+>>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
       id: 1,
       title: 'TEST',
       subtitle: 'TEST',

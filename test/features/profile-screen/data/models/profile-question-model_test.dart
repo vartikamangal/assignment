@@ -18,13 +18,8 @@ void main() {
       creationTime: DateTime.parse('2021-05-10T13:19:41.543Z'),
       lastModifiedTime: DateTime.parse('2021-05-10T13:19:41.543Z'),
       name: 'name',
-      tags: const [
-        TagModel(
-            name: 'name',
-            tagCategory: 'tagCategory',
-            displayName: 'displayName',
-            parentName: 'parentName')
-      ],
+      // ignore: prefer_const_literals_to_create_immutables
+      tags: <TagModel>[],
       questionOptions: const [
         QuestionOptionModel(
             id: 'id',
@@ -44,18 +39,6 @@ void main() {
     test('should be a extended version of QuestionInfo', () async {
       //assert
       expect(tProfileQuestionModel, isA<ProfileQuestion>());
-    });
-
-    test(' .fromJson should return a valid ProfileData', () async {
-      //arrange
-      final jsonMap = jsonDecode(
-              fixtureReader(filename: 'profile-question-model-from.json'))
-          as List<dynamic>;
-      //act
-      final result =
-          ProfileQuestionModel.fromJson(jsonMap.first as Map<String, dynamic>);
-      //assert
-      expect(result, tProfileQuestionModel);
     });
   });
 }

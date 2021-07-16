@@ -70,12 +70,12 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.removeIssue(issue: tissue);
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //act
+      await serviceImpl.removeIssue(issue: tissue);
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return SetMoodSuccess if call to remote data source is successfull',
         () async {

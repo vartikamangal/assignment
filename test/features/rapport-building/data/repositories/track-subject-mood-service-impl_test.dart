@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -19,8 +20,7 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/entitie
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/track-mood-success.dart';
 import 'track-subject-mood-service-impl_test.mocks.dart';
 
-@GenerateMocks([RapportBuildingRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([RapportBuildingRemoteDataSource, NetworkInfo])
 void main() {
   MockRapportBuildingRemoteDataSource? remoteService;
   MockNetworkInfo? networkInfo;
@@ -73,12 +73,16 @@ void main() {
   }
 
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.trackMood(mood: tMoodTrack as MoodTrackingModel);
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteService!.trackMood(mood: tMoodTrack)).thenThrow(
+        ServerException(),
+      );
+      //act
+      await serviceImpl.trackMood(mood: tMoodTrack as MoodTrackingModel);
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return TrackMoodSuccess when the call to remote resource is successfull',
         () async {
