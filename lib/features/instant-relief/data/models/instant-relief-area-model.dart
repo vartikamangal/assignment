@@ -1,6 +1,5 @@
 // Flutter imports:
 
-// Project imports:
 import '../../../../core/image/image.dart';
 import '../../domain/entities/instant-relief-area.dart';
 

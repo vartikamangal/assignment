@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/annotations.dart';
@@ -11,6 +12,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/models/instant-relief-area-model.dart';
 import 'package:tatsam_app_experimental/features/instant-relief/data/sources/instant-relief-remote-data-source.dart';
 
@@ -20,11 +22,13 @@ import 'get-instant-relief-areas-remote-data-source_test.mocks.dart';
 @GenerateMocks([ApiClient])
 Future<void> main() async {
   late InstantReliefRemoteDataSourceImpl remoteDataSourceImpl;
+  late BaseUrlController urlController;
   MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
     client = MockApiClient();
+    urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = InstantReliefRemoteDataSourceImpl(
       client: client,
@@ -39,7 +43,11 @@ Future<void> main() async {
         subtitle: "subtitle",
         instantReliefName: "instantReliefName",
         description: "description",
-        icon: null)
+        icon:  ImageModel.fromDomain(
+          ImageEntity(
+              type: '',
+              url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+        ),)
   ];
 
   // Helper functions
@@ -58,34 +66,34 @@ Future<void> main() async {
   }
 
   //? Actual tests go here
-  // group('DATA SOURCE : GetInstantReliefAreas{Remote}', () {
-  //   test('should send a GET request to specifed url', () async {
-  //     //arrange
-  //     setupHttpSuccessClient200();
-  //     //act
-  //     await remoteDataSourceImpl.getReliefAreas();
-  //     //assert
-  //     verify(
-  //       client!.get(uri: APIRoute.getInstantReliefAreas),
-  //     );
-  //   });
-  //   test(
-  //       'should return List<InstantReliefAreaModel> when call statusCode is 200',
-  //       () async {
-  //     //arrange
-  //     setupHttpSuccessClient200();
-  //     //act
-  //     final result = await remoteDataSourceImpl.getReliefAreas();
-  //     //assert
-  //     expect(result, tInstantReliefAreas);
-  //   });
-  //   test('should throw ServerException when statusCode is not 200', () async {
-  //     //arrange
-  //     setupHttpFailureClient404();
-  //     //act
-  //     final call = remoteDataSourceImpl.getReliefAreas();
-  //     //assert
-  //     expect(() => call, throwsA(const TypeMatcher<ServerException>()));
-  //   });
-  // });
+  group('DATA SOURCE : GetInstantReliefAreas{Remote}', () {
+    test('should send a GET request to specifed url', () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      await remoteDataSourceImpl.getReliefAreas();
+      //assert
+      verify(
+        client!.get(uri: APIRoute.getInstantReliefAreas),
+      );
+    });
+    test(
+        'should return List<InstantReliefAreaModel> when call statusCode is 200',
+        () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      final result = await remoteDataSourceImpl.getReliefAreas();
+      //assert
+      expect(result, tInstantReliefAreas);
+    });
+    test('should throw ServerException when statusCode is not 200', () async {
+      //arrange
+      setupHttpFailureClient404();
+      //act
+      final call = remoteDataSourceImpl.getReliefAreas();
+      //assert
+      expect(() => call, throwsA(const TypeMatcher<ServerException>()));
+    });
+  });
 }

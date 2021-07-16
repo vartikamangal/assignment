@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/annotations.dart';
@@ -14,6 +15,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
@@ -24,10 +26,12 @@ import 'set-subject-mood-remote-service_test.mocks.dart';
 
 Future<void> main() async {
   late RapportBuildingRemoteDataSourceImpl remoteServiceImpl;
+  late BaseUrlController urlController;
   MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   setUp(() {
     client = MockApiClient();
+    urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteServiceImpl = RapportBuildingRemoteDataSourceImpl(
         client: client,
@@ -63,51 +67,51 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : SetSubjectMood{Remote}', () {
-    // test('should perform a POST request on the specfied URL', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200(testFileName: 'set-subject-mood-success.json');
-    //   //act
-    //   await remoteServiceImpl.setMood(
-    //     moodName: tMoodName,
-    //     activityType: tActivityType,
-    //   );
-    //   //assert
-    //   verify(client!.post(
-    //     uri: APIRoute.setMood,
-    //     body: jsonEncode(
-    //       {
-    //         "mood": tMoodName,
-    //         //TODO To be changed later
-    //         "activityType": "ONBOARDING",
-    //       },
-    //     ),
-    //   ));
-    // });
-    // test('should return SetMoodSucess if statusCode is 200', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200(testFileName: 'set-subject-mood-success.json');
-    //   //act
-    //   final result = await remoteServiceImpl.setMood(
-    //     moodName: tMoodName,
-    //     activityType: tActivityType,
-    //   );
-    //   //assert
-    //   expect(result, tMoodTrackingModel);
-    // });
-    //
-    // test('should throw ServerException if statusCode is not 404', () async {
-    //   //arrange
-    //   setupHttpFailureClient404();
-    //   //act
-    //   final Future<MoodTrackingModel> Function({String activityType, String moodName}) call = remoteServiceImpl.setMood;
-    //   //assert
-    //   expect(
-    //     () => call(
-    //       moodName: tMoodName,
-    //       activityType: tActivityType,
-    //     ),
-    //     throwsA(const TypeMatcher<ServerException>()),
-    //   );
-    // });
+    test('should perform a POST request on the specfied URL', () async {
+      //arrange
+      setupHttpSuccessClient200(testFileName: 'set-subject-mood-success.json');
+      //act
+      await remoteServiceImpl.setMood(
+        moodName: tMoodName,
+        activityType: tActivityType,
+      );
+      //assert
+      verify(client!.post(
+        uri: APIRoute.setMood,
+        body: jsonEncode(
+          {
+            "mood": tMoodName,
+            //TODO To be changed later
+            "activityType": "ONBOARDING",
+          },
+        ),
+      ));
+    });
+    test('should return SetMoodSucess if statusCode is 200', () async {
+      //arrange
+      setupHttpSuccessClient200(testFileName: 'set-subject-mood-success.json');
+      //act
+      final result = await remoteServiceImpl.setMood(
+        moodName: tMoodName,
+        activityType: tActivityType,
+      );
+      //assert
+      expect(result, tMoodTrackingModel);
+    });
+
+    test('should throw ServerException if statusCode is not 404', () async {
+      //arrange
+      setupHttpFailureClient404();
+      //act
+      final Future<MoodTrackingModel> Function({String activityType, String moodName}) call = remoteServiceImpl.setMood;
+      //assert
+      expect(
+        () => call(
+          moodName: tMoodName,
+          activityType: tActivityType,
+        ),
+        throwsA(const TypeMatcher<ServerException>()),
+      );
+    });
   });
 }

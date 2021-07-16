@@ -24,6 +24,9 @@ class ImageEntity extends Entity {
       type: type ?? this.type,
     );
   }
+
+  @override
+  String toString() => 'ImageEntity(url: $url, type: $type)';
 }
 
 class ImageModel extends DataModel<ImageEntity> {

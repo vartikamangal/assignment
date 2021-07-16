@@ -1,12 +1,9 @@
 // Flutter imports:
-import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
@@ -35,7 +32,9 @@ class HubScreen extends StatelessWidget {
           leading: Obx(
             () => _controller.userHubStatus.value ==
                     HubAnswerStatus.nothingAnswered
-                ? TopAppBar(onPressed: (){Navigator.of(context).pop();})
+                ? TopAppBar(onPressed: () {
+                    Navigator.of(context).pop();
+                  })
                 : EmptySpacePlaceHolder(),
           ),
         ),
@@ -262,7 +261,7 @@ class _MidImageDesktopComponent extends StatelessWidget {
     Key? key,
     required HubController controller,
     required this.imageScale,
-  })  : _controller = controller,
+  })   : _controller = controller,
         super(key: key);
 
   final HubController _controller;
@@ -278,7 +277,7 @@ class _MidImageDesktopComponent extends StatelessWidget {
         spaceing: 360,
       ).value,
       child: _controller.isLoading.value
-          ? CircularShimmerLoader()
+          ? const CircularShimmerLoader(height: 330, width: 330)
           : Image.asset(
               _controller.activeHubStateObject.value!.heroImageUrl,
               scale: imageScale,
@@ -292,7 +291,7 @@ class _MidImageMobileComponent extends StatelessWidget {
     Key? key,
     required HubController controller,
     required this.imageScale,
-  })  : _controller = controller,
+  })   : _controller = controller,
         super(key: key);
 
   final HubController _controller;
@@ -308,7 +307,7 @@ class _MidImageMobileComponent extends StatelessWidget {
         spaceing: 330,
       ).value,
       child: _controller.isLoading.value
-          ? CircularShimmerLoader()
+          ? const CircularShimmerLoader(height: 330, width: 330)
           : Image.asset(
               _controller.activeHubStateObject.value!.heroImageUrl,
               scale: imageScale,
@@ -322,7 +321,7 @@ class _MidImageTabletContent extends StatelessWidget {
     Key? key,
     required HubController controller,
     required this.imageScale,
-  })  : _controller = controller,
+  })   : _controller = controller,
         super(key: key);
 
   final HubController _controller;
@@ -338,7 +337,7 @@ class _MidImageTabletContent extends StatelessWidget {
         spaceing: 300,
       ).value,
       child: _controller.isLoading.value
-          ? CircularShimmerLoader()
+          ? const CircularShimmerLoader(height: 330, width: 330)
           : Image.asset(
               _controller.activeHubStateObject.value!.heroImageUrl,
               scale: imageScale,

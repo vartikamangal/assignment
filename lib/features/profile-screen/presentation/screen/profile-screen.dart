@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
     const LandingProfileScreen(),
     WheelOfLifeProfile(),
     MoodProfileScreen(),
-    MyDiary(),
+    DiaryScreen(),
     AnsweredQuestionDiary(),
   ];
   @override

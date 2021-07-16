@@ -2,17 +2,11 @@
 import 'dart:io';
 import 'dart:math';
 
-// Flutter imports:
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
-import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 
 // Project imports:
@@ -30,7 +24,7 @@ class WheelOfLifeScreen extends StatelessWidget {
         child: Stack(
           children: [
             Obx(
-                  () => _controller.isProcessing.value
+              () => _controller.isProcessing.value
                   ? CustomizedLinearProgressIndicator()
                   : Container(),
             ),
@@ -41,11 +35,12 @@ class WheelOfLifeScreen extends StatelessWidget {
                 slivers: [
                   SliverAppBar(
                     backgroundColor: Colors.transparent,
-                    leading: TopAppBar(onPressed: (){
-                            _controller.currentOnBoardPageCounter.value == 0
-                                ? Navigator.of(context).pop()
-                                : _controller.navigateBack();
-                          },
+                    leading: TopAppBar(
+                      onPressed: () {
+                        _controller.currentOnBoardPageCounter.value == 0
+                            ? Navigator.of(context).pop()
+                            : _controller.navigateBack();
+                      },
                     ),
                   ),
                   SliverToBoxAdapter(
@@ -75,26 +70,34 @@ class WheelOfLifeScreen extends StatelessWidget {
                           ).value,
                         ),
                         child: Obx(() {
-
-                          if(_controller.isLoading.value){
+                          if (_controller.isLoading.value) {
                             return Container();
                           }
-                          if (_controller.currentOnBoardPageCounter.value == 0) {
+                          if (_controller.currentOnBoardPageCounter.value ==
+                              0) {
                             return AnimatedSwitcher(
                               switchInCurve: Curves.easeIn,
                               duration: const Duration(milliseconds: 700),
-                              child: _controller.isLoading.value ?
-                              Container():BottomMiddleButton(
-                                title: 'MAKES SENSE',
-                                onPressed: () => _controller.changeScreen(),
-                              ),
+                              child: _controller.isLoading.value
+                                  ? Container()
+                                  : BottomMiddleButton(
+                                      title: 'MAKES SENSE',
+                                      onPressed: () =>
+                                          _controller.changeScreen(),
+                                    ),
                             );
-                          } else if (_controller.currentOnBoardPageCounter.value ==
+                          } else if (_controller
+                                  .currentOnBoardPageCounter.value ==
                               1) {
                             return TweenAnimationBuilder(
-                                tween: Tween<double>(begin: 0, end: _controller.angle.value),
-                                duration: Duration(milliseconds: 600+(_controller.lifeAreas.length + 1)*100),
-                                builder: (BuildContext context, double val, __){
+                                tween: Tween<double>(
+                                    begin: 0, end: _controller.angle.value),
+                                duration: Duration(
+                                    milliseconds: 600 +
+                                        (_controller.lifeAreas.length + 1) *
+                                            100),
+                                builder:
+                                    (BuildContext context, double val, __) {
                                   if (val >= (pi / 2)) {
                                     isBack = false;
                                   } else {
@@ -105,13 +108,15 @@ class WheelOfLifeScreen extends StatelessWidget {
                                     transform: Matrix4.identity()
                                       ..setEntry(3, 2, 0.001)
                                       ..rotateY(val),
-                                    child: isBack? BottomMiddleButton(
-                                      title: 'DONE',
-                                      onPressed: () => _controller.changeScreen(),
-                                    ):Container(),
+                                    child: isBack
+                                        ? BottomMiddleButton(
+                                            title: 'DONE',
+                                            onPressed: () =>
+                                                _controller.changeScreen(),
+                                          )
+                                        : Container(),
                                   );
-                                }
-                            );
+                                });
                           } else {
                             return BottomMiddleButton(
                               title: 'DONE',

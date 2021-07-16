@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/annotations.dart';
@@ -15,6 +16,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/focus/data/models/issue-model.dart';
 import 'package:tatsam_app_experimental/features/focus/data/sources/focus-remote-data-source.dart';
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue-removed-success.dart';
@@ -29,10 +31,12 @@ Future<void> main() async {
   late FocusRemoteDataSourceImpl remoteServiceImpl;
   MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
+  late BaseUrlController urlController;
 
   setUp(() {
     client = MockApiClient();
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
+    urlController = Get.put(BaseUrlController());
     remoteServiceImpl = FocusRemoteDataSourceImpl(
       client: client,
       throwExceptionIfResponseError: throwExceptionIfResponseError,
@@ -45,7 +49,11 @@ Future<void> main() async {
       displayName: "Sleep",
       messageOnSelection:
           " I want to sleep better. More, restful, deeper sleep for my mind and my body",
-      issueIcon: null);
+      issueIcon: ImageModel.fromDomain(
+        ImageEntity(
+            type: '',
+            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+      ),);
 
   void setupHttpSuccessClient200({required String testFileName}) {
     when(client!.post(uri: APIRoute.deleteFocus, body: anyNamed('body')))
@@ -63,38 +71,38 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : RemoveIssue{Remote}', () {
-    // test(
-    //   'should perform a POST request on the specfied URL',
-    //   () async {
-    //     //arrange
-    //     setupHttpSuccessClient200(testFileName: 'remove-issue-success.json');
-    //     //act
-    //     await remoteServiceImpl.removeIssue(issue: tIssueModel);
-    //     //assert
-    //     verify(client!.post(
-    //       uri: APIRoute.deleteFocus,
-    //       body: jsonEncode(tIssueModel.toJson()),
-    //     ));
-    //   },
-    // );
-    // test('should return SetMoodSucess if statusCode is 200', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200(testFileName: 'remove-issue-success.json');
-    //   //act
-    //   final result = await remoteServiceImpl.removeIssue(issue: tIssueModel);
-    //   //assert
-    //   expect(result, IssueRemovedSuccess());
-    // });
-    // test('should throw ServerException when statusCode is not 200', () async {
-    //   //arrange
-    //   setupHttpFailureClient404();
-    //   //act
-    //   final Future<IssueRemovedSuccess> Function({Issue issue}) call = remoteServiceImpl.removeIssue;
-    //   //assert
-    //   expect(
-    //     () => call(issue: tIssueModel),
-    //     throwsA(const TypeMatcher<ServerException>()),
-    //   );
-    // });
+    test(
+      'should perform a POST request on the specfied URL',
+      () async {
+        //arrange
+        setupHttpSuccessClient200(testFileName: 'remove-issue-success.json');
+        //act
+        await remoteServiceImpl.removeIssue(issue: tIssueModel);
+        //assert
+        verify(client!.post(
+          uri: APIRoute.deleteFocus,
+          body: jsonEncode(tIssueModel.toJson()),
+        ));
+      },
+    );
+    test('should return SetMoodSucess if statusCode is 200', () async {
+      //arrange
+      setupHttpSuccessClient200(testFileName: 'remove-issue-success.json');
+      //act
+      final result = await remoteServiceImpl.removeIssue(issue: tIssueModel);
+      //assert
+      expect(result, IssueRemovedSuccess());
+    });
+    test('should throw ServerException when statusCode is not 200', () async {
+      //arrange
+      setupHttpFailureClient404();
+      //act
+      final Future<IssueRemovedSuccess> Function({Issue issue}) call = remoteServiceImpl.removeIssue;
+      //assert
+      expect(
+        () => call(issue: tIssueModel),
+        throwsA(const TypeMatcher<ServerException>()),
+      );
+    });
   });
 }

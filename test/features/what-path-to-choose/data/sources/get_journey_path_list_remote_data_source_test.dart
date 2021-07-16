@@ -23,12 +23,14 @@ import 'get_journey_path_list_remote_data_source_test.mocks.dart';
 @GenerateMocks([ApiClient, Box])
 Future<void> main() async {
   MockApiClient? client;
+  late BaseUrlController urlController;
   MockBox localClient;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   late PathOperationsRemoteDataSourceImpl remoteDataSourceImpl;
   setUp(() {
     client = MockApiClient();
     localClient = MockBox();
+    urlController = Get.put(BaseUrlController());
     Get.put(BaseUrlController);
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = PathOperationsRemoteDataSourceImpl(
@@ -83,32 +85,32 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : GetJourneyPath{Remote}', () {
-    // test('should send a GET request to specifed url', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   await remoteDataSourceImpl.getJourneys();
-    //   //assert
-    //   verify(
-    //     client!.get(uri: APIRoute.getJourneyPathList),
-    //   );
-    // });
-    // test('should return List<JourneyModel> when call statusCode is 200',
-    //     () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   final result = await remoteDataSourceImpl.getJourneys();
-    //   //assert
-    //   expect(result, tJourneyModel);
-    // });
-    // test('should throw ServerException when statusCode is not 200', () async {
-    //   //arrange
-    //   setupHttpFailureClient404();
-    //   //act
-    //   final call = remoteDataSourceImpl.getJourneys;
-    //   //assert
-    //   expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
-    // });
+    test('should send a GET request to specifed url', () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      await remoteDataSourceImpl.getJourneys();
+      //assert
+      verify(
+        client!.get(uri: APIRoute.getJourneyPathList),
+      );
+    });
+    test('should return List<JourneyModel> when call statusCode is 200',
+        () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      final result = await remoteDataSourceImpl.getJourneys();
+      //assert
+      expect(result, tJourneyModel);
+    });
+    test('should throw ServerException when statusCode is not 200', () async {
+      //arrange
+      setupHttpFailureClient404();
+      //act
+      final call = remoteDataSourceImpl.getJourneys;
+      //assert
+      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
+    });
   });
 }

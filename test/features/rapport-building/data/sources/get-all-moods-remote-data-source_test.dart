@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/annotations.dart';
@@ -10,6 +11,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
 
@@ -20,11 +22,13 @@ import 'get-all-moods-remote-data-source_test.mocks.dart';
 
 Future<void> main() async {
   MockApiClient? client;
+  late BaseUrlController urlController;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
   late RapportBuildingRemoteDataSourceImpl remoteDataSourceImpl;
 
   setUp(() {
     client = MockApiClient();
+    urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteDataSourceImpl = RapportBuildingRemoteDataSourceImpl(
       client: client,
@@ -38,31 +42,51 @@ Future<void> main() async {
       id: 1,
       moodName: "VERY_BAD",
       moodDescription: "Very sad",
-      icon: null,
+      icon:  ImageModel.fromDomain(
+        ImageEntity(
+            type: '',
+            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+      ),
     ),
     MoodModel(
       id: 2,
       moodName: "BAD",
       moodDescription: "Sad",
-      icon: null,
+      icon:  ImageModel.fromDomain(
+        ImageEntity(
+            type: '',
+            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+      ),
     ),
     MoodModel(
       id: 3,
       moodName: "NEUTRAL",
       moodDescription: "Neutral",
-      icon: null,
+      icon:  ImageModel.fromDomain(
+        ImageEntity(
+            type: '',
+            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+      ),
     ),
     MoodModel(
       id: 4,
       moodName: "GOOD",
       moodDescription: "Happy",
-      icon: null,
+      icon:  ImageModel.fromDomain(
+        ImageEntity(
+            type: '',
+            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+      ),
     ),
     MoodModel(
       id: 5,
       moodName: "VERY_GOOD",
       moodDescription: "Very Happy",
-      icon: null,
+      icon:  ImageModel.fromDomain(
+        ImageEntity(
+            type: '',
+            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+      ),
     ),
   ];
 
@@ -83,16 +107,16 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : GetAllMoods{Remote}', () {
-    // test('should send a GET request to specifed url', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   await remoteDataSourceImpl.getMoods();
-    //   //assert
-    //   verify(
-    //     client!.get(uri: APIRoute.getMoods),
-    //   );
-    // });
+    test('should send a GET request to specifed url', () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      await remoteDataSourceImpl.getMoods();
+      //assert
+      verify(
+        client!.get(uri: APIRoute.getMoods),
+      );
+    });
     // test('should return List<MoodModel> when call statusCode is 200', () async {
     //   //arrange
     //   setupHttpSuccessClient200();
@@ -101,13 +125,13 @@ Future<void> main() async {
     //   //assert
     //   expect(result, tMoods);
     // });
-    // test('should throw ServerException when statusCode is not 200', () async {
-    //   //arrange
-    //   setupHttpFailureClient404();
-    //   //act
-    //   final call = remoteDataSourceImpl.getMoods;
-    //   //assert
-    //   expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
-    // });
+    test('should throw ServerException when statusCode is not 200', () async {
+      //arrange
+      setupHttpFailureClient404();
+      //act
+      final call = remoteDataSourceImpl.getMoods;
+      //assert
+      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
+    });
   });
 }

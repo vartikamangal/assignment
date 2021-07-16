@@ -102,7 +102,7 @@ class PerformActivityController extends GetxController {
     activity.value = activityToStart;
     isInstant.value = isInstantActivity;
     _redirectRoute.value = redirectRoute;
-    final allStepsSupported = activity.value!.activitySteps!.every(
+    final allStepsSupported = activity.value!.activitySteps.every(
       (step) => stepNameToRoute.keys.toList().contains(step.stepName),
     );
     if (allStepsSupported) {
@@ -200,12 +200,12 @@ class PerformActivityController extends GetxController {
 
   void observeActiveStep() {
     /// This runs only once during initialization
-    activeStep.value = activity.value?.activitySteps!.first;
+    activeStep.value = activity.value?.activitySteps.first;
     _setActiveStepScreen(activeStep.value!.stepName!);
 
     /// Whenever activeStepSequence changes, Auto-routing will be handled here
     activeStepSequence.stream.listen((change) {
-      activeStep.value = activity.value?.activitySteps![change!];
+      activeStep.value = activity.value?.activitySteps[change!];
       _setActiveStepScreen(activeStep.value!.stepName!);
     });
   }

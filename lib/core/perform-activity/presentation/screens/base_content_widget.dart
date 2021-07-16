@@ -34,8 +34,11 @@ class ContentWidgetFactory {
 class ContentNotSupported extends BaseContentWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: EmptyState(),
+    return const Center(
+      /// Shitty name, but EmptyState --> ErrorStateUI
+      child: EmptyState(
+        text: "Oops! Something went wrong",
+      ),
     );
   }
 }

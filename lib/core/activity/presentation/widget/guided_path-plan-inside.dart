@@ -6,12 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
-// Project imports:
-import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-controller.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-state.dart';
 
-import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../controller/path-controller.dart';
@@ -20,7 +17,6 @@ import 'plan-container.dart';
 // ignore: must_be_immutable
 class GuidedPathPlanInside extends StatelessWidget {
   final PathController _controller = Get.find();
-  final DurationTrackerController _durationController = Get.find();
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = ScaleManager.textScale.value;
@@ -46,9 +42,7 @@ class GuidedPathPlanInside extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(
-                      left: ScaleManager.spaceScale(
-                        spaceing: 42,
-                      ).value,
+                      left: ScaleManager.spaceScale(spaceing: 42).value,
                     ),
                     child: Text(
                       dayPlan.title!,
@@ -58,7 +52,9 @@ class GuidedPathPlanInside extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(
-                        left: ScaleManager.spaceScale(spaceing: 42).value),
+                      left: ScaleManager.spaceScale(spaceing: 42).value,
+                      right: ScaleManager.spaceScale(spaceing: 30).value,
+                    ),
                     child: Text(
                       dayPlan.subtitle!,
                       style: AppTextStyle.pathdescription,
@@ -90,7 +86,9 @@ class GuidedPathPlanInside extends StatelessWidget {
                       top: ScaleManager.spaceScale(spaceing: 34).value,
                       left: ScaleManager.spaceScale(spaceing: 42).value,
                       right: ScaleManager.spaceScale(spaceing: 57).value),
-                  child: EmptyState(),
+                  child: const EmptyState(
+                    text: "Oops! No content found",
+                  ),
                 ),
               )
             else
@@ -134,7 +132,7 @@ class GuidedPathPlanInside extends StatelessWidget {
           },
           title: activity.title.toString(),
           description: '',
-          image: activity.iconVO!.url,
+          image: activity.iconVO?.url,
         ),
       );
     }

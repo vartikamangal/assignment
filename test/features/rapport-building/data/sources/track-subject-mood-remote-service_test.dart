@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/annotations.dart';
@@ -14,6 +15,7 @@ import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-resp
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/mood-tracking-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/models/subject-id-model.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
@@ -27,11 +29,13 @@ import 'track-subject-mood-remote-service_test.mocks.dart';
 
 Future<void> main() async {
   late RapportBuildingRemoteDataSourceImpl serviceImpl;
+  late BaseUrlController urlController;
   MockApiClient? client;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
     client = MockApiClient();
+    urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     serviceImpl = RapportBuildingRemoteDataSourceImpl(
       client: client,
@@ -67,42 +71,42 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : TrackSubjectMood{Remote}', () {
-    // test('should perform a POST request on the specified URL', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200(
-    //     responseFilePath: 'track-subject-mood-raw-response-success.json',
-    //   );
-    //   //act
-    //   await serviceImpl.trackMood(mood: tMoodTrack);
-    //   //assert
-    //   verify(
-    //     client!.post(
-    //       uri: APIRoute.setMoodDuration,
-    //       body: jsonEncode((tMoodTrack as MoodTrackingModel).toJson()),
-    //     ),
-    //   );
-    // });
-    // test('should return TrackMoodSuccess when statusCode is 200', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200(
-    //     responseFilePath: 'track-subject-mood-raw-response-success.json',
-    //   );
-    //   //act
-    //   final result = await serviceImpl.trackMood(mood: tMoodTrack);
-    //   //assert
-    //   expect(result, TrackMoodSuccess());
-    // });
-    //
-    // test('should throw ServerException when statusCode is not 200', () async {
-    //   //arrange
-    //   setupHttpFailureClient404();
-    //   //act
-    //   final Future<TrackMoodSuccess> Function({MoodTracking mood}) call = serviceImpl.trackMood;
-    //   //assert
-    //   expect(
-    //     () => call(mood: tMoodTrack),
-    //     throwsA(const TypeMatcher<ServerException>()),
-    //   );
-    // });
+    test('should perform a POST request on the specified URL', () async {
+      //arrange
+      setupHttpSuccessClient200(
+        responseFilePath: 'track-subject-mood-raw-response-success.json',
+      );
+      //act
+      await serviceImpl.trackMood(mood: tMoodTrack);
+      //assert
+      verify(
+        client!.post(
+          uri: APIRoute.setMoodDuration,
+          body: jsonEncode((tMoodTrack as MoodTrackingModel).toJson()),
+        ),
+      );
+    });
+    test('should return TrackMoodSuccess when statusCode is 200', () async {
+      //arrange
+      setupHttpSuccessClient200(
+        responseFilePath: 'track-subject-mood-raw-response-success.json',
+      );
+      //act
+      final result = await serviceImpl.trackMood(mood: tMoodTrack);
+      //assert
+      expect(result, TrackMoodSuccess());
+    });
+
+    test('should throw ServerException when statusCode is not 200', () async {
+      //arrange
+      setupHttpFailureClient404();
+      //act
+      final Future<TrackMoodSuccess> Function({MoodTracking mood}) call = serviceImpl.trackMood;
+      //assert
+      expect(
+        () => call(mood: tMoodTrack),
+        throwsA(const TypeMatcher<ServerException>()),
+      );
+    });
   });
 }
