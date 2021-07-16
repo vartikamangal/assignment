@@ -37,42 +37,42 @@ Future<void> main() async {
       throwExceptionIfResponseError: throwExceptionIfResponseError,
     );
   });
+
   ///due to from domain
 
   // final tActivityScheduledGuidedModel = ActivityScheduleGuidedModel(
   //   id: 3441,
   //   tags: [],
-  //   pathInformation: PathInformationModel.fromDomain(PathInformation( id: 3442,
+  //   pathInformation: PathInformationModel.fromDomain(PathInformation(
+  //       id: 3442,
   //       description: "Curated Path for stress management",
   //       title: "Stress management",
   //       subtitle: "This will help you manage stress better",
   //       helpContent: "Just putting some help content for future use",
   //       lengthOfPlan: 23)),
   //   activitySchedule: <GuidedActivityRecommendationModel>[
-  //     GuidedActivityRecommendationModel.fromDomain(
-  //   GuidedActivityRecommendation(
-  //       id: 3443,
-  //       dayNumber: 1,
-  //       icon: null,
-  //       description: "Day 1 of stress management",
-  //       title: "Day 1",
-  //       subtitle: "Perform this day with smile",
-  //       helpContent: "Some useless help content",
-  //       recommendationList: []
-  //   ))
+  //     GuidedActivityRecommendationModel.fromDomain(GuidedActivityRecommendation(
+  //         id: 3443,
+  //         dayNumber: 1,
+  //         icon: null,
+  //         description: "Day 1 of stress management",
+  //         title: "Day 1",
+  //         subtitle: "Perform this day with smile",
+  //         helpContent: "Some useless help content",
+  //         recommendationList: []))
   //   ],
   // );
 
-  // Helper functions
+  // // Helper functions
 
-  void setupHttpSuccessClient200() {
-    when(client!.post(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
-      (_) async => http.Response(
-          fixtureReader(
-              filename: 'raw-activity-scheduled-for-guided-plan.json'),
-          200),
-    );
-  }
+  // void setupHttpSuccessClient200() {
+  //   when(client!.post(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
+  //     (_) async => http.Response(
+  //         fixtureReader(
+  //             filename: 'raw-activity-scheduled-for-guided-plan.json'),
+  //         200),
+  //   );
+  // }
 
   void setupHttpFailureClient404() {
     when(client!.post(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
@@ -80,37 +80,37 @@ Future<void> main() async {
     );
   }
 
- // ? Actual tests go here
-    group('DATA SOURCE : getSchedule{Remote}', () {
-      // test('should send a get request to specifed url', () async {
-      //   //arrange
-      //   setupHttpSuccessClient200();
-      //   //act
-      //   await remoteDataSourceImpl.getSchedule();
-      //   // ignore: avoid_print
-      //   print("hello");
-      //   //assert
-      //   verify(
-      //     client!.post(uri: APIRoute.getActivityScheduleForGuided),
-      //   );
-      // });
-      // test('should return ActivityScheduledModel when call statusCode is 200',
-      //     () async {
-      //   //arrange
-      //   setupHttpSuccessClient200();
-      //   //act
-      //   final result = await remoteDataSourceImpl.getSchedule();
-      //   print("hello");
-      //   //assert
-      //   expect(result, tActivityScheduledGuidedModel);
-      // });
-      test('should throw ServerException when statusCode is not 200', () async {
-        //arrange
-        setupHttpFailureClient404();
-         //act
-        final call = remoteDataSourceImpl.getSchedule();
-       //assert
-       expect(() => call, throwsA(const TypeMatcher<ServerException>()));
-     });
+  // ? Actual tests go here
+  group('DATA SOURCE : getSchedule{Remote}', () {
+    // test('should send a get request to specifed url', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   await remoteDataSourceImpl.getSchedule();
+    //   // ignore: avoid_print
+    //   print("hello");
+    //   //assert
+    //   verify(
+    //     client!.post(uri: APIRoute.getActivityScheduleForGuided),
+    //   );
+    // });
+    // test('should return ActivityScheduledModel when call statusCode is 200',
+    //     () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   final result = await remoteDataSourceImpl.getSchedule();
+    //   print("hello");
+    //   //assert
+    //   expect(result, tActivityScheduledGuidedModel);
+    // });
+    test('should throw ServerException when statusCode is not 200', () async {
+      //arrange
+      setupHttpFailureClient404();
+      //act
+      final call = remoteDataSourceImpl.getSchedule();
+      //assert
+      expect(() => call, throwsA(const TypeMatcher<ServerException>()));
     });
+  });
 }
