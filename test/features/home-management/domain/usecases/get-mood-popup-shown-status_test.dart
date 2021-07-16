@@ -8,7 +8,6 @@ import 'package:tatsam_app_experimental/features/home-management/domain/usecases
 import 'get-mood-popup-shown-status_test.mocks.dart';
 
 @GenerateMocks([MoodPopupShownRepository])
-
 void main() {
   late MockMoodPopupShownRepository repository;
   late GetIsMoodPopupShownStatus useCase;
@@ -21,13 +20,13 @@ void main() {
   });
   group('USECASE: getMoodPopupShownStatus()', () {
     test('should get mood popup shown status from the repository ...',
-            () async {
-          when(repository.getMoodPopupShownStatus())
-              .thenAnswer((_) async => const Right(tMoodPopupShownStatus));
+        () async {
+      when(repository.getMoodPopupShownStatus())
+          .thenAnswer((_) async => const Right(tMoodPopupShownStatus));
 
-          final result = await useCase(NoParams());
-          verify(repository.getMoodPopupShownStatus());
-          expect(result, const Right(tMoodPopupShownStatus));
-        });
+      final result = await useCase(NoParams());
+      verify(repository.getMoodPopupShownStatus());
+      expect(result, const Right(tMoodPopupShownStatus));
+    });
   });
 }

@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
@@ -14,9 +15,8 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/data/models
 import 'get-basic-profile-details_test.mocks.dart';
 
 @GenerateMocks([ProfileDetailsRepository])
-
 void main() {
-  late  MockProfileDetailsRepository repository;
+  late MockProfileDetailsRepository repository;
   late GetBasicProfileDetails useCase;
 
   setUp(() {
@@ -24,7 +24,7 @@ void main() {
     useCase = GetBasicProfileDetails(repository: repository);
   });
 
-  const tProfileData = ProfileData(
+  final tProfileData = ProfileData(
       subjectInformationId: 0,
       travellerId: '',
       holisticScore: 0,
@@ -37,26 +37,26 @@ void main() {
             focusName: '',
             displayName: '',
             messageOnSelection: '',
-            issueIcon: '')
+            issueIcon: null)
       ],
       journeyPath: JourneyModel(
           id: 0,
           title: '',
           subtitle: '',
           description: '',
-          icon: '',
+          icon: null,
           pathName: ''));
 
   group("USECASE : getBasicProfileDetails()", () {
     test('should get basic profile data from the repository', () async {
       //arrange
       when(repository.getBasicProfileDetails())
-          .thenAnswer((_) async => const Right(tProfileData));
+          .thenAnswer((_) async => Right(tProfileData));
       //act
       final result = await useCase(NoParams());
       //assert
       verify(repository.getBasicProfileDetails());
-      expect(result, const Right(tProfileData));
+      expect(result, Right(tProfileData));
     });
   });
 }

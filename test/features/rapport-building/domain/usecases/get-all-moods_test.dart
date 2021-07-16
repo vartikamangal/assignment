@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
@@ -10,7 +11,6 @@ import 'package:tatsam_app_experimental/features/rapport-building/domain/entitie
 import 'package:tatsam_app_experimental/features/rapport-building/domain/repositories/rapport-building-repository.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/usecases/get-all-moods.dart';
 import 'get-all-moods_test.mocks.dart';
-
 
 @GenerateMocks([RapportBuildingRepository])
 void main() {
@@ -27,31 +27,31 @@ void main() {
       moodName: "Very sad",
       moodId: 1,
       moodDescription: "Very sad",
-      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: null,
     ),
     Mood(
       moodName: "Sad",
       moodId: 2,
       moodDescription: "Sad",
-      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: null,
     ),
     Mood(
       moodName: "Normal",
       moodId: 3,
       moodDescription: "Normal",
-      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: null,
     ),
     Mood(
       moodName: "Happy",
       moodId: 4,
       moodDescription: "Happy",
-      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: null,
     ),
     Mood(
       moodName: "Very happy",
       moodId: 5,
       moodDescription: "Very happy",
-      moodIcon: ImageEntity(type: 'URL', url: 'https://tatsam.in/images/ii.png'),
+      moodIcon: null,
     ),
   ];
 

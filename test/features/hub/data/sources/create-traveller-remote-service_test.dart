@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
@@ -6,6 +7,7 @@ import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
+import 'package:tatsam_app_experimental/core/session-manager/base-url-controller.dart';
 import 'package:tatsam_app_experimental/features/hub/data/sources/create-traveller-remote-service.dart';
 import 'package:tatsam_app_experimental/features/hub/domain/entities/success-create-traveller.dart';
 import 'package:matcher/matcher.dart';
@@ -17,11 +19,13 @@ import 'create-traveller-remote-service_test.mocks.dart';
 @GenerateMocks([ApiClient])
 Future<void> main() async {
   late MockApiClient client;
+  late BaseUrlController urlController;
   late CreateTravellerRemoteServiceImpl remoteServiceImpl;
   ThrowExceptionIfResponseError throwExceptionIfResponseError;
 
   setUp(() {
     client = MockApiClient();
+    urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
     remoteServiceImpl = CreateTravellerRemoteServiceImpl(
         client: client,

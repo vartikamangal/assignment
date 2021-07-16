@@ -21,8 +21,13 @@ import '../../../../core/responsive/scale-manager.dart';
 //import '../../../../core/utils/animations/diagonal-animation-from-bottomright.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/mic_button.dart';
+import '../../../../core/utils/universal-widgets/private-view.dart';
 
-class MidPageContentsD extends StatelessWidget {
+class MidPageContentsD extends PrivateView {
+  MidPageContentsD() : super(child: AskUserFeelingView());
+}
+
+class AskUserFeelingView extends StatelessWidget {
   final RapportBuildingController _onBoardingController = Get.find();
   final VoiceNoteController _voiceNoteController = Get.find();
   final TextEditingController _textController = TextEditingController();
@@ -82,11 +87,12 @@ class MidPageContentsD extends StatelessWidget {
                     height: ScaleManager.spaceScale(
                       spaceing: 88,
                     ).value,
-                    child:CachedNetworkImage(
-                      imageUrl:_onBoardingController.selectedEmotionIconUrl.value,
-                      height:ScaleManager.spaceScale(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          _onBoardingController.selectedEmotionIconUrl.value,
+                      height: ScaleManager.spaceScale(
                         spaceing: 88,
-                      ).value ,
+                      ).value,
                     ),
                   ),
                 ),
@@ -246,7 +252,7 @@ class MidPageContentsD extends StatelessWidget {
             ),
           ),
           Obx(
-                () => _onBoardingController.isProcessing.value
+            () => _onBoardingController.isProcessing.value
                 ? CustomizedLinearProgressIndicator()
                 : Container(),
           ),

@@ -14,8 +14,7 @@ import 'package:tatsam_app_experimental/features/home-management/data/repositori
 import 'package:tatsam_app_experimental/features/home-management/data/sources/get-action-with-action-status-remote-data-source.dart';
 import 'get-action-with-action-status-repository-impl_test.mocks.dart';
 
-@GenerateMocks([GetActionWithActionStatusRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([GetActionWithActionStatusRemoteDataSource, NetworkInfo])
 void main() {
   MockGetActionWithActionStatusRemoteDataSource? remoteDataSource;
   MockNetworkInfo? networkInfo;
@@ -59,6 +58,9 @@ void main() {
   //? Actual tests go here
   runTestsOnline(() {
     // test('should check if the device is online', () async {
+    //   //arrange
+    //   when(remoteDataSource!.getAction(actionStatus: tActionStatus))
+    //       .thenAnswer((_) async => tPostOnBoardingActionModel);
     //   //act
     //   await repositoryImpl.getActions();
     //   //assert
@@ -66,35 +68,16 @@ void main() {
     // });
     test(
         'should get action status when coonection to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteDataSource!.getAction(actionStatus: tActionStatus))
-              .thenAnswer((_) async => tPostOnBoardingActionModel);
-          //act
-          final result =
+        () async {
+      //arrange
+      when(remoteDataSource!.getAction(actionStatus: tActionStatus))
+          .thenAnswer((_) async => tPostOnBoardingActionModel);
+      //act
+      final result =
           await remoteDataSource!.getAction(actionStatus: tActionStatus);
-          //assert
-          verify(remoteDataSource!.getAction(actionStatus: tActionStatus));
-          expect(result, tPostOnBoardingActionModel);
-        });
-    // test('should return ServerFailure when the call to remoteDataSource fails',
-    //     () async {
-    //   //arrange
-    //   when(remoteDataSource!.getAction(actionStatus: tActionStatus))
-    //       .thenThrow(ServerException());
-    //   //act
-    //   final result = await repositoryImpl.getActions();
-    //   //assert
-    //   expect(result, Left(ServerFailure()));
-    // });
+      //assert
+      verify(remoteDataSource!.getAction(actionStatus: tActionStatus));
+      expect(result, tPostOnBoardingActionModel);
+    });
   });
-  // test('DEVICE OFFLINE : getAction should return DeviceOfflineFailure',
-  //         () async {
-  //       when(networkInfo!.isConnected).thenAnswer((_) async => false);
-  //       //act
-  //       final result =
-  //       await remoteDataSource!.getAction(actionStatus: tActionStatus);
-  //       //assert
-  //       expect(result, null);
-  //     });
 }

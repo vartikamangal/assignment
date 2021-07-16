@@ -8,10 +8,10 @@ class NullHandledImage extends StatelessWidget {
   // ignore: empty_constructor_bodies
   @override
   Widget build(BuildContext context) {
-    return  Hero(
+    return Hero(
       tag: image!,
       child: CachedNetworkImage(
-        imageUrl :image!,
+        imageUrl: image!,
         height: ScaleManager.spaceScale(
           spaceing: 140,
         ).value,

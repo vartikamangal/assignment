@@ -10,9 +10,7 @@ import 'package:tatsam_app_experimental/features/home-management/data/repositori
 import 'package:tatsam_app_experimental/features/home-management/data/sources/mood-popup-shown-local-data-source.dart';
 import 'mood-popup-shown-repository-impl_test.mocks.dart';
 
-
-@GenerateMocks([MoodPopupShownLocalDataSource,NetworkInfo])
-
+@GenerateMocks([MoodPopupShownLocalDataSource, NetworkInfo])
 void main() {
   late MockMoodPopupShownLocalDataSource? localDataSource;
   MockNetworkInfo? networkInfo;
@@ -38,41 +36,27 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getMoodPopupShownStatus();
-    //   //assert
-    //   verify(networkInfo.isConnected);
-    // });
     test(
         'should get recommendation when coonection to remote data source is successfull',
-            () async {
-          //arrange
-          when(localDataSource!.getMoodPopupShownStatus())
-              .thenAnswer((_) async => tStatus);
-          //act
-          final result = await localDataSource!.getMoodPopupShownStatus();
-          //assert
-          verify(localDataSource!.getMoodPopupShownStatus());
-          expect(result, tStatus);
-        });
+        () async {
+      //arrange
+      when(localDataSource!.getMoodPopupShownStatus())
+          .thenAnswer((_) async => tStatus);
+      //act
+      final result = await localDataSource!.getMoodPopupShownStatus();
+      //assert
+      verify(localDataSource!.getMoodPopupShownStatus());
+      expect(result, tStatus);
+    });
     test('should return ServerFailure when the call to remoteDataSource fails',
-            () async {
-          //arrange
-          when(localDataSource!.getMoodPopupShownStatus())
-              .thenThrow(CacheException());
-          //act
-          final result = await repositoryImpl.getMoodPopupShownStatus();
-          //assert
-          expect(result, Left(CacheFailure()));
-        });
+        () async {
+      //arrange
+      when(localDataSource!.getMoodPopupShownStatus())
+          .thenThrow(CacheException());
+      //act
+      final result = await repositoryImpl.getMoodPopupShownStatus();
+      //assert
+      expect(result, Left(CacheFailure()));
+    });
   });
-  // test('DEVICE OFFLINE : GetJourneyPaths should return DeviceOfflineFailure',
-  //         () async {
-  //       when(networkInfo!.isConnected).thenAnswer((_) async => false);
-  //       //act
-  //       final result = await repositoryImpl.getMoodPopupShownStatus();
-  //       //assert
-  //       expect(result, Left(DeviceOfflineFailure()));
-  //     });
 }

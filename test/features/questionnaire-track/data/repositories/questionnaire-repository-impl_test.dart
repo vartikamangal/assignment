@@ -14,12 +14,11 @@ import 'package:tatsam_app_experimental/features/questionnaire-track/data/reposi
 import 'package:tatsam_app_experimental/features/questionnaire-track/data/sources/questionnaire-remote-data-source.dart';
 import 'questionnaire-repository-impl_test.mocks.dart';
 
-@GenerateMocks([QuestionnaireRemoteDataSource,NetworkInfo])
-
-void main(){
+@GenerateMocks([QuestionnaireRemoteDataSource, NetworkInfo])
+void main() {
   late MockQuestionnaireRemoteDataSource? remoteDataSource;
   MockNetworkInfo? networkInfo;
-  late  QuestionnaireRepositoryImpl repositoryImpl;
+  late QuestionnaireRepositoryImpl repositoryImpl;
   BaseRepository baseRepository;
   CallIfNetworkConnected callIfNetworkConnected;
   HandleException handleException;
@@ -34,11 +33,15 @@ void main(){
         handleException: handleException);
     repositoryImpl = QuestionnaireRepositoryImpl(
         remoteDataSource: remoteDataSource, baseRepository: baseRepository);
-
   });
 
-
-  const tQuestionnaire=QuestionnaireModel(id: "id", name: "name", title: "title", description: "description", creationDate: "creationDate", questionVO:[]);
+  const tQuestionnaire = QuestionnaireModel(
+      id: "id",
+      name: "name",
+      title: "title",
+      description: "description",
+      creationDate: "creationDate",
+      questionVO: []);
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : getQuestionniare', () {
       setUp(() {
@@ -50,43 +53,27 @@ void main(){
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await remoteDataSource.getQuestionnaireById();
-    //   //assert
-    //   verify(networkInfo.isConnected);
-    // });
     test(
         'should get basic question naire  when coonection to remote data source is successfull',
-            () async {
-          //arrange
-          when(remoteDataSource!.getQuestionnaireById(id: "id"))
-              .thenAnswer((_) async => tQuestionnaire);
-          //act
-          final result = await remoteDataSource!.getQuestionnaireById(id: "id");
-          //assert
-          verify(remoteDataSource!.getQuestionnaireById(id: "id"));
-          expect(result, tQuestionnaire);
-        });
-      test('should return ServerFailure when the call to remoteDataSource fails',
-              () async {
-            //arrange
-            when(remoteDataSource!.getQuestionnaireById(id: "id"))
-                .thenThrow(ServerException());
-            //act
-            final result = await repositoryImpl.getQuestionniare(id: "id");
-            //assert
-            expect(result, Left(ServerFailure()));
-          });
+        () async {
+      //arrange
+      when(remoteDataSource!.getQuestionnaireById(id: "id"))
+          .thenAnswer((_) async => tQuestionnaire);
+      //act
+      final result = await remoteDataSource!.getQuestionnaireById(id: "id");
+      //assert
+      verify(remoteDataSource!.getQuestionnaireById(id: "id"));
+      expect(result, tQuestionnaire);
     });
-    // test(
-    //     'DEVICE OFFLINE : getBasicProfileDetails should return DeviceOfflineFailure',
-    //         () async {
-    //       when(networkInfo!.isConnected).thenAnswer((_) async => false);
-    //       //act
-    //       final result = await remoteDataSource!.getQuestionnaireById(id: "id");
-    //       //assert
-    //       expect(result, null);
-    //     });
-
+    test('should return ServerFailure when the call to remoteDataSource fails',
+        () async {
+      //arrange
+      when(remoteDataSource!.getQuestionnaireById(id: "id"))
+          .thenThrow(ServerException());
+      //act
+      final result = await repositoryImpl.getQuestionniare(id: "id");
+      //assert
+      expect(result, Left(ServerFailure()));
+    });
+  });
 }

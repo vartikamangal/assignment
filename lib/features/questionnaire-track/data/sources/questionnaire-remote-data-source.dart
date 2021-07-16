@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
@@ -56,6 +57,7 @@ class QuestionnaireRemoteDataSourceImpl
     final response = await client!.get(
       uri: "${APIRoute.getQuestionnaire}/$id",
     );
+    log(response.body);
     throwExceptionIfResponseError!(statusCode: response.statusCode);
     return QuestionnaireModel.fromJson(
       jsonDecode(response.body) as Map<String, dynamic>,

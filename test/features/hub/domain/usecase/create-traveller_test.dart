@@ -9,7 +9,6 @@ import 'package:tatsam_app_experimental/features/hub/domain/usecases/create-trav
 import 'create-traveller_test.mocks.dart';
 
 @GenerateMocks([CreateTravellerService])
-
 void main() {
   late MockCreateTravellerService repository;
   late CreateTraveller usecase;

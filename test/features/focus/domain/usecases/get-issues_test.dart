@@ -25,7 +25,7 @@ void main() {
   const tIssues = <Issue>[
     Issue(
       issueId: 1,
-      issueIcon:'',
+      issueIcon:null,
       displayName: 'Sleep',
       focusName: 'SLEEP',
       messageOnSelection:
@@ -33,7 +33,7 @@ void main() {
     ),
     Issue(
       issueId: 1,
-      issueIcon: '',
+      issueIcon: null,
       displayName: 'Sleep',
       focusName: 'SLEEP',
       messageOnSelection:
@@ -41,7 +41,7 @@ void main() {
     ),
     Issue(
       issueId: 1,
-      issueIcon: '',
+      issueIcon: null,
       displayName: 'Sleep',
       focusName: 'SLEEP',
       messageOnSelection:

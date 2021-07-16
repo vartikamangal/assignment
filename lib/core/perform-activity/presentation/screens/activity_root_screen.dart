@@ -47,9 +47,11 @@ class _ActivityRootScreenState extends State<ActivityRootScreen> {
         case PageState.LOADED:
           return activityController.activeStepScreen.value;
         case PageState.FAILURE:
-          return Center(
+          return const Center(
             /// Shitty name, but EmptyState --> ErrorStateUI
-            child: EmptyState(),
+            child: EmptyState(
+              text: "Oops! Something went wrong",
+            ),
           );
       }
     });

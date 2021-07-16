@@ -44,6 +44,8 @@
 	<string>Record audio for saving voicenotes</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to Photos</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Used for anonymised analytics</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

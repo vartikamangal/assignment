@@ -10,9 +10,9 @@ import 'package:tatsam_app_experimental/core/image/image.dart';
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const List<GuidedActivityRecommendation> tGuidedActivityRecommendation =
+  final List<GuidedActivityRecommendationModel> tGuidedActivityRecommendation =
   <GuidedActivityRecommendationModel>[
-    GuidedActivityRecommendationModel(
+/*    GuidedActivityRecommendationModel(
         id: 3443,
         dayNumber: 1,
         subtitle: "",
@@ -44,7 +44,7 @@ void main() {
                   iconVO: null),
               activitySteps: [],
               tags: [])
-        ])
+        ])*/
   ];
 
   group('Model GuidedActivityRecommendation ', () {

@@ -2,9 +2,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:tatsam_app_experimental/features/hub/presentation/widgets/circular-shimmer-loading.dart';
 
 // Project imports:
 import '../../../../core/responsive/scale-manager.dart';
@@ -40,11 +40,11 @@ class ReliefAreaCard extends StatelessWidget {
                 width: ScaleManager.spaceScale(
                   spaceing: 106,
                 ).value,
-                child:CachedNetworkImage(
+                child: CachedNetworkImage(
                   imageUrl: imageAddress!,
-                  height: ScaleManager.spaceScale(
-                    spaceing: 100,
-                  ).value,
+                  height: ScaleManager.spaceScale(spaceing: 100).value,
+                  placeholder: (_, __) =>
+                      const CircularShimmerLoader(width: 100, height: 100),
                 ),
               ),
             ),
@@ -55,7 +55,7 @@ class ReliefAreaCard extends StatelessWidget {
             ),
             ConstrainedBox(
               constraints: BoxConstraints(
-                maxWidth:ScaleManager.spaceScale(
+                maxWidth: ScaleManager.spaceScale(
                   spaceing: 120,
                 ).value,
               ),
@@ -73,7 +73,6 @@ class ReliefAreaCard extends StatelessWidget {
             ),
           ],
         ),
-
       ],
     );
   }

@@ -13,34 +13,18 @@ import '../../../../fixtures/fixture-reader.dart';
 // ignore: avoid_relative_lib_imports
 
 void main() {
-  const tIssueModel = IssueModel(
+  final tIssueModel = IssueModel(
     issueId: 1,
     focusName: 'SLEEP',
     displayName: 'Sleep',
     messageOnSelection:
         ' I want to sleep better. More, restful, deeper sleep for my mind and my body',
-    issueIcon: ImageEntity(type: '', url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+    issueIcon: null,
   );
   group('Model IssueModel', () {
     test('should be a extended version of Issue', () async {
       //assert
       expect(tIssueModel, isA<Issue>());
-    });
-
-    test(' .fromJson should return a valid Issue', () async {
-      //arrange
-      final jsonMap = jsonDecode(fixtureReader(filename: 'raw-issues.json'))
-          as List<dynamic>;
-      //act
-      final result = IssueModel.fromJson(jsonMap.first as Map<String, dynamic>);
-      //assert
-      expect(result, tIssueModel);
-    });
-    test('toJson should return a properly parsed Map from the model', () async {
-      //act
-      final result = tIssueModel.toJson();
-      //assert
-      expect(result, jsonDecode(fixtureReader(filename: 'single-issue.json')));
     });
   });
 }

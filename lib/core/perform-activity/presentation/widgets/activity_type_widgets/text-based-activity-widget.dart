@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:tatsam_app_experimental/core/activity/presentation/controller/path-controller.dart';
+import 'package:tatsam_app_experimental/core/analytics/analytics-setup.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
-import 'package:tatsam_app_experimental/core/asset-image-path/image-path.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/content_page_controller.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/text_content_controller.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/screens/base_content_widget.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/null-handled-image.dart';
 import 'package:tatsam_app_experimental/core/responsive/responsive-builder.dart';
 import 'package:tatsam_app_experimental/core/responsive/scale-manager.dart';
 import 'package:tatsam_app_experimental/core/utils/app-text-style-components/app-text-styles.dart';
@@ -17,7 +18,7 @@ import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/linear-progress-indicator.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/voice-notes-controller.dart';
 import 'package:tatsam_app_experimental/core/voicenotes/presentation/widgets/voice-note-ui-fragment.dart';
-import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/null-handled-image.dart';
+import 'package:tatsam_app_experimental/dependency_manager/core_dependency_managers.dart';
 
 class TextBasedActivity extends BaseContentWidget {
   final PathController _controller = Get.find();
@@ -27,7 +28,8 @@ class TextBasedActivity extends BaseContentWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageScaleFactor = ScaleManager.imageScale.value;
+    /// Disables analytics for the activity
+    sl_core_dependencies<SetupAnalytics>().disableRendering();
     final textScaleFactor = ScaleManager.textScale.value;
     return Stack(
       children: [
@@ -45,7 +47,9 @@ class TextBasedActivity extends BaseContentWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  NullHandledImage(image: activityController.activity.value!.iconVO!.url,)
+                  NullHandledImage(
+                    image: activityController.activity.value!.iconVO!.url,
+                  )
                 ],
               ),
               Container(

@@ -1,21 +1,17 @@
 // Dart imports:
 
-// Flutter imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // Package imports:
 import 'package:get/get.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/null-handled-image.dart';
 
-// Project imports:
-import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/bottomRightButton.dart';
 import '../../../../core/utils/universal-widgets/empty-space.dart';
-import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/null-handled-image.dart';
 
 // main(List<String> args) {
 //   DidYouKnowScreen.pageName
@@ -31,7 +27,6 @@ class DidYouKnowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageScaleFactor = ScaleManager.imageScale.value;
     final textScaleFactor = ScaleManager.textScale.value;
     final activityDuration =
         _activityController.activity.value!.durationInMinutes.toString();
@@ -78,7 +73,10 @@ class DidYouKnowScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           //TODO change this after
-                          NullHandledImage(image: _activityController.activeStep.value!.iconVO!.url)
+                          NullHandledImage(
+                            image: _activityController
+                                .activeStep.value!.iconVO!.url,
+                          )
                         ],
                       ),
                       SizedBox(

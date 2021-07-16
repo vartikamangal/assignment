@@ -5,11 +5,10 @@ import 'package:easy_localization/easy_localization.dart';
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tatsam_app_experimental/core/activity/presentation/widget/pill-loader.dart';
 import 'package:tatsam_app_experimental/core/app-bar/top-app-bar.dart';
+import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-state.dart';
+import 'package:tatsam_app_experimental/features/instant-relief/presentation/controllers/instant-recommendations-controller.dart';
 
-// Project imports:
-import '../../../../core/asset-image-path/image-path.dart';
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/routes/app-routes/app-routes.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
@@ -47,9 +46,7 @@ class PathGuidedPlan extends StatelessWidget {
                         top: ScaleManager.spaceScale(spaceing: 10).value,
                       ),
                       child: Text(
-                        tr(
-                          'your plan',
-                        ),
+                        tr('your plan'),
                         style: AppTextStyle.Askfeeling,
                         textScaleFactor: textScaleFactor,
                       ),
@@ -81,13 +78,24 @@ class PathGuidedPlan extends StatelessWidget {
                   ).value,
                 ),
                 sliver: SliverToBoxAdapter(
-                  child: Obx(
-                    () => _controller.isLoading.value
-                        ?  PillLoader(haveDescription: true)
-                        : Column(
-                            children: _buildPlan(),
+                  child: Obx(() {
+                    switch (_controller.pageState.value) {
+                      case PageState.LOADING:
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      case PageState.LOADED:
+                        return Column(
+                          children: _buildPlan(),
+                        );
+                      case PageState.FAILURE:
+                        return const Center(
+                          child: EmptyState(
+                            text: "Sorry, Couldn't generate a plan",
                           ),
-                  ),
+                        );
+                    }
+                  }),
                 ),
               ),
             ],

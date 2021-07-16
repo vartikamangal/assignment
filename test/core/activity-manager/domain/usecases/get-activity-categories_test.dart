@@ -21,7 +21,7 @@ void main() {
     repository = MockGetCategoryActivitiesRepository();
     useCase = GetCategoryActivities(repository: repository);
   });
-  const tCategory = RecommendationCategoryModel(
+  final tCategory = RecommendationCategory(
       id: 1,
       categoryName: "PHYSICAL",
       displayTitle: "Physical",
@@ -29,7 +29,7 @@ void main() {
       categoryDetailedDescription: "This is physical category for body",
       categoryShortDescription: "Focus on the body",
       iconVO: null);
-  const tRecommendations = <Recommendation>[
+  final tRecommendations = <Recommendation>[
     Recommendation(
         activity: Activity(
             id: "08c3275f-e45e-4b6a-bfe7-280266baf6c5",
@@ -177,13 +177,13 @@ void main() {
     test('should return a list of activityCategory using repository', () async {
       //arrange
       when(repository.getActivities(category: tCategory))
-          .thenAnswer((_) async => const Right(tRecommendations));
+          .thenAnswer((_) async =>  Right(tRecommendations));
       //act
       final result =
-          await useCase(const GetCategoryActivitiesParams(category: tCategory));
+          await useCase( GetCategoryActivitiesParams(category: tCategory));
       //assert
       verify(repository.getActivities(category: tCategory));
-      expect(result, const Right(tRecommendations));
+      expect(result,  Right(tRecommendations));
     });
   });
 }

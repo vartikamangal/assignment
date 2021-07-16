@@ -25,7 +25,7 @@ void main() {
     useCase = GetActivityScheduleForGuidedPlan(repository: repository);
   });
 
-  const tActivitySceduleGuided = ActivitySceduleGuided(
+  final tActivitySceduleGuided = ActivitySceduleGuided(
     id: 3441,
     tags: [],
     pathInformation: PathInformation(
@@ -134,12 +134,12 @@ void main() {
     test('should return a Activity scheduled plan using repository', () async {
       //arrange
       when(repository.getSchedule())
-          .thenAnswer((_) async => const Right(tActivitySceduleGuided));
+          .thenAnswer((_) async =>  Right(tActivitySceduleGuided));
       //act
       final result = await useCase(NoParams());
       //assert
       verify(repository.getSchedule());
-      expect(result, const Right(tActivitySceduleGuided));
+      expect(result,  Right(tActivitySceduleGuided));
     });
   });
 }

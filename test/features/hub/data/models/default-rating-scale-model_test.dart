@@ -8,29 +8,16 @@ import 'package:tatsam_app_experimental/features/hub/domain/entities/default-rat
 import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
-  const tDefaultRatingScaleModel = DefaultRatingScaleModel(
+  final tDefaultRatingScaleModel = DefaultRatingScaleModel(
     id: 0,
     ratingScaleName: null,
     minValue: 0,
     maxValue: 0,
-    icon: "",
+    icon: null,
   );
   group('Model DefaultRatingScaleModel', () {
     test('should be a extended version of DefaultRatingScale', () async {
       expect(tDefaultRatingScaleModel, isA<DefaultRatingScale>());
-    });
-
-    test('fromJson should transform raw-response into InstantReliefAreaModel',
-        () async {
-      //arrange
-      final jsonMap =
-          jsonDecode(fixtureReader(filename: 'default-rating-scale.json'))
-              as List<dynamic>;
-      //act
-      final result = DefaultRatingScaleModel.fromJson(
-          jsonMap.first as Map<String, dynamic>);
-      //assert
-      expect(result, tDefaultRatingScaleModel);
     });
   });
 }

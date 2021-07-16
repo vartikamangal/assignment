@@ -69,14 +69,17 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.setTarget(
-    //     issue: tissue,
-    //   );
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteService!.addIssue(issue: tissue))
+          .thenAnswer((_) async => AddIssueSuccess());
+      //act
+      await serviceImpl.setTarget(
+        issue: tissue,
+      );
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test('should return addIssue if call to remote data source is successfull',
         () async {
       //arrange

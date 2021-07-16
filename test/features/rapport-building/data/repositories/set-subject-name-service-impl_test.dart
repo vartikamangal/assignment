@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -16,7 +17,7 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/repositor
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
 import 'set-subject-name-service-impl_test.mocks.dart';
 
-@GenerateMocks([RapportBuildingRemoteDataSource,NetworkInfo])
+@GenerateMocks([RapportBuildingRemoteDataSource, NetworkInfo])
 void main() {
   late MockNetworkInfo? networkInfo;
   MockRapportBuildingRemoteDataSource? service;
@@ -60,14 +61,20 @@ void main() {
     setUp(() {
       when(networkInfo!.isConnected).thenAnswer((_) async => true);
     });
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await impl.setSubjectName(
-    //     subjectName: tSubjectName,
-    //   );
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(
+        service!.setSubjectName(
+          name: tSubjectName,
+        ),
+      ).thenAnswer((_) async => tSubjectInfo);
+      //act
+      await impl.setSubjectName(
+        subjectName: tSubjectName,
+      );
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test('should return SubjectInfoModel from data-source', () async {
       //arrange
       when(

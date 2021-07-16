@@ -42,13 +42,7 @@ void main() {
   });
 
   const tInstantReliefAreas = <InstantReliefAreaModel>[
-    InstantReliefAreaModel(
-        id: 1,
-        title: "title",
-        subtitle: "subtitle",
-        instantReliefName: "instantReliefName",
-        description: "description",
-        icon: null)
+
   ];
 
   void runTestOnline(Callback body) {
@@ -60,12 +54,15 @@ void main() {
 
   //! Actual tests go here
   runTestOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getReliefAreas();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteDataSource!.getReliefAreas())
+          .thenAnswer((_) async => tInstantReliefAreas);
+      //act
+      await repositoryImpl.getReliefAreas();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return a List<InstReliefArea> when call to remote data source is successfull',
         () async {

@@ -54,6 +54,7 @@ class HomeController extends GetxController {
   final RetrieveMostRecentActivity retrieveMostRecentActivity;
   final RetrieveUserPath retrieveUserPath;
   final GetRecommendationsByActionTime getRecommendationsByActionTime;
+
   /// usecase for saving user's onboardeing staus
   final SaveUserOnboardingStatus userOnboardingStatus;
 
@@ -142,7 +143,11 @@ class HomeController extends GetxController {
     // );
     final HubController _controller = Get.find();
     await _controller.fetchHubStatus();
-    userMood.value = _controller.hubStatus.value!.userMood!.toLowerCase();
+    if (_controller.hubStatus.value?.userMood != null) {
+      userMood.value = _controller.hubStatus.value!.userMood!.toLowerCase();
+    } else {
+      log("<----------- [SKIPPING] Fetch Hub status step ----------->");
+    }
   }
 
   /// Will give the persisted value of last successfull activity completed by user

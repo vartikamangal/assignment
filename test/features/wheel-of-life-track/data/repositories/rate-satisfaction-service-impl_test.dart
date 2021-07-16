@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -20,8 +21,7 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/source
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/rated-satisfaction-success.dart';
 import 'rate-satisfaction-service-impl_test.mocks.dart';
 
-@GenerateMocks([WheelOfLifeRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([WheelOfLifeRemoteDataSource, NetworkInfo])
 void main() {
   late MockWheelOfLifeRemoteDataSource? remoteService;
   MockNetworkInfo? networkInfo;

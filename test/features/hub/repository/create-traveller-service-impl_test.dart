@@ -14,11 +14,10 @@ import 'package:tatsam_app_experimental/features/hub/data/sources/create-travell
 import 'package:tatsam_app_experimental/features/hub/domain/entities/success-create-traveller.dart';
 import 'create-traveller-service-impl_test.mocks.dart';
 
-@GenerateMocks([CreateTravellerRemoteService,NetworkInfo])
-
+@GenerateMocks([CreateTravellerRemoteService, NetworkInfo])
 void main() {
   MockCreateTravellerRemoteService? remoteService;
-  MockNetworkInfo ? networkInfo;
+  MockNetworkInfo? networkInfo;
   late CreateTravellerServiceImpl serviceImpl;
   BaseRepository baseRepository;
   CallIfNetworkConnected callIfNetworkConnected;
@@ -46,12 +45,15 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await serviceImpl.createTraveller();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteService!.createTraveller())
+          .thenAnswer((_) async => const SuccessCreatedTraveller());
+      //act
+      await serviceImpl.createTraveller();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should get basic profile details when coonection to remote data source is successfull',
         () async {
@@ -74,13 +76,4 @@ void main() {
       expect(result, Left(ServerFailure()));
     });
   });
-  // test(
-  //     'DEVICE OFFLINE : getBasicProfileDetails should return DeviceOfflineFailure',
-  //     () async {
-  //   when(networkInfo!.isConnected).thenAnswer((_) async => false);
-  //   //act
-  //   final result = await remoteService!.createTraveller();
-  //   //assert
-  //   expect(result, Left(DeviceOfflineFailure()));
-  // });
 }

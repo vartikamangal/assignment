@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -16,8 +17,7 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/repositor
 import 'package:tatsam_app_experimental/features/rapport-building/data/sources/rapport-building-remote-data-source.dart';
 import 'get-all-moods-repo-impl_test.mocks.dart';
 
-@GenerateMocks([RapportBuildingRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([RapportBuildingRemoteDataSource, NetworkInfo])
 void main() {
   late MockRapportBuildingRemoteDataSource? remoteDataSource;
   MockNetworkInfo? networkInfo;
@@ -27,7 +27,7 @@ void main() {
   BaseRepository baseRepository;
 
   //? Helper data vars
-  const tMoods = <MoodModel>[
+  final tMoods = <MoodModel>[
     MoodModel(
       id: 1,
       moodName: "VERY_BAD",
@@ -88,12 +88,14 @@ void main() {
 
   //! Actual tests go here
   runTestOnline(() {
-    // test('should check if the device is online', () async {
-    //   //act
-    //   await repositoryImpl.getAllMoods();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteDataSource!.getMoods()).thenAnswer((_) async => tMoods);
+      //act
+      await repositoryImpl.getAllMoods();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     test(
         'should return a List<MoodModel> when call to remote data source is successfull',
         () async {
@@ -103,7 +105,7 @@ void main() {
       final result = await repositoryImpl.getAllMoods();
       //assert
       verify(remoteDataSource!.getMoods());
-      expect(result, const Right(tMoods));
+      expect(result, Right(tMoods));
     });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',

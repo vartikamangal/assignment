@@ -10,7 +10,13 @@ import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/color-pallete.dart';
 import '../../../../core/utils/helper_functions/generate-date-from-datetime.dart';
+import '../../../../core/utils/universal-widgets/private-view.dart';
 import '../../../../features/profile-screen/presentation/controller/profile-controller.dart';
+
+/// Wrapper which will make the child private
+class DiaryScreen extends PrivateView {
+  DiaryScreen() : super(child: MyDiary());
+}
 
 class MyDiary extends GetWidget<ProfileController> {
   @override
@@ -148,11 +154,16 @@ class DiaryContent extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      selectedActivityName!,
-                      style: AppTextStyle.Darkbluebold.copyWith(
-                          fontWeight: FontWeight.w400, fontSize: 20),
-                      textScaleFactor: textScaleFactor,
+                    SizedBox(
+                      width: ScaleManager.spaceScale(
+                        spaceing: 230,
+                      ).value,
+                      child: Text(
+                        selectedActivityName!,
+                        style: AppTextStyle.Darkbluebold.copyWith(
+                            fontWeight: FontWeight.w400, fontSize: 20),
+                        textScaleFactor: textScaleFactor,
+                      ),
                     ),
                     Text(
                       date,

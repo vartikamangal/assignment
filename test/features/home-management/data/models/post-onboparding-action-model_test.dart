@@ -20,17 +20,5 @@ void main() {
       //assert
       expect(tPostOnBoardingActionModel, isA<PostOnboardingAction>());
     });
-    //
-    // test(' .fromJson should return a valid PostOnboardingAction', () async {
-    //   //arrange
-    //   final jsonMap = jsonDecode(
-    //           fixtureReader(filename: 'post-onboarding-action-model-from.json'))
-    //       as List<dynamic>;
-    //   //act
-    //   final result = PostOnboardingActionModel.fromJson(
-    //       jsonMap.first as Map<String, dynamic>);
-    //   //assert
-    //   expect(result, tPostOnBoardingActionModel);
-    // });
   });
 }

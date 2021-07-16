@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey.dart';
 import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/entites/journey_started_success.dart';
@@ -11,7 +12,6 @@ import 'package:tatsam_app_experimental/features/what-path-to-choose/domain/usec
 import 'start-journey_test.mocks.dart';
 
 @GenerateMocks([PathOperationsRepository])
-
 void main() {
   late MockPathOperationsRepository? service;
   late StartJourney useCase;

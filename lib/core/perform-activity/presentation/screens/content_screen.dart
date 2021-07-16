@@ -9,6 +9,7 @@ import 'package:tatsam_app_experimental/core/duration-tracker/duration-tracker-c
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/content_page_controller.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/perform-activity-controller.dart';
 import 'package:tatsam_app_experimental/core/perform-activity/presentation/controllers/text_content_controller.dart';
+import 'package:tatsam_app_experimental/core/perform-activity/presentation/widgets/activity_type_widgets/text-based-activity-widget.dart';
 import 'package:tatsam_app_experimental/core/routes/app-routes/app-routes.dart';
 import 'package:tatsam_app_experimental/core/utils/color-pallete.dart';
 import 'package:tatsam_app_experimental/core/utils/universal-widgets/empty-space.dart';
@@ -17,6 +18,7 @@ import 'package:tatsam_app_experimental/core/voicenotes/presentation/controller/
 import '../../../../core/responsive/scale-manager.dart';
 import '../../../../core/utils/app-text-style-components/app-text-styles.dart';
 import '../../../../core/utils/buttons/bottom-middle-button.dart';
+import '../../../utils/universal-widgets/private-view.dart';
 
 class ContentScreen extends StatelessWidget {
   final PerformActivityController activityController = Get.find();
@@ -44,7 +46,9 @@ class ContentScreen extends StatelessWidget {
                       padding: EdgeInsets.only(
                           bottom: ScaleManager.spaceScale(spaceing: 40).value),
                       child: Obx(
-                        () => _contentPageController.contentWidget.value,
+                        /// Will check if the view needs to
+                        /// be guarded and render it
+                        _renderSecureViewBasedOnActivity,
                       ),
                     ),
                     Padding(
@@ -69,6 +73,18 @@ class ContentScreen extends StatelessWidget {
       ),
     );
   }
+
+  /// Screen recording will only be disabled
+  /// for Text Based Activities
+  Widget _renderSecureViewBasedOnActivity() {
+    if (_contentPageController.contentWidget.value == TextBasedActivity()) {
+      return PrivateView(
+        child: _contentPageController.contentWidget.value,
+      );
+    } else {
+      return _contentPageController.contentWidget.value;
+    }
+  }
 }
 
 class FooterContent extends StatelessWidget {
@@ -81,7 +97,6 @@ class FooterContent extends StatelessWidget {
   final PerformActivityController _controller;
   final DurationTrackerController _durationController = Get.find();
   final ActivityCacheController cacheController = Get.find();
-  final ContentPageController _contentPageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
