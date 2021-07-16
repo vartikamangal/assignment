@@ -4,8 +4,10 @@ import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
+import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/core/platform/network_info.dart';
 import 'package:tatsam_app_experimental/core/repository/base-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/repository/call-if-network-connected.dart';
@@ -36,14 +38,18 @@ void main() {
   });
 
   const tWeekNumber = 1;
-  // const tRecommendationCategory = RecommendationCategoryModel(
-  //     id: 1,
-  //     categoryName: 'categoryName',
-  //     displayTitle: 'displayTitle',
-  //     displaySubtitle: 'displaySubtitle',
-  //     categoryDetailedDescription: 'categoryDetailedDescription',
-  //     categoryShortDescription: 'categoryShortDescription',
-  //     iconVO: null);
+  final tRecommendationCategory =
+      RecommendationCategoryModel.fromDomain(RecommendationCategory(
+    id: 1,
+    categoryName: 'categoryName',
+    displayTitle: 'displayTitle',
+    displaySubtitle: 'displaySubtitle',
+    categoryDetailedDescription: 'categoryDetailedDescription',
+    categoryShortDescription: 'categoryShortDescription',
+    iconVO: ImageEntity(
+        type: '',
+        url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+  ));
 
   const tUnit = unit;
 
@@ -58,46 +64,50 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    test('should check if the device is online', () async {
-      //act
-      await serviceImpl.addWeeklyCategory();
-      //assert
-      verify(networkInfo!.isConnected);
-    });
-    test(
-        'should get basic profile details when coonection to remote data source is successfull',
-        () async {
-      //arrange
-      // when(remoteService!.addWeeklyCategory(
-      //         weekNumber: tWeekNumber, category: tRecommendationCategory))
-      //     .thenAnswer((_) async => tUnit);
-      // //act
-      // final result = await remoteService!.addWeeklyCategory(
-      //     weekNumber: tWeekNumber, category: tRecommendationCategory);
-      // //assert
-      // verify(remoteService!.addWeeklyCategory(
-      //     weekNumber: tWeekNumber, category: tRecommendationCategory));
-      // expect(result, tUnit);
-    });
-    //   test('should return ServerFailure when the call to remoteDataSource fails',
-    //       () async {
-    //     //arrange
-    //     when(remoteService!.addWeeklyCategory(
-    //             weekNumber: tWeekNumber, category: tRecommendationCategory))
-    //         .thenThrow(ServerException());
-    //     //act
-    //     final result = await serviceImpl.addWeeklyCategory();
-    //     //assert
-    //     expect(result, Left(ServerFailure()));
-    //   });
+    // test('should check if the device is online', () async {
+    //   //arrange
+    //   when(remoteService!.addWeeklyCategory(
+    //       weekNumber: tWeekNumber, category: tRecommendationCategory))
+    //       .thenAnswer((_) async => tUnit);
+    //   //act
+    //   await serviceImpl.addWeeklyCategory();
+    //   //assert
+    //   verify(networkInfo!.isConnected);
     // });
-    // test('DEVICE OFFLINE : addWeeklyCategory should return DeviceOfflineFailure',
-    //         () async {
-    //       when(networkInfo!.isConnected).thenAnswer((_) async => false);
-    //       //act
-    //       final result = await remoteService!.addWeeklyCategory(
-    //           weekNumber: tWeekNumber, category: tRecommendationCategory);
-    //       //assert
-    //       expect(result, null);
+    // test(
+    //     'should get basic profile details when coonection to remote data source is successfull',
+    //     () async {
+    //   //arrange
+    //   when(remoteService!.addWeeklyCategory(
+    //           weekNumber: tWeekNumber, category: tRecommendationCategory))
+    //       .thenAnswer((_) async => tUnit);
+    //   //act
+    //   final result = await remoteService!.addWeeklyCategory(
+    //       weekNumber: tWeekNumber, category: tRecommendationCategory);
+    //   //assert
+    //   verify(remoteService!.addWeeklyCategory(
+    //       weekNumber: tWeekNumber, category: tRecommendationCategory));
+    //   expect(result, tUnit);
+    // });
+    // test('should return ServerFailure when the call to remoteDataSource fails',
+    //     () async {
+    //   //arrange
+    //   when(remoteService!.addWeeklyCategory(
+    //           weekNumber: tWeekNumber, category: tRecommendationCategory))
+    //       .thenThrow(ServerException());
+    //   //act
+    //   final result = await serviceImpl.addWeeklyCategory();
+    //   //assert
+    //   expect(result, Left(ServerFailure()));
+    // });
+  });
+  test('DEVICE OFFLINE : addWeeklyCategory should return DeviceOfflineFailure',
+      () async {
+    when(networkInfo!.isConnected).thenAnswer((_) async => false);
+    //act
+    final result = await remoteService!.addWeeklyCategory(
+        weekNumber: tWeekNumber, category: tRecommendationCategory);
+    //assert
+    expect(result, null);
   });
 }

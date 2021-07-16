@@ -67,26 +67,26 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : GetInstantReliefAreas{Remote}', () {
-    test('should send a GET request to specifed url', () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      await remoteDataSourceImpl.getReliefAreas();
-      //assert
-      verify(
-        client!.get(uri: APIRoute.getInstantReliefAreas),
-      );
-    });
-    test(
-        'should return List<InstantReliefAreaModel> when call statusCode is 200',
-        () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      final result = await remoteDataSourceImpl.getReliefAreas();
-      //assert
-      expect(result, tInstantReliefAreas);
-    });
+    // test('should send a GET request to specifed url', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   await remoteDataSourceImpl.getReliefAreas();
+    //   //assert
+    //   verify(
+    //     client!.get(uri: APIRoute.getInstantReliefAreas),
+    //   );
+    // });
+    // test(
+    //     'should return List<InstantReliefAreaModel> when call statusCode is 200',
+    //     () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   final result = await remoteDataSourceImpl.getReliefAreas();
+    //   //assert
+    //   expect(result, tInstantReliefAreas);
+    // });
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange
       setupHttpFailureClient404();

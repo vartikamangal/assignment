@@ -46,4 +46,5 @@ class ActivityScheduleGuidedModel extends DataModel<ActivitySceduleGuided> {
     // TODO= implement toJson
     throw UnimplementedError();
   }
+
 }

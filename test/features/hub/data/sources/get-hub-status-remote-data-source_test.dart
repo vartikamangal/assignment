@@ -84,16 +84,16 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : getHubStatus', () {
-    test('should send a GET request to specifed url', () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      await remoteDataSourceImpl.getHubStatus();
-      //assert
-      verify(
-        client.get(uri: APIRoute.getHubUserStatus),
-      );
-    });
+    // test('should send a GET request to specifed url', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   await remoteDataSourceImpl.getHubStatus();
+    //   //assert
+    //   verify(
+    //     client.get(uri: APIRoute.getHubUserStatus),
+    //   );
+    // });
     // test('should return gub status model when call statusCode is 200',
     //     () async {
     //   //arrange
@@ -103,13 +103,13 @@ Future<void> main() async {
     //   //assert
     //   expect(result, tHubStatus);
     // });
-    // test('should throw ServerException when statusCode is not 200', () async {
-    //   //arrange
-    //   setupHttpFailureClient404();
-    //   //act
-    //   final call = remoteDataSourceImpl.getHubStatus;
-    //   //assert
-    //   expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
-    // });
+    test('should throw ServerException when statusCode is not 200', () async {
+      //arrange
+      setupHttpFailureClient404();
+      //act
+      final call = remoteDataSourceImpl.getHubStatus;
+      //assert
+      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
+    });
   });
 }

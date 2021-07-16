@@ -98,15 +98,15 @@ Future<void> main() async {
       );
     });
 
-    // test('should return List<IssueModel> when call statusCode is 200',
-    //     () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   final result = await remoteDataSourceImpl.getIssues();
-    //   //assert
-    //   expect(result, tIssueModel);
-    // });
+    test('should return List<IssueModel> when call statusCode is 200',
+        () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      final result = await remoteDataSourceImpl.getIssues();
+      //assert
+      expect(result, tIssueModel);
+    });
 
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange

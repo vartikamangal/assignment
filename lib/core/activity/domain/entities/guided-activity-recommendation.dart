@@ -25,7 +25,7 @@ class GuidedActivityRecommendation extends Entity {
     required this.title,
     required this.subtitle,
     required this.helpContent,
-    required this.recommendationList,
+    required this.recommendationList, tags,
   });
 
   GuidedActivityRecommendation copyWith({

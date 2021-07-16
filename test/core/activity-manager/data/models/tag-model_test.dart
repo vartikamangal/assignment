@@ -20,7 +20,7 @@ void main() {
       displayName: 'Losing Temper',
       tagCategory: "INSTANT_RELIEF"));
 
-  test('from domain tets', () async {
+  test('from domain to take entity and covert in desired model', () async {
     //act
     final result = TagModel.fromDomain(Tags);
     //expect
