@@ -83,7 +83,7 @@ void main() {
     );
   }
 
-  group('DATA SOURCE : GetLifeAreas{Remote}', () {
+  group('DATA SOURCE : getBasicDetails', () {
     test(
         'should send a GET request to the specified URL for getting required data',
         () async {
@@ -94,7 +94,7 @@ void main() {
       //assert
       verify(client.post(uri: APIRoute.getBasicDetails));
     });
-    // test('should return the List<LifeAreaModel> if the statusCode is 200',
+    // test('should return the List<ProfileDataModel> if the statusCode is 200',
     //     () async {
     //   //arrange
     //   setupHttpSuccessClient200();
