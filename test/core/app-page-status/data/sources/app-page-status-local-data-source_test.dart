@@ -118,7 +118,11 @@ void main() {
         rating: IndividualSatisfactionRatingResultModel(
 =======
         rating:  IndividualSatisfactionRatingResultModel(
+<<<<<<< HEAD
+>>>>>>> e4d71b8d18331061f49d8c49442a9247e7165c21
+=======
 >>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
+>>>>>>> profile
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -149,7 +153,11 @@ void main() {
     targetFocus: TargetFocusListModel(id: 1, targetFocusList: [
 =======
     targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
+<<<<<<< HEAD
+>>>>>>> e4d71b8d18331061f49d8c49442a9247e7165c21
+=======
 >>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
+>>>>>>> profile
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -175,7 +183,11 @@ void main() {
         rating: IndividualSatisfactionRatingResultModel(
 =======
         rating:  IndividualSatisfactionRatingResultModel(
+<<<<<<< HEAD
+>>>>>>> e4d71b8d18331061f49d8c49442a9247e7165c21
+=======
 >>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
+>>>>>>> profile
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -205,7 +217,11 @@ void main() {
     targetFocus: TargetFocusListModel(id: 1, targetFocusList: [
 =======
     targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
+<<<<<<< HEAD
+>>>>>>> e4d71b8d18331061f49d8c49442a9247e7165c21
+=======
 >>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
+>>>>>>> profile
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -231,7 +247,11 @@ void main() {
         rating: IndividualSatisfactionRatingResultModel(
 =======
         rating:  IndividualSatisfactionRatingResultModel(
+<<<<<<< HEAD
+>>>>>>> e4d71b8d18331061f49d8c49442a9247e7165c21
+=======
 >>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
+>>>>>>> profile
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -262,7 +282,11 @@ void main() {
     targetFocus: TargetFocusListModel(id: 1, targetFocusList: [
 =======
     targetFocus:  TargetFocusListModel(id: 1, targetFocusList: [
+<<<<<<< HEAD
+>>>>>>> e4d71b8d18331061f49d8c49442a9247e7165c21
+=======
 >>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
+>>>>>>> profile
       IssueModel(
           issueId: 1,
           focusName: 'Test_Focus',
@@ -288,7 +312,11 @@ void main() {
         rating: IndividualSatisfactionRatingResultModel(
 =======
         rating:  IndividualSatisfactionRatingResultModel(
+<<<<<<< HEAD
+>>>>>>> e4d71b8d18331061f49d8c49442a9247e7165c21
+=======
 >>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
+>>>>>>> profile
           id: 1,
           rating: 3,
           scale: DefaultRatingScaleModel(
@@ -302,7 +330,11 @@ void main() {
     journeyPath: JourneyModel(
 =======
     journeyPath:  JourneyModel(
+<<<<<<< HEAD
+>>>>>>> e4d71b8d18331061f49d8c49442a9247e7165c21
+=======
 >>>>>>> 1ed6903eea33d4f66a26dddce0f22266e2f1e1d2
+>>>>>>> profile
       id: 1,
       title: 'TEST',
       subtitle: 'TEST',

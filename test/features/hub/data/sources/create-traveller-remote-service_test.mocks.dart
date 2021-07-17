@@ -30,6 +30,7 @@ class MockApiClient extends _i1.Mock implements _i3.ApiClient {
           .noSuchMethod(Invocation.method(#post, [], {#uri: uri, #body: body}),
               returnValue: Future<_i2.Response>.value(_FakeResponse()))
       as _i4.Future<_i2.Response>);
+
   @override
   _i4.Future<_i2.Response> get({String? uri}) =>
       (super.noSuchMethod(Invocation.method(#get, [], {#uri: uri}),

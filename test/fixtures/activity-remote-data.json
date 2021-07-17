@@ -1,4 +1,14 @@
 {
+<<<<<<< HEAD
+  "subjectMoodVO": {
+    "mood": "mood",
+    "activityType": "activityType"
+  },
+  "minutesSpent": 1,
+  "feedbackThoughts": "feedbackThoughts",
+  "recommendationId": "recommendationId",
+  "actionId": 1
+=======
     "subjectMoodVO": {
         "mood": "mood",
         "activityType": "activityType"
@@ -7,4 +17,5 @@
     "feedbackThoughts": "feedbackThoughts",
     "recommendationId": "recommendationId",
     "actionId": 1
+>>>>>>> profile
 }

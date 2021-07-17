@@ -1,9 +1,14 @@
-[{
-  "id": 2,
-  "categoryName": "MENTAL",
-  "displayTitle": "Mental",
-  "displaySubtitle": "Focus on your mind",
-  "categoryDetailedDescription": "This is mental category",
-  "categoryShortDescription": "Focus on your mind",
-  "iconVO": ""
-}]
+[
+  {
+    "id": 2494,
+    "categoryName": "MENTAL",
+    "displayTitle": "Mental",
+    "displaySubtitle": "Focus on your mind",
+    "categoryDetailedDescription": "This is mental category",
+    "categoryShortDescription": "Focus on your mind",
+    "iconVO": {
+      "iconType": "type",
+      "iconLocator": "url"
+    }
+  }
+]

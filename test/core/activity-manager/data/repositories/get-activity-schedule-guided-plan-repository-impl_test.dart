@@ -22,7 +22,7 @@ import 'get-activity-schedule-guided-plan-repository-impl_test.mocks.dart';
 @GenerateMocks([GetActivityScheduleForGuidedPlanRemoteDataSource, NetworkInfo])
 void main() {
   GetActivityScheduleForGuidedPlanRemoteDataSource? remoteDataSource;
-  MockNetworkInfo? networkInfo;
+  late MockNetworkInfo networkInfo;
   late GetActivityScheduleGuidedPlanRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
@@ -54,7 +54,7 @@ void main() {
 
   void runTestOnline(Callback body) {
     setUp(() {
-      when(networkInfo!.isConnected).thenAnswer((_) async => true);
+      when(networkInfo.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : GetScheduledActivity', body);
   }
@@ -67,7 +67,7 @@ void main() {
       //act
       await repositoryImpl.getSchedule();
       //assert
-      verify(networkInfo!.isConnected);
+      verify(networkInfo.isConnected);
     });
     // test(
     //     'should return a scheduledactivity when call to remote data source is successfull',
@@ -94,11 +94,10 @@ void main() {
   });
   test('DEVICE OFFLINE : GetSchedule should return DeviceOfflineFailure',
       () async {
-    when(networkInfo!.isConnected).thenAnswer((_) async => false);
+    when(networkInfo.isConnected).thenAnswer((_) async => false);
     //act
     final result = await repositoryImpl.getSchedule();
     //assert
     expect(result, Left(DeviceOfflineFailure()));
   });
 }
-
