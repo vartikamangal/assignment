@@ -95,15 +95,15 @@ void main() {
           //assert
           verify(client.post(uri: APIRoute.getBasicDetails));
         });
-    // test('should return the List<LifeAreaModel> if the statusCode is 200',
-    //     () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   final result = await remoteDataSourceImpl.getBasicProfileDetails();
-    //   //assert
-    //   expect(result, tProfileDataModel);
-    // });
+    test('should return the List<LifeAreaModel> if the statusCode is 200',
+        () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      final result = await remoteDataSourceImpl.getBasicProfileDetails();
+      //assert
+      expect(result.toString(), tProfileDataModel.toString());
+    });
     test('should throw a ServerException if statusCode is not 200', () async {
       //arrange
       setupHttpFailureClient404();

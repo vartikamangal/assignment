@@ -10,6 +10,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
@@ -22,7 +23,6 @@ import '../../../../fixtures/fixture-reader.dart';
 import 'set-subject-name-remote-service_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
-
 Future<void> main() async {
   late RapportBuildingRemoteDataSourceImpl remoteService;
   late BaseUrlController urlController;
@@ -110,7 +110,8 @@ Future<void> main() async {
       //arrange
       setupHttpFailureClient404();
       //act
-      final Future<SubjectInformationModel> Function({String name}) call = remoteService.setSubjectName;
+      final Future<SubjectInformationModel> Function({String name}) call =
+          remoteService.setSubjectName;
       //assert
       expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
     });

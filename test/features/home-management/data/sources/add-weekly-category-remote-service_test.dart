@@ -37,53 +37,53 @@ Future<void> main() async {
 
   void setupHttpSuccessClient200() {
     when(client!.post(
-            uri: '${APIRoute.addWeeklyCategory}${1}', body: anyNamed('body')))
+        uri: '${APIRoute.addWeeklyCategory}${1}', body: anyNamed('body')))
         .thenAnswer(
-      (_) async => http.Response(
+          (_) async => http.Response(
           fixtureReader(filename: 'recommendation-category-model.json'), 200),
     );
   }
 
   final tRecommendationCategoryModel=  RecommendationCategoryModel.fromDomain(
-   RecommendationCategory( id: 2,
-     categoryName: "MENTAL",
-     displayTitle: "Mental",
-     displaySubtitle: "Focus on your mind",
-     categoryDetailedDescription: "This is mental category",
-     categoryShortDescription: "Focus on your mind",
-     iconVO: ImageEntity(
-         type: '',
-         url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
-     ),);
+    RecommendationCategory( id: 2,
+      categoryName: "MENTAL",
+      displayTitle: "Mental",
+      displaySubtitle: "Focus on your mind",
+      categoryDetailedDescription: "This is mental category",
+      categoryShortDescription: "Focus on your mind",
+      iconVO: ImageEntity(
+          type: '',
+          url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+    ),);
 
   int weekNumber=1;
   void setupHttpFailureClient404() {
     when(client!.post(
-            uri: '${APIRoute.addWeeklyCategory}${'$weekNumber'}', body: anyNamed('body')))
+        uri: '${APIRoute.addWeeklyCategory}${'$weekNumber'}', body: anyNamed('body')))
         .thenAnswer(
-      (_) async => http.Response('Oops! page not found', 404),
+          (_) async => http.Response('Oops! page not found', 404),
     );
   }
 
   group('DATA SOURCE : addWeeklyCategory{Remote}', () {
-     test('should perform a POST request on the specfied URL', () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      await remoteServiceImpl.addWeeklyCategory(
-          weekNumber: 1,category: tRecommendationCategoryModel
-      );
-      //assert
-      verify(client!.post(
-        uri: '${APIRoute.addWeeklyCategory}${'$weekNumber'}',
-        body: jsonEncode(
-          {
-            "weekNumber": weekNumber,
-            "category": tRecommendationCategoryModel
-          },
-        ),
-      ));
-    });
+    // test('should perform a POST request on the specfied URL', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   await remoteServiceImpl.addWeeklyCategory(
+    //       weekNumber: 1,category: tRecommendationCategoryModel
+    //   );
+    //   //assert
+    //   verify(client!.post(
+    //     uri: '${APIRoute.addWeeklyCategory}${'$weekNumber'}',
+    //     body: jsonEncode(
+    //       {
+    //         "weekNumber": weekNumber,
+    //         "category": tRecommendationCategoryModel
+    //       },
+    //     ),
+    //   ));
+    // });
 
     test('should return unit when call statusCode is 200',
             () async {

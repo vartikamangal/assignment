@@ -28,5 +28,5 @@
     "journeyPath": null,
     "journeyStartedAt": null,
     "journeyStatus": "",
-    "latestMood": ""
+    "latestMood": "neutral"
 }

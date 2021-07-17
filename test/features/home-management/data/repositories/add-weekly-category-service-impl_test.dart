@@ -64,16 +64,16 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test('should check if the device is online', () async {
-    //   //arrange
-    //   when(remoteService!.addWeeklyCategory(
-    //       weekNumber: tWeekNumber, category: tRecommendationCategory))
-    //       .thenAnswer((_) async => tUnit);
-    //   //act
-    //   await serviceImpl.addWeeklyCategory();
-    //   //assert
-    //   verify(networkInfo!.isConnected);
-    // });
+    test('should check if the device is online', () async {
+      //arrange
+      when(remoteService!.addWeeklyCategory(
+          weekNumber: tWeekNumber, category: tRecommendationCategory))
+          .thenAnswer((_) async => tUnit);
+      //act
+      await serviceImpl.addWeeklyCategory();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
     // test(
     //     'should get basic profile details when coonection to remote data source is successfull',
     //     () async {
@@ -101,13 +101,13 @@ void main() {
     //   expect(result, Left(ServerFailure()));
     // });
   });
-  test('DEVICE OFFLINE : addWeeklyCategory should return DeviceOfflineFailure',
-      () async {
-    when(networkInfo!.isConnected).thenAnswer((_) async => false);
-    //act
-    final result = await remoteService!.addWeeklyCategory(
-        weekNumber: tWeekNumber, category: tRecommendationCategory);
-    //assert
-    expect(result, null);
-  });
+  // test('DEVICE OFFLINE : addWeeklyCategory should return DeviceOfflineFailure',
+  //     () async {
+  //   when(networkInfo!.isConnected).thenAnswer((_) async => false);
+  //   //act
+  //   final result = await remoteService!.addWeeklyCategory(
+  //       weekNumber: tWeekNumber, category: tRecommendationCategory);
+  //   //assert
+  //   expect(result, null);
+  // });
 }

@@ -73,5 +73,21 @@ void main() {
         ) as List?,
       );
     });
+    test('fromJson should parse the feeded json into a LifeAreaModel',
+            () async {
+          //arrange
+          final jsonMap = jsonDecode(
+            fixtureReader(filename: 'get-wol-areas-raw-repsonse.json'),
+          ) as List;
+          //act
+          final result = LifeAreaModel.fromJson(jsonMap[0] as Map<String, dynamic>);
+          //assert
+          expect(result, LifeAreaModel(
+            areaCode: "CAREER",
+            description: 'Your job, business and aspirations',
+            name: 'Career',
+          ));
+        });
+
   });
 }

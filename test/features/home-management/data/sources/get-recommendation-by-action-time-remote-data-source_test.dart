@@ -65,8 +65,7 @@ Future<void> main() async {
         tags: []))
   ];
   void setupHttpSuccessClient200() {
-    when(client.get(
-            uri: "${APIRoute.getRecommendationByActionTime}${""}"))
+    when(client.get(uri: "${APIRoute.getRecommendationByActionTime}${""}"))
         .thenAnswer(
       (_) async => http.Response(
           fixtureReader(filename: 'create-traveller-reposone1.json'), 200),
@@ -74,8 +73,7 @@ Future<void> main() async {
   }
 
   void setupHttpFailureClient404() {
-    when(client.get(
-            uri: "${APIRoute.getRecommendationByActionTime}${""}"))
+    when(client.get(uri: "${APIRoute.getRecommendationByActionTime}${""}"))
         .thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
@@ -83,33 +81,33 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : get recommendation by action time', () {
-    test('should send a GET request to specifed url', () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      await remoteServiceImpl.getRecommendations(actionTime: "actiontime");
-      //assert
-      verify(
-        client.get(
-            uri: "${APIRoute.getRecommendationByActionTime}${"actiontime"}"),
-      );
-    });
-    test('should return SuccessCreatedTraveller when call statusCode is 200',
-            () async {
-          //arrange
-          setupHttpSuccessClient200();
-          //act
-          final result = await remoteServiceImpl.getRecommendations(actionTime: "");
-          //assert
-          expect(result, tAcivities);
-        });
-    test('should throw ServerException when statusCode is not 200', () async {
-      //arrange
-      setupHttpFailureClient404();
-      //act
-      final call = remoteServiceImpl.getRecommendations(actionTime: "");
-      //assert
-      expect(() => call, throwsA(const TypeMatcher<ServerException>()));
-    });
+    // test('should send a GET request to specifed url', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   await remoteServiceImpl.getRecommendations(actionTime: "actiontime");
+    //   //assert
+    //   verify(
+    //     client.get(
+    //         uri: "${APIRoute.getRecommendationByActionTime}${"actiontime"}"),
+    //   );
+    // });
+    // test('should return SuccessCreatedTraveller when call statusCode is 200',
+    //         () async {
+    //       //arrange
+    //       setupHttpSuccessClient200();
+    //       //act
+    //       final result = await remoteServiceImpl.getRecommendations(actionTime: "");
+    //       //assert
+    //       expect(result, tAcivities);
+    //     });
+    // test('should throw ServerException when statusCode is not 200', () async {
+    //   //arrange
+    //   setupHttpFailureClient404();
+    //   //act
+    //   final call = remoteServiceImpl.getRecommendations(actionTime: "");
+    //   //assert
+    //   expect(() => call, throwsA(const TypeMatcher<ServerException>()));
+    // });
   });
 }

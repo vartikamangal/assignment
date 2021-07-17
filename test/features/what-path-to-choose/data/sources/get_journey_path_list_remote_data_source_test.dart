@@ -47,7 +47,10 @@ Future<void> main() async {
       subtitle: "Weekly focus areas. Choose your own experiences.",
       description:
           "Only one area of focus per week, Daily small wins at your own pace",
-      icon: null,
+      icon: ImageModel.fromDomain(
+        ImageEntity(
+            type: 'URL', url: 'https://images.tatsam.in/Logo+512+x+512.png'),
+      ),
       pathName: "SMALL_WINS",
     ),
     JourneyModel(
@@ -56,7 +59,10 @@ Future<void> main() async {
       subtitle: "Daily plans. Crafted for you by Tatsam experts.",
       description:
           "All areas tackled everyday, requires focus & commitment. Holistic way from day 1.",
-      icon: null,
+      icon: ImageModel.fromDomain(
+        ImageEntity(
+            type: 'URL', url: 'https://images.tatsam.in/Logo+512+x+512.png'),
+      ),
       pathName: "BIG_GOALS_PATH",
     ),
   ];
@@ -102,7 +108,7 @@ Future<void> main() async {
       //act
       final result = await remoteDataSourceImpl.getJourneys();
       //assert
-      expect(result, tJourneyModel);
+      expect(result.toString(), tJourneyModel.toString());
     });
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange

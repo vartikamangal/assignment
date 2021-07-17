@@ -45,8 +45,8 @@ Future<void> main() async {
         description: "description",
         icon:  ImageModel.fromDomain(
           ImageEntity(
-              type: '',
-              url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+              type: 'URL',
+              url: 'https://images.tatsam.in/Logo+512+x+512.png'),
         ),)
   ];
 
@@ -67,26 +67,26 @@ Future<void> main() async {
 
   //? Actual tests go here
   group('DATA SOURCE : GetInstantReliefAreas{Remote}', () {
-    // test('should send a GET request to specifed url', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   await remoteDataSourceImpl.getReliefAreas();
-    //   //assert
-    //   verify(
-    //     client!.get(uri: APIRoute.getInstantReliefAreas),
-    //   );
-    // });
-    // test(
-    //     'should return List<InstantReliefAreaModel> when call statusCode is 200',
-    //     () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   final result = await remoteDataSourceImpl.getReliefAreas();
-    //   //assert
-    //   expect(result, tInstantReliefAreas);
-    // });
+    test('should send a GET request to specifed url', () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      await remoteDataSourceImpl.getReliefAreas();
+      //assert
+      verify(
+        client!.get(uri: APIRoute.getInstantReliefAreas),
+      );
+    });
+    test(
+        'should return List<InstantReliefAreaModel> when call statusCode is 200',
+        () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      final result = await remoteDataSourceImpl.getReliefAreas();
+      //assert
+      expect(result.toString(), tInstantReliefAreas.toString());
+    });
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange
       setupHttpFailureClient404();

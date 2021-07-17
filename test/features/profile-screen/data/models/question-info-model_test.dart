@@ -21,8 +21,8 @@ void main() {
     test(' .fromJson should return a valid QuestionInfo', () async {
       //arrange
       final jsonMap =
-      jsonDecode(fixtureReader(filename: 'question-info-model.json'))
-      as Map<String, dynamic>;
+          jsonDecode(fixtureReader(filename: 'question-info-model.json'))
+              as Map<String, dynamic>;
       //act
       final result = QuestionInfoModel.fromJson(jsonMap);
       //assert
@@ -31,8 +31,8 @@ void main() {
     test('toJson should return a properly parsed Map from the model', () async {
       //act
       final expectedJson =
-      jsonDecode(fixtureReader(filename: 'question-info-model.json'))
-      as Map<String, dynamic>;
+          jsonDecode(fixtureReader(filename: 'question-info-model.json'))
+              as Map<String, dynamic>;
       //act
       final result = tQuestionInfoModel.toJson();
       //assert

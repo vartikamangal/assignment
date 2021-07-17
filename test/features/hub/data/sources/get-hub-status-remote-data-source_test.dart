@@ -68,7 +68,7 @@ Future<void> main() async {
       journeyPath: null,
       journeyStartedAt: null,
       journeyStatus: 'Not completed',
-      latestMood: null);
+      latestMood: "neutral");
   void setupHttpSuccessClient200() {
     when(client.get(uri: APIRoute.getHubUserStatus)).thenAnswer(
       (_) async => http.Response(

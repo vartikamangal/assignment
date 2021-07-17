@@ -20,19 +20,23 @@ void main() {
       displayName: 'Losing Temper',
       tagCategory: "INSTANT_RELIEF"));
 
-  test('from domain to take entity and covert in desired model', () async {
+
+  test('from domain to take entity and covert in TagModel', () async {
     //act
     final result = TagModel.fromDomain(Tags);
     //expect
-    expect(result.toJson(), tTagModel.toJson());
+    expect(result, isA<TagModel>());
   });
 
-  test('from json transform  into TagModel', () async {
+  test('from json should return valid tagModel', () async {
+    //arrange
+    final jsonMap = jsonDecode(fixtureReader(filename: 'raw-tag-model.json'))
+    as List<dynamic>;
     //act
-    final j = tTagModel.toJson();
-    final pm = TagModel.fromJson(j);
+    final result = TagModel.fromJson(jsonMap.first as Map<String, dynamic>);
+
     //expect
-    expect(pm.toDomain(), Tags);
+    expect(result.toString(), tTagModel.toString());
   });
 
   test('To json of TagModel should return a json TagModel', () async {
@@ -48,6 +52,6 @@ void main() {
     //act
     final result = tTagModel.toDomain();
     //expect
-    expect(result, Tags);
+    expect(result, isA<Tag>());
   });
 }

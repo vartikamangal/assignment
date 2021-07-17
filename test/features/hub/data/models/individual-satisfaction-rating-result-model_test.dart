@@ -13,7 +13,15 @@ void main() {
       id: 0,
       rating: 0,
       scale: DefaultRatingScaleModel(
-          id: 0, ratingScaleName: null, minValue: 0, maxValue: 0, icon: null));
+        id: 0,
+        ratingScaleName: null,
+        minValue: 0,
+        maxValue: 0,
+        icon: ImageModel.fromDomain(
+          ImageEntity(
+              type: 'URL', url: 'https://images.tatsam.in/Logo+512+x+512.png'),
+        ),
+      ));
   group('Model IndividualSatisfactionRatingResultModel', () {
     test('should be a extended version of IndividualSatisfactionRating',
         () async {

@@ -85,47 +85,49 @@ class _QuestionnaireView extends StatelessWidget {
         ),
         Container(
           constraints: BoxConstraints(minHeight: Get.height * 0.63),
-          child: ListView.builder(
-            shrinkWrap: true,
-            controller: controller.scrollController,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              final question =
-                  controller.questionToAnswerMap.keys.toList()[index];
-              final questionType = controller.questionToAnswerMap.keys
-                  .toList()[index]
-                  .questionType;
-              // Find a way for dynamic rendering both types of fetched questions
-              return questionType == 'SINGLE_CHOICE'
-                  ? MultipleChoiceTypeQuestionTile(
-                      index: index,
-                      question: question as QuestionModel,
-                      conroller: controller,
-                    )
-                  : ScaleTypeQuestionTile(
-                      question: question.questionText,
-                      // 0 is used because in Scale Type questions, there is only one scale scale possible in response
-                      min: question
-                          .questionOptionVO[0].additionalInformation[0].min!
-                          .toDouble(),
-                      max: question
-                          .questionOptionVO[0].additionalInformation[0].max!
-                          .toDouble(),
-                      onChanged: (double newVal) {
-                        controller.updateQuizValues(
-                          question: question,
-                          option: newVal,
-                        );
-                      },
-                      emotionValue:
-                          (controller.questionToAnswerMap[question] as num)
-                              .toDouble(),
-                      index: 1,
-                      value: (controller.questionToAnswerMap[question] as num)
-                          .roundToDouble(),
-                    );
-            },
-            itemCount: controller.questionToAnswerMap.keys.toList().length,
+          child: Obx(
+            () => ListView.builder(
+              shrinkWrap: true,
+              controller: controller.scrollController,
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                final question =
+                    controller.questionToAnswerMap.keys.toList()[index];
+                final questionType = controller.questionToAnswerMap.keys
+                    .toList()[index]
+                    .questionType;
+                // Find a way for dynamic rendering both types of fetched questions
+                return questionType == 'SINGLE_CHOICE'
+                    ? MultipleChoiceTypeQuestionTile(
+                        index: index,
+                        question: question as QuestionModel,
+                        conroller: controller,
+                      )
+                    : ScaleTypeQuestionTile(
+                        question: question.questionText,
+                        // 0 is used because in Scale Type questions, there is only one scale scale possible in response
+                        min: question
+                            .questionOptionVO[0].additionalInformation[0].min!
+                            .toDouble(),
+                        max: question
+                            .questionOptionVO[0].additionalInformation[0].max!
+                            .toDouble(),
+                        onChanged: (double newVal) {
+                          controller.updateQuizValues(
+                            question: question,
+                            option: newVal,
+                          );
+                        },
+                        emotionValue:
+                            (controller.questionToAnswerMap[question] as num)
+                                .toDouble(),
+                        index: 1,
+                        value: (controller.questionToAnswerMap[question] as num)
+                            .roundToDouble(),
+                      );
+              },
+              itemCount: controller.questionToAnswerMap.keys.toList().length,
+            ),
           ),
         ),
         Obx(() => Align(

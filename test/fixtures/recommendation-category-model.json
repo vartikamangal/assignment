@@ -1,9 +1,12 @@
 [{
-  "id": 2,
+  "id": 2494,
   "categoryName": "MENTAL",
   "displayTitle": "Mental",
   "displaySubtitle": "Focus on your mind",
   "categoryDetailedDescription": "This is mental category",
   "categoryShortDescription": "Focus on your mind",
-  "iconVO": ""
+  "iconVO": {
+    "iconType": "png",
+    "iconLocator": "https://images.unsplash.com/photo-1547721064-da6cfb341d50"
+  }
 }]

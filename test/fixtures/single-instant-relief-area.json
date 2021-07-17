@@ -4,8 +4,5 @@
   "subtitle": "subtitle",
   "instantReliefName": "instantReliefName",
   "description": "description",
-  "iconVO": {
-    "iconType": "URL",
-    "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png"
-  }
+  "iconVO": {}
 }]

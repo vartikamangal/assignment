@@ -3,6 +3,7 @@ import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
@@ -22,8 +24,8 @@ import 'package:tatsam_app_experimental/features/rapport-building/data/sources/r
 
 import '../../../../fixtures/fixture-reader.dart';
 import 'set-subject-mood-remote-service_test.mocks.dart';
-@GenerateMocks([ApiClient])
 
+@GenerateMocks([ApiClient])
 Future<void> main() async {
   late RapportBuildingRemoteDataSourceImpl remoteServiceImpl;
   late BaseUrlController urlController;
@@ -60,7 +62,8 @@ Future<void> main() async {
   }
 
   void setupHttpFailureClient404() {
-    when(client!.post(uri: APIRoute.setMood, body: anyNamed('body'))).thenAnswer(
+    when(client!.post(uri: APIRoute.setMood, body: anyNamed('body')))
+        .thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }
@@ -103,7 +106,9 @@ Future<void> main() async {
       //arrange
       setupHttpFailureClient404();
       //act
-      final Future<MoodTrackingModel> Function({String activityType, String moodName}) call = remoteServiceImpl.setMood;
+      final Future<MoodTrackingModel> Function(
+          {String activityType,
+          String moodName}) call = remoteServiceImpl.setMood;
       //assert
       expect(
         () => call(

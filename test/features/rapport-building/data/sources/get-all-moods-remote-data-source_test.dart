@@ -7,6 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
@@ -19,7 +20,6 @@ import '../../../../fixtures/fixture-reader.dart';
 import 'get-all-moods-remote-data-source_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
-
 Future<void> main() async {
   MockApiClient? client;
   late BaseUrlController urlController;
@@ -42,50 +42,50 @@ Future<void> main() async {
       id: 1,
       moodName: "VERY_BAD",
       moodDescription: "Very sad",
-      icon:  ImageModel.fromDomain(
+      icon: ImageModel.fromDomain(
         ImageEntity(
-            type: '',
-            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: 'URL',
+            url: 'https://images.tatsam.in/Logo+512+x+512.png'),
       ),
     ),
     MoodModel(
       id: 2,
       moodName: "BAD",
       moodDescription: "Sad",
-      icon:  ImageModel.fromDomain(
+      icon: ImageModel.fromDomain(
         ImageEntity(
-            type: '',
-            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: 'URL',
+            url: 'https://images.tatsam.in/Logo+512+x+512.png'),
       ),
     ),
     MoodModel(
       id: 3,
       moodName: "NEUTRAL",
       moodDescription: "Neutral",
-      icon:  ImageModel.fromDomain(
+      icon: ImageModel.fromDomain(
         ImageEntity(
-            type: '',
-            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: 'URL',
+            url: 'https://images.tatsam.in/Logo+512+x+512.png'),
       ),
     ),
     MoodModel(
       id: 4,
       moodName: "GOOD",
       moodDescription: "Happy",
-      icon:  ImageModel.fromDomain(
+      icon: ImageModel.fromDomain(
         ImageEntity(
-            type: '',
-            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: 'URL',
+            url: 'https://images.tatsam.in/Logo+512+x+512.png'),
       ),
     ),
     MoodModel(
       id: 5,
       moodName: "VERY_GOOD",
       moodDescription: "Very Happy",
-      icon:  ImageModel.fromDomain(
+      icon: ImageModel.fromDomain(
         ImageEntity(
-            type: '',
-            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: 'URL',
+            url: 'https://images.tatsam.in/Logo+512+x+512.png'),
       ),
     ),
   ];
@@ -117,14 +117,14 @@ Future<void> main() async {
         client!.get(uri: APIRoute.getMoods),
       );
     });
-    // test('should return List<MoodModel> when call statusCode is 200', () async {
-    //   //arrange
-    //   setupHttpSuccessClient200();
-    //   //act
-    //   final result = await remoteDataSourceImpl.getMoods();
-    //   //assert
-    //   expect(result, tMoods);
-    // });
+    test('should return List<MoodModel> when call statusCode is 200', () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      final result = await remoteDataSourceImpl.getMoods();
+      //assert
+      expect(result.toString(), tMoods.toString());
+    });
     test('should throw ServerException when statusCode is not 200', () async {
       //arrange
       setupHttpFailureClient404();

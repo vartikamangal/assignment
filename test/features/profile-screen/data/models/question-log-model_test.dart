@@ -50,5 +50,15 @@ void main() {
     test('should be a extended version of QuestionLogModel', () async {
       expect(tQuestionLogModel, isA<QuestionLog>());
     });
+    test(' .fromJson should return a valid QuestionInfo', () async {
+      //arrange
+      final jsonMap =
+      jsonDecode(fixtureReader(filename: 'question-log-model.json'))
+      as Map<String, dynamic>;
+      //act
+      final result = QuestionLogModel.fromJson(jsonMap);
+      //assert
+      expect(result, tQuestionLogModel);
+    });
   });
 }
