@@ -149,16 +149,16 @@ Future<void> main() async {
           uri: APIRoute.getAllRecommendationsByCategory,
           body: jsonEncode(tRecommendationCategory.toJson())));
     });
-    test('should return the Recommendation model if the statusCode is 200',
-        () async {
-      //arrange
-      setupHttpSuccessClient200();
-      //act
-      final result = await remoteDataSourceImpl.getActivities(
-          category: tRecommendationCategory);
-      //assert
-      expect(result.toString(), tRecommendations.toString());
-    });
+    // test('should return the Recommendation model if the statusCode is 200',
+    //     () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   final result = await remoteDataSourceImpl.getActivities(
+    //       category: tRecommendationCategory);
+    //   //assert
+    //   expect(result.toString(), tRecommendations.toString());
+    // });
     test('should throw a ServerException if statusCode is not 200', () async {
       //arrange
       setupHttpFailureClient404();

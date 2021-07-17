@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
 import 'package:tatsam_app_experimental/core/activity/data/repositories/get-all-recommendation-categories-repository-impl.dart';
 import 'package:tatsam_app_experimental/core/activity/data/sources/get-all-recommendation-categories-remote-data-source.dart';
+import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
@@ -17,8 +18,8 @@ import 'get-all-recommendation-category-repository-impl_test.mocks.dart';
 
 @GenerateMocks([GetAllRecommendationCategoriesRemoteDataSource, NetworkInfo])
 void main() {
-  GetAllRecommendationCategoriesRemoteDataSource? remoteDataSource;
-  MockNetworkInfo? networkInfo;
+  late MockGetAllRecommendationCategoriesRemoteDataSource remoteDataSource;
+  late MockNetworkInfo networkInfo;
   late GetAllRecommendationCategoriesRepositoryImpl repositoryImpl;
   HandleException handleException;
   CallIfNetworkConnected callIfNetworkConnected;
@@ -39,20 +40,20 @@ void main() {
     );
   });
 
- /* const tRecommendationCategory = <RecommendationCategoryModel>[
-    RecommendationCategoryModel(
+  final tRecommendationCategory = <RecommendationCategoryModel>[
+    RecommendationCategoryModel.fromDomain(RecommendationCategory(
         id: 2,
         categoryName: "MENTAL",
         displayTitle: "Mental",
         displaySubtitle: "Focus on your mind",
         categoryDetailedDescription: "This is mental category",
         categoryShortDescription: "Focus on your mind",
-        iconVO: '')
-  ];*/
+        iconVO: ImageEntity(type: 'type', url: 'url')))
+  ];
 
   void runTestOnline(Callback body) {
     setUp(() {
-      when(networkInfo!.isConnected).thenAnswer((_) async => true);
+      when(networkInfo.isConnected).thenAnswer((_) async => true);
     });
     group('DEVICE ONLINE : getAllCategories', body);
   }
@@ -61,30 +62,28 @@ void main() {
   runTestOnline(() {
     test('should check if the device is online', () async {
       //arrange
-      //arrange
-      when(remoteDataSource!.getAllCategories()).thenThrow(ServerException());
       //act
       await repositoryImpl.getAllCategories();
       //assert
-      verify(networkInfo!.isConnected);
+      verify(networkInfo.isConnected);
     });
-    // test(
-    //     'should return a List<InstReliefArea> when call to remote data source is successfull',
-    //     () async {
-    //   //arrange
-    //   when(remoteDataSource!.getAllCategories())
-    //       .thenAnswer((_) async => tRecommendationCategory);
-    //   //act
-    //   final result = await repositoryImpl.getAllCategories();
-    //   //assert
-    //   verify(remoteDataSource!.getAllCategories());
-    //   expect(result, const Right(tRecommendationCategory));
-    // });
+    test(
+        'should return a List<RecommendationCategory> when call to remote data source is successfull',
+        () async {
+      //arrange
+      when(remoteDataSource.getAllCategories())
+          .thenAnswer((_) async => tRecommendationCategory);
+      //act
+      final result = await repositoryImpl.getAllCategories();
+      //assert
+      verify(remoteDataSource.getAllCategories());
+      expect(result, tRecommendationCategory);
+    });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
         () async {
       //arrange
-      when(remoteDataSource!.getAllCategories()).thenThrow(ServerException());
+      when(remoteDataSource.getAllCategories()).thenThrow(ServerException());
       //act
       final result = await repositoryImpl.getAllCategories();
       //assert
@@ -93,7 +92,7 @@ void main() {
   });
   test('DEVICE OFFLINE : GetAllCategory should return DeviceOfflineFailure',
       () async {
-    when(networkInfo!.isConnected).thenAnswer((_) async => false);
+    when(networkInfo.isConnected).thenAnswer((_) async => false);
     //act
     final result = await repositoryImpl.getAllCategories();
     //assert
