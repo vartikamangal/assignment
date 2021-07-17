@@ -20,7 +20,6 @@ void main() {
       displayName: 'Losing Temper',
       tagCategory: "INSTANT_RELIEF"));
 
-
   test('from domain to take entity and covert in TagModel', () async {
     //act
     final result = TagModel.fromDomain(Tags);
@@ -31,7 +30,7 @@ void main() {
   test('from json should return valid tagModel', () async {
     //arrange
     final jsonMap = jsonDecode(fixtureReader(filename: 'raw-tag-model.json'))
-    as List<dynamic>;
+        as List<dynamic>;
     //act
     final result = TagModel.fromJson(jsonMap.first as Map<String, dynamic>);
 

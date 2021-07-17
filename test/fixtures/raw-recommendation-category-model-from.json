@@ -1,0 +1,14 @@
+[
+    {
+        "id": 2,
+        "categoryName": "categoryName",
+        "displayTitle": "displayTitle",
+        "displaySubtitle": "displaySubtitle",
+        "categoryDetailedDescription": "categoryDetailedDescription",
+        "categoryShortDescription": "categoryShortDescription",
+        "iconVO": {
+            "iconType": "type",
+            "iconLocator": "url"
+        }
+    }
+]
