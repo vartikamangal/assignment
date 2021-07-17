@@ -35,7 +35,7 @@ void main() {
   });
   const tUnit = unit;
   const tMoodFeedbackModelForActivity =
-  MoodFeedbackModelForActivity(mood: 'mood', activityType: 'activityType');
+      MoodFeedbackModelForActivity(mood: 'mood', activityType: 'activityType');
 
   const tFeedback = ActivityRatingModel(
       subjectMoodVO: tMoodFeedbackModelForActivity,
@@ -49,7 +49,7 @@ void main() {
           uri: APIRoute.rateActivityFeedback,
           body: jsonEncode(tFeedback.toJson())),
     ).thenAnswer(
-          (_) async => http.Response(
+      (_) async => http.Response(
         fixtureReader(filename: 'activity-remote-data.json'),
         200,
       ),
@@ -62,7 +62,7 @@ void main() {
           uri: APIRoute.rateActivityFeedback,
           body: jsonEncode(tFeedback.toJson())),
     ).thenAnswer(
-          (_) async => http.Response(
+      (_) async => http.Response(
         'Oops! page not found',
         404,
       ),
@@ -72,22 +72,22 @@ void main() {
   group('DATA SOURCE : rateActivity', () {
     test(
         'should send a GET request to the specified URL for getting required data',
-            () async {
-          //arrange
-          setupHttpSuccessClient200();
-          //act
-          await remoteDataSourceImpl.rateActivity(feedback: tFeedback);
-          //assert
-          verify(client.post(
-              uri: APIRoute.rateActivityFeedback,
-              body: jsonEncode(tFeedback.toJson())));
-        });
+        () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      await remoteDataSourceImpl.rateActivity(feedback: tFeedback);
+      //assert
+      verify(client.post(
+          uri: APIRoute.rateActivityFeedback,
+          body: jsonEncode(tFeedback.toJson())));
+    });
     test('should return the Feedback model if the statusCode is 200', () async {
       //arrange
       setupHttpSuccessClient200();
       //act
       final result =
-      await remoteDataSourceImpl.rateActivity(feedback: tFeedback);
+          await remoteDataSourceImpl.rateActivity(feedback: tFeedback);
       //assert
       expect(result, tUnit);
     });

@@ -28,6 +28,7 @@ Future<void> main() async {
     client = MockApiClient();
     urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
+    urlController = Get.put(BaseUrlController());
     remoteDataSourceImpl = GetAllRecommendationCategoriesRemoteDataSourceImpl(
       client: client,
       throwExceptionIfResponseError: throwExceptionIfResponseError,

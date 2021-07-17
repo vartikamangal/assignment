@@ -44,6 +44,7 @@ Future<void> main() async {
     );
   }
 
+<<<<<<< HEAD
   final tRecommendationCategoryModel=  RecommendationCategoryModel.fromDomain(
    RecommendationCategory( id: 2,
      categoryName: "MENTAL",
@@ -55,17 +56,33 @@ Future<void> main() async {
          type: '',
          url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
      ),);
+=======
+  // final tRecommendationCategoryModel=  RecommendationCategoryModel(
+  //   id: 2,
+  //   categoryName: "MENTAL",
+  //   displayTitle: "Mental",
+  //   displaySubtitle: "Focus on your mind",
+  //   categoryDetailedDescription: "This is mental category",
+  //   categoryShortDescription: "Focus on your mind",
+  //   iconVO: null,
+  // );
+>>>>>>> profile
 
   int weekNumber=1;
   void setupHttpFailureClient404() {
     when(client!.post(
+<<<<<<< HEAD
             uri: '${APIRoute.addWeeklyCategory}${'$weekNumber'}', body: anyNamed('body')))
+=======
+            uri: '${APIRoute.addWeeklyCategory}${1}', body: anyNamed('body')))
+>>>>>>> profile
         .thenAnswer(
       (_) async => http.Response('Oops! page not found', 404),
     );
   }
 
   group('DATA SOURCE : addWeeklyCategory{Remote}', () {
+<<<<<<< HEAD
      test('should perform a POST request on the specfied URL', () async {
       //arrange
       setupHttpSuccessClient200();
@@ -106,5 +123,46 @@ Future<void> main() async {
     //     throwsA( const TypeMatcher<ServerException>()),
     //   );
     // });
+=======
+    // test('should perform a POST request on the specfied URL', () async {
+    //   //arrange
+    //   setupHttpSuccessClient200();
+    //   //act
+    //   await remoteServiceImpl.addWeeklyCategory(
+    //       weekNumber: 1,category: tRecommendationCategoryModel
+    //   );
+    //   //assert
+    //   verify(client!.post(
+    //     uri: APIRoute.setMood,
+    //     body: jsonEncode(
+    //       {
+    //         "weekNumber": 1,
+    //         "category": tRecommendationCategoryModel
+    //       },
+    //     ),
+    //   ));
+    // });
+    //
+    // test('should return unit when call statusCode is 200',
+    //         () async {
+    //       //arrange
+    //       setupHttpSuccessClient200();
+    //       //act
+    //       final result = await remoteServiceImpl.addWeeklyCategory(weekNumber: 1,category: tRecommendationCategoryModel);
+    //       //assert
+    //       expect(result, unit);
+    //     });
+    test('should throw ServerException if statusCode is not 404', () async {
+      //arrange
+      // setupHttpFailureClient404();
+      // //act
+      // final call = remoteServiceImpl.addWeeklyCategory(weekNumber: 1,category: tRecommendationCategoryModel);
+      // //assert
+      // expect(
+      //       () => call,
+      //   throwsA(const TypeMatcher<ServerException>()),
+      // );
+    });
+>>>>>>> profile
   });
 }

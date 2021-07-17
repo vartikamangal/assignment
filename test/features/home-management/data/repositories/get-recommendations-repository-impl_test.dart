@@ -80,13 +80,12 @@ void main() {
         title: 'title',
         subtitle: 'subtitle',
         icon: ImageEntity(
-              type: '',
-              url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: '',
+            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
         helpContent: '',
         dayNumber: null,
         description: 'welcome to the activity',
-        recommendationList: []
-    ))
+        recommendationList: []))
   ];
   void runTestsOnline(Callback body) {
     group('DEVICE ONLINE : getRecommendations()', () {
@@ -99,19 +98,19 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
-    // test(
-    //     'should get recommendation when coonection to remote data source is successfull',
-    //     () async {
-    //   //arrange
-    //   when(remoteDataSource!.getRecommendations(actionTime: tActionTime))
-    //       .thenAnswer((_) async => <ActivityModel>[]);
-    //   //act
-    //   final result =
-    //       await remoteDataSource!.getRecommendations(actionTime: tActionTime);
-    //   //assert
-    //   verify(remoteDataSource!.getRecommendations(actionTime: tActionTime));
-    //   expect(result, tActivityRecommendationModel);
-    // });
+    test(
+        'should get recommendation when coonection to remote data source is successfull',
+        () async {
+      //arrange
+      when(remoteDataSource!.getRecommendations(actionTime: tActionTime))
+          .thenAnswer((_) async => <ActivityModel>[]);
+      //act
+      final result =
+          await remoteDataSource!.getRecommendations(actionTime: tActionTime);
+      //assert
+      verify(remoteDataSource!.getRecommendations(actionTime: tActionTime));
+      expect(result, tActivityRecommendationModel);
+    });
     // test('should return ServerFailure when the call to remoteDataSource fails',
     //     () async {
     //   //arrange

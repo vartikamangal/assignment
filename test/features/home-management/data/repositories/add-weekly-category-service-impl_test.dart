@@ -38,6 +38,7 @@ void main() {
   });
 
   const tWeekNumber = 1;
+<<<<<<< HEAD
   final tRecommendationCategory =
       RecommendationCategoryModel.fromDomain(RecommendationCategory(
     id: 1,
@@ -50,6 +51,16 @@ void main() {
         type: '',
         url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
   ));
+=======
+  // const tRecommendationCategory = RecommendationCategoryModel(
+  //     id: 1,
+  //     categoryName: 'categoryName',
+  //     displayTitle: 'displayTitle',
+  //     displaySubtitle: 'displaySubtitle',
+  //     categoryDetailedDescription: 'categoryDetailedDescription',
+  //     categoryShortDescription: 'categoryShortDescription',
+  //     iconVO: null);
+>>>>>>> profile
 
   const tUnit = unit;
 
@@ -64,6 +75,7 @@ void main() {
 
   //? Actual tests go here
   runTestsOnline(() {
+<<<<<<< HEAD
     // test('should check if the device is online', () async {
     //   //arrange
     //   when(remoteService!.addWeeklyCategory(
@@ -88,6 +100,40 @@ void main() {
     //   verify(remoteService!.addWeeklyCategory(
     //       weekNumber: tWeekNumber, category: tRecommendationCategory));
     //   expect(result, tUnit);
+=======
+    test('should check if the device is online', () async {
+      //act
+      await serviceImpl.addWeeklyCategory();
+      //assert
+      verify(networkInfo!.isConnected);
+    });
+    test(
+        'should get basic profile details when coonection to remote data source is successfull',
+        () async {
+      //arrange
+      // when(remoteService!.addWeeklyCategory(
+      //         weekNumber: tWeekNumber, category: tRecommendationCategory))
+      //     .thenAnswer((_) async => tUnit);
+      // //act
+      // final result = await remoteService!.addWeeklyCategory(
+      //     weekNumber: tWeekNumber, category: tRecommendationCategory);
+      // //assert
+      // verify(remoteService!.addWeeklyCategory(
+      //     weekNumber: tWeekNumber, category: tRecommendationCategory));
+      // expect(result, tUnit);
+    });
+    //   test('should return ServerFailure when the call to remoteDataSource fails',
+    //       () async {
+    //     //arrange
+    //     when(remoteService!.addWeeklyCategory(
+    //             weekNumber: tWeekNumber, category: tRecommendationCategory))
+    //         .thenThrow(ServerException());
+    //     //act
+    //     final result = await serviceImpl.addWeeklyCategory();
+    //     //assert
+    //     expect(result, Left(ServerFailure()));
+    //   });
+>>>>>>> profile
     // });
     // test('should return ServerFailure when the call to remoteDataSource fails',
     //     () async {

@@ -65,14 +65,14 @@ Future<void> main() async {
 
   // // Helper functions
 
-  // void setupHttpSuccessClient200() {
-  //   when(client!.post(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
-  //     (_) async => http.Response(
-  //         fixtureReader(
-  //             filename: 'raw-activity-scheduled-for-guided-plan.json'),
-  //         200),
-  //   );
-  // }
+  void setupHttpSuccessClient200() {
+    when(client!.post(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
+      (_) async => http.Response(
+          fixtureReader(
+              filename: 'raw-activity-scheduled-for-guided-plan.json'),
+          200),
+    );
+  }
 
   void setupHttpFailureClient404() {
     when(client!.post(uri: APIRoute.getActivityScheduleForGuided)).thenAnswer(
