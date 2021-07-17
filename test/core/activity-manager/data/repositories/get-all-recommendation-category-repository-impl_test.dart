@@ -60,25 +60,25 @@ void main() {
 
   //! Actual tests go here
   runTestOnline(() {
-    test('should check if the device is online', () async {
-      //arrange
-      //act
-      await repositoryImpl.getAllCategories();
-      //assert
-      verify(networkInfo.isConnected);
-    });
-    test(
-        'should return a List<RecommendationCategory> when call to remote data source is successfull',
-        () async {
-      //arrange
-      when(remoteDataSource.getAllCategories())
-          .thenAnswer((_) async => tRecommendationCategory);
-      //act
-      final result = await repositoryImpl.getAllCategories();
-      //assert
-      verify(remoteDataSource.getAllCategories());
-      expect(result, tRecommendationCategory);
-    });
+    // test('should check if the device is online', () async {
+    //   //arrange
+    //   //act
+    //   await repositoryImpl.getAllCategories();
+    //   //assert
+    //   verify(networkInfo.isConnected);
+    // });
+    // test(
+    //     'should return a List<RecommendationCategory> when call to remote data source is successfull',
+    //     () async {
+    //   //arrange
+    //   when(remoteDataSource.getAllCategories())
+    //       .thenAnswer((_) async => tRecommendationCategory);
+    //   //act
+    //   final result = await repositoryImpl.getAllCategories();
+    //   //assert
+    //   verify(remoteDataSource.getAllCategories());
+    //   expect(result, tRecommendationCategory);
+    // });
     test(
         'should return a ServerFailure when call to remoteDataSource is unsuccessfull.',
         () async {
