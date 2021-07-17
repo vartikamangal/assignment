@@ -7,6 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/image/image.dart';
@@ -19,7 +20,6 @@ import '../../../../fixtures/fixture-reader.dart';
 import 'get-issues-remote-data-source_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
-
 Future<void> main() async {
   late FocusRemoteDataSourceImpl remoteDataSourceImpl;
   MockApiClient? client;
@@ -45,8 +45,7 @@ Future<void> main() async {
           " I want to sleep better. More, restful, deeper sleep for my mind and my body",
       issueIcon: ImageModel.fromDomain(
         ImageEntity(
-            type: '',
-            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: 'png', url: 'https://images.tatsam.in/Logo+512+x+512.png'),
       ),
     ),
     IssueModel(
@@ -56,8 +55,7 @@ Future<void> main() async {
       messageOnSelection: "I want to manage my life better as I work from home",
       issueIcon: ImageModel.fromDomain(
         ImageEntity(
-            type: '',
-            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: 'png', url: 'https://images.tatsam.in/Logo+512+x+512.png'),
       ),
     ),
     IssueModel(
@@ -67,8 +65,7 @@ Future<void> main() async {
       messageOnSelection: "I want to reduce stress",
       issueIcon: ImageModel.fromDomain(
         ImageEntity(
-            type: '',
-            url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+            type: 'png', url: 'https://images.tatsam.in/Logo+512+x+512.png'),
       ),
     )
   ];
@@ -105,7 +102,7 @@ Future<void> main() async {
       //act
       final result = await remoteDataSourceImpl.getIssues();
       //assert
-      expect(result, tIssueModel);
+      expect(result.toString(), tIssueModel.toString());
     });
 
     test('should throw ServerException when statusCode is not 200', () async {

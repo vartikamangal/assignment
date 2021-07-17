@@ -36,11 +36,13 @@ Future<void> main() async {
   const tQuestionIdModel =
       QuestionIdModel(id: "04ca410e-5188-4d09-8802-b61d5ac3b357");
 
-  final tQuestionNaireModel=QuestionnaireModel(id: 'f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454',
+  final tQuestionNaireModel = QuestionnaireModel(
+      id: 'f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454',
       creationDate: 'xyz',
-      questionVO:<QuestionModel> [
-       QuestionModel(questionnaireId: 'bfeb6f36-2c39-402f-b361-8bd39042e9c4',
-           tags: [],
+      questionVO: <QuestionModel>[
+        QuestionModel(
+            questionnaireId: 'bfeb6f36-2c39-402f-b361-8bd39042e9c4',
+            tags: [],
             creationTime: "2021-05-10T14:41:14.769Z",
             questionType: 'RATING_SCALE',
             name: 'EXpress',
@@ -50,8 +52,10 @@ Future<void> main() async {
             questionOptionVO: [],
             questionExplanation: 'you can attempt question in this way',
             id: '04ca410e-5188-4d09-8802-b61d5ac3b357')
-      ], title: 'Just testing', description: 'This is test questionnaire', name: 'Test Questionnaire'
-  );
+      ],
+      title: 'Just testing',
+      description: 'This is test questionnaire',
+      name: 'Test Questionnaire');
 
   void setupHttpSuccessClient200() {
     when(client!.get(
@@ -74,29 +78,35 @@ Future<void> main() async {
       //arrange
       setupHttpSuccessClient200();
       //act
-      await remoteDataSourceImpl.getQuestionnaireById(id: "04ca410e-5188-4d09-8802-b61d5ac3b357");
+      await remoteDataSourceImpl.getQuestionnaireById(
+          id: "04ca410e-5188-4d09-8802-b61d5ac3b357");
       //assert
       verify(
-        client!.get(uri: "${APIRoute.getQuestionnaire}/04ca410e-5188-4d09-8802-b61d5ac3b357"),
+        client!.get(
+            uri:
+                "${APIRoute.getQuestionnaire}/04ca410e-5188-4d09-8802-b61d5ac3b357"),
       );
     });
 
-    test('should return questionnaire when call statusCode is 200',
-            () async {
-          //arrange
-          setupHttpSuccessClient200();
-          //act
-          final result = await remoteDataSourceImpl.getQuestionnaireById(id: "04ca410e-5188-4d09-8802-b61d5ac3b357");
-          //assert
-          expect(result, tQuestionNaireModel);
-        });
+    test('should return questionnaire when call statusCode is 200', () async {
+      //arrange
+      setupHttpSuccessClient200();
+      //act
+      final result = await remoteDataSourceImpl.getQuestionnaireById(
+          id: "04ca410e-5188-4d09-8802-b61d5ac3b357");
+      //assert
+      expect(result, tQuestionNaireModel);
+    });
 
     // test('should throw ServerException when statusCode is not 200', () async {
     //   //arrange
     //   setupHttpFailureClient404();
     //   //act
     //   //assert
-    //   expect(() => remoteDataSourceImpl.getQuestionnaireById(id: "04ca410e-5188-4d09-8802-b61d5ac3b357"), throwsA(const TypeMatcher<ServerException>()));
+    //   expect(
+    //       () => remoteDataSourceImpl.getQuestionnaireById(
+    //           id: "04ca410e-5188-4d09-8802-b61d5ac3b357"),
+    //       throwsA(const TypeMatcher<ServerException>()));
     // });
   });
 }

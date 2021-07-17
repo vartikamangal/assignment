@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/error/failures.dart';
@@ -17,8 +18,7 @@ import 'package:tatsam_app_experimental/features/focus/domain/entities/issue-rem
 import 'package:tatsam_app_experimental/features/focus/domain/entities/issue.dart';
 import 'remove-issue-service-impl_test.mocks.dart';
 
-@GenerateMocks([FocusRemoteDataSource,NetworkInfo])
-
+@GenerateMocks([FocusRemoteDataSource, NetworkInfo])
 void main() {
   MockNetworkInfo? networkInfo;
   late MockFocusRemoteDataSource? remoteService;
@@ -71,6 +71,9 @@ void main() {
   //? Actual tests go here
   runTestsOnline(() {
     test('should check if the device is online', () async {
+      //arrange
+      when(remoteService!.removeIssue(issue: tissue))
+          .thenAnswer((_) async => IssueRemovedSuccess());
       //act
       await serviceImpl.removeIssue(issue: tissue);
       //assert

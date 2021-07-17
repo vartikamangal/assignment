@@ -1,4 +1,6 @@
 // Package imports:
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
@@ -6,6 +8,8 @@ import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/rating-scale-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/data/models/satisfaction-rating-map-for-time-provision-model.dart';
 import 'package:tatsam_app_experimental/features/wheel-of-life-track/domain/entities/satisfaction-rating-map-for-time-provision-scale.dart';
+
+import '../../../../fixtures/fixture-reader.dart';
 
 void main() {
   final tLifeAreasWithTimeProvision =

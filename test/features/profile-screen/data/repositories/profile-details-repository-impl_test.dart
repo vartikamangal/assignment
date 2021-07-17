@@ -71,8 +71,26 @@ void main() {
     });
   }
 
+  void runTestsOffline(Callback body) {
+    group('DEVICE OFFLINE : getBasicProfileDetails', () {
+      setUp(() {
+        when(networkInfo!.isConnected).thenAnswer((_) async => false);
+      });
+      body();
+    });
+  }
+
   //? Actual tests go here
   runTestsOnline(() {
+    // test('should check if the device is online', () async {
+    //   //arrange
+    //   when(remoteDataSource!.getBasicProfileDetails())
+    //       .thenAnswer((_) async => tProfileData);
+    //   //act
+    //   await remoteDataSource!.getBasicProfileDetails();
+    //   //assert
+    //   verify(networkInfo!.isConnected);
+    // });
     test(
         'should get basic profile details when coonection to remote data source is successfull',
         () async {
@@ -94,6 +112,14 @@ void main() {
       final result = await repositoryImpl.getBasicProfileDetails();
       //assert
       expect(result, Left(ServerFailure()));
+    });
+  });
+  runTestsOffline(() {
+    test('should return DeviceOfflineFailure', () async {
+      //act
+      final result = await repositoryImpl.getBasicProfileDetails();
+      //assert
+      expect(result, Left(DeviceOfflineFailure()));
     });
   });
 }

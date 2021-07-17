@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 // Project Imports:
 import 'package:tatsam_app_experimental/core/usecase/usecase.dart';
 import 'package:tatsam_app_experimental/features/profile-screen/domain/repositories/profile-details-repository.dart';
@@ -10,8 +11,8 @@ import 'package:tatsam_app_experimental/features/profile-screen/domain/usecases/
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/mood-tracking.dart';
 import 'package:tatsam_app_experimental/features/rapport-building/domain/entities/subject-id.dart';
 import 'get-mood-logs_test.mocks.dart';
-@GenerateMocks([ProfileDetailsRepository])
 
+@GenerateMocks([ProfileDetailsRepository])
 void main() {
   late MockProfileDetailsRepository repository;
   late GetMoodLogs useCase;

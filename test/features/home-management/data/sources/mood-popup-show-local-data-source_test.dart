@@ -9,9 +9,8 @@ import 'package:tatsam_app_experimental/features/home-management/data/sources/mo
 import 'mood-popup-show-local-data-source_test.mocks.dart';
 
 @GenerateMocks([Box])
-
-Future<void> main() async{
-  MockBox ? localClient;
+Future<void> main() async {
+  MockBox? localClient;
   late MoodPopupShownLocalDataSourceImpl remoteDataSourceImpl;
 
   setUp(() {
@@ -22,20 +21,17 @@ Future<void> main() async{
   });
 
   group('DATA services for log start date and time', () {
-    test(
-        'If should return unit when get moodpopupshownstatus called is called',
-            () async {
-          //act
-          when(localClient!.get(PersistenceConst.MOOD_POPUP_SHOWN)).thenAnswer((_) async
-          {
-            true;
+    test('If should return unit when get moodpopupshownstatus called is called',
+        () async {
+      //act
+      when(localClient!.get(PersistenceConst.MOOD_POPUP_SHOWN))
+          .thenAnswer((_) async {
+        true;
 
-            final result = await remoteDataSourceImpl.getMoodPopupShownStatus();
-            //assert
-            expect(result, CacheException);
-          });
-
-        });
+        final result = await remoteDataSourceImpl.getMoodPopupShownStatus();
+        //assert
+        expect(result, CacheException);
+      });
+    });
   });
-
 }

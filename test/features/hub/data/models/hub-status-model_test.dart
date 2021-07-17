@@ -44,23 +44,10 @@ void main() {
       journeyPath: null,
       journeyStartedAt: null,
       journeyStatus: '',
-      latestMood: '');
+      latestMood: "neutral");
   group('Model HubStatusModel', () {
     test('should be a extended version of HubStatus', () async {
       expect(tHubStatusModel, isA<HubStatus>());
     });
-
-    // test('fromJson should transform raw-response into HubStatusModel',
-    //     () async {
-    //   //arrange
-    //   final jsonMap =
-    //       jsonDecode(fixtureReader(filename: 'hub-status-model.json'))
-    //           as List<dynamic>;
-    //   //act
-    //   final result =
-    //       HubStatusModel.fromJson(jsonMap.first as Map<String, dynamic>);
-    //   //assert
-    //   expect(result, tHubStatusModel);
-    // });
   });
 }

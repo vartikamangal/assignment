@@ -4,6 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/activity/data/models/recommendation-category-model.dart';
 import 'package:tatsam_app_experimental/core/activity/domain/entities/recommendation-category.dart';
+import 'package:tatsam_app_experimental/core/image/image.dart';
 import 'package:tatsam_app_experimental/features/home-management/domain/repositories/add-weekly-category-service.dart';
 import 'package:tatsam_app_experimental/features/home-management/domain/usecases/add-weekly-category.dart';
 import 'add-weekly-category_test.mocks.dart';
@@ -15,13 +16,16 @@ void main() {
 
   const tWeekNumber = 1;
   final tRecommendationCategory = RecommendationCategory(
-      id: 1,
-      categoryName: '',
-      displayTitle: '',
-      displaySubtitle: '',
-      categoryDetailedDescription: '',
-      categoryShortDescription: '',
-      iconVO: null);
+    id: 2,
+    categoryName: "MENTAL",
+    displayTitle: "Mental",
+    displaySubtitle: "Focus on your mind",
+    categoryDetailedDescription: "This is mental category",
+    categoryShortDescription: "Focus on your mind",
+    iconVO: ImageEntity(
+        type: '',
+        url: 'https://images.unsplash.com/photo-1547721064-da6cfb341d50'),
+  );
 
   const tUnit = unit;
 
@@ -35,7 +39,7 @@ void main() {
               weekNumber: tWeekNumber, category: tRecommendationCategory))
           .thenAnswer((_) async => const Right(tUnit));
 
-      final result = await useCase( AddWeeklyCategoryParams(
+      final result = await useCase(AddWeeklyCategoryParams(
           weekNumber: tWeekNumber, category: tRecommendationCategory));
 
       verify(service.addWeeklyCategory(

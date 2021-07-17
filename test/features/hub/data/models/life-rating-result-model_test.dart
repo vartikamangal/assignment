@@ -23,11 +23,27 @@ void main() {
               ratingScaleName: 'ratingScaleName',
               minValue: 0,
               maxValue: 100,
-              icon: null)),
+              icon: ImageModel.fromDomain(
+                ImageEntity(
+                    type: 'URL', url: 'https://images.tatsam.in/Logo+512+x+512.png'),
+              ),)),
       createdWhen: DateTime.parse('2021-05-10T13:19:41.543Z'));
   group('Model LifeRatingResultModel', () {
     test('should be a extended version of LifeRatingResult', () async {
       expect(tLifeRatingResultModel, isA<LifeRatingResult>());
     });
+
+    // test('fromJson should transform raw-response into LifePrioritiesModel',
+    //         () async {
+    //       //arrange
+    //       final jsonMap =
+    //       jsonDecode(fixtureReader(filename: 'life-rating-result-model.json'))
+    //       as List<dynamic>;
+    //       //act
+    //       final result =
+    //       LifeRatingResultModel.fromJson(jsonMap.first as Map<String, dynamic>);
+    //       //assert
+    //       expect(result, tLifeRatingResultModel);
+    //     });
   });
 }

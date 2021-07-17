@@ -25,27 +25,32 @@ void main() {
   });
 
   final tProfileData = ProfileData(
-      subjectInformationId: 0,
-      travellerId: '',
-      holisticScore: 0,
-      activitiesThisWeek: 0,
-      timeOnActivitiesThisWeek: 0,
-      nickName: '',
-      focusIssues: [
+      subjectInformationId: 24944,
+      travellerId: 'd0ba7d82-ad7f-4a1f-902c-8da2629f2369',
+      holisticScore: 1,
+      activitiesThisWeek: 1,
+      timeOnActivitiesThisWeek: 15,
+      nickName: 'dsfsd',
+      focusIssues: <IssueModel>[
         IssueModel(
-            issueId: 0,
-            focusName: '',
-            displayName: '',
-            messageOnSelection: '',
-            issueIcon: null)
+            issueId: 1,
+            focusName: 'SLEEP',
+            displayName: 'Sleep',
+            messageOnSelection:
+                'I want to sleep better. More, restful, deeper sleep for my mind and my body',
+            issueIcon: ImageModel.fromDomain(ImageEntity(
+                type: 'png',
+                url: 'https://images.tatsam.in/Logo+512+x+512.png')))
       ],
       journeyPath: JourneyModel(
-          id: 0,
-          title: '',
-          subtitle: '',
-          description: '',
-          icon: null,
-          pathName: ''));
+          id: 1,
+          title: 'Small Wins Path',
+          subtitle: 'Weekly focus areas. Choose your own experiences.',
+          description:
+              'Only one area of focus per week, Daily small wins at your own pace',
+          icon: ImageModel.fromDomain(ImageEntity(
+              type: 'png', url: 'https://images.tatsam.in/Logo+512+x+512.png')),
+          pathName: 'SMALL_WINS'));
 
   group("USECASE : getBasicProfileDetails()", () {
     test('should get basic profile data from the repository', () async {

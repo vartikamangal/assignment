@@ -3,6 +3,7 @@ import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+
 // Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatsam_app_experimental/core/data-source/api-client.dart';
 import 'package:tatsam_app_experimental/core/data-source/throw-exception-if-response-error.dart';
+
 // Project imports:
 import 'package:tatsam_app_experimental/core/error/exceptions.dart';
 import 'package:tatsam_app_experimental/core/routes/api-routes/api-routes.dart';
@@ -27,7 +29,6 @@ import '../../../../fixtures/fixture-reader.dart';
 import 'get-life-areas-remote-data-source_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
-
 Future<void> main() async {
   MockApiClient? client;
   late BaseUrlController urlController;

@@ -3,7 +3,10 @@
     "id": 1,
     "title": "Small Wins Path",
     "subtitle": "Weekly focus areas. Choose your own experiences.",
-    "iconVO": "",
+    "iconVO": {
+      "iconType": "URL",
+      "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png"
+    },
     "description": "Only one area of focus per week, Daily small wins at your own pace",
     "pathName": "SMALL_WINS"
   },
@@ -11,7 +14,10 @@
     "id": 2,
     "title": "Big goals path",
     "subtitle": "Daily plans. Crafted for you by Tatsam experts.",
-    "iconVO": "",
+    "iconVO": {
+      "iconType": "URL",
+      "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png"
+    },
     "description": "All areas tackled everyday, requires focus & commitment. Holistic way from day 1.",
     "pathName": "BIG_GOALS_PATH"
   }

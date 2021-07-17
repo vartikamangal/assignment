@@ -45,7 +45,7 @@ class ActivityCacheController extends GetxController {
     );
     failureOrResult.fold(
       (f) {
-        log("<--------- Error in caching this Feedback -------->");
+        log("<--------- Error in caching this Feedback -------->", error: f);
       },
       (r) {
         log("<--------- Feedback cached successfully -------->");

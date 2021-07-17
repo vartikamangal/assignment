@@ -7,7 +7,10 @@
             "ratingScaleName": null,
             "minValue": 0,
             "maxValue": 0,
-            "icon": ""
+            "icon":{
+                "iconType": "URL",
+                "iconLocator": "https://images.tatsam.in/Logo+512+x+512.png"
+            }
         }
     }
 ]
