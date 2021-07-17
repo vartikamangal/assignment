@@ -7,8 +7,8 @@
     "categoryDetailedDescription": "This is mental category",
     "categoryShortDescription": "Focus on your mind",
     "iconVO": {
-      "type": "type",
-      "url": "url"
+      "iconType": "type",
+      "iconLocator": "url"
     }
   }
 ]

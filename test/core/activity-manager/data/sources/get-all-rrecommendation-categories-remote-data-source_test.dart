@@ -28,7 +28,7 @@ Future<void> main() async {
     client = MockApiClient();
     urlController = Get.put(BaseUrlController());
     throwExceptionIfResponseError = ThrowExceptionIfResponseError();
-    urlController = Get.put(BaseUrlController());
+
     remoteDataSourceImpl = GetAllRecommendationCategoriesRemoteDataSourceImpl(
       client: client,
       throwExceptionIfResponseError: throwExceptionIfResponseError,
@@ -67,7 +67,7 @@ Future<void> main() async {
     );
   }
 
-  group('DATA SOURCE : getAllCategories', () {
+  group('DATA SOURCE : getAllRecommendationCategories', () {
     test(
         'should send a GET request to the specified URL for getting required data',
         () async {
@@ -78,13 +78,15 @@ Future<void> main() async {
       //assert
       verify(client.get(uri: APIRoute.getAllRecommendationCategories));
     });
-    test('should return the Feedback model if the statusCode is 200', () async {
+    test(
+        'should return the Recommendation Category model if the statusCode is 200',
+        () async {
       //arrange
       setupHttpSuccessClient200();
       //act
       final result = await remoteDataSourceImpl.getAllCategories();
       //assert
-      expect(result, tRecommendationCategoryModel);
+      expect(result.toString(), tRecommendationCategoryModel.toString());
     });
     test('should throw a ServerException if statusCode is not 200', () async {
       //arrange
